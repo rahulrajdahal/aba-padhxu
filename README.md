@@ -1,34 +1,20 @@
-# [Next Starter](https://github.com/rahulrajdahal/next-starter). Starter For Next App Router
+# [Aba Padhxu](https://github.com/rahulrajdahal/aba-padhxu). Buy and sell Books
 
-## 🏗 Installation
+## Installation
 
-### 1. create next app
+### 🏗 clone the repository
 
 ```sh
-npx create-next-app [project-name] -e https://github.com/rahulrajdahal/next-starter
+git clone  https://github.com/rahulrajdahal/aba-padhxu.git
 ```
 
 ### 2. Install Dependencies
 
-#### npm
-
 ```sh
-cd [project-name] && npm install
+cd aba-padhxu && npm install
 ```
 
-### 💾 Connect to Database
-
-// schema.prisma
-
-```sh
-provider = "prisma-database-provider"
-```
-
-### 4. Update env
-
-update the .env.example file to .env and append key value pairs.
-
-### 5. Run development server
+### 3. 💾Run the development server
 
 ```sh
 npm run dev
@@ -36,15 +22,20 @@ npm run dev
 
 #### OR
 
-### Run Production server
+### 3. 💾Run the production server
 
 ```sh
 npm run start
 ```
 
+## Preview
+
+[![Aba Padhxu](./screenshots/abapadhxu.png)](https://aba-padhxu.vercel.app/)
+![Aba Padhxu Order](./screenshots/abapadhxu-order.png)
+
 ## 🚀 Project Structure
 
-Inside of project [Next Starter](https://github.com/rahulrajdahal/next-starter), you'll see the following folders and files:
+Inside of project [aba-padhxu](https://github.com/rahulrajdahal/aba-padhxu), you'll see the following folders and files:
 
 ```text
 /
