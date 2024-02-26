@@ -1,0 +1,95 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id           String    @id @default(cuid())
+    name         String
+    email        String    @unique
+    password     String
+    avatar       String
+    isSuperAdmin Boolean   @default(false)
+    role         UserRoles @default(USER)
+    order        Order[]
+    createdAt    DateTime  @default(now()) @map(name: "created_at")
+    updatedAt    DateTime  @updatedAt @map(name: "updated_at")
+}
+
+enum UserRoles {
+    SELLER
+    AUTHOR
+    GUEST
+    USER
+    ADMIN
+}
+
+model Book {
+    id            String        @id @default(cuid())
+    name          String        @unique
+    authorId      String?
+    author        Author?       @relation(fields: [authorId], references: [id])
+    image         String
+    description   String
+    publishedDate String
+    genre         Genre?        @relation(fields: [genreId], references: [id])
+    genreId       String?
+    price         Decimal
+    quantity      Int
+    orders        BookOnOrder[]
+    createdAt     DateTime      @default(now()) @map(name: "created_at")
+    updatedAt     DateTime      @updatedAt @map(name: "updated_at")
+}
+
+model Genre {
+    id        String   @id @default(cuid())
+    title     String   @unique
+    book      Book[]
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+}
+
+model Author {
+    id        String   @id @default(cuid())
+    name      String   @unique
+    avatar    String?
+    Book      Book[]
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+}
+
+model Order {
+    id            String        @id @default(cuid())
+    country       String
+    city          String
+    street        String
+    paymentMethod PaymentMethod @default(CASH)
+    isComplete    Boolean       @default(false)
+    items         BookOnOrder[]
+    amount        Int
+    user          User          @relation(fields: [userId], references: [id])
+    userId        String
+    createdAt     DateTime      @default(now()) @map(name: "created_at")
+    updatedAt     DateTime      @updatedAt @map(name: "updated_at")
+}
+
+model BookOnOrder {
+    book    Book   @relation(fields: [bookId], references: [id])
+    bookId  String
+    order   Order  @relation(fields: [orderId], references: [id])
+    orderId String
+
+    assignedAt DateTime @default(now())
+
+    @@id([bookId, orderId])
+}
+
+enum PaymentMethod {
+    CASH
+    ONLINE
+    BANK
+}
