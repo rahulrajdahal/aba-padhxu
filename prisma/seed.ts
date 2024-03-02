@@ -11,7 +11,7 @@ async function main() {
     const avatars = ['1708611967101-rectangle-3.png', '1708627975348-livebook.png', '1708627981491-meistericons.png', '1708627987006-broadway.png']
     const salt = bcrypt.genSaltSync(10);
 
-    await prisma.user.create({ data: { name: 'admin', email: 'admin@me.com', password: bcrypt.hashSync('?=VK-^Kin.$X7C,', salt), avatar: '1708552824810-meistericons.png', isSuperAdmin: true, role: 'ADMIN', } })
+    await prisma.user.create({ data: { name: 'admin', email: 'admin@me.com', password: bcrypt.hashSync('?=VK-^Kin.$X7C,', salt), avatar: '1708552824810-meistericons.png', isSuperAdmin: true, role: 'SELLER', } })
 
     await prisma.author.createMany({
         data: Array(20).fill(0).map((_, i) => ({

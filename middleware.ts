@@ -1,4 +1,5 @@
 import { routes } from '@/utils/routes';
+import { UserRoles } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyJWT } from './utils/auth';
 
@@ -11,6 +12,7 @@ interface AuthenticatedRequest extends NextRequest {
 export async function middleware(req: NextRequest) {
     let accessToken: string | undefined;
     let isSuperAdmin = false;
+    let role = "USER";
 
     if (req.cookies.has('accessToken')) {
         accessToken = req.cookies.get('accessToken')?.value;
@@ -20,14 +22,14 @@ export async function middleware(req: NextRequest) {
         (req.nextUrl.pathname.startsWith('/auth/login') ||
             req.nextUrl.pathname.startsWith('/auth/signup')) &&
         accessToken &&
-        isSuperAdmin
+        (isSuperAdmin || role === UserRoles.SELLER)
     ) {
         return NextResponse.redirect(new URL(routes.dashboard, req.url));
     }
 
     if (
         !accessToken &&
-        !isSuperAdmin &&
+        (!isSuperAdmin || role !== UserRoles.SELLER) &&
         (req.nextUrl.pathname.startsWith('/admin') ||
             req.nextUrl.pathname.startsWith('/api/admin'))
     ) {
@@ -38,13 +40,15 @@ export async function middleware(req: NextRequest) {
 
     try {
         if (accessToken) {
-            const { sub, isSuperAdmin: userIsSuperAdmin } = await verifyJWT<{
+            const { sub, isSuperAdmin: userIsSuperAdmin, role: userRole } = await verifyJWT<{
                 sub: string;
                 isSuperAdmin: boolean;
+                role: UserRoles;
             }>(accessToken);
             response.headers.set('X-USER-ID', sub);
             (req as AuthenticatedRequest).user = { id: sub };
             isSuperAdmin = userIsSuperAdmin;
+            role = userRole;
         }
     } catch (error) {
         if (req.nextUrl.pathname.startsWith('/api/admin')) {
@@ -64,16 +68,18 @@ export async function middleware(req: NextRequest) {
 
     const authUser = (req as AuthenticatedRequest).user;
 
+    console.log(role, 'role')
+
     if (
         authUser &&
-        isSuperAdmin &&
+        (isSuperAdmin || role === UserRoles.SELLER) &&
         (req.nextUrl.pathname.startsWith('/auth/login') ||
             req.nextUrl.pathname.startsWith('/auth/signup'))
     ) {
         return NextResponse.redirect(new URL(routes.dashboard, req.url));
     }
 
-    if (req.nextUrl.pathname.startsWith('/admin') && accessToken && !isSuperAdmin) {
+    if (req.nextUrl.pathname.startsWith('/admin') && accessToken && !isSuperAdmin && role !== UserRoles.SELLER) {
         return NextResponse.redirect(new URL(routes.home, req.url));
     }
 

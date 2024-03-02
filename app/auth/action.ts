@@ -94,6 +94,7 @@ export async function signup(prevState: any, formData: FormData) {
 
 
     } catch (error) {
+
         if (error instanceof PrismaClientKnownRequestError) {
             if (error.code === 'P2002') {
                 throw new Error(error.message);
@@ -150,6 +151,8 @@ export const login = async (prevState: any, formData: FormData) => {
             maxAge,
         });
     } catch (error) {
+
+
         if (error instanceof PrismaClientKnownRequestError) {
             if (error.code === 'P2002') {
                 throw new Error(error.message);

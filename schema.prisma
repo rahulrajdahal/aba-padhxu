@@ -22,10 +22,7 @@ model User {
 
 enum UserRoles {
     SELLER
-    AUTHOR
-    GUEST
     USER
-    ADMIN
 }
 
 model Book {
