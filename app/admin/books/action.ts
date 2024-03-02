@@ -6,6 +6,7 @@ import { routes } from '@/utils/routes';
 import { Book } from '@prisma/client';
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
 import { redirect } from "next/navigation";
 import { z } from 'zod';
 
@@ -30,15 +31,18 @@ const updateBookSchema = z.object({
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const addBook = async (prevData: any, formData: FormData) => {
     try {
-        const body = {
+        const body: any = {
             name: formData.get('name') as string,
             description: formData.get('description') as string,
             publishedDate: formData.get('publishedDate') as string,
             price: formData.get('price') as string,
-            quantity: Number(formData.get('quantity') as string),
+            quantity: Number(formData.get('quantity') as string)
         };
+        const sellerId = (cookies().get('userId'))?.value as string
         const image = formData.get('image') as unknown as File;
         const author = formData.get('author') as string
+
+
         const validateBody = bookSchema.safeParse({
             ...body,
             image,
@@ -48,8 +52,6 @@ export const addBook = async (prevData: any, formData: FormData) => {
             return {
                 errors: Object.entries(validateBody.error.flatten().fieldErrors).map(([key, errorValue]) => ({ [key]: errorValue[0] }))[0],
             }
-
-
         }
 
         if (!image || image.name === 'undefined') {
@@ -78,6 +80,11 @@ export const addBook = async (prevData: any, formData: FormData) => {
         await prisma.book.create({
             data: {
                 image: bookImage,
+                seller: {
+                    connect: {
+                        id: sellerId
+                    }
+                },
                 author: {
                     connectOrCreate: {
                         where: { name: author },
@@ -140,6 +147,8 @@ export const updateBook = async (id: string, formData: FormData) => {
         const publishedDate = formData.get('publishedDate') as string;
         const image = formData.get('image') as unknown as File;
         const author = formData.get('author') as string
+        const sellerId = cookies().get('userId')?.value as string
+
 
         const validateBody = updateBookSchema.safeParse({
             ...body,
@@ -153,6 +162,7 @@ export const updateBook = async (id: string, formData: FormData) => {
         }
 
         if (name) { body.name = name }
+        if (sellerId) { body.sellerId = sellerId }
         if (description) { body.description = description }
         if (publishedDate) { body.publishedDate = publishedDate }
         if (author) {

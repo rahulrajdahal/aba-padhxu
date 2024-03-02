@@ -68,7 +68,6 @@ export async function middleware(req: NextRequest) {
 
     const authUser = (req as AuthenticatedRequest).user;
 
-    console.log(role, 'role')
 
     if (
         authUser &&
