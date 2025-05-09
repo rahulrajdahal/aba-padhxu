@@ -16,21 +16,21 @@ model User {
     isSuperAdmin Boolean   @default(false)
     role         UserRoles @default(USER)
     order        Order[]
+    sell         Book[]
     createdAt    DateTime  @default(now()) @map(name: "created_at")
     updatedAt    DateTime  @updatedAt @map(name: "updated_at")
 }
 
 enum UserRoles {
     SELLER
-    AUTHOR
-    GUEST
     USER
-    ADMIN
 }
 
 model Book {
     id            String        @id @default(cuid())
     name          String        @unique
+    sellerId      String
+    seller        User          @relation(fields: [sellerId], references: [id])
     authorId      String?
     author        Author?       @relation(fields: [authorId], references: [id])
     image         String
