@@ -3,14 +3,32 @@
 import { Button, Input } from "@/components";
 import { routes } from "@/utils/routes";
 import Image from "next/image";
-import { ChangeEvent, useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, useActionState, useState } from "react";
+import toast from "react-hot-toast";
 import { signup } from "../action";
 
 export default function Page() {
-  const { pending } = useFormStatus();
+  const router = useRouter();
+
   const [preview, setPreview] = useState("");
-  const [state, formAction] = useFormState(signup, null);
+
+  const handleSignup = async (prevState: unknown, formData: FormData) => {
+    const state = await signup(prevState, formData);
+
+    if (state.type === "success") {
+      toast.success(state.message);
+      return router.push(routes.login);
+    }
+
+    if (state.type === "error") {
+      toast.error(state.message);
+    }
+
+    return state;
+  };
+
+  const [state, formAction, pending] = useActionState(handleSignup, null);
 
   const handleAvatarOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -23,12 +41,21 @@ export default function Page() {
       <Input
         label="Full Name"
         error={state?.errors?.name}
-        inputProps={{ name: "name", required: true }}
+        inputProps={{
+          name: "name",
+          required: true,
+          placeholder: "Rajesh Hamal",
+        }}
       />
       <Input
         label="Email"
         error={state?.errors?.email}
-        inputProps={{ type: "email", name: "email", required: true }}
+        inputProps={{
+          type: "email",
+          name: "email",
+          required: true,
+          placeholder: "rajesh@hamal.com",
+        }}
       />
       <div>
         <label htmlFor="role">Role</label>
@@ -54,7 +81,7 @@ export default function Page() {
         <Image
           src={preview}
           alt="avatar"
-          className="h-12 w-12 rounded-full"
+          className="h-12 w-12 rounded-full object-cover"
           width={24}
           height={24}
         />
@@ -74,7 +101,7 @@ export default function Page() {
         }}
       />
       <Button type="submit" disabled={pending} aria-disabled={pending}>
-        Signup
+        {pending ? "Signing up..." : "Signup"}
       </Button>
 
       <span className="flex items-center gap-1">

@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { ComponentPropsWithoutRef, ReactNode } from 'react';
-import styled, { css } from 'styled-components';
+import Link from "next/link";
+import { ComponentPropsWithoutRef, ReactNode } from "react";
+import styled, { css } from "styled-components";
 
 const getVariantStyles = (variant: Variant) => {
-  if (variant === 'filled') {
+  if (variant === "filled") {
     return css`
       background-color: #1b911bd9;
       color: #cddfcd;
       padding: 0.5rem 1.25rem;
     `;
-  } else if (variant === 'outlined') {
+  } else if (variant === "outlined") {
     return css`
       border: 1px solid #cddfcd;
       color: #1b911bd9;
@@ -30,16 +30,21 @@ const getVariantStyles = (variant: Variant) => {
 const Container = styled.button<{ variant: Variant }>`
   ${(p) => getVariantStyles(p.variant)};
   border-radius: 1.25rem;
+
+  &:disabled {
+    background-color: #a2a2a2;
+    color: #000;
+  }
 `;
 
-type TextVariant = 'text';
-type Variant = 'filled' | 'outlined' | TextVariant;
-interface ITextButton extends ComponentPropsWithoutRef<'button'> {
+type TextVariant = "text";
+type Variant = "filled" | "outlined" | TextVariant;
+interface ITextButton extends ComponentPropsWithoutRef<"button"> {
   children: ReactNode;
   variant?: TextVariant;
   href: string;
 }
-interface IVariantButton extends ComponentPropsWithoutRef<'button'> {
+interface IVariantButton extends ComponentPropsWithoutRef<"button"> {
   children: ReactNode;
   variant?: Variant;
   href?: string;
@@ -47,19 +52,19 @@ interface IVariantButton extends ComponentPropsWithoutRef<'button'> {
 type IButton = IVariantButton | ITextButton;
 
 export default function Button({
-  variant = 'filled',
+  variant = "filled",
   href,
   children,
   ...props
 }: Readonly<IButton>) {
-  return href && variant === 'text' ? (
+  return href && variant === "text" ? (
     <Link href={href}>
-      <Container variant={'text'} type='button' {...props}>
+      <Container variant={"text"} type="button" {...props}>
         {children}
       </Container>
     </Link>
   ) : (
-    <Container variant={variant} type='button' {...props}>
+    <Container variant={variant} type="button" {...props}>
       {children}
     </Container>
   );

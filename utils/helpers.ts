@@ -1,7 +1,7 @@
-import { v2 as cloudinary, UploadApiOptions } from 'cloudinary';
-import { mkdirSync } from 'fs';
-import { writeFile } from 'fs/promises';
-import path from 'path';
+import { v2 as cloudinary, UploadApiOptions } from "cloudinary";
+import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
+import path from "path";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -17,9 +17,9 @@ export const prodUpload = (
   options: UploadApiOptions | undefined
 ) => {
   const mime = type;
-  const encoding = 'base64';
-  const base64Data = buffer.toString('base64');
-  const fileUri = 'data:' + mime + ';' + encoding + ',' + base64Data;
+  const encoding = "base64";
+  const base64Data = buffer.toString("base64");
+  const fileUri = "data:" + mime + ";" + encoding + "," + base64Data;
   return new Promise((res, rej) => {
     return cloudinary.uploader.upload(
       fileUri,
@@ -43,9 +43,7 @@ export const devUpload = async (
   logoName: string,
   buffer: Buffer
 ) => {
-  const filename = `${Date.now()}-${logoName
-    .toLowerCase()
-    .replace(/ /g, '-')}`;
+  const filename = `${Date.now()}-${logoName.toLowerCase().replace(/ /g, "-")}`;
 
   await writeFile(`${uploadDIR}/${filename}`, buffer).catch(() =>
     mkdirSync(path.resolve(__dirname, uploadDIR))
@@ -61,11 +59,10 @@ cloudinary.config({
   secure: true,
 });
 
-
 /**
  * @description image file types that are accepted.
  */
-const validFileExtensions = ['jpg', 'png', 'jpeg', 'svg', 'webp'];
+const validFileExtensions = ["jpg", "png", "jpeg", "svg", "webp"];
 
 /**
  *
@@ -73,7 +70,7 @@ const validFileExtensions = ['jpg', 'png', 'jpeg', 'svg', 'webp'];
  * @returns - boolean
  */
 export const isValidFileType = (fileName: string) => {
-  const extension = fileName.split('.').at(-1);
+  const extension = fileName.split(".").at(-1);
 
   if (extension) {
     if (validFileExtensions.includes(extension)) {
@@ -84,25 +81,26 @@ export const isValidFileType = (fileName: string) => {
   return false;
 };
 
-
 type StatusCode = 500 | 400 | 404 | 200 | 201 | 204;
-type ResponseType = 'error' | 'success';
+type ResponseType = "error" | "success";
 
 const response = (
   type: ResponseType,
   message: string,
   data: unknown,
-  status: StatusCode
+  status: StatusCode,
+  errors?: { [x: string]: string }
 ) => {
-  return { type, message, data, status };
+  return { type, message, data, status, errors };
 };
 
 export const getErrorResponse = (
-  data?: unknown,
-  message = 'Server Error',
-  status: StatusCode = 500
+  message = "Server Error",
+  status: StatusCode = 500,
+  error?: unknown,
+  errors?: { [x: string]: string }
 ) => {
-  return response('error', message, data, status);
+  return response("error", message, error, status, errors);
 };
 
 export const getSuccessResponse = (
@@ -110,5 +108,5 @@ export const getSuccessResponse = (
   data?: unknown,
   status: StatusCode = 200
 ) => {
-  return response('success', message, data, status);
+  return response("success", message, data, status);
 };

@@ -1,7 +1,13 @@
 "use server";
 
 import { signJWT } from "@/utils/auth";
-import { devUpload, isValidFileType, prodUpload } from "@/utils/helpers";
+import {
+  devUpload,
+  getErrorResponse,
+  getSuccessResponse,
+  isValidFileType,
+  prodUpload,
+} from "@/utils/helpers";
 import prisma from "@/utils/prisma";
 import { routes } from "@/utils/routes";
 import { UserRoles } from "@prisma/client";
@@ -39,6 +45,27 @@ const loginSchema = z.object({
   email: z.string().email("Invalid Email"),
   password: z.string(),
 });
+const forgotPasswordSchema = z.object({
+  email: z.string().email("Invalid Email"),
+});
+const resetPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .regex(/.*[A-Z].*/, "One uppercase character")
+      .regex(/.*[a-z].*/, "One lowercase character")
+      .regex(/.*\d.*/, "One number")
+      .regex(
+        /.*[`~<>?,./!@#$%^&*()\-_+="'|{}[\];:\\].*/,
+        "One special character"
+      )
+      .min(8, "Must be at least 8 characters in length"),
+    confirmPassword: z.string(),
+  })
+  .refine(({ confirmPassword, password }) => confirmPassword === password, {
+    message: "Passwords do not match.",
+    path: ["confirmPassword"],
+  });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function signup(prevState: any, formData: FormData) {
@@ -57,18 +84,21 @@ export async function signup(prevState: any, formData: FormData) {
       confirmPassword: formData.get("confirmPassword") as string,
     });
     if (!validateBody.success) {
-      return {
-        errors: Object.entries(validateBody.error.flatten().fieldErrors).map(
+      return getErrorResponse(
+        "Validation Error",
+        400,
+        "Error",
+        Object.entries(validateBody.error.flatten().fieldErrors).map(
           ([key, errorValue]) => ({ [key]: errorValue[0] })
-        )[0],
-      };
+        )[0]
+      );
     }
 
     const salt = bcrypt.genSaltSync(10);
     body.password = bcrypt.hashSync(body.password, salt);
 
     if (!avatar || avatar.name === "undefined") {
-      throw new Error("Avatar not found");
+      return getErrorResponse("Avatar not found", 400);
     }
     const bytes = await avatar.arrayBuffer();
     const buffer = Buffer.from(bytes);
@@ -85,7 +115,7 @@ export async function signup(prevState: any, formData: FormData) {
       });
 
       if (!upload) {
-        throw new Error("Error uploading image");
+        return getErrorResponse("Error uploading image", 400);
       }
       avatarImage = (upload as { secure_url: string })?.secure_url;
     }
@@ -95,22 +125,21 @@ export async function signup(prevState: any, formData: FormData) {
     });
 
     if (!user) {
-      throw new Error("Error registering user");
+      return getErrorResponse("Error registering user", 400);
     }
+
+    return getSuccessResponse("User Registered");
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
-        throw new Error(error.message);
+        return getErrorResponse(error.message);
       }
     }
-    throw new Error("Server Error");
+    return getErrorResponse();
   }
-
-  redirect(routes.login);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const login = async (prevState: any, formData: FormData) => {
+export const login = async (prevState: unknown, formData: FormData) => {
   try {
     const body = {
       email: formData.get("email") as string,
@@ -119,18 +148,21 @@ export const login = async (prevState: any, formData: FormData) => {
 
     const validateBody = loginSchema.safeParse(body);
     if (!validateBody.success) {
-      return {
-        errors: Object.entries(validateBody.error.flatten().fieldErrors).map(
+      return getErrorResponse(
+        "Validation Error",
+        400,
+        "Error",
+        Object.entries(validateBody.error.flatten().fieldErrors).map(
           ([key, errorValue]) => ({ [key]: errorValue[0] })
-        )[0],
-      };
+        )[0]
+      );
     }
 
     const user = await prisma.user.findUnique({
       where: { email: body.email },
     });
     if (!user || !bcrypt.compareSync(body.password, user.password)) {
-      throw new Error("Invalid Credentials");
+      return getErrorResponse("Invalid Credentials", 400);
     }
 
     const accessToken = await signJWT(
@@ -147,25 +179,93 @@ export const login = async (prevState: any, formData: FormData) => {
       maxAge,
     };
 
-    cookies().set(cookieOptions);
-    cookies().set({ name: "userId", value: user.id });
-    cookies().set({ name: "role", value: user.role });
-    cookies().set({
+    (await cookies()).set(cookieOptions);
+    (await cookies()).set({ name: "userId", value: user.id });
+    (await cookies()).set({ name: "role", value: user.role });
+    (await cookies()).set({
       name: "loggedIn",
       value: "true",
       maxAge,
     });
+
+    return getSuccessResponse("Login successful.");
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
-        throw new Error(error.message);
+        return getErrorResponse(error.message);
       }
     }
-
-    throw new Error("Server Error");
+    return getErrorResponse();
   }
+};
 
-  redirect(routes.home);
+export const forgotPassword = async (
+  prevState: unknown,
+  formData: FormData
+) => {
+  try {
+    const body = {
+      email: formData.get("email") as string,
+    };
+
+    const validateBody = forgotPasswordSchema.safeParse(body);
+    if (!validateBody.success) {
+      return getErrorResponse(
+        "Validation Error",
+        400,
+        "Error",
+        Object.entries(validateBody.error.flatten().fieldErrors).map(
+          ([key, errorValue]) => ({ [key]: errorValue[0] })
+        )[0]
+      );
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email: body.email },
+    });
+    if (!user) {
+      return getErrorResponse("Email does not exist.", 400);
+    }
+
+    return getSuccessResponse("A password reset link was sent to your email.");
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return getErrorResponse(error.message);
+      }
+    }
+    return getErrorResponse();
+  }
+};
+
+export const resetPassword = async (prevState: unknown, formData: FormData) => {
+  try {
+    const body = {
+      password: formData.get("password") as string,
+      confirmPassword: formData.get("confirmPassword") as string,
+    };
+
+    const validateBody = resetPasswordSchema.safeParse(body);
+    if (!validateBody.success) {
+      return getErrorResponse(
+        "Validation Error",
+        400,
+        "Error",
+        Object.entries(validateBody.error.flatten().fieldErrors).map(
+          ([key, errorValue]) => ({ [key]: errorValue[0] })
+        )[0]
+      );
+    }
+
+    return getSuccessResponse("Your password was reset. Login to continue.");
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return getErrorResponse(error.message);
+      }
+    }
+    return getErrorResponse();
+  }
 };
 
 export const logout = async () => {

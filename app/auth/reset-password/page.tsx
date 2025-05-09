@@ -5,13 +5,16 @@ import { routes } from "@/utils/routes";
 import { useRouter } from "next/navigation";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
-import { login } from "../action";
+import { resetPassword } from "../action";
 
 export default function Page() {
   const router = useRouter();
 
-  const handleLogin = async (prevState: unknown, formData: FormData) => {
-    const state = await login(prevState, formData);
+  const handleResetPassword = async (
+    prevState: unknown,
+    formData: FormData
+  ) => {
+    const state = await resetPassword(prevState, formData);
 
     if (state.type === "success") {
       toast.success(state.message);
@@ -25,31 +28,32 @@ export default function Page() {
     return state;
   };
 
-  const [state, formAction, pending] = useActionState(handleLogin, null);
+  const [state, formAction, pending] = useActionState(
+    handleResetPassword,
+    null
+  );
 
   return (
     <form action={formAction} className="flex flex-col gap-6 ">
-      <strong>Login</strong>
+      <strong>Reset Password</strong>
+
       <Input
-        label="Email"
-        error={state?.errors?.email}
-        inputProps={{ type: "email", name: "email", required: true }}
-      />
-      <Input
-        forgot
         label="Password"
         error={state?.errors?.password}
         inputProps={{ type: "password", name: "password", required: true }}
       />
+      <Input
+        label="Confirm Password"
+        error={state?.errors?.confirmPassword}
+        inputProps={{
+          type: "password",
+          name: "confirmPassword",
+          required: true,
+        }}
+      />
       <Button type="submit" disabled={pending} aria-disabled={pending}>
-        {pending ? "Logging in..." : "Login"}
+        {pending ? "Resetting Password..." : "Reset Password"}
       </Button>
-      <span className="flex items-center gap-1">
-        Don&apos;t have an account?
-        <Button variant="text" href={routes.signup}>
-          Signup Instead.
-        </Button>
-      </span>
     </form>
   );
 }
