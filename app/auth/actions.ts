@@ -12,7 +12,7 @@ import {
 import { transporter } from "@/utils/nodemailer";
 import prisma from "@/utils/prisma";
 import { routes } from "@/utils/routes";
-import { UserRoles } from "@prisma/client";
+import { User, UserRoles } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { render } from "@react-email/components";
 import bcrypt from "bcryptjs";
@@ -123,6 +123,17 @@ export async function signup(prevState: any, formData: FormData) {
       avatarImage = (upload as { secure_url: string })?.secure_url;
     }
 
+    const existingUser = await prisma.user.findFirst({
+      where: { email: body.email },
+    });
+
+    if (existingUser) {
+      if (!existingUser.emailConfirmed) {
+        return await sendConfirmationEmail(existingUser);
+      }
+      return getErrorResponse("User already exists", 400);
+    }
+
     const user = await prisma.user.create({
       data: { avatar: avatarImage, ...body },
     });
@@ -131,6 +142,22 @@ export async function signup(prevState: any, formData: FormData) {
       return getErrorResponse("Error registering user", 400);
     }
 
+    return await sendConfirmationEmail(user)
+
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return getErrorResponse(error.message);
+      }
+    }
+    return getErrorResponse();
+  }
+}
+
+const sendConfirmationEmail = async (
+  user: Pick<User, "email" | "id" | "role">, message = "An confirmation email was just sent!"
+) => {
+  try {
     const emailToken = await signJWT(
       { email: user.email, sub: user.id, role: user.role },
       { exp: "3600s" }
@@ -157,7 +184,6 @@ export async function signup(prevState: any, formData: FormData) {
     await new Promise((resolve, reject) =>
       transporter.sendMail(mailOptions, function (error: unknown) {
         if (error) {
-          console.log(error, 'error email')
           reject(new Error("Error sending mail."));
         } else {
           resolve(true);
@@ -165,22 +191,14 @@ export async function signup(prevState: any, formData: FormData) {
       })
     );
 
-    return getSuccessResponse("An confirmation email was just sent!");
+    return getSuccessResponse(message);
   } catch (error) {
-    console.log(error, 'erorr')
-
     if (error instanceof Error) {
       return getErrorResponse(error.message);
     }
-
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        return getErrorResponse(error.message);
-      }
-    }
-    return getErrorResponse();
+    return getErrorResponse("Error sending mail", 500, error);
   }
-}
+};
 
 export const confirmEmail = async (emailToken: string) => {
   try {
@@ -191,7 +209,6 @@ export const confirmEmail = async (emailToken: string) => {
     if (!token || token.token !== emailToken) {
       return getErrorResponse("Invalid request.");
     }
-
 
     if (!(await verifyJWT(emailToken))) {
       return getErrorResponse("Invalid request.");
@@ -215,7 +232,6 @@ export const confirmEmail = async (emailToken: string) => {
     return getErrorResponse("Server Error", 500, error);
   }
 };
-
 
 export const login = async (prevState: unknown, formData: FormData) => {
   try {
@@ -241,6 +257,10 @@ export const login = async (prevState: unknown, formData: FormData) => {
     });
     if (!user || !bcrypt.compareSync(body.password, user.password)) {
       return getErrorResponse("Invalid Credentials", 400);
+    }
+
+    if (!user.emailConfirmed) {
+      return await sendConfirmationEmail(user, "User email not confirmed. Please check your email for confirmation link.")
     }
 
     const accessToken = await signJWT(

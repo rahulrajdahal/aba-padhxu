@@ -24,7 +24,7 @@ export default function BookCard({
   };
 
   return (
-    <div className="rounded-lg border border-gray-400 p-2">
+    <div className="rounded-lg border border-gray-400 p-2 max-w-96">
       <Image
         alt={book.name}
         src={
@@ -46,7 +46,9 @@ export default function BookCard({
             <Bookmark /> <strong>{book.genre?.title}</strong>
           </span>
         )}
-        <p>{parse(book.description)}</p>
+        <p className="w-full max-w-96 break-words text-base font-medium">
+          {parse(book.description)}
+        </p>
         <p className="text-base font-medium">
           Author:&nbsp;{" "}
           <strong className="font-bold text-gray-900">
