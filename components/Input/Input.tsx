@@ -28,7 +28,7 @@ export default function Input({
     <Container {...props}>
       {label && (
         <div className="flex items-center justify-between">
-          <label htmlFor="" className="text-base font-semibold">
+          <label htmlFor={inputProps?.name} className="text-base font-semibold">
             {label}
           </label>
 

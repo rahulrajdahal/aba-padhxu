@@ -1,3 +1,4 @@
+import { BookWithAuthorAndGenre } from "@/types";
 import prisma from "@/utils/prisma";
 import { cookies } from "next/headers";
 import Books from "./Books";
@@ -5,14 +6,17 @@ import Books from "./Books";
 export default async function page() {
   const books = await prisma.book.findMany({
     where: {
-      sellerId: cookies().get("userId")?.value,
+      sellerId: (await cookies()).get("userId")?.value,
     },
     include: {
       author: {
         select: { name: true },
       },
+      genre: {
+        select: { title: true },
+      },
     },
   });
 
-  return <Books books={books} />;
+  return <Books books={books as unknown as BookWithAuthorAndGenre[]} />;
 }

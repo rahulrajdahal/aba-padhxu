@@ -1,25 +1,50 @@
 "use client";
 
 import { Button, Input } from "@/components";
-import { Author } from "@prisma/client";
-import { useFormState, useFormStatus } from "react-dom";
+import { routes } from "@/utils/routes";
+import { Author, Genre } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import { useActionState } from "react";
+import toast from "react-hot-toast";
 import CreateableSelect from "react-select/creatable";
-import { addBook } from "../action";
+import { addBook } from "../actions";
 
-export default function AddBook({
-  authors,
-}: {
+interface AddBookProps {
   authors: Pick<Author, "name" | "id">[];
-}) {
-  const { pending } = useFormStatus();
-  const [state, formAction] = useFormState(addBook, null);
+  genres: Pick<Genre, "title" | "id">[];
+}
+
+export default function AddBook({ authors, genres }: Readonly<AddBookProps>) {
+  const router = useRouter();
+
+  const handleAddBook = async (prevState: unknown, formData: FormData) => {
+    const state = await addBook(prevState, formData);
+
+    if (state?.type === "success") {
+      toast.success(state.message);
+      return router.push(`${routes.dashboard}${routes.books}`);
+    }
+
+    if (state?.type === "error") {
+      toast.error(state.message);
+    }
+
+    return state;
+  };
+
+  const [state, formAction, pending] = useActionState(handleAddBook, null);
   const authorOptions = authors.map(({ name }) => ({
     label: name,
     value: name,
   }));
 
+  const genreOptions = genres.map(({ title }) => ({
+    label: title,
+    value: title,
+  }));
+
   return (
-    <form action={formAction}>
+    <form action={formAction} className="flex flex-col gap-4">
       <strong className="text-2xl font-bold">Add Book </strong>
       <Input
         label="Book Title"
@@ -41,19 +66,35 @@ export default function AddBook({
         error={state?.errors?.image}
         inputProps={{ type: "file", name: "image", required: true }}
       />
-      <CreateableSelect
-        closeMenuOnSelect={false}
-        name="author"
-        placeholder="Select Author"
-        options={authorOptions}
-      />
+      <div className="flex flex-col gap-2">
+        <label htmlFor="genre" className="text-base font-semibold">
+          Book Genre
+        </label>
+        <CreateableSelect
+          closeMenuOnSelect={false}
+          name="genre"
+          placeholder="Select genre"
+          options={genreOptions}
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="author" className="text-base font-semibold">
+          Author
+        </label>
+        <CreateableSelect
+          closeMenuOnSelect={false}
+          name="author"
+          placeholder="Select Author"
+          options={authorOptions}
+        />
+      </div>
       <Input
         label="Published Date"
-        error={state?.errors?.publisedDate}
+        error={state?.errors?.publishedDate}
         inputProps={{ name: "publishedDate", required: true }}
       />
       <Button type="submit" disabled={pending} aria-disabled={pending}>
-        Add Book
+        {pending ? "Adding..." : "Add Book"}
       </Button>
     </form>
   );

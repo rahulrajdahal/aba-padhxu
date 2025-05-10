@@ -47,7 +47,7 @@ export default function BookCard({
           </span>
         )}
         <p className="w-full max-w-96 break-words text-base font-medium">
-          {parse(book.description)}
+          {parse(book.description.substring(0, 80))}...
         </p>
         <p className="text-base font-medium">
           Author:&nbsp;{" "}

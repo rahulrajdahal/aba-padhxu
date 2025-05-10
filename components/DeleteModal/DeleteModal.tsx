@@ -43,7 +43,7 @@ export default function DeleteModal({
             <AlertDialog.Action asChild>
               <button
                 onClick={handleDelete}
-                className="rounded-md px-6 py-2 text-base font-semibold"
+                className="rounded-md px-6 py-2 text-base font-semibold bg-red-600 text-white"
               >
                 Yes, Delete
               </button>
