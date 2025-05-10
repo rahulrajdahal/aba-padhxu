@@ -5,7 +5,7 @@ import { routes } from "@/utils/routes";
 import { useRouter } from "next/navigation";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
-import { forgotPassword } from "../action";
+import { forgotPassword } from "../actions";
 
 export default function Page() {
   const router = useRouter();

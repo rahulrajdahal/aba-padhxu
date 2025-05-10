@@ -1,6 +1,7 @@
 "use server";
 
-import { signJWT } from "@/utils/auth";
+import EmailTemplate from "@/emails/EmailTemplate";
+import { signJWT, verifyJWT } from "@/utils/auth";
 import {
   devUpload,
   getErrorResponse,
@@ -8,10 +9,12 @@ import {
   isValidFileType,
   prodUpload,
 } from "@/utils/helpers";
+import { transporter } from "@/utils/nodemailer";
 import prisma from "@/utils/prisma";
 import { routes } from "@/utils/routes";
 import { UserRoles } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { render } from "@react-email/components";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -128,8 +131,48 @@ export async function signup(prevState: any, formData: FormData) {
       return getErrorResponse("Error registering user", 400);
     }
 
-    return getSuccessResponse("User Registered");
+    const emailToken = await signJWT(
+      { email: user.email, sub: user.id, role: user.role },
+      { exp: "3600s" }
+    );
+
+    const tokenBody = { token: emailToken, email: user.email };
+    await prisma.token.create({ data: tokenBody });
+
+    const emailHtml = await render(
+      EmailTemplate({
+        title: "Sign up with Aba Padhxu",
+        heading: "Email Confirmation",
+        body: `Follow the provided link to activate your account. http://localhost:3000/auth/confirm-email/${emailToken}`,
+      })
+    );
+
+    const mailOptions = {
+      from: process.env.NODEMAILER_EMAIL,
+      to: user.email,
+      subject: "Sign up with Aba Padhxu",
+      html: emailHtml,
+    };
+
+    await new Promise((resolve, reject) =>
+      transporter.sendMail(mailOptions, function (error: unknown) {
+        if (error) {
+          console.log(error, 'error email')
+          reject(new Error("Error sending mail."));
+        } else {
+          resolve(true);
+        }
+      })
+    );
+
+    return getSuccessResponse("An confirmation email was just sent!");
   } catch (error) {
+    console.log(error, 'erorr')
+
+    if (error instanceof Error) {
+      return getErrorResponse(error.message);
+    }
+
     if (error instanceof PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
         return getErrorResponse(error.message);
@@ -138,6 +181,41 @@ export async function signup(prevState: any, formData: FormData) {
     return getErrorResponse();
   }
 }
+
+export const confirmEmail = async (emailToken: string) => {
+  try {
+    const token = await prisma.token.findFirst({
+      where: { token: emailToken },
+    });
+
+    if (!token || token.token !== emailToken) {
+      return getErrorResponse("Invalid request.");
+    }
+
+
+    if (!(await verifyJWT(emailToken))) {
+      return getErrorResponse("Invalid request.");
+    }
+
+    const user = await prisma.user.findFirst({ where: { email: token.email } });
+
+    if (!user) {
+      return getErrorResponse("Invalid request.");
+    }
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { emailConfirmed: true },
+    });
+
+    await prisma.token.delete({ where: { id: token.id } });
+
+    return getSuccessResponse("User Email confirmed. Login to continue.");
+  } catch (error) {
+    return getErrorResponse("Server Error", 500, error);
+  }
+};
+
 
 export const login = async (prevState: unknown, formData: FormData) => {
   try {
@@ -208,33 +286,66 @@ export const forgotPassword = async (
       email: formData.get("email") as string,
     };
 
-    const validateBody = forgotPasswordSchema.safeParse(body);
-    if (!validateBody.success) {
+    const validatedFields = forgotPasswordSchema.safeParse(body);
+
+    // Return early if the form data is invalid
+    if (!validatedFields.success) {
       return getErrorResponse(
         "Validation Error",
-        400,
-        "Error",
-        Object.entries(validateBody.error.flatten().fieldErrors).map(
-          ([key, errorValue]) => ({ [key]: errorValue[0] })
-        )[0]
+        undefined,
+        validatedFields.error.flatten().fieldErrors
       );
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email: body.email },
+    const user = await prisma.user.findFirst({
+      where: {
+        email: body.email,
+      },
     });
+
     if (!user) {
-      return getErrorResponse("Email does not exist.", 400);
+      return getErrorResponse("Email not registered.", 400);
     }
 
-    return getSuccessResponse("A password reset link was sent to your email.");
+    const hashToken = await signJWT(
+      { email: user.email, sub: user.email, role: user.role },
+      { exp: "3600s" }
+    );
+
+    const tokenBody = { token: hashToken, email: user.email };
+
+    await prisma.token.create({ data: tokenBody });
+
+    const emailHtml = await render(
+      EmailTemplate({
+        title: "Password reset request",
+        heading: "Reset Password",
+        body: `Follow the provided link to reset your account password. http://localhost:3000/auth/reset-password/${hashToken}`,
+      })
+    );
+
+    const mailOptions = {
+      from: process.env.NODEMAILER_EMAIL,
+      to: user.email,
+      subject: "Reset Password in Aba Padhxu",
+      html: emailHtml,
+    };
+
+    await new Promise((resolve, reject) =>
+      transporter.sendMail(mailOptions, function (error: any) {
+        if (error) {
+          reject(new Error("Error sending mail"));
+        } else {
+          resolve(true);
+        }
+      })
+    );
+
+    return getSuccessResponse(
+      "A reset password link has been sent to your email."
+    );
   } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        return getErrorResponse(error.message);
-      }
-    }
-    return getErrorResponse();
+    return getErrorResponse("Server Error", 500, error);
   }
 };
 
@@ -245,26 +356,46 @@ export const resetPassword = async (prevState: unknown, formData: FormData) => {
       confirmPassword: formData.get("confirmPassword") as string,
     };
 
-    const validateBody = resetPasswordSchema.safeParse(body);
-    if (!validateBody.success) {
+    const validatedFields = resetPasswordSchema.safeParse(body);
+
+    // Return early if the form data is invalid
+    if (!validatedFields.success) {
       return getErrorResponse(
         "Validation Error",
-        400,
-        "Error",
-        Object.entries(validateBody.error.flatten().fieldErrors).map(
-          ([key, errorValue]) => ({ [key]: errorValue[0] })
-        )[0]
+        undefined,
+        validatedFields.error.flatten().fieldErrors
       );
     }
 
-    return getSuccessResponse("Your password was reset. Login to continue.");
-  } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        return getErrorResponse(error.message);
-      }
+    const token = await prisma.token.findFirst({
+      where: {
+        token: formData.get("token") as string,
+      },
+    });
+
+    if (!token) {
+      return getErrorResponse("Invalid request.");
     }
-    return getErrorResponse();
+
+    const user = await prisma.user.findFirst({ where: { email: token.email } });
+
+    await prisma.token.delete({ where: { id: token.id } });
+
+    if (!user) {
+      return getErrorResponse("Invalid request.");
+    }
+
+    const salt = bcrypt.genSaltSync(10);
+    body.password = bcrypt.hashSync(body.password, salt);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { password: body.password },
+    });
+
+    return getSuccessResponse("Password updated.");
+  } catch (error) {
+    return getErrorResponse("Server Error", 500, error);
   }
 };
 

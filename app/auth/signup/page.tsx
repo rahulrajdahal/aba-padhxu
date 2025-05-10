@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useActionState, useState } from "react";
 import toast from "react-hot-toast";
-import { signup } from "../action";
+import { signup } from "../actions";
 
 export default function Page() {
   const router = useRouter();

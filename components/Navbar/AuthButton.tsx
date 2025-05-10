@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { logout } from '@/app/auth/action';
-import { routes } from '@/utils/routes';
-import Button from '../Button/Button';
+import { logout } from "@/app/auth/actions";
+import { routes } from "@/utils/routes";
+import Button from "../Button/Button";
 
 export default function AuthButton({
   isLoggedIn,

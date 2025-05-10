@@ -2,23 +2,27 @@
 
 import { Button, Input } from "@/components";
 import { routes } from "@/utils/routes";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
-import { resetPassword } from "../action";
+import { resetPassword } from "../../actions";
 
 export default function Page() {
+  const { token } = useParams();
+
   const router = useRouter();
 
   const handleResetPassword = async (
     prevState: unknown,
     formData: FormData
   ) => {
+    formData.append("token", token as string);
+
     const state = await resetPassword(prevState, formData);
 
     if (state.type === "success") {
       toast.success(state.message);
-      return router.push(routes.dashboard);
+      return router.push(routes.login);
     }
 
     if (state.type === "error") {
