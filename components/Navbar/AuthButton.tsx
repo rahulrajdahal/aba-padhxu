@@ -8,16 +8,14 @@ export default function AuthButton({
   isLoggedIn,
 }: Readonly<{ isLoggedIn: boolean }>) {
   return (
-    <>
-      <li>
-        {isLoggedIn ? (
-          <Button onClick={() => logout()}>Logout</Button>
-        ) : (
-          <a href={routes.login}>
-            <Button>Login</Button>
-          </a>
-        )}
-      </li>
-    </>
+    <li>
+      {isLoggedIn ? (
+        <Button onClick={() => logout()}>Logout</Button>
+      ) : (
+        <a href={routes.login}>
+          <Button>Login</Button>
+        </a>
+      )}
+    </li>
   );
 }

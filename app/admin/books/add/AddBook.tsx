@@ -61,6 +61,11 @@ export default function AddBook({ authors, genres }: Readonly<AddBookProps>) {
         inputProps={{ name: "price", type: "number", required: true }}
       />
       <Input
+        label="Book Quantity"
+        error={state?.errors?.quantity}
+        inputProps={{ name: "quantity", type: "number", required: true }}
+      />
+      <Input
         label="Book Image"
         error={state?.errors?.image}
         inputProps={{ type: "file", name: "image", required: true }}

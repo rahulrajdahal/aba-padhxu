@@ -1,7 +1,6 @@
-import { Navbar } from '@/components';
-import prisma from '@/utils/prisma';
-import { Author, Book, Genre } from '@prisma/client';
-import Books from './Books';
+import prisma from "@/utils/prisma";
+import { Author, Book, Genre } from "@prisma/client";
+import Books from "./Books";
 
 export default async function page() {
   const books = await prisma.book.findMany({
@@ -16,17 +15,13 @@ export default async function page() {
   });
 
   return (
-    <>
-      <Navbar />
-
-      <Books
-        books={
-          books as ({
-            genre: Pick<Genre, 'title'>;
-            author: Pick<Author, 'name'>;
-          } & Book)[]
-        }
-      />
-    </>
+    <Books
+      books={
+        books as ({
+          genre: Pick<Genre, "title">;
+          author: Pick<Author, "name">;
+        } & Book)[]
+      }
+    />
   );
 }

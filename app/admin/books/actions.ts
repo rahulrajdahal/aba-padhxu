@@ -9,7 +9,7 @@ import {
 } from "@/utils/helpers";
 import prisma from "@/utils/prisma";
 import { Book } from "@prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { Decimal, PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
@@ -166,6 +166,8 @@ export const updateBook = async (prevState: unknown, formData: FormData) => {
         const image = formData.get("image") as unknown as File;
         const author = formData.get("author") as string;
         const genre = formData.get("genre") as string;
+        const price = Number(formData.get("price") as string);
+        const quantity = Number(formData.get("quantity") as string);
 
 
         const validateBody = updateBookSchema.safeParse({ name, description, publishedDate, author, genre, image });
@@ -179,6 +181,14 @@ export const updateBook = async (prevState: unknown, formData: FormData) => {
 
         if (name) {
             body.name = name;
+        }
+
+        if (price) {
+            body.price = new Decimal(price);
+        }
+
+        if (quantity) {
+            body.quantity = quantity;
         }
 
         if (description) {
