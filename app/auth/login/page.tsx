@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input } from "@/components";
+import { Button, Form, Input } from "@/components";
 import { routes } from "@/utils/routes";
 import { useRouter } from "next/navigation";
 import { useActionState } from "react";
@@ -28,8 +28,7 @@ export default function Page() {
   const [state, formAction, pending] = useActionState(handleLogin, null);
 
   return (
-    <form action={formAction} className="flex flex-col gap-6 ">
-      <strong>Login</strong>
+    <Form action={formAction} className="gap-6" title="Login">
       <Input
         label="Email"
         error={state?.errors?.email}
@@ -50,6 +49,6 @@ export default function Page() {
           Signup Instead.
         </Button>
       </span>
-    </form>
+    </Form>
   );
 }

@@ -1,12 +1,12 @@
-import { CartCard, Navbar } from '@/components';
-import { Author, Book, Genre } from '@prisma/client';
-import { cookies } from 'next/headers';
-import { Key } from 'react';
-import Checkout from './PlaceOrder';
+import { CartCard, Navbar, PageLayout } from "@/components";
+import { Author, Book, Genre } from "@prisma/client";
+import { cookies } from "next/headers";
+import { Key } from "react";
+import Checkout from "./PlaceOrder";
 
 export default async function page() {
-  const cartItems = cookies().get('cartItems')?.value
-    ? JSON.parse(cookies().get('cartItems')?.value as string)
+  const cartItems = (await cookies()).get("cartItems")?.value
+    ? JSON.parse((await cookies()).get("cartItems")?.value as string)
     : [];
 
   const totalPrice = cartItems
@@ -19,8 +19,8 @@ export default async function page() {
   return (
     <>
       <Navbar />
-      <main className='mt-12 px-[12.5%]'>
-        <h3 className='mb-3 text-3xl font-bold'>Cart</h3>
+      <PageLayout className="mt-12">
+        <h3 className="mb-3 text-3xl font-bold">Cart</h3>
 
         {cartItems.map(
           (cartItem: {
@@ -40,14 +40,14 @@ export default async function page() {
           )
         )}
 
-        <div className='flex w-full justify-between border-t border-gray-400 py-4'>
-          <strong className='text-lg font-semibold'>Total:</strong>
-          <span className='flex flex-col gap-4'>
-            <p className='text-3xl font-bold'>${totalPrice}</p>
+        <div className="flex w-full justify-between border-t border-gray-400 py-4">
+          <strong className="text-lg font-semibold">Total:</strong>
+          <span className="flex flex-col gap-4">
+            <p className="text-3xl font-bold">${totalPrice}</p>
             <Checkout />
           </span>
         </div>
-      </main>
+      </PageLayout>
     </>
   );
 }

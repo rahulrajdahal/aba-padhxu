@@ -1,6 +1,6 @@
 "use client";
 
-import { BookCard } from "@/components";
+import { BookCard, PageLayout } from "@/components";
 import { Author, Book, Genre } from "@prisma/client";
 
 export default function Books({
@@ -12,7 +12,7 @@ export default function Books({
   } & Book)[];
 }>) {
   return (
-    <main className="mt-10 grid grid-cols-1 gap-8 px-[12.5%] md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+    <PageLayout className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       {books.map((book) => (
         // <Card
         //   key={book.id}
@@ -29,6 +29,6 @@ export default function Books({
           book={book as Book & { genre: Genre } & { author: Author }}
         />
       ))}
-    </main>
+    </PageLayout>
   );
 }

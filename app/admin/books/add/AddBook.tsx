@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input } from "@/components";
+import { Button, Form, Input } from "@/components";
 import { routes } from "@/utils/routes";
 import { Author, Genre } from "@prisma/client";
 import { useRouter } from "next/navigation";
@@ -44,8 +44,7 @@ export default function AddBook({ authors, genres }: Readonly<AddBookProps>) {
   }));
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
-      <strong className="text-2xl font-bold">Add Book </strong>
+    <Form action={formAction} title="Add Book">
       <Input
         label="Book Title"
         error={state?.errors?.name}
@@ -96,6 +95,6 @@ export default function AddBook({ authors, genres }: Readonly<AddBookProps>) {
       <Button type="submit" disabled={pending} aria-disabled={pending}>
         {pending ? "Adding..." : "Add Book"}
       </Button>
-    </form>
+    </Form>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input } from "@/components";
+import { Button, Form, Input } from "@/components";
 import { routes } from "@/utils/routes";
 import { useParams, useRouter } from "next/navigation";
 import { useActionState } from "react";
@@ -38,9 +38,7 @@ export default function Page() {
   );
 
   return (
-    <form action={formAction} className="flex flex-col gap-6 ">
-      <strong>Reset Password</strong>
-
+    <Form title="Reset Password" action={formAction} className="gap-6">
       <Input
         label="Password"
         error={state?.errors?.password}
@@ -58,6 +56,6 @@ export default function Page() {
       <Button type="submit" disabled={pending} aria-disabled={pending}>
         {pending ? "Resetting Password..." : "Reset Password"}
       </Button>
-    </form>
+    </Form>
   );
 }

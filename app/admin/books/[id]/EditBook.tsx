@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input } from "@/components";
+import { Button, Form, Input } from "@/components";
 import { BookWithAuthorAndGenre } from "@/types";
 import { routes } from "@/utils/routes";
 import { Author, Genre } from "@prisma/client";
@@ -54,8 +54,7 @@ export default function Page({
   const [state, formAction, pending] = useActionState(handleBookUpdate, null);
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
-      <strong className="text-2xl font-bold">Edit Book </strong>
+    <Form action={formAction} title="Edit Book">
       <Input
         label="Book Title"
         error={state?.errors?.name}
@@ -101,15 +100,16 @@ export default function Page({
 
       <Input
         label="Published Date"
-        error={state?.errors?.publisedDate}
+        error={state?.errors?.publishedDate}
         inputProps={{
           name: "publishedDate",
           defaultValue: publishedDate,
+          type: "date",
         }}
       />
       <Button type="submit" disabled={pending} aria-disabled={pending}>
         {pending ? "Updating..." : "Update Book"}
       </Button>
-    </form>
+    </Form>
   );
 }

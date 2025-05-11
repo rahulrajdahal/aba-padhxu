@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input } from "@/components";
+import { Button, Form, Input } from "@/components";
 import { routes } from "@/utils/routes";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -36,8 +36,7 @@ export default function Page() {
   };
 
   return (
-    <form action={formAction} className="flex flex-col gap-6 ">
-      <strong>Signup</strong>
+    <Form action={formAction} className="gap-6" title="Sign up">
       <Input
         label="Full Name"
         error={state?.errors?.name}
@@ -110,6 +109,6 @@ export default function Page() {
           Login Instead.
         </Button>
       </span>
-    </form>
+    </Form>
   );
 }
