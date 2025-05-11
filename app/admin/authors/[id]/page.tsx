@@ -1,11 +1,13 @@
-import prisma from '@/utils/prisma';
-import EditAuthor from './EditAuthor';
+import prisma from "@/utils/prisma";
+import EditAuthor from "./EditAuthor";
 
 export default async function page({
-  params: { id },
+  params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
+
   const author = await prisma.author.findUnique({
     where: { id },
   });
@@ -13,4 +15,6 @@ export default async function page({
   if (author) {
     return <EditAuthor author={author} />;
   }
+
+  return <div>Author not found</div>;
 }

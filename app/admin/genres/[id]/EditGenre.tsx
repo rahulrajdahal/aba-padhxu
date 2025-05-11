@@ -8,11 +8,11 @@ import { useActionState } from "react";
 import toast from "react-hot-toast";
 import { updateGenre } from "../actions";
 
-export default function EditGenre({
-  genre,
-}: Readonly<{
+type EditGenreProps = {
   genre: Genre;
-}>) {
+};
+
+export default function EditGenre({ genre }: Readonly<EditGenreProps>) {
   const router = useRouter();
 
   const { title, id } = genre;

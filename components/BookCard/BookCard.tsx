@@ -1,6 +1,6 @@
 "use client";
 
-import { addToCart } from "@/app/cart/action";
+import { addToCart } from "@/app/cart/actions";
 import { Bookmark, Cart } from "@meistericons/react";
 import { Author, Book, Genre } from "@prisma/client";
 import parse from "html-react-parser";

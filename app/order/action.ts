@@ -1,11 +1,10 @@
 'use server'
 
+import { getErrorResponse, getSuccessResponse } from "@/utils/helpers";
 import prisma from "@/utils/prisma";
-import { routes } from "@/utils/routes";
 import { PaymentMethod } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const orderSchema = z.object({
@@ -17,8 +16,7 @@ const orderSchema = z.object({
 
 })
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const placeOrder = async (formData: FormData) => {
+export const placeOrder = async (prevState: unknown, formData: FormData) => {
 
     try {
         const body = {
@@ -31,17 +29,18 @@ export const placeOrder = async (formData: FormData) => {
 
         const validateBody = orderSchema.safeParse(body)
         if (!validateBody.success) {
-            return {
-                errors: Object.entries(validateBody.error.flatten().fieldErrors).map(([key, errorValue]) => ({ [key]: errorValue[0] }))[0],
-            }
+            return getErrorResponse(
+                "Validation Error", 400, undefined,
+                Object.entries(validateBody.error.flatten().fieldErrors).map(([key, errorValue]) => ({ [key]: errorValue[0] }))[0]
+            )
         }
 
-        const cartItems = cookies().get("cartItems")?.value ? JSON.parse(cookies().get('cartItems')?.value as string) : []
+        const cartItems = (await cookies()).get("cartItems")?.value ? JSON.parse((await cookies()).get('cartItems')?.value as string) : []
 
         await prisma.order.create({
             data: {
                 ...body,
-                userId: cookies().get('userId')?.value as string,
+                userId: (await cookies()).get('userId')?.value as string,
                 items: {
                     create: cartItems.map(({ book: { id } }: { book: { id: string } }) => ({
                         book: {
@@ -52,17 +51,16 @@ export const placeOrder = async (formData: FormData) => {
             }
         });
 
-        cookies().delete('cartItems')
+        (await cookies()).delete('cartItems')
 
-
+        return getSuccessResponse("Order placed successfully", 201)
     } catch (error) {
         if (error instanceof PrismaClientKnownRequestError) {
             if (error.code === 'P2002') {
-                throw new Error(error.message);
+                return getErrorResponse(error.message);
             }
         }
-        throw new Error('Server Error')
+        return getErrorResponse('Server Error')
     }
-    redirect(routes.home)
 }
 

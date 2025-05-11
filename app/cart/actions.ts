@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 
 export const addToCart = async (bookId: string) => {
   try {
-    const book = await prisma.book.findUnique({ where: { id: bookId } });
+    const book = await prisma.book.findUnique({ where: { id: bookId }, include: { author: { select: { name: true } } } });
 
     const cartItems = (await cookies()).get("cartItems")?.value
       ? JSON.parse((await cookies()).get("cartItems")?.value as string)

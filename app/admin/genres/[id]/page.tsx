@@ -1,11 +1,13 @@
-import prisma from '@/utils/prisma';
-import EditGenre from './EditGenre';
+import prisma from "@/utils/prisma";
+import EditGenre from "./EditGenre";
 
 export default async function page({
-  params: { id },
+  params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
+
   const genre = await prisma.genre.findUnique({
     where: { id },
   });
@@ -13,4 +15,6 @@ export default async function page({
   if (genre) {
     return <EditGenre genre={genre} />;
   }
+
+  return <div>Genre not found</div>;
 }
