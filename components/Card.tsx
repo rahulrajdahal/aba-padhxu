@@ -71,7 +71,7 @@ export default function Card({
       <Button
         disabled={loading}
         onClick={handleAddToCart}
-        className="flex mt-5 gap-0.5 items-center justify-center w-full"
+        className="flex !bg-[#519e8a] mt-5 gap-0.5 rounded-xl items-center justify-center w-full !p-3"
       >
         <Cart />
         {loading ? "Adding..." : "Add to Cart"}

@@ -1,5 +1,5 @@
+import { BookWithAuthorAndGenre } from "@/types";
 import prisma from "@/utils/prisma";
-import { Author, Book, Genre } from "@prisma/client";
 import Books from "./Books";
 
 export default async function page() {
@@ -14,14 +14,5 @@ export default async function page() {
     },
   });
 
-  return (
-    <Books
-      books={
-        books as ({
-          genre: Pick<Genre, "title">;
-          author: Pick<Author, "name">;
-        } & Book)[]
-      }
-    />
-  );
+  return <Books books={books as unknown as BookWithAuthorAndGenre[]} />;
 }
