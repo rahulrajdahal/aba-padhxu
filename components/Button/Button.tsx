@@ -49,14 +49,14 @@ interface IVariantButton extends ComponentPropsWithoutRef<"button"> {
   variant?: Variant;
   href?: string;
 }
-type IButton = IVariantButton | ITextButton;
+export type ButtonProps = IVariantButton | ITextButton;
 
 export default function Button({
   variant = "filled",
   href,
   children,
   ...props
-}: Readonly<IButton>) {
+}: Readonly<ButtonProps>) {
   return href && variant === "text" ? (
     <Link href={href}>
       <Container variant={"text"} type="button" {...props}>

@@ -1,16 +1,13 @@
 "use client";
 
-import { BookCard, PageLayout } from "@/components";
-import { Author, Book, Genre } from "@prisma/client";
+import { Card, PageLayout } from "@/components";
+import { BookWithAuthorAndGenre } from "@/types";
 
-export default function Books({
-  books,
-}: Readonly<{
-  books: ({
-    genre: Pick<Genre, "title">;
-    author: Pick<Author, "name">;
-  } & Book)[];
-}>) {
+type BooksProps = {
+  books: BookWithAuthorAndGenre[];
+};
+
+export default function Books({ books }: Readonly<BooksProps>) {
   return (
     <PageLayout className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       {books.map((book) => (
@@ -24,9 +21,17 @@ export default function Books({
         //     onClick: async () => await addToCart(book.id),
         //   }}
         // />
-        <BookCard
+        // <BookCard
+        //   key={book.id}
+        //   book={book as Book & { genre: Genre } & { author: Author }}
+        // />
+        <Card
           key={book.id}
-          book={book as Book & { genre: Genre } & { author: Author }}
+          book={book}
+          //   title={book.name}
+          //   src={`/uploads/books/${book.image}`}
+          //   author={book.author?.name}
+          //   price={Number(Number(book.price).toFixed(2))}
         />
       ))}
     </PageLayout>
