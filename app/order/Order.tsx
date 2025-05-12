@@ -2,19 +2,39 @@
 
 import { Button, Form, Input, PaymentMethod } from "@/components";
 import { routes } from "@/utils/routes";
-import { Book } from "@prisma/client";
+import { Author, Book, Genre } from "@prisma/client";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useActionState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Key, useActionState, useMemo, useState } from "react";
 import toast from "react-hot-toast";
-import { placeOrder } from "./action";
+import { placeOrder } from "./actions";
 
 export default function Order({
   cartItems,
-}: Readonly<{ cartItems: { book: Book; id: string; qty: number }[] }>) {
+}: Readonly<{
+  cartItems: {
+    id: Key | null | undefined;
+    book: Book & {
+      genre: Genre;
+    } & {
+      author: Author;
+    };
+    quantity: number;
+  }[];
+}>) {
   const router = useRouter();
 
+  const totalPrice = useMemo(() => {
+    return cartItems
+      .map(
+        (cartItem) =>
+          parseInt(cartItem.book.price.toString()) * cartItem.quantity
+      )
+      .reduce((a: number, b: number) => a + b, 0);
+  }, [cartItems]);
+
   const handlePlaceOrder = async (prevState: unknown, formData: FormData) => {
+    formData.append("amount", String(totalPrice));
     const state = await placeOrder(prevState, formData);
 
     if (state?.type === "success") {
@@ -30,6 +50,13 @@ export default function Order({
   };
 
   const [state, formAction, pending] = useActionState(handlePlaceOrder, null);
+  const searchParams = useSearchParams();
+  const paid = useMemo(
+    () => !!searchParams.get("payment_intent"),
+    [searchParams]
+  );
+
+  const [paymentMethod, setPaymentMethod] = useState("ONLINE");
 
   return (
     <main className="px-[12.5%]">
@@ -73,11 +100,15 @@ export default function Order({
             inputProps={{ name: "street" }}
           />
 
-          <PaymentMethod />
+          <PaymentMethod
+            paymentMethod={paymentMethod}
+            setPaymentMethod={setPaymentMethod}
+            paid={paid}
+          />
           <Button
             type="submit"
             className="mt-4 w-fit !rounded-md"
-            disabled={pending}
+            disabled={pending || (paymentMethod === "ONLINE" && !paid)}
             aria-disabled={pending}
           >
             {pending ? "Confirming Order..." : "Confirm Order"}

@@ -154,6 +154,7 @@ export async function signup(prevState: any, formData: FormData) {
   }
 }
 
+
 const sendConfirmationEmail = async (
   user: Pick<User, "email" | "id" | "role">, message = "An confirmation email was just sent!"
 ) => {
@@ -426,3 +427,14 @@ export const logout = async () => {
 
   redirect(routes.login);
 };
+
+export const getNavbarProps = async () => {
+  const role = (await cookies()).get("role")?.value as UserRoles;
+  const isLoggedIn = (await cookies()).get("loggedIn")?.value === 'true';
+
+  const count = (await cookies())?.get("cartItems")?.value
+    ? JSON.parse((await cookies())?.get("cartItems")?.value as string).length
+    : 0;
+
+  return { role, isLoggedIn, count };
+}

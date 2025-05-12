@@ -54,6 +54,14 @@ export default function Books({ books }: BooksProps) {
       },
     }),
 
+    columnHelper.accessor("quantity", {
+      header: "Quantity",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("price", {
+      header: "Price",
+      cell: (info) => info.getValue(),
+    }),
     columnHelper.accessor("id", {
       header: () => "Actions",
       cell: (info) => {

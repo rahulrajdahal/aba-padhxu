@@ -12,4 +12,5 @@ export { default as PaymentMethod } from './PaymentMethod/PaymentMethod';
 export { default as StyledComponentsRegistry } from './StyledComponentsRegistry';
 export { default as TableActions } from './TableActions/TableActions';
 export { default as TablePage } from './TablePage/TablePage';
+export { default as UserPageLayout } from './UserPageLayout';
 

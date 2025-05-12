@@ -19,7 +19,16 @@ export default function Page({
   authors: Pick<Author, "name" | "id">[];
   genres: Pick<Genre, "title" | "id">[];
 }>) {
-  const { name, description, author, publishedDate, id, genre } = book;
+  const {
+    name,
+    description,
+    author,
+    publishedDate,
+    id,
+    genre,
+    price,
+    quantity,
+  } = book;
 
   const router = useRouter();
 
@@ -66,6 +75,24 @@ export default function Page({
         inputProps={{
           name: "description",
           defaultValue: description,
+        }}
+      />
+      <Input
+        label="Book Price"
+        error={state?.errors?.price}
+        inputProps={{
+          name: "price",
+          type: "number",
+          defaultValue: Number(Number(book.price).toFixed(2)),
+        }}
+      />
+      <Input
+        label="Book Quantity"
+        error={state?.errors?.quantity}
+        inputProps={{
+          name: "quantity",
+          type: "number",
+          defaultValue: quantity,
         }}
       />
       <Input

@@ -1,4 +1,6 @@
+import { UserPageLayout } from "@/components";
 import { cookies } from "next/headers";
+import { getNavbarProps } from "../auth/actions";
 import Cart from "./Cart";
 
 export default async function page() {
@@ -10,5 +12,11 @@ export default async function page() {
     return <div>No items in cart</div>;
   }
 
-  return <Cart cartItems={cartItems} />;
+  const navbarProps = await getNavbarProps();
+
+  return (
+    <UserPageLayout navbarProps={navbarProps}>
+      <Cart cartItems={cartItems} />
+    </UserPageLayout>
+  );
 }

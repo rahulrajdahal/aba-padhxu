@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import StripeElements from '@/app/order/StripeElements';
-import { useSearchParams } from 'next/navigation';
-import { ChangeEvent, useMemo, useState } from 'react';
-import Input from '../Input/Input';
+import StripeElements from "@/app/order/StripeElements";
+import { ChangeEvent } from "react";
+import Input from "../Input/Input";
 
-export default function PaymentMethod() {
-  const searchParams = useSearchParams();
+type PaymentMethodProps = {
+  paymentMethod: string;
+  setPaymentMethod: (paymentMethod: string) => void;
+  paid: boolean;
+};
 
-  const paid = useMemo(
-    () => (searchParams.get('payment_intent') ? true : false),
-    [searchParams]
-  );
-
-  const [paymentMethod, setPaymentMethod] = useState('ONLINE');
-
+export default function PaymentMethod({
+  paymentMethod,
+  setPaymentMethod,
+  paid,
+}: PaymentMethodProps) {
   const handlePaymentMethodOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPaymentMethod(e.target.value);
   };
@@ -23,33 +23,33 @@ export default function PaymentMethod() {
     !paid && (
       <>
         <strong>Payment Method</strong>
-        <span className='flex items-center gap-4'>
+        <span className="flex items-center gap-4">
           <Input
-            label='Cash'
-            className='!flex-row items-center gap-2'
+            label="Cash"
+            className="!flex-row items-center gap-2"
             inputProps={{
               onChange: handlePaymentMethodOnChange,
-              type: 'radio',
-              name: 'paymentMethod',
-              value: 'CASH',
+              type: "radio",
+              name: "paymentMethod",
+              value: "CASH",
               defaultChecked: paid,
             }}
           />
 
           <Input
-            label='Online'
-            className='!flex-row items-center gap-2'
+            label="Online"
+            className="!flex-row items-center gap-2"
             inputProps={{
               onChange: handlePaymentMethodOnChange,
-              type: 'radio',
-              name: 'paymentMethod',
-              value: 'ONLINE',
+              type: "radio",
+              name: "paymentMethod",
+              value: "ONLINE",
               defaultChecked: !paid,
             }}
           />
         </span>
 
-        {paymentMethod === 'ONLINE' && !paid && <StripeElements />}
+        {paymentMethod === "ONLINE" && !paid && <StripeElements />}
       </>
     )
   );

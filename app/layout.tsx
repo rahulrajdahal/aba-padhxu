@@ -1,4 +1,4 @@
-import { Navbar, StyledComponentsRegistry } from "@/components";
+import { StyledComponentsRegistry } from "@/components";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
@@ -18,8 +18,6 @@ export default function RootLayout({ children }: IRootLayout) {
     <html lang="en">
       <body className={inter.className}>
         <StyledComponentsRegistry>
-          <Navbar />
-
           {children}
           <Toaster />
         </StyledComponentsRegistry>

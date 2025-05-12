@@ -10,4 +10,5 @@ export const routes = {
   cart: "/cart",
   genres: "/genres",
   order: "/order",
+  orders: "/orders",
 };

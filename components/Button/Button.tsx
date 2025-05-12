@@ -34,6 +34,7 @@ const Container = styled.button<{ variant: Variant }>`
   &:disabled {
     background-color: #a2a2a2;
     color: #000;
+    cursor: not-allowed;
   }
 `;
 

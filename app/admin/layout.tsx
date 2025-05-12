@@ -12,6 +12,7 @@ const links = [
   { id: 3, label: "Add Book", href: `${routes.dashboard}${routes.books}/add` },
   { id: 4, label: "All Authors", href: `${routes.dashboard}${routes.authors}` },
   { id: 5, label: "All Genres", href: `${routes.dashboard}${routes.genres}` },
+  { id: 5, label: "All Orders", href: `${routes.dashboard}${routes.orders}` },
 ];
 
 interface IAdminLayout extends IRootLayout {}

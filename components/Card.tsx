@@ -2,7 +2,7 @@
 
 import { addToCart } from "@/app/cart/actions";
 import { BookWithAuthorAndGenre } from "@/types";
-import { Cart } from "@meistericons/react";
+import { ArchiveCross, Cart } from "@meistericons/react";
 import Image, { ImageProps } from "next/image";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -69,12 +69,20 @@ export default function Card({
         </p>
       </div>
       <Button
-        disabled={loading}
+        disabled={loading || book.quantity <= 0}
         onClick={handleAddToCart}
-        className="flex !bg-[#519e8a] mt-5 gap-0.5 rounded-xl items-center justify-center w-full !p-3"
+        className={`flex ${loading || book.quantity <= 0 ? "" : "!bg-[#519e8a]"} mt-5 gap-0.5 rounded-xl items-center justify-center w-full !p-3`}
       >
-        <Cart />
-        {loading ? "Adding..." : "Add to Cart"}
+        {book.quantity <= 0 ? (
+          <ArchiveCross />
+        ) : (
+          <Cart className={`${loading ? "animate-spin" : ""}`} />
+        )}
+        {book.quantity <= 0
+          ? "Out of Stock"
+          : loading
+            ? "Adding..."
+            : "Add to Cart"}
       </Button>
     </div>
   );

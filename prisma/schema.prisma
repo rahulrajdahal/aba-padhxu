@@ -91,10 +91,11 @@ model Order {
 }
 
 model BookOnOrder {
-    book    Book   @relation(fields: [bookId], references: [id])
-    bookId  String
-    order   Order  @relation(fields: [orderId], references: [id])
-    orderId String
+    book     Book   @relation(fields: [bookId], references: [id])
+    bookId   String
+    quantity Int
+    order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    orderId  String
 
     assignedAt DateTime @default(now())
 
