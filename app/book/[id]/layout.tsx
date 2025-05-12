@@ -1,11 +1,13 @@
-import { Navbar, PageLayout } from "@/components";
+import { UserPageLayout, PageLayout } from "@/components";
+import { getNavbarProps } from "@/app/auth/actions";
 import { ReactNode } from "react";
 
-export default function layout({ children }: { children: ReactNode }) {
+export default async function layout({ children }: { children: ReactNode }) {
+  const navbarProps = await getNavbarProps();
+
   return (
-    <>
-      <Navbar />
+    <UserPageLayout navbarProps={navbarProps}>
       <PageLayout>{children}</PageLayout>
-    </>
+    </UserPageLayout>
   );
 }
