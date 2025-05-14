@@ -1,21 +1,12 @@
 "use client";
 
-import { addToCart } from "@/app/cart/actions";
 import { BookWithAuthorAndGenre } from "@/types";
-import { ArchiveCross, Cart } from "@meistericons/react";
 import Image, { ImageProps } from "next/image";
-import React, { useState } from "react";
-import toast from "react-hot-toast";
-import Button from "./Button/Button";
+import Link, { LinkProps } from "next/link";
+import { AddToCart } from "./Buttons";
 
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  // title: string;
-  // author: string;
-  // src: string;
+interface CardProps extends LinkProps {
   imageProps?: ImageProps;
-  // buttonProps?: ButtonProps;
-  // buttonText?: string;
-  // price?: number;
   book: BookWithAuthorAndGenre;
 }
 
@@ -24,17 +15,8 @@ export default function Card({
   imageProps,
   ...props
 }: Readonly<CardProps>) {
-  const [loading, setLoading] = useState(false);
-
-  const handleAddToCart = async () => {
-    setLoading(true);
-    await addToCart(book.id);
-    toast.success(`${book.name} added to cart`);
-    setLoading(false);
-  };
-
   return (
-    <div
+    <Link
       {...props}
       className="px-5 py-7 max-w-[17.5rem] rounded-[1.25rem] relative"
     >
@@ -68,22 +50,7 @@ export default function Card({
           by {book.author?.name}
         </p>
       </div>
-      <Button
-        disabled={loading || book.quantity <= 0}
-        onClick={handleAddToCart}
-        className={`flex ${loading || book.quantity <= 0 ? "" : "!bg-[#519e8a]"} mt-5 gap-0.5 rounded-xl items-center justify-center w-full !p-3`}
-      >
-        {book.quantity <= 0 ? (
-          <ArchiveCross />
-        ) : (
-          <Cart className={`${loading ? "animate-spin" : ""}`} />
-        )}
-        {book.quantity <= 0
-          ? "Out of Stock"
-          : loading
-            ? "Adding..."
-            : "Add to Cart"}
-      </Button>
-    </div>
+      <AddToCart book={book} />
+    </Link>
   );
 }

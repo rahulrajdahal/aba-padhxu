@@ -7,7 +7,7 @@ import parse from "html-react-parser";
 import Image from "next/image";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import Button from "../Button/Button";
+import Button from "../Buttons/Button";
 
 export default function BookCard({
   book,

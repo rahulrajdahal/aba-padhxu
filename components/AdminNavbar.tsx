@@ -6,7 +6,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
-import Button from "./Button/Button";
+import Button from "./Buttons/Button";
 import NotificationsDropdown from "./NotificationsDropdown";
 
 interface AdminNavbarProps extends React.HTMLAttributes<HTMLElement> {

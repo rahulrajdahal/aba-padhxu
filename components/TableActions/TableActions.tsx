@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import Button, { ButtonProps } from "../Button/Button";
+import Button, { ButtonProps } from "../Buttons/Button";
 import DeleteModal from "../DeleteModal/DeleteModal";
 
 interface ITableActions extends React.ComponentPropsWithoutRef<"span"> {

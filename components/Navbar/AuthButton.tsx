@@ -2,7 +2,7 @@
 
 import { logout } from "@/app/auth/actions";
 import { routes } from "@/utils/routes";
-import Button from "../Button/Button";
+import Button from "../Buttons/Button";
 
 export default function AuthButton({
   isLoggedIn,
