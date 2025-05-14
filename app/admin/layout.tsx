@@ -12,7 +12,7 @@ const links = [
   { id: 3, label: "Add Book", href: `${routes.dashboard}${routes.books}/add` },
   { id: 4, label: "All Authors", href: `${routes.dashboard}${routes.authors}` },
   { id: 5, label: "All Genres", href: `${routes.dashboard}${routes.genres}` },
-  { id: 5, label: "All Orders", href: `${routes.dashboard}${routes.orders}` },
+  { id: 6, label: "All Orders", href: `${routes.dashboard}${routes.orders}` },
 ];
 
 interface IAdminLayout extends IRootLayout {}
@@ -36,7 +36,6 @@ export default function AdminLayout({ children }: IAdminLayout) {
           ))}
         </ul>
       </aside>
-
       <main className="flex max-h-screen w-[calc(100%-15rem)] flex-grow overflow-y-scroll px-4 py-8">
         {children}
       </main>

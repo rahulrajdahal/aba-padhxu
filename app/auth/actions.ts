@@ -438,3 +438,16 @@ export const getNavbarProps = async () => {
 
   return { role, isLoggedIn, count };
 }
+
+export const getUserInfo = async () => {
+  const userId = (await cookies()).get("userId")?.value as string;
+
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+
+
+  if (!user) {
+    return { name: 'user', email: "user@email.com", avatar: "default.png" };
+  }
+
+  return { email: user.email, name: user.name, avatar: user.avatar };
+}

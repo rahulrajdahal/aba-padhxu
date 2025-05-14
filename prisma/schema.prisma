@@ -20,6 +20,19 @@ model User {
     order Order[]
     sell  Book[]
 
+    createdAt     DateTime       @default(now()) @map(name: "created_at")
+    updatedAt     DateTime       @updatedAt @map(name: "updated_at")
+    notifications Notification[]
+}
+
+model Notification {
+    id          String  @id @default(cuid())
+    title       String
+    description String
+    isRead      Boolean @default(false)
+    userId      String
+    user        User    @relation(fields: [userId], references: [id])
+
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
 }

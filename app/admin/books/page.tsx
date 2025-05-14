@@ -1,3 +1,5 @@
+import { getUserInfo } from "@/app/auth/actions";
+import { AdminPageLayout } from "@/components";
 import { BookWithAuthorAndGenre } from "@/types";
 import prisma from "@/utils/prisma";
 import { cookies } from "next/headers";
@@ -18,5 +20,19 @@ export default async function page() {
     },
   });
 
-  return <Books books={books as unknown as BookWithAuthorAndGenre[]} />;
+  const userInfo = await getUserInfo();
+
+  const notifications = await prisma.notification.findMany({
+    where: { isRead: false, userId: (await cookies()).get("userId")?.value },
+  });
+
+  return (
+    <AdminPageLayout
+      title="Books"
+      user={userInfo}
+      notifications={notifications}
+    >
+      <Books books={books as unknown as BookWithAuthorAndGenre[]} />
+    </AdminPageLayout>
+  );
 }

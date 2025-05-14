@@ -10,6 +10,7 @@ import { render } from "@react-email/components";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
+import { addNotification } from "../admin/notifications/actions";
 
 const orderSchema = z.object({
     country: z.string(),
@@ -61,15 +62,23 @@ export const placeOrder = async (prevState: unknown, formData: FormData) => {
 
         (await cookies()).delete('cartItems')
 
-        cartItems.forEach(async (cartItem: { book: { id: string; quantity: number }, quantity: number }) => {
-            await prisma.book.update({ where: { id: cartItem.book.id }, data: { quantity: { decrement: cartItem.quantity } } })
-        });
 
         const user = await prisma.user.findUnique({ where: { id: userId } })
 
         if (!user) {
             return getErrorResponse("Error placing order.")
         }
+
+        cartItems.forEach(async (cartItem: { book: { id: string; quantity: number; name: string; sellerId: string }, quantity: number }) => {
+            await prisma.book.update({ where: { id: cartItem.book.id }, data: { quantity: { decrement: cartItem.quantity } } })
+
+            const formData = new FormData()
+            formData.append('title', "Order Placed")
+            formData.append('description', `Your item ${cartItem.book.name} has been placed for order by ${user.name}`)
+            formData.append('userId', cartItem.book.sellerId)
+
+            await addNotification(null, formData)
+        });
 
         await sendOrderEmail(user)
         return getSuccessResponse("Your order has been placed!", 201)

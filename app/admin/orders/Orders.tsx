@@ -26,20 +26,24 @@ export default function Orders({ orders }: OrdersProps) {
         return (
           <div className="grid grid-cols-3">
             {items?.slice(0, 3).map((item) => (
-              <div className="flex flex-col" key={item.bookId}>
+              <div
+                className="flex flex-col items-center gap-2"
+                key={item.bookId}
+              >
                 <Image
                   src={`/uploads/books/${item.book.image}`}
                   alt={item.book.name}
                   width={100}
                   height={100}
-                  className="rounded-md"
+                  className="rounded-md max-h-20 w-full object-contain"
                 />
-                <div className="flex flex-col">
+                <div className="flex flex-col items-center">
                   <p>{item.book.name}</p>
                   <p>X {item.quantity}</p>
                 </div>
               </div>
             ))}
+            ...
           </div>
         );
       },
@@ -77,6 +81,11 @@ export default function Orders({ orders }: OrdersProps) {
               handleDelete={handleDelete}
               href={`${routes.dashboard}${routes.orders}`}
               description="order"
+              buttonProps={{
+                children: "View",
+                href: `${routes.dashboard}${routes.orders}/${id}`,
+                variant: "text",
+              }}
             />
           );
         }
@@ -84,12 +93,5 @@ export default function Orders({ orders }: OrdersProps) {
     }),
   ] as ColumnDef<unknown, unknown>[];
 
-  return (
-    <TablePage
-      data={orders ?? []}
-      columns={columns}
-      title="Orders"
-      loading={false}
-    />
-  );
+  return <TablePage data={orders ?? []} columns={columns} loading={false} />;
 }

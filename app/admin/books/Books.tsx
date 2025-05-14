@@ -94,12 +94,5 @@ export default function Books({ books }: BooksProps) {
     }),
   ] as ColumnDef<unknown, unknown>[];
 
-  return (
-    <TablePage
-      data={books ?? []}
-      columns={columns}
-      title="Books"
-      loading={false}
-    />
-  );
+  return <TablePage data={books ?? []} columns={columns} loading={false} />;
 }

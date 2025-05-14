@@ -1,5 +1,6 @@
+import { OrderWithUserAndItems } from "@/types";
 import prisma from "@/utils/prisma";
-import EditGenre from "./EditGenre";
+import ViewOrder from "./ViewOrder";
 
 export default async function page({
   params,
@@ -8,13 +9,22 @@ export default async function page({
 }) {
   const { id } = await params;
 
-  const genre = await prisma.genre.findUnique({
+  const order = await prisma.order.findUnique({
     where: { id },
+    include: {
+      user: { select: { name: true, email: true } },
+      items: {
+        select: {
+          book: { select: { name: true, image: true } },
+          quantity: true,
+        },
+      },
+    },
   });
 
-  if (genre) {
-    return <EditGenre genre={genre} />;
+  if (order) {
+    return <ViewOrder order={order as OrderWithUserAndItems} />;
   }
 
-  return <div>Genre not found</div>;
+  return <div>Order not found</div>;
 }

@@ -1,9 +1,9 @@
-import Link from 'next/link';
-import React from 'react';
-import Button from '../Button/Button';
-import DeleteModal from '../DeleteModal/DeleteModal';
+import Link from "next/link";
+import React from "react";
+import Button, { ButtonProps } from "../Button/Button";
+import DeleteModal from "../DeleteModal/DeleteModal";
 
-interface ITableActions extends React.ComponentPropsWithoutRef<'span'> {
+interface ITableActions extends React.ComponentPropsWithoutRef<"span"> {
   /**
    * Key identifier of the row object.
    */
@@ -20,22 +20,25 @@ interface ITableActions extends React.ComponentPropsWithoutRef<'span'> {
    * Url for edit action.
    */
   href?: string;
+  buttonProps?: ButtonProps;
 }
 
 export default function TableActions({
   id,
   handleDelete,
-  description = 'project',
-  href = '#',
+  description = "project",
+  href = "#",
+  buttonProps,
 }: Readonly<ITableActions>) {
   return (
-    <span className='flex items-center gap-8 '>
-      <Link href={`${href}/${id}`} className=''>
+    <span className="flex items-center gap-8 ">
+      <Link href={`${href}/${id}`} className="">
         <Button
-          type='button'
-          className='bg-gray-100 px-6 py-2 text-base font-semibold text-gray-700'
+          {...buttonProps}
+          type="button"
+          className="bg-gray-100 px-6 py-2 text-base font-semibold text-gray-700"
         >
-          Edit
+          {buttonProps?.children ?? "Edit"}
         </Button>
       </Link>
 
