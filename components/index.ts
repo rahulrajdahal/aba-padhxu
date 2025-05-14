@@ -11,6 +11,7 @@ export { default as Form } from './Form';
 export { default as Input } from './Input/Input';
 export { default as Navbar } from './Navbar/Navbar';
 export { default as NotificationCard } from './NotificationCard';
+export { default as NotificationsDropdown } from './NotificationsDropdown';
 export { default as PageLayout } from './PageLayout';
 export { default as PaymentMethod } from './PaymentMethod/PaymentMethod';
 export { default as StyledComponentsRegistry } from './StyledComponentsRegistry';

@@ -1,4 +1,5 @@
 import { Notification } from "@prisma/client";
+import moment from "moment";
 import Image from "next/image";
 
 interface NotificationCardProps {
@@ -12,7 +13,7 @@ export default function NotificationCard({
 }: Readonly<NotificationCardProps>) {
   return (
     <div
-      className={`${notification.isRead ? "" : "bg-blue-200"} outline-none max-w-96 flex items-center gap-4 border-b border-gray-300 p-2 w-full hover:bg-blue-100`}
+      className={`${notification.isRead ? "" : "bg-blue-200"} outline-none max-w-96 flex gap-4 border-b border-gray-300 p-2 w-full justify-between hover:bg-blue-100`}
     >
       {loading ? (
         <div className="animate-pulse flex items-center gap-4 w-full">
@@ -27,19 +28,28 @@ export default function NotificationCard({
         </div>
       ) : (
         <>
-          <Image
-            src={"/uploads/order-default.webp"}
-            alt="notification image"
-            width={60}
-            height={60}
-            className="rounded-full w-12 h-12 object-cover border-2 border-blue-500"
-          />
-          <div className="flex flex-col">
-            <p className="text-base font-semibold">{notification.title}</p>
-            <p className="text-sm font-medium text-gray-600">
-              {notification.description}
-            </p>
+          <div className="flex items-center gap-2">
+            <Image
+              src={"/uploads/order-default.webp"}
+              alt="notification image"
+              width={60}
+              height={60}
+              className="rounded-full w-12 h-12 object-cover border-2 border-blue-500"
+            />
+            <div className="flex flex-col">
+              <p className="text-base font-semibold">{notification.title}</p>
+              <p className="text-sm font-medium text-gray-600">
+                {notification.description}
+              </p>
+            </div>
           </div>
+          <p className="text-sm font-medium text-gray-600 whitespace-nowrap">
+            {moment(notification.createdAt)
+              .fromNow(true)
+              .replace("minutes", "m")
+              .replace("days", "d")
+              .replace("years", "y")}
+          </p>
         </>
       )}
     </div>

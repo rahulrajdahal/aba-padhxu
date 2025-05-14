@@ -1,20 +1,22 @@
 "use server";
 
+import { sendOrderEmail } from "@/app/order/actions";
 import prisma from "@/prisma/prisma";
 import { getErrorResponse, getSuccessResponse } from "@/utils/helpers";
 import { routes } from "@/utils/routes";
-import { Genre } from "@prisma/client";
+import { Order, OrderStatus } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { addNotification } from "../notifications/actions";
 
 const genreSchema = z.object({
     title: z.string().min(3, "Min 3 Characters."),
 });
 
-const updateGenreSchema = z.object({
-    title: z.string().min(3, "Min 3 Characters.").optional(),
+const updateOrderSchema = z.object({
+    status: z.enum([OrderStatus.PENDING, OrderStatus.DELIVERING, OrderStatus.COMPLETED]),
 });
 
 export const addGenre = async (prevData: unknown, formData: FormData) => {
@@ -66,15 +68,21 @@ export const deleteGenre = async (id: string) => {
     redirect(`${routes.dashboard}${routes.genres}`);
 };
 
-export const updateGenre = async (prevState: unknown, formData: FormData) => {
+export const updateOrder = async (prevState: unknown, formData: FormData) => {
     try {
         const id = formData.get("id") as string;
 
-        const body: Partial<Genre> = {};
+        const body: Partial<Order> = {};
 
-        const title = formData.get("title") as string;
+        const status = formData.get("status") as OrderStatus;
+        const userId = formData.get("userId") as string;
 
-        const validateBody = updateGenreSchema.safeParse(body);
+
+        if (status) {
+            body.status = status;
+        }
+
+        const validateBody = updateOrderSchema.safeParse(body);
         if (!validateBody.success) {
             return getErrorResponse(
                 "Validation Error",
@@ -86,19 +94,43 @@ export const updateGenre = async (prevState: unknown, formData: FormData) => {
             );
         }
 
-        if (title) {
-            body.title = title;
-        }
-
-        await prisma.genre.update({
+        await prisma.order.update({
             where: { id },
             data: body,
         });
 
-        revalidatePath("/admin/genres");
-        revalidatePath("/genres");
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+        });
 
-        return getSuccessResponse("Genre Updated Successfully", 204);
+        if (!user) {
+            return getErrorResponse("Error sending user order email");
+        }
+
+        await sendOrderEmail(user);
+
+        const notificationFormData = new FormData();
+        notificationFormData.append("title", "Order Status Updated");
+
+        const getDescription = () => {
+            if (status === OrderStatus.COMPLETED) {
+                return `Your order has been completed`;
+            } else if (status === OrderStatus.DELIVERING) {
+                return `Your order is being delivered`;
+            } else {
+                return `Your order is pending`;
+            }
+        };
+        notificationFormData.append("description", getDescription());
+        notificationFormData.append("userId", userId);
+
+        await addNotification(null, notificationFormData);
+
+
+        revalidatePath("/");
+        revalidatePath("/admin/orders");
+
+        return getSuccessResponse("Order Updated Successfully", 204);
     } catch (error) {
         if (error instanceof PrismaClientKnownRequestError) {
             if (error.code === "P2002") {

@@ -3,22 +3,25 @@
 import { routes } from "@/utils/routes";
 
 import { CartB } from "@meistericons/react";
-import { UserRoles } from "@prisma/client";
+import { Notification, UserRoles } from "@prisma/client";
+import NotificationsDropdown from "../NotificationsDropdown";
 import AuthButton from "./AuthButton";
 
 export type NavbarProps = {
   role: UserRoles;
   count: number;
   isLoggedIn: boolean;
+  notifications?: Notification[];
 };
 
 export default function Navbar({
   role,
   count,
   isLoggedIn = false,
+  notifications,
 }: Readonly<NavbarProps>) {
   return (
-    <nav className="sticky top-0 z-50 flex w-full items-center justify-between bg-white px-[12.5%] py-4">
+    <nav className="sticky z-10 top-0 flex w-full shadow-sm items-center justify-between bg-white px-[12.5%] py-4">
       <a href="/" className="text-gray-70 text-xl font-bold">
         Logo
       </a>
@@ -29,6 +32,8 @@ export default function Navbar({
             <a href={routes.dashboard}>Dashboard</a>
           </li>
         )}
+
+        <NotificationsDropdown notifications={notifications} />
 
         <li className="relative">
           <a href={routes.cart}>

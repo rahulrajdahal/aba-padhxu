@@ -121,7 +121,7 @@ export const deleteOrder = async (id: string) => {
 }
 
 
-const sendOrderEmail = async (
+export const sendOrderEmail = async (
     user: Pick<User, "email">
 ) => {
     try {

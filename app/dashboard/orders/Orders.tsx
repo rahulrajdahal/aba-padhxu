@@ -6,8 +6,10 @@ import { deleteOrder } from "@/app/order/actions";
 import { TableActions, TablePage } from "@/components";
 import { OrderWithUserAndItems } from "@/types";
 import { routes } from "@/utils/routes";
+import { OrderStatus } from "@prisma/client";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import { updateOrder } from "./actions";
 
 type OrdersProps = Readonly<{ orders: OrderWithUserAndItems[] }>;
 export default function Orders({ orders }: OrdersProps) {
@@ -59,9 +61,47 @@ export default function Orders({ orders }: OrdersProps) {
       cell: (info) => info.getValue(),
     }),
 
-    columnHelper.accessor("isComplete", {
+    columnHelper.accessor("status", {
       header: "Status",
-      cell: (info) => (info.getValue() ? "Completed" : "Pending"),
+      cell: (info) => {
+        const updateStatus = async (
+          e: React.ChangeEvent<HTMLSelectElement>
+        ) => {
+          const status = e.target.value as OrderStatus;
+
+          const formData = new FormData();
+          formData.append("status", status);
+          formData.append("userId", info.row.original.userId as string);
+          formData.append("id", info.row.original.id as string);
+
+          const state = await updateOrder(null, formData);
+
+          if (state.type === "success") {
+            toast.success("Order status updated!");
+          }
+          if (state.type === "error") {
+            toast.error("Error updating order status!");
+          }
+        };
+
+        return (
+          <select
+            name="status"
+            defaultValue={info.getValue()}
+            onChange={updateStatus}
+          >
+            {Object.entries(OrderStatus).map((orderStatus) => (
+              <option
+                key={orderStatus[0]}
+                className="capitalize"
+                value={orderStatus[1]}
+              >
+                {orderStatus[1]}
+              </option>
+            ))}
+          </select>
+        );
+      },
     }),
 
     columnHelper.accessor("id", {

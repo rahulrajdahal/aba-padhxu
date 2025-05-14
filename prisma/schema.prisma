@@ -94,13 +94,19 @@ model Order {
     city          String
     street        String
     paymentMethod PaymentMethod @default(CASH)
-    isComplete    Boolean       @default(false)
+    status        OrderStatus   @default(PENDING)
     items         BookOnOrder[]
     amount        Int
     user          User          @relation(fields: [userId], references: [id])
     userId        String
     createdAt     DateTime      @default(now()) @map(name: "created_at")
     updatedAt     DateTime      @updatedAt @map(name: "updated_at")
+}
+
+enum OrderStatus {
+    PENDING
+    DELIVERING
+    COMPLETED
 }
 
 model BookOnOrder {

@@ -429,6 +429,8 @@ export const logout = async () => {
 };
 
 export const getNavbarProps = async () => {
+  const userId = (await cookies()).get("userId")?.value as string;
+
   const role = (await cookies()).get("role")?.value as UserRoles;
   const isLoggedIn = (await cookies()).get("loggedIn")?.value === 'true';
 
@@ -436,14 +438,19 @@ export const getNavbarProps = async () => {
     ? JSON.parse((await cookies())?.get("cartItems")?.value as string).length
     : 0;
 
-  return { role, isLoggedIn, count };
+  const notifications = await prisma.notification.findMany({
+    where: {
+      userId: userId,
+    },
+  });
+
+  return { role, isLoggedIn, count, notifications };
 }
 
 export const getUserInfo = async () => {
   const userId = (await cookies()).get("userId")?.value as string;
 
   const user = await prisma.user.findUnique({ where: { id: userId } });
-
 
   if (!user) {
     return { name: 'user', email: "user@email.com", avatar: "default.png" };
