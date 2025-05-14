@@ -1,5 +1,5 @@
+import prisma from "@/prisma/prisma";
 import { OrderWithUserAndItems } from "@/types";
-import prisma from "@/utils/prisma";
 import ViewOrder from "./ViewOrder";
 
 export default async function page({

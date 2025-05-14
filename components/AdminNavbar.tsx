@@ -1,29 +1,43 @@
 "use client";
 
-import { updateNotification } from "@/app/admin/notifications/actions";
 import { logout } from "@/app/auth/actions";
+import { updateNotification } from "@/app/dashboard/notifications/actions";
 import { routes } from "@/utils/routes";
 import { Notification as NotificationIcon } from "@meistericons/react";
 import { Notification, User } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 import Button from "./Button/Button";
 import NotificationCard from "./NotificationCard";
 
 interface AdminNavbarProps extends React.HTMLAttributes<HTMLElement> {
-  title: string;
   user?: Pick<User, "email" | "name" | "avatar">;
   notifications?: Notification[];
 }
 
 export default function AdminNavbar({
-  title,
   user,
   notifications,
   ...props
 }: Readonly<AdminNavbarProps>) {
+  const pathname = usePathname();
+
+  const title = useMemo(() => {
+    if (pathname.includes("orders")) {
+      return "Orders";
+    } else if (pathname.includes("books")) {
+      return "Books";
+    } else if (pathname.includes("authors")) {
+      return "Authors";
+    } else if (pathname.includes("genres")) {
+      return "Genres";
+    }
+
+    return pathname.split("/").pop();
+  }, [pathname]);
+
   const router = useRouter();
 
   const [loading, setLoading] = useState({ id: "", loading: false });
@@ -47,9 +61,9 @@ export default function AdminNavbar({
   return (
     <nav
       {...props}
-      className={`${props.className} flex items-center justify-between w-full`}
+      className={`${props.className} flex items-center sticky top-0 justify-between w-full bg-white shadow-sm px-4 py-8`}
     >
-      <h1 className="h1">{title}</h1>
+      <h1 className="h1 capitalize">{title}</h1>
 
       <div className="flex items-center gap-4">
         <DropdownMenu.Root>

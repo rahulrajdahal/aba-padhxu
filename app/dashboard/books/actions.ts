@@ -1,5 +1,6 @@
 "use server";
 
+import prisma from "@/prisma/prisma";
 import {
     devUpload,
     getErrorResponse,
@@ -7,7 +8,6 @@ import {
     isValidFileType,
     prodUpload,
 } from "@/utils/helpers";
-import prisma from "@/utils/prisma";
 import { Book } from "@prisma/client";
 import { Decimal, PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";

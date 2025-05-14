@@ -1,6 +1,7 @@
 "use server";
 
 import EmailTemplate from "@/emails/EmailTemplate";
+import prisma from "@/prisma/prisma";
 import { signJWT, verifyJWT } from "@/utils/auth";
 import {
   devUpload,
@@ -10,7 +11,6 @@ import {
   prodUpload,
 } from "@/utils/helpers";
 import { transporter } from "@/utils/nodemailer";
-import prisma from "@/utils/prisma";
 import { routes } from "@/utils/routes";
 import { User, UserRoles } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";

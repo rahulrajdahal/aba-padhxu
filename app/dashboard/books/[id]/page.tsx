@@ -1,5 +1,5 @@
+import prisma from "@/prisma/prisma";
 import { BookWithAuthorAndGenre } from "@/types";
-import prisma from "@/utils/prisma";
 import EditBook from "./EditBook";
 
 export default async function page({

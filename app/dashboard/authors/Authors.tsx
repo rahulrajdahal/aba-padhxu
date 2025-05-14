@@ -50,12 +50,5 @@ export default function Authors({ authors }: IAuthors) {
     }),
   ] as ColumnDef<unknown, unknown>[];
 
-  return (
-    <TablePage
-      data={authors ?? []}
-      columns={columns}
-      title="Authors"
-      loading={false}
-    />
-  );
+  return <TablePage data={authors ?? []} columns={columns} loading={false} />;
 }

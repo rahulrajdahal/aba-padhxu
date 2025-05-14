@@ -1,5 +1,6 @@
 export { default as AdminNavbar } from './AdminNavbar';
 export { default as AdminPageLayout } from './AdminPageLayout';
+export { default as AdminSidebar } from './AdminSidebar';
 export { default as AvatarWithName } from './AvatarWithName/AvatarWithName';
 export { default as BookCard } from './BookCard/BookCard';
 export { default as Button } from './Button/Button';

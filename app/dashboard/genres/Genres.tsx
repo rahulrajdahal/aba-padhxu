@@ -38,12 +38,5 @@ export default function Genres({ genres }: GenresProps) {
     }),
   ] as ColumnDef<unknown, unknown>[];
 
-  return (
-    <TablePage
-      data={genres ?? []}
-      columns={columns}
-      title="Genres"
-      loading={false}
-    />
-  );
+  return <TablePage data={genres ?? []} columns={columns} loading={false} />;
 }

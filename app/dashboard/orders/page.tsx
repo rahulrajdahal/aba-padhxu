@@ -1,7 +1,5 @@
-import { getUserInfo } from "@/app/auth/actions";
-import { AdminPageLayout } from "@/components";
+import prisma from "@/prisma/prisma";
 import { OrderWithUserAndItems } from "@/types";
-import prisma from "@/utils/prisma";
 import { cookies } from "next/headers";
 import Orders from "./Orders";
 
@@ -27,19 +25,5 @@ export default async function page() {
     },
   });
 
-  const userInfo = await getUserInfo();
-
-  const notifications = await prisma.notification.findMany({
-    where: { userId },
-  });
-
-  return (
-    <AdminPageLayout
-      title="Orders"
-      user={userInfo}
-      notifications={notifications}
-    >
-      <Orders orders={orders as OrderWithUserAndItems[]} />
-    </AdminPageLayout>
-  );
+  return <Orders orders={orders as OrderWithUserAndItems[]} />;
 }

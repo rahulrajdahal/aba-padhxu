@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "@/utils/prisma";
+import prisma from "@/prisma/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";

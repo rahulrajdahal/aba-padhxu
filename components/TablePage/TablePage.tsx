@@ -60,7 +60,7 @@ export default function TablePage({
       {loading ? (
         "Loading..."
       ) : (
-        <div className="mt-5 rounded-[2rem] bg-white px-10">
+        <div className={`${title ? "mt-5" : ""}  rounded-[2rem] bg-white`}>
           <table border={1} className="w-full text-left">
             <thead>
               {table.getHeaderGroups().map((headerGroup, idx) => (
@@ -91,7 +91,10 @@ export default function TablePage({
                 {table.getRowModel().rows.map((row, index) => (
                   <tr key={index}>
                     {row.getVisibleCells().map((cell, idx) => (
-                      <td key={idx} className={`border-b border-gray-200 py-5`}>
+                      <td
+                        key={idx}
+                        className={`border-b border-gray-200 py-5 px-4`}
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

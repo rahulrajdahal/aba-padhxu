@@ -1,4 +1,4 @@
-import prisma from "@/utils/prisma";
+import prisma from "@/prisma/prisma";
 import parse from "html-react-parser";
 import Image from "next/image";
 

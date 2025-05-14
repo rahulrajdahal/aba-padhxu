@@ -1,7 +1,7 @@
 "use server";
 
+import prisma from "@/prisma/prisma";
 import { getErrorResponse, getSuccessResponse } from "@/utils/helpers";
-import prisma from "@/utils/prisma";
 import { routes } from "@/utils/routes";
 import { Genre } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";

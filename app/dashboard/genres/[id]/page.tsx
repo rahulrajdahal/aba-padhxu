@@ -1,4 +1,4 @@
-import prisma from "@/utils/prisma";
+import prisma from "@/prisma/prisma";
 import EditGenre from "./EditGenre";
 
 export default async function page({

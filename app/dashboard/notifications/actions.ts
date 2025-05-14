@@ -1,7 +1,7 @@
 'use server'
 
+import prisma from "@/prisma/prisma";
 import { getErrorResponse, getSuccessResponse } from "@/utils/helpers";
-import prisma from "@/utils/prisma";
 import { routes } from "@/utils/routes";
 import { Notification } from "@prisma/client";
 import { revalidatePath } from "next/cache";

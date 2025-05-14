@@ -1,12 +1,12 @@
 "use server";
 
+import prisma from "@/prisma/prisma";
 import {
     devUpload,
     getErrorResponse,
     getSuccessResponse,
     prodUpload,
 } from "@/utils/helpers";
-import prisma from "@/utils/prisma";
 import { routes } from "@/utils/routes";
 import { Author } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";

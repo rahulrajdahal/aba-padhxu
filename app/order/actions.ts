@@ -1,16 +1,16 @@
 'use server'
 
 import EmailTemplate from "@/emails/EmailTemplate";
+import prisma from "@/prisma/prisma";
 import { getErrorResponse, getSuccessResponse } from "@/utils/helpers";
 import { transporter } from "@/utils/nodemailer";
-import prisma from "@/utils/prisma";
 import { PaymentMethod, User } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { render } from "@react-email/components";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { addNotification } from "../admin/notifications/actions";
+import { addNotification } from "../dashboard/notifications/actions";
 
 const orderSchema = z.object({
     country: z.string(),
