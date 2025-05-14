@@ -123,7 +123,9 @@ export default function Orders({ orders }: OrdersProps) {
               description="order"
               buttonProps={{
                 children: "View",
-                href: `${routes.dashboard}${routes.orders}/${id}`,
+                linkProps: {
+                  href: `${routes.dashboard}${routes.orders}/${id}`,
+                },
                 variant: "text",
               }}
             />

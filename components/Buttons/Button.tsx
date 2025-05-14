@@ -1,37 +1,34 @@
 "use client";
 
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
+import React from "react";
 
 type Variant = "filled" | "outlined" | "text";
 
-type ButtonProps = {
-  href?: string;
-  variant?: Variant;
-  children?: React.ReactNode;
-};
+export type ButtonProps = ButtonComponentProps | TextButtonProps;
 
 export default function Button({
   variant = "filled",
-  href,
-  children,
   ...props
 }: Readonly<ButtonProps>) {
+  const isLinkTextButton = typeof props === "object" && "linkProps" in props;
+
   if (variant === "text") {
-    if (href) {
-      return <TextButton href={href} buttonProps={{ variant, children }} />;
+    if (isLinkTextButton) {
+      return <TextButton linkProps={props.linkProps} {...props} />;
     } else {
-      return <TextButton buttonProps={{ children }} />;
+      return <TextButton {...props} />;
     }
   }
 
   return (
     <ButtonComponent variant={variant} {...props}>
-      {children}
+      {props?.children}
     </ButtonComponent>
   );
 }
 
-interface ButtonComponentProps extends React.HTMLAttributes<HTMLButtonElement> {
+interface ButtonComponentProps extends React.ComponentProps<"button"> {
   variant?: Variant;
 }
 
@@ -60,21 +57,18 @@ const ButtonComponent = ({
   );
 };
 
-type TextButtonProps = {
-  href?: string;
-  buttonProps?: ButtonComponentProps;
-};
+interface TextButtonProps extends ButtonComponentProps {
+  linkProps?: LinkProps;
+}
 
-const TextButton = ({ buttonProps, ...props }: TextButtonProps) => {
-  return props.href ? (
-    <Link {...props} href={props.href}>
-      <ButtonComponent {...buttonProps} variant="text">
-        {buttonProps?.children}
-      </ButtonComponent>
-    </Link>
+const TextButton = ({ linkProps, ...props }: TextButtonProps) => {
+  return linkProps?.href ? (
+    <ButtonComponent {...props} variant="text">
+      <Link {...linkProps}>{props?.children}</Link>
+    </ButtonComponent>
   ) : (
-    <ButtonComponent {...buttonProps} variant="text">
-      {buttonProps?.children}
+    <ButtonComponent {...props} variant="text">
+      {props?.children}
     </ButtonComponent>
   );
 };

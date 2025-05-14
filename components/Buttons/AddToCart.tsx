@@ -37,6 +37,7 @@ export default function AddToCart({
   return (
     <Button
       {...buttonProps}
+      aria-disabled={loading || book.quantity <= 0}
       disabled={loading || book.quantity <= 0}
       onClick={handleAddToCart}
       className={`${buttonProps?.className} flex ${loading || book.quantity <= 0 ? "" : "!bg-[#519e8a]"} mt-5 gap-0.5 rounded-xl items-center justify-center w-full !p-3`}
