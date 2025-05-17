@@ -1,3 +1,6 @@
+import { InstallPrompt } from "@/_components/InstallPrompt";
+import { PushNotificationManager } from "@/_components/PushNotificationManager";
+import { WebVitals } from "@/_components/web-vitals";
 import { StyledComponentsRegistry } from "@/components";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -17,10 +20,13 @@ export default function RootLayout({ children }: IRootLayout) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        <WebVitals />
         <StyledComponentsRegistry>
           {children}
           <Toaster />
         </StyledComponentsRegistry>
+        <PushNotificationManager />
+        <InstallPrompt />
       </body>
     </html>
   );

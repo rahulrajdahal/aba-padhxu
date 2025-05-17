@@ -1,18 +1,23 @@
 import type { IRootLayout } from "@/app/layout";
 import { AdminPageLayout, AdminSidebar } from "@/components";
 import prisma from "@/prisma/prisma";
-import { cookies } from "next/headers";
+import { routes } from "@/utils/routes";
+import { redirect } from "next/navigation";
 import { getUserInfo } from "../auth/actions";
+import { canUseDashboard, getUserId } from "../auth/dto";
 
 interface IAdminLayout extends IRootLayout {}
 
-const userInfo = getUserInfo();
-
 export default async function AdminLayout({ children }: IAdminLayout) {
+  if (!(await canUseDashboard())) {
+    return redirect(routes.home);
+  }
+
   const userInfo = await getUserInfo();
+  const userId = await getUserId();
 
   const notifications = await prisma.notification.findMany({
-    where: { userId: (await cookies()).get("userId")?.value as string },
+    where: { userId },
   });
 
   return (

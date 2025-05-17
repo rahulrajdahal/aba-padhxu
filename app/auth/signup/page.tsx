@@ -105,7 +105,7 @@ export default function Page() {
 
       <span className="flex items-center gap-1">
         Already have an account?
-        <Button variant="text" href={routes.login}>
+        <Button variant="text" linkProps={{ href: routes.login }}>
           Login Instead.
         </Button>
       </span>

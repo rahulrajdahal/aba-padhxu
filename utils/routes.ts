@@ -2,6 +2,7 @@ export const routes = {
   home: "/",
   dashboard: "/dashboard",
   forgotPassword: "/auth/forgot-password",
+  confirmEmail: "/auth/confirm-email",
   resetPassword: "/auth/reset-password",
   login: "/auth/login",
   signup: "/auth/signup",

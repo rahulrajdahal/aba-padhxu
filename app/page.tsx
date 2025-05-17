@@ -20,7 +20,15 @@ export default async function page() {
 
   return (
     <UserPageLayout navbarProps={navbarProps}>
-      <Books books={books as unknown as BookWithAuthorAndGenre[]} />;
+      <Books
+        books={
+          books.map((book) => ({
+            ...book,
+            price: Number(book.price).toFixed(2),
+          })) as unknown as BookWithAuthorAndGenre[]
+        }
+      />
+      ;
     </UserPageLayout>
   );
 }

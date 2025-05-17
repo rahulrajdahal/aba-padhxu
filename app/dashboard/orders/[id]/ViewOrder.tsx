@@ -11,7 +11,7 @@ type ViewOrderProps = {
 export default function ViewOrder({ order }: Readonly<ViewOrderProps>) {
   const router = useRouter();
 
-  const { id, items, user, amount, isComplete } = order;
+  const { id, items, user, amount, status } = order;
 
   // const handleUpdateGenre = async (prevState: unknown, formData: FormData) => {
   //   formData.append("id", id);
@@ -39,7 +39,7 @@ export default function ViewOrder({ order }: Readonly<ViewOrderProps>) {
         <strong>Order ID - {id}</strong>
         <strong>Order Items - {items.length}</strong>
         <strong>Order Total - ${amount}</strong>
-        <strong>Order Status - {isComplete ? "Completed" : "Pending"}</strong>
+        <strong>Order Status - {status}</strong>
       </div>
 
       <div className="flex flex-col gap-2">

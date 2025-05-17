@@ -81,7 +81,7 @@ export const isValidFileType = (fileName: string) => {
   return false;
 };
 
-type StatusCode = 500 | 400 | 404 | 200 | 201 | 204;
+type StatusCode = 500 | 400 | 401 | 404 | 200 | 201 | 204;
 type ResponseType = "error" | "success";
 
 const response = (

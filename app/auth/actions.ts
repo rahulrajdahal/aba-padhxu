@@ -2,7 +2,13 @@
 
 import EmailTemplate from "@/emails/EmailTemplate";
 import prisma from "@/prisma/prisma";
-import { signJWT, verifyJWT } from "@/utils/auth";
+import {
+  createSession,
+  decrypt,
+  deleteSession,
+  encrypt,
+  expiresAt
+} from "@/utils/auth";
 import {
   devUpload,
   getErrorResponse,
@@ -19,6 +25,8 @@ import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { verifySession } from "./dal";
+import { getUserId, getUserRole } from "./dto";
 
 const signupSchema = z
   .object({
@@ -70,8 +78,7 @@ const resetPasswordSchema = z
     path: ["confirmPassword"],
   });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function signup(prevState: any, formData: FormData) {
+export async function signup(prevState: unknown, formData: FormData) {
   try {
     const body = {
       name: formData.get("name") as string,
@@ -142,8 +149,7 @@ export async function signup(prevState: any, formData: FormData) {
       return getErrorResponse("Error registering user", 400);
     }
 
-    return await sendConfirmationEmail(user)
-
+    return await sendConfirmationEmail(user);
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
@@ -154,15 +160,12 @@ export async function signup(prevState: any, formData: FormData) {
   }
 }
 
-
 const sendConfirmationEmail = async (
-  user: Pick<User, "email" | "id" | "role">, message = "An confirmation email was just sent!"
+  user: Pick<User, "email" | "id" | "role">,
+  message = "An confirmation email was just sent!"
 ) => {
   try {
-    const emailToken = await signJWT(
-      { email: user.email, sub: user.id, role: user.role },
-      { exp: "3600s" }
-    );
+    const emailToken = await encrypt({ userId: user.id, expiresAt });
 
     const tokenBody = { token: emailToken, email: user.email };
     await prisma.token.create({ data: tokenBody });
@@ -211,7 +214,7 @@ export const confirmEmail = async (emailToken: string) => {
       return getErrorResponse("Invalid request.");
     }
 
-    if (!(await verifyJWT(emailToken))) {
+    if (!(await decrypt(emailToken))) {
       return getErrorResponse("Invalid request.");
     }
 
@@ -261,40 +264,23 @@ export const login = async (prevState: unknown, formData: FormData) => {
     }
 
     if (!user.emailConfirmed) {
-      return await sendConfirmationEmail(user, "User email not confirmed. Please check your email for confirmation link.")
+      return await sendConfirmationEmail(
+        user,
+        "User email not confirmed. Please check your email for confirmation link."
+      );
     }
 
-    const accessToken = await signJWT(
-      { sub: user.id, isSuperAdmin: user.isSuperAdmin, role: user.role },
-      { exp: `${process.env.JWT_EXPIRES}m` }
-    );
-    const maxAge = parseInt(process.env.JWT_EXPIRES as string) * 60;
-    const cookieOptions = {
-      name: "accessToken",
-      value: accessToken,
-      httpOnly: true,
-      path: "/",
-      secure: process.env.NODE_ENV !== "development",
-      maxAge,
-    };
-
-    (await cookies()).set(cookieOptions);
-    (await cookies()).set({ name: "userId", value: user.id });
-    (await cookies()).set({ name: "role", value: user.role });
-    (await cookies()).set({
-      name: "loggedIn",
-      value: "true",
-      maxAge,
-    });
+    await createSession(user.id);
 
     return getSuccessResponse("Login successful.");
   } catch (error) {
+    console.log(error, 'login error')
     if (error instanceof PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
-        return getErrorResponse(error.message);
+        throw new Error(error.message);
       }
     }
-    return getErrorResponse();
+    throw new Error("Server Error");
   }
 };
 
@@ -328,10 +314,7 @@ export const forgotPassword = async (
       return getErrorResponse("Email not registered.", 400);
     }
 
-    const hashToken = await signJWT(
-      { email: user.email, sub: user.email, role: user.role },
-      { exp: "3600s" }
-    );
+    const hashToken = await encrypt({ userId: user.id, expiresAt });
 
     const tokenBody = { token: hashToken, email: user.email };
 
@@ -421,18 +404,14 @@ export const resetPassword = async (prevState: unknown, formData: FormData) => {
 };
 
 export const logout = async () => {
-  (await cookies()).delete("accessToken");
-  (await cookies()).delete("loggedIn");
-  (await cookies()).delete("role");
-
+  await deleteSession();
   redirect(routes.login);
 };
 
 export const getNavbarProps = async () => {
-  const userId = (await cookies()).get("userId")?.value as string;
+  const { userId, isAuth } = await verifySession()
 
-  const role = (await cookies()).get("role")?.value as UserRoles;
-  const isLoggedIn = (await cookies()).get("loggedIn")?.value === 'true';
+  const role = await getUserRole();
 
   const count = (await cookies())?.get("cartItems")?.value
     ? JSON.parse((await cookies())?.get("cartItems")?.value as string).length
@@ -440,21 +419,25 @@ export const getNavbarProps = async () => {
 
   const notifications = await prisma.notification.findMany({
     where: {
-      userId: userId,
+      userId: userId as string,
     },
   });
 
-  return { role, isLoggedIn, count, notifications };
-}
+
+
+  return { role, isLoggedIn: isAuth, count, notifications };
+};
 
 export const getUserInfo = async () => {
-  const userId = (await cookies()).get("userId")?.value as string;
+  const userId = await getUserId();
 
   const user = await prisma.user.findUnique({ where: { id: userId } });
 
   if (!user) {
-    return { name: 'user', email: "user@email.com", avatar: "default.png" };
+    return { name: "user", email: "user@email.com", avatar: "default.png" };
   }
 
   return { email: user.email, name: user.name, avatar: user.avatar };
-}
+};
+
+

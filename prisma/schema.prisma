@@ -52,22 +52,25 @@ enum UserRoles {
 }
 
 model Book {
-    id            String        @id @default(cuid())
-    name          String        @unique
-    sellerId      String
-    seller        User          @relation(fields: [sellerId], references: [id])
-    authorId      String?
-    author        Author?       @relation(fields: [authorId], references: [id])
+    id            String  @id @default(cuid())
+    name          String  @unique
+    slug          String  @unique
     image         String
     description   String
     publishedDate String
-    genre         Genre?        @relation(fields: [genreId], references: [id])
-    genreId       String?
-    price         Decimal
+    price         Decimal @db.Money
     quantity      Int
-    orders        BookOnOrder[]
-    createdAt     DateTime      @default(now()) @map(name: "created_at")
-    updatedAt     DateTime      @updatedAt @map(name: "updated_at")
+
+    sellerId String
+    seller   User          @relation(fields: [sellerId], references: [id])
+    authorId String?
+    author   Author?       @relation(fields: [authorId], references: [id])
+    genreId  String?
+    genre    Genre?        @relation(fields: [genreId], references: [id])
+    orders   BookOnOrder[]
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
 }
 
 model Genre {

@@ -32,8 +32,7 @@ export default function Navbar({
             <a href={routes.dashboard}>Dashboard</a>
           </li>
         )}
-
-        <NotificationsDropdown notifications={notifications} />
+        {isLoggedIn && <NotificationsDropdown notifications={notifications} />}
 
         <li className="relative">
           <a href={routes.cart}>

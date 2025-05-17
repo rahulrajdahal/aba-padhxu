@@ -1,7 +1,7 @@
 "use client";
 
 import Link, { LinkProps } from "next/link";
-import React from "react";
+import { ComponentPropsWithoutRef } from "react";
 
 type Variant = "filled" | "outlined" | "text";
 
@@ -15,20 +15,20 @@ export default function Button({
 
   if (variant === "text") {
     if (isLinkTextButton) {
-      return <TextButton linkProps={props.linkProps} {...props} />;
+      return <TextButton {...props} linkProps={props.linkProps} />;
     } else {
       return <TextButton {...props} />;
     }
   }
 
   return (
-    <ButtonComponent variant={variant} {...props}>
+    <ButtonComponent {...props} variant={variant}>
       {props?.children}
     </ButtonComponent>
   );
 }
 
-interface ButtonComponentProps extends React.ComponentProps<"button"> {
+interface ButtonComponentProps extends ComponentPropsWithoutRef<"button"> {
   variant?: Variant;
 }
 
@@ -49,8 +49,7 @@ const ButtonComponent = ({
   return (
     <button
       {...props}
-      className={`${props.className} ${getVariantStyles()} rounded-[1.25rem]`}
-      type="button"
+      className={`${props.className} ${getVariantStyles()} rounded-[1.25rem] disabled:opacity-50 disabled:cursor-not-allowed`}
     >
       {props?.children}
     </button>

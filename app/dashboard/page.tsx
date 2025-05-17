@@ -1,12 +1,10 @@
-"use server";
-
 import prisma from "@/prisma/prisma";
 import { OrderStatus } from "@prisma/client";
-import { cookies } from "next/headers";
+import { getUserId } from "../auth/dto";
 import Dashboard from "./Dashboard";
 
 export default async function page() {
-  const sellerId = (await cookies()).get("userId")?.value as string;
+  const sellerId = await getUserId();
 
   const [
     ordersPendingCount,
@@ -53,7 +51,7 @@ export default async function page() {
     }),
     prisma.author.count({
       where: {
-        Book: {
+        book: {
           every: { sellerId },
         },
       },

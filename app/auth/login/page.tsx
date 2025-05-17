@@ -14,7 +14,6 @@ export default function Page() {
     const state = await login(prevState, formData);
 
     if (state.type === "success") {
-      toast.success(state.message);
       return router.push(routes.dashboard);
     }
 
@@ -45,7 +44,7 @@ export default function Page() {
       </Button>
       <span className="flex items-center gap-1">
         Don&apos;t have an account?
-        <Button variant="text" href={routes.signup}>
+        <Button variant="text" linkProps={{ href: routes.signup }}>
           Signup Instead.
         </Button>
       </span>
