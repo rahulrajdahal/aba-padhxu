@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { sendNotification, subscribeUser, unsubscribeUser } from "./actions";
+import { urlBase64ToUint8Array } from "./utils";
 
 export function PushNotificationManager() {
   const [isSupported, setIsSupported] = useState(false);
@@ -47,7 +48,7 @@ export function PushNotificationManager() {
 
   async function sendTestNotification() {
     if (subscription) {
-      await sendNotification(message);
+      await sendNotification("Test Notification", message);
       setMessage("");
     }
   }

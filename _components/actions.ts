@@ -3,7 +3,7 @@
 import webpush from 'web-push'
 
 webpush.setVapidDetails(
-    '<mailto:your-email@example.com>',
+    'mailto:rahulrajdahal.work@gmail.com',
     process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
     process.env.VAPID_PRIVATE_KEY!
 )
@@ -24,7 +24,7 @@ export async function unsubscribeUser() {
     return { success: true }
 }
 
-export async function sendNotification(message: string) {
+export async function sendNotification(title: string, message: string) {
     if (!subscription) {
         throw new Error('No subscription available')
     }
@@ -33,9 +33,9 @@ export async function sendNotification(message: string) {
         await webpush.sendNotification(
             subscription as unknown as webpush.PushSubscription,
             JSON.stringify({
-                title: 'Test Notification',
+                title,
                 body: message,
-                icon: '/icon.png',
+                icon: '/next.svg',
             })
         )
         return { success: true }

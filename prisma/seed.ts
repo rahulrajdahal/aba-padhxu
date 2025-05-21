@@ -17,11 +17,13 @@ async function main() {
         data: Array(20).fill(0).map((_, i) => ({
             name: `Author-${i}`,
             avatar: avatars[generateRandomNumber(4)],
+            slug: `${`Author-${i}`.toLowerCase().replace(/ /g, "-")}-${Date.now()}`,
         })),
     })
     await prisma.genre.createMany({
         data: Array(20).fill(0).map((_, i) => ({
             title: `genre-${i}`,
+            slug: `${`genre-${i}`.toLowerCase().replace(/ /g, "-")}-${Date.now()}`,
         })),
     })
     const authorIds = await prisma.author.findMany({ select: { id: true } })
@@ -37,6 +39,7 @@ async function main() {
             authorId: authorIds[generateRandomNumber(authorIds.length)].id,
             sellerId: user.id,
             genreId: genreIds[generateRandomNumber(genreIds.length)].id,
+            slug: `${`Book-${i}`.toLowerCase().replace(/ /g, "-")}-${Date.now()}`,
         }))
     })
 

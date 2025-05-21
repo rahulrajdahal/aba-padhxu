@@ -2,9 +2,7 @@ import 'server-only';
 
 import prisma from "@/prisma/prisma";
 import { decrypt } from "@/utils/auth";
-import { routes } from "@/utils/routes";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { cache } from "react";
 
 
@@ -13,7 +11,7 @@ export const verifySession = async () => {
     const session = await decrypt(cookie)
 
     if (!session) {
-        redirect(routes.login)
+        return { isAuth: false, userId: null }
     }
 
     return { isAuth: true, userId: session.userId }

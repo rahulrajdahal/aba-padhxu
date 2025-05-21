@@ -30,7 +30,7 @@ export const addGenre = async (prevData: unknown, formData: FormData) => {
                 )[0],
             };
         }
-        await prisma.genre.create({ data: body });
+        await prisma.genre.create({ data: { ...body, slug: body.title.toLowerCase().replace(/ /g, "-") } });
     } catch (error) {
         if (error instanceof PrismaClientKnownRequestError) {
             if (error.code === "P2002") {

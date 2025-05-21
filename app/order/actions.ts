@@ -1,5 +1,6 @@
 'use server'
 
+import { sendNotification } from "@/_components/actions";
 import EmailTemplate from "@/emails/EmailTemplate";
 import prisma from "@/prisma/prisma";
 import { getErrorResponse, getSuccessResponse } from "@/utils/helpers";
@@ -10,6 +11,7 @@ import { render } from "@react-email/components";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
+import { getUserId } from "../auth/dto";
 import { addNotification } from "../dashboard/notifications/actions";
 
 const orderSchema = z.object({
@@ -42,7 +44,7 @@ export const placeOrder = async (prevState: unknown, formData: FormData) => {
 
         const cartItems = (await cookies()).get("cartItems")?.value ? JSON.parse((await cookies()).get('cartItems')?.value as string) : []
 
-        const userId = (await cookies()).get('userId')?.value as string
+        const userId = await getUserId()
 
         await prisma.order.create({
             data: {
@@ -78,6 +80,7 @@ export const placeOrder = async (prevState: unknown, formData: FormData) => {
             formData.append('userId', cartItem.book.sellerId)
 
             await addNotification(null, formData)
+            await sendNotification("Order Placed", `Your item ${cartItem.book.name} has been placed for order by ${user.name}`)
         });
 
         await sendOrderEmail(user)

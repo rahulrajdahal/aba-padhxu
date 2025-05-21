@@ -4,6 +4,7 @@ import { routes } from "@/utils/routes";
 
 import { CartB } from "@meistericons/react";
 import { Notification, UserRoles } from "@prisma/client";
+import Link from "next/link";
 import NotificationsDropdown from "../NotificationsDropdown";
 import AuthButton from "./AuthButton";
 
@@ -22,9 +23,9 @@ export default function Navbar({
 }: Readonly<NavbarProps>) {
   return (
     <nav className="sticky z-10 top-0 flex w-full shadow-sm items-center justify-between bg-white px-[12.5%] py-4">
-      <a href="/" className="text-gray-70 text-xl font-bold">
+      <Link href="/" className="text-gray-70 text-xl font-bold">
         Logo
-      </a>
+      </Link>
 
       <ul className="flex items-center gap-4">
         {role === "SELLER" && (

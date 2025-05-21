@@ -411,6 +411,10 @@ export const logout = async () => {
 export const getNavbarProps = async () => {
   const { userId, isAuth } = await verifySession()
 
+  if (!isAuth) {
+    return { role: UserRoles.USER, isLoggedIn: false, count: 0, notifications: [] }
+  }
+
   const role = await getUserRole();
 
   const count = (await cookies())?.get("cartItems")?.value

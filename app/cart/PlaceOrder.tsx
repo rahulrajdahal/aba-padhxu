@@ -2,18 +2,15 @@
 
 import { Button } from "@/components";
 import { routes } from "@/utils/routes";
-import { getCookie } from "cookies-next";
 
-export default function PlaceOrder() {
-  const isLoggedIn = getCookie("loggedIn");
-
+export default function PlaceOrder({ isAuth }: Readonly<{ isAuth: boolean }>) {
   return (
     <Button
       variant={"text"}
-      linkProps={{ href: isLoggedIn ? routes.order : routes.login }}
+      linkProps={{ href: isAuth ? routes.order : routes.login }}
       className="flex self-end"
     >
-      {isLoggedIn ? "Place Order" : "LogIn to Checkout"}
+      {isAuth ? "Place Order" : "LogIn to Checkout"}
     </Button>
   );
 }

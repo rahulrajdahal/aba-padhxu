@@ -4,12 +4,12 @@ import EditGenre from "./EditGenre";
 export default async function page({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { id } = await params;
+  const { slug } = await params;
 
   const genre = await prisma.genre.findUnique({
-    where: { id },
+    where: { slug },
   });
 
   if (genre) {

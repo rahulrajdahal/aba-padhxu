@@ -76,6 +76,7 @@ model Book {
 model Genre {
     id    String @id @default(cuid())
     title String @unique
+    slug  String @unique
     book  Book[]
 
     createdAt DateTime @default(now()) @map(name: "created_at")
@@ -84,7 +85,8 @@ model Genre {
 
 model Author {
     id        String   @id @default(cuid())
-    name      String   @unique
+    name      String
+    slug      String   @unique
     avatar    String?
     book      Book[]
     createdAt DateTime @default(now()) @map(name: "created_at")
