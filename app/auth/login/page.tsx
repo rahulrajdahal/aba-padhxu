@@ -14,6 +14,7 @@ export default function Page() {
     const state = await login(prevState, formData);
 
     if (state.type === "success") {
+      toast.success(state.message);
       return router.push(routes.dashboard);
     }
 

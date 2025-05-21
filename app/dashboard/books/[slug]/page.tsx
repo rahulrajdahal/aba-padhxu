@@ -5,13 +5,13 @@ import EditBook from "./EditBook";
 export default async function page({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { id } = await params;
+  const { slug } = await params;
 
   const [book, authors, genres] = await Promise.all([
     prisma.book.findUnique({
-      where: { id },
+      where: { slug },
       include: {
         author: {
           select: { name: true, id: true },

@@ -27,6 +27,7 @@ export const getUserId = async () => {
 
 
 export const canUseDashboard = async () => {
+
     const userRole = await getUserRole()
 
     if (userRole === UserRoles.SELLER) {
@@ -34,4 +35,5 @@ export const canUseDashboard = async () => {
     }
 
     return false
+
 }

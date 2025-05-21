@@ -72,6 +72,7 @@ export const addAuthor = async (prevData: any, formData: FormData) => {
         await prisma.author.create({
             data: {
                 avatar: avatarImage,
+                slug: `${body.name.toLowerCase().replace(/ /g, "-")}-${Date.now()}`,
                 ...body,
             },
         });

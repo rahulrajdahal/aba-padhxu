@@ -4,12 +4,12 @@ import EditAuthor from "./EditAuthor";
 export default async function page({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { id } = await params;
+  const { slug } = await params;
 
   const author = await prisma.author.findUnique({
-    where: { id },
+    where: { slug },
   });
 
   if (author) {

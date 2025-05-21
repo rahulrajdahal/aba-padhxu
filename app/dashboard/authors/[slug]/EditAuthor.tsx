@@ -6,7 +6,7 @@ import { Author } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
-import { updateAuthor } from "../action";
+import { updateAuthor } from "../actions";
 
 type EditAuthorProps = {
   author: Author;

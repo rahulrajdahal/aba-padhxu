@@ -33,9 +33,9 @@ export default function AddBook({ authors, genres }: Readonly<AddBookProps>) {
   };
 
   const [state, formAction, pending] = useActionState(handleAddBook, null);
-  const authorOptions = authors.map(({ name }) => ({
+  const authorOptions = authors.map(({ name, id }) => ({
     label: name,
-    value: name,
+    value: id,
   }));
 
   const genreOptions = genres.map(({ title }) => ({

@@ -15,9 +15,10 @@ type CartProps = {
     };
     quantity: number;
   }[];
+  isAuth: boolean;
 };
 
-export default function Cart({ cartItems }: Readonly<CartProps>) {
+export default function Cart({ cartItems, isAuth }: Readonly<CartProps>) {
   const totalPrice = useMemo(() => {
     return cartItems
       .map(
@@ -53,7 +54,7 @@ export default function Cart({ cartItems }: Readonly<CartProps>) {
         <strong className="text-lg font-semibold">Total:</strong>
         <span className="flex flex-col gap-4">
           <p className="text-3xl font-bold">${totalPrice}</p>
-          <Checkout />
+          <Checkout isAuth={isAuth} />
         </span>
       </div>
     </PageLayout>

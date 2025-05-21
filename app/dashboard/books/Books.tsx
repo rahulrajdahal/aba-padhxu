@@ -65,7 +65,7 @@ export default function Books({ books }: BooksProps) {
     columnHelper.accessor("id", {
       header: () => "Actions",
       cell: (info) => {
-        const id = info.row.original.id;
+        const id = info.getValue();
 
         if (id) {
           const handleDelete = async () => {
@@ -83,7 +83,7 @@ export default function Books({ books }: BooksProps) {
 
           return (
             <TableActions
-              id={id}
+              id={info.row.original.slug}
               handleDelete={handleDelete}
               href={`${routes.dashboard}${routes.books}`}
               description="book"

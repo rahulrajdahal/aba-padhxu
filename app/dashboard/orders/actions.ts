@@ -1,5 +1,6 @@
 "use server";
 
+import { sendNotification } from "@/_components/actions";
 import { sendOrderEmail } from "@/app/order/actions";
 import prisma from "@/prisma/prisma";
 import { getErrorResponse, getSuccessResponse } from "@/utils/helpers";
@@ -32,7 +33,7 @@ export const addGenre = async (prevData: unknown, formData: FormData) => {
                 )[0],
             };
         }
-        await prisma.genre.create({ data: body });
+        await prisma.genre.create({ data: { ...body, slug: body.title.toLowerCase().replace(/ /g, "-") } });
     } catch (error) {
         if (error instanceof PrismaClientKnownRequestError) {
             if (error.code === "P2002") {
@@ -125,6 +126,7 @@ export const updateOrder = async (prevState: unknown, formData: FormData) => {
         notificationFormData.append("userId", userId);
 
         await addNotification(null, notificationFormData);
+        await sendNotification("Order Status Updated", getDescription());
 
 
         revalidatePath("/");
@@ -132,6 +134,7 @@ export const updateOrder = async (prevState: unknown, formData: FormData) => {
 
         return getSuccessResponse("Order Updated Successfully", 204);
     } catch (error) {
+        console.log(error, 'error');
         if (error instanceof PrismaClientKnownRequestError) {
             if (error.code === "P2002") {
                 return getErrorResponse(error.message);

@@ -110,3 +110,13 @@ export const getSuccessResponse = (
 ) => {
   return response("success", message, data, status);
 };
+
+
+export const generateSlug = (name: string, date = true) => {
+  const slug = name.toLowerCase().replace(/ /g, "-");
+  if (date) {
+    return `${slug}-${Date.now()}`;
+  }
+  return slug;
+};
+

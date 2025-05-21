@@ -20,14 +20,14 @@ export default function Genres({ genres }: GenresProps) {
     columnHelper.accessor("id", {
       header: () => "Actions",
       cell: (info) => {
-        const id = info.row.original.id;
+        const id = info.getValue();
 
         if (id) {
           const handleDelete = async () => await deleteGenre(id);
 
           return (
             <TableActions
-              id={id}
+              id={info.row.original.slug}
               handleDelete={handleDelete}
               href={`${routes.dashboard}${routes.genres}`}
               description="genre"

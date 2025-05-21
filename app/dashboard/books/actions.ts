@@ -1,5 +1,6 @@
 "use server";
 
+import { getUserId } from "@/app/auth/dto";
 import prisma from "@/prisma/prisma";
 import {
     devUpload,
@@ -11,7 +12,6 @@ import {
 import { Book } from "@prisma/client";
 import { Decimal, PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 import { z } from "zod";
 
 const bookSchema = z.object({
@@ -45,7 +45,7 @@ export const addBook = async (prevData: any, formData: FormData) => {
             price: formData.get("price") as string,
             quantity: Number(formData.get("quantity") as string),
         };
-        const sellerId = (await cookies()).get("userId")?.value as string;
+        const sellerId = await getUserId();
         const image = formData.get("image") as unknown as File;
         const author = formData.get("author") as string;
         const genre = formData.get("genre") as string;
@@ -92,6 +92,7 @@ export const addBook = async (prevData: any, formData: FormData) => {
 
         await prisma.book.create({
             data: {
+                slug: `${body.name.toLowerCase().replace(/ /g, "-")}-${Date.now()}`,
                 image: bookImage,
                 seller: {
                     connect: {
@@ -100,14 +101,14 @@ export const addBook = async (prevData: any, formData: FormData) => {
                 },
                 author: {
                     connectOrCreate: {
-                        where: { name: author },
-                        create: { name: author },
+                        where: { id: author },
+                        create: { name: author, slug: `${author.toLowerCase().replace(/ /g, "-")}-${Date.now()}` },
                     },
                 },
                 genre: {
                     connectOrCreate: {
                         where: { title: genre },
-                        create: { title: genre },
+                        create: { title: genre, slug: genre.toLowerCase().replace(/ /g, "-") },
                     },
                 },
                 ...body,
@@ -116,6 +117,8 @@ export const addBook = async (prevData: any, formData: FormData) => {
 
         return getSuccessResponse("Book added successfully", 201)
     } catch (error) {
+        console.log(error, "add book error")
+
         if (error instanceof PrismaClientKnownRequestError) {
             if (error.code === "P2002") {
                 return getErrorResponse(error.message);

@@ -1,6 +1,7 @@
 import { UserPageLayout } from "@/components";
 import { cookies } from "next/headers";
 import { getNavbarProps } from "../auth/actions";
+import { verifySession } from "../auth/dal";
 import Cart from "./Cart";
 
 export default async function page() {
@@ -14,9 +15,11 @@ export default async function page() {
 
   const navbarProps = await getNavbarProps();
 
+  const { isAuth } = await verifySession();
+
   return (
     <UserPageLayout navbarProps={navbarProps}>
-      <Cart cartItems={cartItems} />
+      <Cart cartItems={cartItems} isAuth={isAuth} />
     </UserPageLayout>
   );
 }
