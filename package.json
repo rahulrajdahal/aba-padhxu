@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "email": "email dev",
-    "postinstall": "npx prisma db push --force-reset && npx prisma db seed"
+    "email": "email dev"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"

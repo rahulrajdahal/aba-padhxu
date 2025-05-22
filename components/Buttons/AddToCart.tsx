@@ -18,7 +18,8 @@ export default function AddToCart({
 }: Readonly<AddToCartProps>) {
   const [loading, setLoading] = useState(false);
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     setLoading(true);
     await addToCart(book.id);
     toast.success(`${book.name} added to cart`);
@@ -34,15 +35,23 @@ export default function AddToCart({
     return "Add to Cart";
   }, [book.quantity, loading]);
 
+  const isDisabled = useMemo(() => {
+    return loading || book.quantity <= 0;
+  }, [book.quantity, loading]);
+
+  const isOutOfStock = useMemo(() => {
+    return book.quantity <= 0;
+  }, [book.quantity]);
+
   return (
     <Button
       {...buttonProps}
-      aria-disabled={loading || book.quantity <= 0}
-      disabled={loading || book.quantity <= 0}
+      aria-disabled={isDisabled}
+      disabled={isDisabled}
       onClick={handleAddToCart}
-      className={`${buttonProps?.className} flex ${loading || book.quantity <= 0 ? "" : "!bg-[#519e8a]"} mt-5 gap-0.5 rounded-xl items-center justify-center w-full !p-3`}
+      className={`${buttonProps?.className} bg-[#519e8a] flex mt-5 gap-0.5 rounded-xl items-center justify-center w-full !p-3`}
     >
-      {book.quantity <= 0 ? (
+      {isOutOfStock ? (
         <ArchiveCross />
       ) : (
         <Cart className={`${loading ? "animate-spin" : ""}`} />
