@@ -1,4 +1,5 @@
 import { InstallPrompt } from "@/_components/InstallPrompt";
+import { PushNotificationManager } from "@/_components/PushNotificationManager";
 import { WebVitals } from "@/_components/web-vitals";
 import { StyledComponentsRegistry } from "@/components";
 import type { Metadata } from "next";
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: IRootLayout) {
           {children}
           <Toaster />
           <InstallPrompt />
+          <PushNotificationManager />
         </StyledComponentsRegistry>
       </body>
     </html>

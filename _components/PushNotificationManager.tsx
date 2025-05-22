@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { subscribeUser } from "./actions";
 import { urlBase64ToUint8Array } from "./utils";
 
@@ -51,7 +52,11 @@ export function PushNotificationManager() {
   //   await unsubscribeUser();
   // }
 
-  if (!isSupported) {
-    return <p>Push notifications are not supported in this browser.</p>;
-  }
+  useEffect(() => {
+    if (!subscription) {
+      toast.error("Push notifications are not supported in this browser.");
+    }
+  }, [subscription]);
+
+  return null;
 }
