@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { sendNotification, subscribeUser, unsubscribeUser } from "./actions";
+import { subscribeUser } from "./actions";
 import { urlBase64ToUint8Array } from "./utils";
 
 export function PushNotificationManager() {
@@ -9,7 +9,6 @@ export function PushNotificationManager() {
   const [subscription, setSubscription] = useState<PushSubscription | null>(
     null
   );
-  const [message, setMessage] = useState("");
 
   useEffect(() => {
     if ("serviceWorker" in navigator && "PushManager" in window) {
@@ -17,6 +16,12 @@ export function PushNotificationManager() {
       registerServiceWorker();
     }
   }, []);
+
+  useEffect(() => {
+    if (isSupported) {
+      subscribeToPush();
+    }
+  }, [isSupported]);
 
   async function registerServiceWorker() {
     const registration = await navigator.serviceWorker.register("/sw.js", {
@@ -40,44 +45,15 @@ export function PushNotificationManager() {
     await subscribeUser(serializedSub);
   }
 
-  async function unsubscribeFromPush() {
-    await subscription?.unsubscribe();
-    setSubscription(null);
-    await unsubscribeUser();
-  }
-
-  async function sendTestNotification() {
-    if (subscription) {
-      await sendNotification("Test Notification", message);
-      setMessage("");
-    }
-  }
+  // async function unsubscribeFromPush() {
+  //   await subscription?.unsubscribe();
+  //   setSubscription(null);
+  //   await unsubscribeUser();
+  // }
 
   if (!isSupported) {
     return <p>Push notifications are not supported in this browser.</p>;
   }
 
-  return (
-    <div>
-      <h3>Push Notifications</h3>
-      {subscription ? (
-        <>
-          <p>You are subscribed to push notifications.</p>
-          <button onClick={unsubscribeFromPush}>Unsubscribe</button>
-          <input
-            type="text"
-            placeholder="Enter notification message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <button onClick={sendTestNotification}>Send Test</button>
-        </>
-      ) : (
-        <>
-          <p>You are not subscribed to push notifications.</p>
-          <button onClick={subscribeToPush}>Subscribe</button>
-        </>
-      )}
-    </div>
-  );
+  return subscription ? <p>You are subscribed to push notifications.</p> : null;
 }

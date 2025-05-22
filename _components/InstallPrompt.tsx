@@ -1,9 +1,11 @@
 "use client";
 
+import { Cross } from "@meistericons/react";
 import { useEffect, useState } from "react";
 import { PushNotificationManager } from "./PushNotificationManager";
 
 export function InstallPrompt() {
+  const [showInstallPrompt, setShowInstallPrompt] = useState(true);
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
 
@@ -19,10 +21,12 @@ export function InstallPrompt() {
     return null; // Don't show install button if already installed
   }
 
-  return (
-    <div>
-      <h3>Install App</h3>
-      <button>Add to Home Screen</button>
+  const handleClosePrompt = () => {
+    setShowInstallPrompt(false);
+  };
+
+  return showInstallPrompt ? (
+    <div className="fixed bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.4)] p-4">
       {isIOS && (
         <p>
           To install this app on your iOS device, tap the share button
@@ -38,15 +42,11 @@ export function InstallPrompt() {
           .
         </p>
       )}
-    </div>
-  );
-}
-
-export default function Page() {
-  return (
-    <div>
       <PushNotificationManager />
-      <InstallPrompt />
+      <Cross
+        onClick={handleClosePrompt}
+        className="absolute right-4 top-4 text-gray-900 w-6 h-6 hover:cursor-pointer"
+      />
     </div>
-  );
+  ) : null;
 }

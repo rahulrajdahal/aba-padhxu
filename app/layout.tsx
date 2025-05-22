@@ -1,3 +1,4 @@
+import { InstallPrompt } from "@/_components/InstallPrompt";
 import { WebVitals } from "@/_components/web-vitals";
 import { StyledComponentsRegistry } from "@/components";
 import type { Metadata } from "next";
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: IRootLayout) {
         <StyledComponentsRegistry>
           {children}
           <Toaster />
+          <InstallPrompt />
         </StyledComponentsRegistry>
       </body>
     </html>

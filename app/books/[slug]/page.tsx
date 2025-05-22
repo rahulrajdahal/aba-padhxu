@@ -5,19 +5,19 @@ import Book from "./Book";
 export default async function page({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { id } = await params;
+  const { slug } = await params;
 
   const book = await prisma.book.findUnique({
-    where: { id },
+    where: { slug },
     include: {
       author: { select: { name: true, avatar: true } },
       genre: { select: { title: true } },
     },
   });
 
-  if (book) return <Book book={book as BookWithAuthorAndGenre} />;
+  if (!book) return <div>Book not found</div>;
 
-  return <div>Book not found</div>;
+  return <Book book={book as BookWithAuthorAndGenre} />;
 }
