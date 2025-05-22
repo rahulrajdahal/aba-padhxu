@@ -411,15 +411,17 @@ export const logout = async () => {
 export const getNavbarProps = async () => {
   const { userId, isAuth } = await verifySession()
 
+  const count = (await cookies())?.get("cartItems")?.value
+    ? JSON.parse((await cookies())?.get("cartItems")?.value as string).length
+    : 0;
+
   if (!isAuth) {
-    return { role: UserRoles.USER, isLoggedIn: false, count: 0, notifications: [] }
+    return { role: UserRoles.USER, isLoggedIn: false, count, notifications: [] }
   }
 
   const role = await getUserRole();
 
-  const count = (await cookies())?.get("cartItems")?.value
-    ? JSON.parse((await cookies())?.get("cartItems")?.value as string).length
-    : 0;
+
 
   const notifications = await prisma.notification.findMany({
     where: {
