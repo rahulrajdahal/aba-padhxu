@@ -26,7 +26,7 @@ export function InstallPrompt() {
   };
 
   return showInstallPrompt ? (
-    <div className="fixed bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.4)] p-4">
+    <div className="fixed py-8 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.4)] px-4">
       {isIOS && (
         <p>
           To install this app on your iOS device, tap the share button
