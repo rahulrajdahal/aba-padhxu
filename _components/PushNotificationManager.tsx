@@ -54,6 +54,4 @@ export function PushNotificationManager() {
   if (!isSupported) {
     return <p>Push notifications are not supported in this browser.</p>;
   }
-
-  return subscription ? <p>You are subscribed to push notifications.</p> : null;
 }

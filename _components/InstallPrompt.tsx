@@ -25,7 +25,7 @@ export function InstallPrompt() {
     setShowInstallPrompt(false);
   };
 
-  return showInstallPrompt ? (
+  return showInstallPrompt || isIOS ? (
     <div className="fixed py-8 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.4)] px-4">
       {isIOS && (
         <p>
