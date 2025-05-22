@@ -18,7 +18,7 @@ export default function Card({
   return (
     <Link
       {...props}
-      className="px-5 py-7 flex flex-col w-full gap-5 max-w-[17.5rem] rounded-[1.25rem] relative"
+      className="px-5 py-7 flex flex-col w-full gap-2 max-w-[17.5rem] rounded-[1.25rem] relative"
     >
       <span className="absolute h-[3.75rem] w-[3.75rem] rounded-full bg-white text-green-700 left-5 top-14 shadow-[-15px_15px_40px_rgba(170,53,0,0.5)] flex items-center justify-center p-[0.1875rem]">
         <p className="-rotate-[38deg] text-[1.75rem] leading-8">
@@ -36,10 +36,10 @@ export default function Card({
         alt={book.name}
         width={150}
         height={200}
-        className="w-full h-full max-h-[18.75rem] rounded-xl object-cover"
+        className="w-full h-[18.75rem] rounded-xl object-cover"
         {...imageProps}
       />
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-5">
         <div className="">
           <strong className="font-semibold text-lg leading-6 text-gray-900">
             {book.name}
