@@ -1,10 +1,8 @@
 import { InstallPrompt } from "@/_components/InstallPrompt";
-import { PushNotificationManager } from "@/_components/PushNotificationManager";
 import { WebVitals } from "@/_components/web-vitals";
 import { StyledComponentsRegistry } from "@/components";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,9 +21,7 @@ export default function RootLayout({ children }: IRootLayout) {
         <WebVitals />
         <StyledComponentsRegistry>
           {children}
-          <Toaster />
           <InstallPrompt />
-          <PushNotificationManager />
         </StyledComponentsRegistry>
       </body>
     </html>

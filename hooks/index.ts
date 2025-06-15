@@ -1,1 +1,2 @@
-// export {default as useHook} from './hook'
+export { default as useIsPushNotification } from './useIsPushNotification';
+

@@ -1,15 +1,21 @@
-"use client";
-
+import { subscribeUser } from "@/_components/actions";
+import { urlBase64ToUint8Array } from "@/_components/utils";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { subscribeUser } from "./actions";
-import { urlBase64ToUint8Array } from "./utils";
 
-export function PushNotificationManager() {
+export default function useIsPushNotification() {
   const [isSupported, setIsSupported] = useState(false);
   const [subscription, setSubscription] = useState<PushSubscription | null>(
     null
   );
+
+  async function registerServiceWorker() {
+    const registration = await navigator.serviceWorker.register("/sw.js", {
+      scope: "/",
+      updateViaCache: "none",
+    });
+    const sub = await registration.pushManager.getSubscription();
+    setSubscription(sub);
+  }
 
   useEffect(() => {
     if ("serviceWorker" in navigator && "PushManager" in window) {
@@ -24,15 +30,6 @@ export function PushNotificationManager() {
     }
   }, [isSupported]);
 
-  async function registerServiceWorker() {
-    const registration = await navigator.serviceWorker.register("/sw.js", {
-      scope: "/",
-      updateViaCache: "none",
-    });
-    const sub = await registration.pushManager.getSubscription();
-    setSubscription(sub);
-  }
-
   async function subscribeToPush() {
     const registration = await navigator.serviceWorker.ready;
     const sub = await registration.pushManager.subscribe({
@@ -46,17 +43,5 @@ export function PushNotificationManager() {
     await subscribeUser(serializedSub);
   }
 
-  // async function unsubscribeFromPush() {
-  //   await subscription?.unsubscribe();
-  //   setSubscription(null);
-  //   await unsubscribeUser();
-  // }
-
-  useEffect(() => {
-    if (!subscription) {
-      toast.error("Push notifications are not supported in this browser.");
-    }
-  }, [subscription]);
-
-  return null;
+  return { subscription, isSupported };
 }
