@@ -1,3 +1,5 @@
+"use client";
+
 import { subscribeUser } from "@/_components/actions";
 import { urlBase64ToUint8Array } from "@/_components/utils";
 import { useEffect, useState } from "react";
