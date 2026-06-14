@@ -1,4 +1,4 @@
-import prisma from "@/prisma/prisma";
+import { prisma } from "@/prisma/prisma";
 import { BookWithAuthorAndGenre } from "@/types";
 import { cookies } from "next/headers";
 import Books from "./Books";

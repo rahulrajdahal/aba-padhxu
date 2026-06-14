@@ -1,4 +1,4 @@
-import prisma from "@/prisma/prisma";
+import { prisma } from "@/prisma/prisma";
 import { BookWithAuthorAndGenre } from "@/types";
 import EditBook from "./EditBook";
 

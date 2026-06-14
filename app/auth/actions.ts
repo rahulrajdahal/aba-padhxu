@@ -1,7 +1,9 @@
 "use server";
 
 import EmailTemplate from "@/emails/EmailTemplate";
-import prisma from "@/prisma/prisma";
+import { User, UserRoles } from "@/generated/prisma/client/client";
+import { PrismaClientKnownRequestError } from "@/generated/prisma/client/internal/prismaNamespace";
+import { prisma } from "@/prisma/prisma";
 import {
   createSession,
   decrypt,
@@ -18,8 +20,6 @@ import {
 } from "@/utils/helpers";
 import { transporter } from "@/utils/nodemailer";
 import { routes } from "@/utils/routes";
-import { User, UserRoles } from "@prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { render } from "@react-email/components";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";

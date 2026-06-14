@@ -1,4 +1,4 @@
-import prisma from "@/prisma/prisma";
+import { prisma } from "@/prisma/prisma";
 import { OrderWithUserAndItems } from "@/types";
 import { cookies } from "next/headers";
 import Orders from "./Orders";

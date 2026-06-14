@@ -8,12 +8,12 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/User.js'
-export type * from './models/Notification.js'
-export type * from './models/Token.js'
-export type * from './models/Book.js'
-export type * from './models/Genre.js'
-export type * from './models/Author.js'
-export type * from './models/Order.js'
-export type * from './models/BookOnOrder.js'
-export type * from './commonInputTypes.js'
+export type * from './models/User'
+export type * from './models/Notification'
+export type * from './models/Token'
+export type * from './models/Book'
+export type * from './models/Genre'
+export type * from './models/Author'
+export type * from './models/Order'
+export type * from './models/BookOnOrder'
+export type * from './commonInputTypes'
