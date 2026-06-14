@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import React from 'react';
+import Avatar from '../Avatar/Avatar';
 
 interface IAvatarWithName extends React.ComponentPropsWithoutRef<'span'> {
   /**
@@ -18,14 +18,7 @@ export default function AvatarWithName({
 }: Readonly<IAvatarWithName>) {
   return (
     <span className='flex items-center gap-4 ' {...props}>
-      <Image
-        src={avatar}
-        alt={name}
-        width={48}
-        height={48}
-        className='h-12 w-12 rounded-full  object-cover 
-                transition-all hover:scale-110'
-      />
+      <Avatar src={avatar} alt={`Portrait of ${name} doing something`} width={48} height={48} />
       <p className='text-lg font-medium text-gray-600'>{name}</p>
     </span>
   );
