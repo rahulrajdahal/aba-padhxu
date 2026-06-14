@@ -1,5 +1,5 @@
 import { UserPageLayout } from "@/components";
-import prisma from "@/prisma/prisma";
+import { prisma } from "@/prisma/prisma";
 import { BookWithAuthorAndGenre } from "@/types";
 import Books from "./Books";
 import { getNavbarProps } from "./auth/actions";

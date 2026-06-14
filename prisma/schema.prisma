@@ -1,133 +1,125 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../generated/prisma/client"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
 }
 
 model User {
-    id             String    @id @default(cuid())
-    name           String
-    email          String    @unique
-    password       String
-    avatar         String
-    isSuperAdmin   Boolean   @default(false)
-    emailConfirmed Boolean   @default(false)
-    role           UserRoles @default(USER)
-
-    order Order[]
-    sell  Book[]
-
-    createdAt     DateTime       @default(now()) @map(name: "created_at")
-    updatedAt     DateTime       @updatedAt @map(name: "updated_at")
-    notifications Notification[]
+  id             String         @id @default(cuid())
+  name           String
+  email          String         @unique
+  password       String
+  avatar         String
+  isSuperAdmin   Boolean        @default(false)
+  emailConfirmed Boolean        @default(false)
+  role           UserRoles      @default(USER)
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+  sell           Book[]
+  notifications  Notification[]
+  order          Order[]
 }
 
 model Notification {
-    id          String  @id @default(cuid())
-    title       String
-    description String
-    isRead      Boolean @default(false)
-    userId      String
-    user        User    @relation(fields: [userId], references: [id])
-
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  isRead      Boolean  @default(false)
+  userId      String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  user        User     @relation(fields: [userId], references: [id])
 }
 
 model Token {
-    id    String @id @default(cuid())
-    email String
-    token String
-
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
-}
-
-enum UserRoles {
-    SELLER
-    USER
+  id        String   @id @default(cuid())
+  email     String
+  token     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
 
 model Book {
-    id            String  @id @default(cuid())
-    name          String  @unique
-    slug          String  @unique
-    image         String
-    description   String
-    publishedDate String
-    price         Decimal @db.Money
-    quantity      Int
-
-    sellerId String
-    seller   User          @relation(fields: [sellerId], references: [id])
-    authorId String?
-    author   Author?       @relation(fields: [authorId], references: [id])
-    genreId  String?
-    genre    Genre?        @relation(fields: [genreId], references: [id])
-    orders   BookOnOrder[]
-
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
+  id            String        @id @default(cuid())
+  name          String        @unique
+  slug          String        @unique
+  image         String
+  description   String
+  publishedDate String
+  price         Decimal       @db.Money
+  quantity      Int
+  sellerId      String
+  authorId      String?
+  genreId       String?
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+  author        Author?       @relation(fields: [authorId], references: [id])
+  genre         Genre?        @relation(fields: [genreId], references: [id])
+  seller        User          @relation(fields: [sellerId], references: [id])
+  orders        BookOnOrder[]
 }
 
 model Genre {
-    id    String @id @default(cuid())
-    title String @unique
-    slug  String @unique
-    book  Book[]
-
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
+  id        String   @id @default(cuid())
+  title     String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  book      Book[]
 }
 
 model Author {
-    id        String   @id @default(cuid())
-    name      String
-    slug      String   @unique
-    avatar    String?
-    book      Book[]
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  avatar    String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  book      Book[]
 }
 
 model Order {
-    id            String        @id @default(cuid())
-    country       String
-    city          String
-    street        String
-    paymentMethod PaymentMethod @default(CASH)
-    status        OrderStatus   @default(PENDING)
-    items         BookOnOrder[]
-    amount        Int
-    user          User          @relation(fields: [userId], references: [id])
-    userId        String
-    createdAt     DateTime      @default(now()) @map(name: "created_at")
-    updatedAt     DateTime      @updatedAt @map(name: "updated_at")
-}
-
-enum OrderStatus {
-    PENDING
-    DELIVERING
-    COMPLETED
+  id            String        @id @default(cuid())
+  country       String
+  city          String
+  street        String
+  paymentMethod PaymentMethod @default(CASH)
+  status        OrderStatus   @default(PENDING)
+  amount        Int
+  userId        String
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+  items         BookOnOrder[]
+  user          User          @relation(fields: [userId], references: [id])
 }
 
 model BookOnOrder {
-    book     Book   @relation(fields: [bookId], references: [id])
-    bookId   String
-    quantity Int
-    order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-    orderId  String
+  bookId     String
+  quantity   Int
+  orderId    String
+  assignedAt DateTime @default(now())
+  book       Book     @relation(fields: [bookId], references: [id])
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
-    assignedAt DateTime @default(now())
+  @@id([bookId, orderId])
+}
 
-    @@id([bookId, orderId])
+enum UserRoles {
+  SELLER
+  USER
+}
+
+enum OrderStatus {
+  PENDING
+  DELIVERING
+  COMPLETED
 }
 
 enum PaymentMethod {
-    CASH
-    ONLINE
-    BANK
+  CASH
+  ONLINE
+  BANK
 }

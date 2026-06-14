@@ -1,6 +1,6 @@
 import type { IRootLayout } from "@/app/layout";
 import { AdminPageLayout, AdminSidebar } from "@/components";
-import prisma from "@/prisma/prisma";
+import { prisma } from "@/prisma/prisma";
 import { routes } from "@/utils/routes";
 import { redirect } from "next/navigation";
 import { getUserInfo } from "../auth/actions";

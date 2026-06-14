@@ -1,39 +1,34 @@
-import 'server-only';
+import "server-only";
 
-import { UserRoles } from "@prisma/client";
-import { getUser } from './dal';
-
-
+import { UserRoles } from "@/generated/prisma/client/client";
+import { getUser } from "./dal";
 
 export const getUserRole = async () => {
-    const user = await getUser()
+  const user = await getUser();
 
-    if (!user) {
-        throw new Error("User not found")
-    }
+  if (!user) {
+    throw new Error("User not found");
+  }
 
-    return user.role
-}
+  return user.role;
+};
 
 export const getUserId = async () => {
-    const user = await getUser()
+  const user = await getUser();
 
-    if (!user) {
-        throw new Error("User not found")
-    }
+  if (!user) {
+    throw new Error("User not found");
+  }
 
-    return user.id
-}
-
+  return user.id;
+};
 
 export const canUseDashboard = async () => {
+  const userRole = await getUserRole();
 
-    const userRole = await getUserRole()
+  if (userRole === UserRoles.SELLER) {
+    return true;
+  }
 
-    if (userRole === UserRoles.SELLER) {
-        return true
-    }
-
-    return false
-
-}
+  return false;
+};

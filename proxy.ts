@@ -7,7 +7,7 @@ const protectedRoutes = [routes.dashboard]
 const authRoutes = [routes.login, routes.signup, routes.forgotPassword, routes.resetPassword, routes.confirmEmail]
 // const publicRoutes = [routes.home]
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
     const path = req.nextUrl.pathname
     const isProtectedRoute = protectedRoutes.includes(path)
     // const isPublicRoute = publicRoutes.includes(path)

@@ -1,4 +1,4 @@
-import prisma from "@/prisma/prisma";
+import { prisma } from "@/prisma/prisma";
 import { OrderStatus } from "@prisma/client";
 import { getUserId } from "../auth/dto";
 import Dashboard from "./Dashboard";

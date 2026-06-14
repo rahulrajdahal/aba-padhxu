@@ -1,20 +1,23 @@
 "use server";
 
-import prisma from "@/prisma/prisma";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { PrismaClientKnownRequestError } from "@/generated/prisma/client/internal/prismaNamespace";
+import { prisma } from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export const addToCart = async (bookId: string) => {
   try {
-    const book = await prisma.book.findUnique({ where: { id: bookId }, include: { author: { select: { name: true } } } });
+    const book = await prisma.book.findUnique({
+      where: { id: bookId },
+      include: { author: { select: { name: true } } },
+    });
 
     const cartItems = (await cookies()).get("cartItems")?.value
       ? JSON.parse((await cookies()).get("cartItems")?.value as string)
       : [];
 
     const updateCartItem = cartItems.find(
-      (cartItem: { book: { id: string } }) => cartItem.book.id === bookId
+      (cartItem: { book: { id: string } }) => cartItem.book.id === bookId,
     );
     if (updateCartItem) {
       updateCartItem.quantity++;
@@ -42,7 +45,7 @@ export const addToCart = async (bookId: string) => {
 };
 export const updateQty = async (
   bookId: string,
-  operation: "increment" | "decrement" = "increment"
+  operation: "increment" | "decrement" = "increment",
 ) => {
   try {
     const cartItems = (await cookies()).get("cartItems")?.value
@@ -50,7 +53,7 @@ export const updateQty = async (
       : [];
 
     const updateCartItem = cartItems.find(
-      (cartItem: { book: { id: string } }) => cartItem.book.id === bookId
+      (cartItem: { book: { id: string } }) => cartItem.book.id === bookId,
     );
     if (operation === "increment") {
       updateCartItem.quantity++;
