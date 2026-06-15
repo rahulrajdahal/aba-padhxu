@@ -7,9 +7,9 @@ import { transporter } from "@/utils/nodemailer";
 import { render } from "@react-email/components";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
+import { getUserByEmail, getUserById } from "../dashboard/users/users.service";
 import { generateToken } from "../tokens/middleware";
 import { createToken } from "../tokens/tokens.service";
-import { getUserByEmail, getUserById } from "../users/users.service";
 
 const cookieStore = await cookies();
 

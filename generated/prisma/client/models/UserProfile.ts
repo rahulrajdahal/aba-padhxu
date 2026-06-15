@@ -35,33 +35,36 @@ export type UserProfileSumAggregateOutputType = {
 }
 
 export type UserProfileMinAggregateOutputType = {
-  userId: string | null
   firstName: string | null
   lastName: string | null
+  avatar: string | null
   phoneNumber: string | null
   sellerRating: runtime.Decimal | null
   createdAt: Date | null
   updatedAt: Date | null
+  userId: string | null
 }
 
 export type UserProfileMaxAggregateOutputType = {
-  userId: string | null
   firstName: string | null
   lastName: string | null
+  avatar: string | null
   phoneNumber: string | null
   sellerRating: runtime.Decimal | null
   createdAt: Date | null
   updatedAt: Date | null
+  userId: string | null
 }
 
 export type UserProfileCountAggregateOutputType = {
-  userId: number
   firstName: number
   lastName: number
+  avatar: number
   phoneNumber: number
   sellerRating: number
   createdAt: number
   updatedAt: number
+  userId: number
   _all: number
 }
 
@@ -75,33 +78,36 @@ export type UserProfileSumAggregateInputType = {
 }
 
 export type UserProfileMinAggregateInputType = {
-  userId?: true
   firstName?: true
   lastName?: true
+  avatar?: true
   phoneNumber?: true
   sellerRating?: true
   createdAt?: true
   updatedAt?: true
+  userId?: true
 }
 
 export type UserProfileMaxAggregateInputType = {
-  userId?: true
   firstName?: true
   lastName?: true
+  avatar?: true
   phoneNumber?: true
   sellerRating?: true
   createdAt?: true
   updatedAt?: true
+  userId?: true
 }
 
 export type UserProfileCountAggregateInputType = {
-  userId?: true
   firstName?: true
   lastName?: true
+  avatar?: true
   phoneNumber?: true
   sellerRating?: true
   createdAt?: true
   updatedAt?: true
+  userId?: true
   _all?: true
 }
 
@@ -192,13 +198,14 @@ export type UserProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 export type UserProfileGroupByOutputType = {
-  userId: string
   firstName: string
   lastName: string
+  avatar: string | null
   phoneNumber: string | null
   sellerRating: runtime.Decimal | null
   createdAt: Date
   updatedAt: Date
+  userId: string
   _count: UserProfileCountAggregateOutputType | null
   _avg: UserProfileAvgAggregateOutputType | null
   _sum: UserProfileSumAggregateOutputType | null
@@ -225,24 +232,26 @@ export type UserProfileWhereInput = {
   AND?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
   OR?: Prisma.UserProfileWhereInput[]
   NOT?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
-  userId?: Prisma.UuidFilter<"UserProfile"> | string
   firstName?: Prisma.StringFilter<"UserProfile"> | string
   lastName?: Prisma.StringFilter<"UserProfile"> | string
+  avatar?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   phoneNumber?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   sellerRating?: Prisma.DecimalNullableFilter<"UserProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  userId?: Prisma.UuidFilter<"UserProfile"> | string
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type UserProfileOrderByWithRelationInput = {
-  userId?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
+  avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   phoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   sellerRating?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -253,21 +262,23 @@ export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
   firstName?: Prisma.StringFilter<"UserProfile"> | string
   lastName?: Prisma.StringFilter<"UserProfile"> | string
+  avatar?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   phoneNumber?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   sellerRating?: Prisma.DecimalNullableFilter<"UserProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "userId">
 
 export type UserProfileOrderByWithAggregationInput = {
-  userId?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
+  avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   phoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   sellerRating?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   _count?: Prisma.UserProfileCountOrderByAggregateInput
   _avg?: Prisma.UserProfileAvgOrderByAggregateInput
   _max?: Prisma.UserProfileMaxOrderByAggregateInput
@@ -279,68 +290,75 @@ export type UserProfileScalarWhereWithAggregatesInput = {
   AND?: Prisma.UserProfileScalarWhereWithAggregatesInput | Prisma.UserProfileScalarWhereWithAggregatesInput[]
   OR?: Prisma.UserProfileScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UserProfileScalarWhereWithAggregatesInput | Prisma.UserProfileScalarWhereWithAggregatesInput[]
-  userId?: Prisma.UuidWithAggregatesFilter<"UserProfile"> | string
   firstName?: Prisma.StringWithAggregatesFilter<"UserProfile"> | string
   lastName?: Prisma.StringWithAggregatesFilter<"UserProfile"> | string
+  avatar?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   phoneNumber?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   sellerRating?: Prisma.DecimalNullableWithAggregatesFilter<"UserProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
+  userId?: Prisma.UuidWithAggregatesFilter<"UserProfile"> | string
 }
 
 export type UserProfileCreateInput = {
   firstName: string
   lastName: string
+  avatar?: string | null
   phoneNumber?: string | null
   sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutProfileInput
+  user?: Prisma.UserCreateNestedOneWithoutProfileInput
 }
 
 export type UserProfileUncheckedCreateInput = {
-  userId: string
   firstName: string
   lastName: string
+  avatar?: string | null
   phoneNumber?: string | null
   sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  userId: string
 }
 
 export type UserProfileUpdateInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerRating?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutProfileNestedInput
+  user?: Prisma.UserUpdateOneWithoutProfileNestedInput
 }
 
 export type UserProfileUncheckedUpdateInput = {
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerRating?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type UserProfileCreateManyInput = {
-  userId: string
   firstName: string
   lastName: string
+  avatar?: string | null
   phoneNumber?: string | null
   sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  userId: string
 }
 
 export type UserProfileUpdateManyMutationInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerRating?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -348,13 +366,14 @@ export type UserProfileUpdateManyMutationInput = {
 }
 
 export type UserProfileUncheckedUpdateManyInput = {
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerRating?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type UserProfileNullableScalarRelationFilter = {
@@ -363,13 +382,14 @@ export type UserProfileNullableScalarRelationFilter = {
 }
 
 export type UserProfileCountOrderByAggregateInput = {
-  userId?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
+  avatar?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
   sellerRating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type UserProfileAvgOrderByAggregateInput = {
@@ -377,23 +397,25 @@ export type UserProfileAvgOrderByAggregateInput = {
 }
 
 export type UserProfileMaxOrderByAggregateInput = {
-  userId?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
+  avatar?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
   sellerRating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type UserProfileMinOrderByAggregateInput = {
-  userId?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
+  avatar?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
   sellerRating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type UserProfileSumOrderByAggregateInput = {
@@ -447,6 +469,7 @@ export type NullableDecimalFieldUpdateOperationsInput = {
 export type UserProfileCreateWithoutUserInput = {
   firstName: string
   lastName: string
+  avatar?: string | null
   phoneNumber?: string | null
   sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
@@ -456,6 +479,7 @@ export type UserProfileCreateWithoutUserInput = {
 export type UserProfileUncheckedCreateWithoutUserInput = {
   firstName: string
   lastName: string
+  avatar?: string | null
   phoneNumber?: string | null
   sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
@@ -481,6 +505,7 @@ export type UserProfileUpdateToOneWithWhereWithoutUserInput = {
 export type UserProfileUpdateWithoutUserInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerRating?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -490,6 +515,7 @@ export type UserProfileUpdateWithoutUserInput = {
 export type UserProfileUncheckedUpdateWithoutUserInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sellerRating?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -499,72 +525,77 @@ export type UserProfileUncheckedUpdateWithoutUserInput = {
 
 
 export type UserProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  userId?: boolean
   firstName?: boolean
   lastName?: boolean
+  avatar?: boolean
   phoneNumber?: boolean
   sellerRating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  userId?: boolean
+  user?: boolean | Prisma.UserProfile$userArgs<ExtArgs>
 }, ExtArgs["result"]["userProfile"]>
 
 export type UserProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  userId?: boolean
   firstName?: boolean
   lastName?: boolean
+  avatar?: boolean
   phoneNumber?: boolean
   sellerRating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  userId?: boolean
+  user?: boolean | Prisma.UserProfile$userArgs<ExtArgs>
 }, ExtArgs["result"]["userProfile"]>
 
 export type UserProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  userId?: boolean
   firstName?: boolean
   lastName?: boolean
+  avatar?: boolean
   phoneNumber?: boolean
   sellerRating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  userId?: boolean
+  user?: boolean | Prisma.UserProfile$userArgs<ExtArgs>
 }, ExtArgs["result"]["userProfile"]>
 
 export type UserProfileSelectScalar = {
-  userId?: boolean
   firstName?: boolean
   lastName?: boolean
+  avatar?: boolean
   phoneNumber?: boolean
   sellerRating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  userId?: boolean
 }
 
-export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "firstName" | "lastName" | "phoneNumber" | "sellerRating" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
+export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"firstName" | "lastName" | "avatar" | "phoneNumber" | "sellerRating" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["userProfile"]>
 export type UserProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserProfile$userArgs<ExtArgs>
 }
 export type UserProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserProfile$userArgs<ExtArgs>
 }
 export type UserProfileIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserProfile$userArgs<ExtArgs>
 }
 
 export type $UserProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "UserProfile"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    userId: string
     firstName: string
     lastName: string
+    avatar: string | null
     phoneNumber: string | null
     sellerRating: runtime.Decimal | null
     createdAt: Date
     updatedAt: Date
+    userId: string
   }, ExtArgs["result"]["userProfile"]>
   composites: {}
 }
@@ -648,8 +679,8 @@ export interface UserProfileDelegate<ExtArgs extends runtime.Types.Extensions.In
    * // Get first 10 UserProfiles
    * const userProfiles = await prisma.userProfile.findMany({ take: 10 })
    * 
-   * // Only select the `userId`
-   * const userProfileWithUserIdOnly = await prisma.userProfile.findMany({ select: { userId: true } })
+   * // Only select the `firstName`
+   * const userProfileWithFirstNameOnly = await prisma.userProfile.findMany({ select: { firstName: true } })
    * 
    */
   findMany<T extends UserProfileFindManyArgs>(args?: Prisma.SelectSubset<T, UserProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -693,9 +724,9 @@ export interface UserProfileDelegate<ExtArgs extends runtime.Types.Extensions.In
    *   ]
    * })
    * 
-   * // Create many UserProfiles and only return the `userId`
-   * const userProfileWithUserIdOnly = await prisma.userProfile.createManyAndReturn({
-   *   select: { userId: true },
+   * // Create many UserProfiles and only return the `firstName`
+   * const userProfileWithFirstNameOnly = await prisma.userProfile.createManyAndReturn({
+   *   select: { firstName: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -784,9 +815,9 @@ export interface UserProfileDelegate<ExtArgs extends runtime.Types.Extensions.In
    *   ]
    * })
    * 
-   * // Update zero or more UserProfiles and only return the `userId`
-   * const userProfileWithUserIdOnly = await prisma.userProfile.updateManyAndReturn({
-   *   select: { userId: true },
+   * // Update zero or more UserProfiles and only return the `firstName`
+   * const userProfileWithFirstNameOnly = await prisma.userProfile.updateManyAndReturn({
+   *   select: { firstName: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -959,7 +990,7 @@ readonly fields: UserProfileFieldRefs;
  */
 export interface Prisma__UserProfileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserProfile$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserProfile$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -989,13 +1020,14 @@ export interface Prisma__UserProfileClient<T, Null = never, ExtArgs extends runt
  * Fields of the UserProfile model
  */
 export interface UserProfileFieldRefs {
-  readonly userId: Prisma.FieldRef<"UserProfile", 'String'>
   readonly firstName: Prisma.FieldRef<"UserProfile", 'String'>
   readonly lastName: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly avatar: Prisma.FieldRef<"UserProfile", 'String'>
   readonly phoneNumber: Prisma.FieldRef<"UserProfile", 'String'>
   readonly sellerRating: Prisma.FieldRef<"UserProfile", 'Decimal'>
   readonly createdAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
+  readonly userId: Prisma.FieldRef<"UserProfile", 'String'>
 }
     
 
@@ -1394,6 +1426,25 @@ export type UserProfileDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many UserProfiles to delete.
    */
   limit?: number
+}
+
+/**
+ * UserProfile.user
+ */
+export type UserProfile$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

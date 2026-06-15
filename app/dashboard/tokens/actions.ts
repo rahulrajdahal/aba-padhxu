@@ -5,7 +5,7 @@ import {
   serverError,
   validationError,
 } from "@/lib/responses";
-import { authUserId, isAuthenticated } from "../(auth)/middleware";
+import { authUserId, isAuthenticated } from "../../(auth)/middleware";
 import { generateToken } from "./middleware";
 import { createToken } from "./tokens.service";
 import { addTokenSchema } from "./tokens.validation";

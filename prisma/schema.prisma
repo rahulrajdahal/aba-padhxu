@@ -93,7 +93,7 @@ model UserProfile {
   updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   userId String @id @map("user_id") @db.Uuid
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("user_profiles")
 }

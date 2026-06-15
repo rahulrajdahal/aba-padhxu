@@ -14,19 +14,19 @@ import {
 import { routes } from "@/utils/routes";
 import { render } from "@react-email/components";
 import { redirect } from "next/navigation";
+import { findByEmail } from "../dashboard/users/users.dal";
+import {
+  createUser,
+  getUserByEmail,
+  getUserById,
+  patchUserById,
+} from "../dashboard/users/users.service";
 import { generateToken } from "../tokens/middleware";
 import {
   createToken,
   deleteTokenById,
   getTokenByToken,
 } from "../tokens/tokens.service";
-import { findByEmail } from "../users/users.dal";
-import {
-  createUser,
-  getUserByEmail,
-  getUserById,
-  patchUserById,
-} from "../users/users.service";
 import {
   forgotPasswordSchema,
   loginSchema,

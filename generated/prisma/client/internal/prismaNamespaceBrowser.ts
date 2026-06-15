@@ -110,13 +110,14 @@ export type TokenScalarFieldEnum = (typeof TokenScalarFieldEnum)[keyof typeof To
 
 
 export const UserProfileScalarFieldEnum = {
-  userId: 'userId',
   firstName: 'firstName',
   lastName: 'lastName',
+  avatar: 'avatar',
   phoneNumber: 'phoneNumber',
   sellerRating: 'sellerRating',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  userId: 'userId'
 } as const
 
 export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
@@ -150,6 +151,7 @@ export const BookScalarFieldEnum = {
   genre: 'genre',
   publisher: 'publisher',
   publishedDate: 'publishedDate',
+  image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
