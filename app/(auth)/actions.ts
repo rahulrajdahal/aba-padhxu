@@ -1,18 +1,17 @@
 "use server";
 
 import EmailTemplate from "@/emails/EmailTemplate";
-import { User, UserRoles } from "@/generated/prisma/client/client";
-import { PrismaClientKnownRequestError } from "@/generated/prisma/client/internal/prismaNamespace";
-import { fileUpload } from "@/lib/fileUpload";
-import { notFoundError, validationError } from "@/lib/responses";
-import { prisma } from "@/prisma/prisma";
+import { UserRoles } from "@/generated/prisma/client/client";
+import { logger } from "@/lib/logger";
 import {
-  createSession,
-  decrypt,
-  deleteSession,
-  encrypt,
-  expiresAt,
-} from "@/utils/auth";
+  errorResponse,
+  invalidRequestError,
+  okResponse,
+  serverError,
+  validationError,
+} from "@/lib/responses";
+import { prisma } from "@/prisma/prisma";
+import { createSession, deleteSession, encrypt, expiresAt } from "@/utils/auth";
 import { getErrorResponse, getSuccessResponse } from "@/utils/helpers";
 import { transporter } from "@/utils/nodemailer";
 import { routes } from "@/utils/routes";
@@ -20,143 +19,56 @@ import { render } from "@react-email/components";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getUserByEmail } from "../users/users.service";
-import { signupSchema } from "./auth.validation";
+import { findByEmail } from "../users/users.dal";
+import { createUser, getUserByEmail } from "../users/users.service";
+import { loginSchema, signupSchema } from "./auth.validation";
 import { verifySession } from "./dal";
 import { getUserId, getUserRole } from "./dto";
-import { hashPassword } from "./middleware";
+import {
+  comparePassword,
+  hashPassword,
+  isUserActive,
+  sendConfirmationEmail,
+  userEmailExists,
+} from "./middleware";
 
 export async function signup(prevState: unknown, formData: FormData) {
   try {
     const body = {
-      name: formData.get("name") as string,
       email: formData.get("email") as string,
       password: formData.get("password") as string,
-      role: (formData.get("role") as UserRoles) ?? "USER",
     };
-    const avatar = formData.get("avatar") as unknown as File;
 
     const validateBody = signupSchema.safeParse({
       ...body,
-      avatar,
       confirmPassword: formData.get("confirmPassword") as string,
     });
     if (!validateBody.success) {
       return validationError(validateBody.error.flatten().fieldErrors);
     }
 
-    body.password = await hashPassword(body.password);
+    if (await userEmailExists(body.email)) {
+      if (!(await isUserActive(body.email))) {
+        const existingUser = await getUserByEmail(body.email);
 
-    if (!avatar || avatar.name === "undefined") {
-      return notFoundError("Avatar not found");
-    }
-
-    const avatarImage = await fileUpload(avatar, "users");
-
-    const existingUser = await getUserByEmail(body.email);
-
-    if (existingUser) {
-      if (!existingUser.emailConfirmed) {
         return await sendConfirmationEmail(existingUser);
       }
-      return getErrorResponse("User already exists", 400);
     }
 
-    const user = await prisma.user.create({
-      data: { avatar: avatarImage, ...body },
-    });
+    const passwordHash = await hashPassword(body.password);
 
-    if (!user) {
-      return getErrorResponse("Error registering user", 400);
+    const userId = await createUser({ ...body, passwordHash });
+
+    if (!userId) {
+      return errorResponse("Error registering user");
     }
 
-    return await sendConfirmationEmail(user);
+    return await sendConfirmationEmail({ email: body.email, id: userId });
   } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        return getErrorResponse(error.message);
-      }
-    }
-    return getErrorResponse();
+    logger.error("Error registering user", error);
+    return serverError();
   }
 }
-
-const sendConfirmationEmail = async (
-  user: Pick<User, "email" | "id" | "role">,
-  message = "An confirmation email was just sent!",
-) => {
-  try {
-    const emailToken = await encrypt({ userId: user.id, expiresAt });
-
-    const tokenBody = { token: emailToken, email: user.email };
-    await prisma.token.create({ data: tokenBody });
-
-    const emailHtml = await render(
-      EmailTemplate({
-        title: "Sign up with Aba Padhxu",
-        heading: "Email Confirmation",
-        body: `Follow the provided link to activate your account. http://localhost:3000/auth/confirm-email/${emailToken}`,
-      }),
-    );
-
-    const mailOptions = {
-      from: process.env.NODEMAILER_EMAIL,
-      to: user.email,
-      subject: "Sign up with Aba Padhxu",
-      html: emailHtml,
-    };
-
-    await new Promise((resolve, reject) =>
-      transporter.sendMail(mailOptions, function (error: unknown) {
-        if (error) {
-          reject(new Error("Error sending mail."));
-        } else {
-          resolve(true);
-        }
-      }),
-    );
-
-    return getSuccessResponse(message);
-  } catch (error) {
-    if (error instanceof Error) {
-      return getErrorResponse(error.message);
-    }
-    return getErrorResponse("Error sending mail", 500, error);
-  }
-};
-
-export const confirmEmail = async (emailToken: string) => {
-  try {
-    const token = await prisma.token.findFirst({
-      where: { token: emailToken },
-    });
-
-    if (!token || token.token !== emailToken) {
-      return getErrorResponse("Invalid request.");
-    }
-
-    if (!(await decrypt(emailToken))) {
-      return getErrorResponse("Invalid request.");
-    }
-
-    const user = await prisma.user.findFirst({ where: { email: token.email } });
-
-    if (!user) {
-      return getErrorResponse("Invalid request.");
-    }
-
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { emailConfirmed: true },
-    });
-
-    await prisma.token.delete({ where: { id: token.id } });
-
-    return getSuccessResponse("User Email confirmed. Login to continue.");
-  } catch (error) {
-    return getErrorResponse("Server Error", 500, error);
-  }
-};
 
 export const login = async (prevState: unknown, formData: FormData) => {
   try {
@@ -167,24 +79,15 @@ export const login = async (prevState: unknown, formData: FormData) => {
 
     const validateBody = loginSchema.safeParse(body);
     if (!validateBody.success) {
-      return getErrorResponse(
-        "Validation Error",
-        400,
-        "Error",
-        Object.entries(validateBody.error.flatten().fieldErrors).map(
-          ([key, errorValue]) => ({ [key]: errorValue[0] }),
-        )[0],
-      );
+      return validationError(validateBody.error.flatten().fieldErrors);
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email: body.email },
-    });
-    if (!user || !bcrypt.compareSync(body.password, user.password)) {
-      return getErrorResponse("Invalid Credentials", 400);
+    const user = await findByEmail(body.email);
+    if (!user || !(await comparePassword(body.password, user.passwordHash))) {
+      return invalidRequestError("Invalid Credentials");
     }
 
-    if (!user.emailConfirmed) {
+    if (!user.isActive) {
       return await sendConfirmationEmail(
         user,
         "User email not confirmed. Please check your email for confirmation link.",
@@ -193,15 +96,10 @@ export const login = async (prevState: unknown, formData: FormData) => {
 
     await createSession(user.id);
 
-    return getSuccessResponse("Login successful.");
+    return okResponse("Login successful.");
   } catch (error) {
-    console.log(error, "login error");
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        throw new Error(error.message);
-      }
-    }
-    throw new Error("Server Error");
+    logger.error("Error logging in", error);
+    return serverError();
   }
 };
 

@@ -12,13 +12,13 @@ export const findByToken = async (token: string) => {
   return await prisma.token.findUnique({ where: { token } });
 };
 
-export const update = async (
+export const updateById = async (
   id: string,
   data: PatchTokenDTO | CreateTokenDTO,
 ) => {
   return await prisma.token.update({ data, where: { id } });
 };
 
-export const remove = async (id: string) => {
+export const removeById = async (id: string) => {
   return await prisma.token.delete({ where: { id } });
 };

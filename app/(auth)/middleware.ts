@@ -1,7 +1,30 @@
+import EmailTemplate from "@/emails/EmailTemplate";
+import { User } from "@/generated/prisma/client/client";
+import { TokenType } from "@/generated/prisma/client/enums";
+import { logger } from "@/lib/logger";
+import {
+  errorResponse,
+  invalidRequestError,
+  noContentResponse,
+  okResponse,
+  serverError,
+} from "@/lib/responses";
 import { decryptJWT, encryptJWT, expiresAt } from "@/utils/auth";
+import { transporter } from "@/utils/nodemailer";
+import { render } from "@react-email/components";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
-import { getUserByEmail, getUserById } from "../users/users.service";
+import { generateToken } from "../tokens/middleware";
+import {
+  createToken,
+  deleteTokenById,
+  getTokenByToken,
+} from "../tokens/tokens.service";
+import {
+  getUserByEmail,
+  getUserById,
+  patchUserById,
+} from "../users/users.service";
 
 const cookieStore = await cookies();
 
@@ -83,4 +106,71 @@ export const authUser = async () => {
   if (!userId) return null;
 
   return await getUserById(userId as string);
+};
+
+export const sendConfirmationEmail = async (
+  user: Pick<User, "email" | "id">,
+  message = "An confirmation email was just sent!",
+) => {
+  try {
+    const emailToken = generateToken();
+
+    await createToken({
+      token: emailToken,
+      type: "EMAIL_CONFIRMATION",
+      userId: user.id,
+    });
+
+    const emailHtml = await render(
+      EmailTemplate({
+        title: "Sign up with Aba Padhxu",
+        heading: "Email Confirmation",
+        body: `Follow the provided link to activate your account. http://localhost:3000/auth/confirm-email/${emailToken}`,
+      }),
+    );
+
+    const mailOptions = {
+      from: process.env.NODEMAILER_EMAIL,
+      to: user.email,
+      subject: "Sign up with Aba Padhxu",
+      html: emailHtml,
+    };
+
+    await new Promise((resolve, reject) =>
+      transporter.sendMail(mailOptions, function (error: unknown) {
+        if (error) {
+          reject(new Error("Error sending mail."));
+        } else {
+          resolve(true);
+        }
+      }),
+    );
+
+    return okResponse(message);
+  } catch (error) {
+    logger.error("Error sending mail", error);
+    if (error instanceof Error) {
+      return errorResponse(error.message);
+    }
+    return serverError();
+  }
+};
+
+export const confirmEmail = async (emailToken: string) => {
+  try {
+    const token = await getTokenByToken(emailToken);
+
+    if (!token || token.type !== TokenType.EMAIL_CONFIRMATION) {
+      return invalidRequestError();
+    }
+
+    await patchUserById(token.userId, { isActive: true });
+
+    await deleteTokenById(token.id);
+
+    return noContentResponse();
+  } catch (error) {
+    logger.error("Error confirming email", error);
+    return serverError();
+  }
 };

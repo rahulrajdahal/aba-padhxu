@@ -1,4 +1,10 @@
-import { create, findById, findByToken, remove, update } from "./tokens.dal";
+import {
+  create,
+  findById,
+  findByToken,
+  removeById,
+  updateById,
+} from "./tokens.dal";
 import { CreateTokenDTO, PatchTokenDTO } from "./tokens.dto";
 
 export const createToken = async (data: CreateTokenDTO) => {
@@ -15,9 +21,9 @@ export const getTokenByToken = async (token: string) => {
 };
 
 export const putToken = async (id: string, data: CreateTokenDTO) =>
-  await update(id, data);
+  await updateById(id, data);
 
 export const patchToken = async (id: string, data: PatchTokenDTO) =>
-  await update(id, data);
+  await updateById(id, data);
 
-export const deleteToken = async (id: string) => await remove(id);
+export const deleteTokenById = async (id: string) => await removeById(id);

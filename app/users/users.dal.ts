@@ -1,15 +1,8 @@
 import { prisma } from "@/prisma/prisma";
+import { CreateUserDTO, PatchUserDTO } from "./users.dto";
 
-export const create = async (email: string, passwordHash: string) => {
-  const user = await prisma.user.create({
-    data: {
-      email,
-      passwordHash,
-    },
-  });
-
-  return user.id;
-};
+export const create = async (data: CreateUserDTO) =>
+  await prisma.user.create({ data });
 
 export const findById = async (id: string) => {
   return await prisma.user.findUnique({
@@ -26,3 +19,11 @@ export const findByEmail = async (email: string) => {
     },
   });
 };
+
+export const updateById = async (id: string, data: PatchUserDTO) =>
+  await prisma.user.update({
+    where: {
+      id,
+    },
+    data,
+  });
