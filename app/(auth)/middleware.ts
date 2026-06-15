@@ -93,6 +93,37 @@ export const authUser = async () => {
   return await getUserById(userId as string);
 };
 
+export const sendEmail = async (
+  subject: string,
+  to: string,
+  emailHTML: string,
+) => {
+  try {
+    const mailOptions = {
+      from: process.env.NODEMAILER_EMAIL,
+      to,
+      subject,
+      html: emailHTML,
+    };
+
+    await new Promise((resolve, reject) =>
+      transporter.sendMail(mailOptions, function (error: unknown) {
+        if (error) {
+          reject(new Error("Error sending mail."));
+        } else {
+          resolve(true);
+        }
+      }),
+    );
+  } catch (error) {
+    logger.error("Error sending mail", error);
+    if (error instanceof Error) {
+      throw Error(error.message);
+    }
+    throw Error("Something went wrong.");
+  }
+};
+
 export const sendConfirmationEmail = async (
   user: Pick<User, "email" | "id">,
   message = "An confirmation email was just sent!",
@@ -114,22 +145,7 @@ export const sendConfirmationEmail = async (
       }),
     );
 
-    const mailOptions = {
-      from: process.env.NODEMAILER_EMAIL,
-      to: user.email,
-      subject: "Sign up with Aba Padhxu",
-      html: emailHtml,
-    };
-
-    await new Promise((resolve, reject) =>
-      transporter.sendMail(mailOptions, function (error: unknown) {
-        if (error) {
-          reject(new Error("Error sending mail."));
-        } else {
-          resolve(true);
-        }
-      }),
-    );
+    await sendEmail("Confirmation Email", user.email, emailHtml);
 
     return okResponse(message);
   } catch (error) {

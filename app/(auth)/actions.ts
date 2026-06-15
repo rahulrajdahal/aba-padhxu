@@ -11,7 +11,6 @@ import {
   serverError,
   validationError,
 } from "@/lib/responses";
-import { transporter } from "@/utils/nodemailer";
 import { routes } from "@/utils/routes";
 import { render } from "@react-email/components";
 import { redirect } from "next/navigation";
@@ -41,6 +40,7 @@ import {
   hashPassword,
   isUserActive,
   sendConfirmationEmail,
+  sendEmail,
   userEmailExists,
 } from "./middleware";
 
@@ -170,22 +170,7 @@ export const forgotPassword = async (
       }),
     );
 
-    const mailOptions = {
-      from: process.env.NODEMAILER_EMAIL,
-      to: user.email,
-      subject: "Reset Password in Aba Padhxu",
-      html: emailHtml,
-    };
-
-    await new Promise((resolve, reject) =>
-      transporter.sendMail(mailOptions, function (error: any) {
-        if (error) {
-          reject(new Error("Error sending mail"));
-        } else {
-          resolve(true);
-        }
-      }),
-    );
+    await sendEmail("Reset Password in Aba Padhxu", user.email, emailHtml);
 
     return okResponse("A reset password link has been sent to your email.");
   } catch (error) {
@@ -233,6 +218,6 @@ export const resetPassword = async (prevState: unknown, formData: FormData) => {
 };
 
 export const logout = async () => {
-  await deleteSession();
+  deleteSession();
   redirect(routes.login);
 };
