@@ -1701,11 +1701,14 @@ export const BookScalarFieldEnum = {
   id: 'id',
   isbn13: 'isbn13',
   title: 'title',
+  slug: 'slug',
+  description: 'description',
   author: 'author',
   genre: 'genre',
   publisher: 'publisher',
   publishedDate: 'publishedDate',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type BookScalarFieldEnum = (typeof BookScalarFieldEnum)[keyof typeof BookScalarFieldEnum]

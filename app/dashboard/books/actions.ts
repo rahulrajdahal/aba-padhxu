@@ -1,12 +1,13 @@
 "use server";
 
-import { getUserId } from "@/app/(auth)/dto";
+import { authUserId } from "@/app/(auth)/middleware";
+import { fileUpload } from "@/lib/fileUpload";
+import { notFoundError, validationError } from "@/lib/responses";
 import { prisma } from "@/prisma/prisma";
 import {
   devUpload,
   getErrorResponse,
   getSuccessResponse,
-  isValidFileType,
   prodUpload,
 } from "@/utils/helpers";
 import { Book } from "@prisma/client";
@@ -15,68 +16,37 @@ import {
   PrismaClientKnownRequestError,
 } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
+import { bookSchema } from "./books.validation";
 
-const bookSchema = z.object({
-  name: z.string().min(5, "Min 5 Characters."),
-  author: z.string(),
-  genre: z.string(),
-  description: z.string().min(20, "Min 20 characters."),
-  image: z
-    .any()
-    .refine((file) => file?.size <= 5000000, `Max image size is 5MB.`)
-    .refine((file) => isValidFileType(file?.name), "Not a valid image."),
-  publishedDate: z.string(),
-});
-
-const updateBookSchema = z.object({
-  name: z.string().min(5, "Min 5 Characters.").optional(),
-  author: z.string().optional(),
-  genre: z.string().optional(),
-  description: z.string().min(20, "Min 20 characters.").optional(),
-  // image: z.any().refine((file) => file?.size <= 5000000, `Max image size is 5MB.`).refine((file) => isValidFileType(file?.name), 'Not a valid image.').optional(),
-  publishedDate: z.string().optional(),
-});
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const addBook = async (prevData: any, formData: FormData) => {
+export const addBook = async (prevData: unknown, formData: FormData) => {
   try {
-    const body: any = {
-      name: formData.get("name") as string,
+    const body = {
+      title: formData.get("title") as string,
       description: formData.get("description") as string,
       publishedDate: formData.get("publishedDate") as string,
       price: formData.get("price") as string,
       quantity: Number(formData.get("quantity") as string),
+      author: formData.get("author") as string,
+      genre: formData.get("genre") as string,
+      isbn13: formData.get("isbn13") as string,
+      publisher: formData.get("publisher") as string,
     };
-    const sellerId = await getUserId();
-    const image = formData.get("image") as unknown as File;
-    const author = formData.get("author") as string;
-    const genre = formData.get("genre") as string;
 
-    const validateBody = bookSchema.safeParse({
-      ...body,
-      image,
-      author,
-      genre,
-    });
+    const sellerId = await authUserId();
+
+    const image = formData.get("image") as unknown as File;
+
+    const validateBody = bookSchema.safeParse({ ...body, image });
     if (!validateBody.success) {
-      return getErrorResponse(
-        "Validation Error",
-        400,
-        undefined,
-        Object.entries(validateBody.error.flatten().fieldErrors).map(
-          ([key, errorValue]) => ({ [key]: errorValue[0] }),
-        )[0],
-      );
+      return validationError(validateBody.error.flatten().fieldErrors);
     }
 
     if (!image || image.name === "undefined") {
-      return getErrorResponse("Image not found", 400);
+      return notFoundError("Image not found");
     }
-    const bytes = await image.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    let bookImage: string;
+    const bookImage = await fileUpload(image, "books", {
+      transformation: { width: 60, height: 60, crop: "thumb" },
+    });
 
     if (process.env.NODE_ENV === "development") {
       const uploadDIR = `${process.cwd()}/public/uploads/books`;

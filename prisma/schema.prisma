@@ -84,14 +84,16 @@ model Token {
 }
 
 model UserProfile {
-  userId       String   @id @map("user_id") @db.Uuid
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   firstName    String   @map("first_name")
   lastName     String   @map("last_name")
+  avatar       String?
   phoneNumber  String?  @map("phone_number")
   sellerRating Decimal? @default(0.00) @map("seller_rating") @db.Decimal(3, 2)
   createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  userId String @id @map("user_id") @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("user_profiles")
 }
@@ -118,17 +120,19 @@ model UserAddress {
 }
 
 model Book {
-  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  isbn13        String     @unique @db.Char(13)
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  isbn13        String    @unique @db.Char(13)
   title         String
-  slug          String     @unique
+  slug          String    @unique
   description   String?
   author        String
   genre         String?
   publisher     String?
-  publishedDate DateTime?  @map("published_date") @db.Date
-  createdAt     DateTime   @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt     DateTime   @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  publishedDate DateTime? @map("published_date") @db.Date
+  image         String?
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
   listings      Listing[]
   wishlistItems Wishlist[]
   reviews       Review[]
