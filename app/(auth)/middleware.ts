@@ -1,7 +1,7 @@
 import { decryptJWT, encryptJWT, expiresAt } from "@/utils/auth";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
-import { getUserByEmail } from "../users/users.service";
+import { getUserByEmail, getUserById } from "../users/users.service";
 
 const cookieStore = await cookies();
 
@@ -27,7 +27,7 @@ export const verifySession = async () => {
   const session = await decryptJWT(cookie);
 
   if (!session) {
-    return { isAuth: false, userId: null };
+    return { isAuth: false };
   }
 
   return { isAuth: true, userId: session.userId };
@@ -69,9 +69,18 @@ export const isUserActive = async (email: string) => {
   return (await getUserByEmail(email))?.isActive;
 };
 
-export const isAuth = async () => {
+export const isAuthenticated = async () => {
   const { isAuth } = await verifySession();
   return isAuth;
 };
+export const authUserId = async () => {
+  const { userId } = await verifySession();
+  return userId;
+};
 
-export const authUser = async () => {};
+export const authUser = async () => {
+  const userId = await authUserId();
+  if (!userId) return null;
+
+  return await getUserById(userId as string);
+};
