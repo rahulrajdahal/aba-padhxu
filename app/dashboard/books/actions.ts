@@ -1,22 +1,21 @@
 "use server";
 
 import { authUserId } from "@/app/(auth)/middleware";
-import { fileUpload } from "@/lib/fileUpload";
-import { notFoundError, validationError } from "@/lib/responses";
-import { prisma } from "@/prisma/prisma";
+import { fileUpload, removeUploadFile } from "@/lib/fileUpload";
+import { logger } from "@/lib/logger";
 import {
-  devUpload,
-  getErrorResponse,
-  getSuccessResponse,
-  prodUpload,
-} from "@/utils/helpers";
+  createdResponse,
+  noContentResponse,
+  notFoundError,
+  serverError,
+  validationError,
+} from "@/lib/responses";
+import { slugify } from "@/lib/slugify";
 import { Book } from "@prisma/client";
-import {
-  Decimal,
-  PrismaClientKnownRequestError,
-} from "@prisma/client/runtime/library";
+import { Decimal } from "@prisma/client/runtime/client";
 import { revalidatePath } from "next/cache";
-import { bookSchema } from "./books.validation";
+import { createBook, deleteBookById, patchBookById } from "./books.service";
+import { bookSchema, updateBookSchema } from "./books.validation";
 
 export const addBook = async (prevData: unknown, formData: FormData) => {
   try {
@@ -48,93 +47,19 @@ export const addBook = async (prevData: unknown, formData: FormData) => {
       transformation: { width: 60, height: 60, crop: "thumb" },
     });
 
-    if (process.env.NODE_ENV === "development") {
-      const uploadDIR = `${process.cwd()}/public/uploads/books`;
-
-      bookImage = await devUpload(uploadDIR, image.name, buffer);
-    } else {
-      const upload = await prodUpload(buffer, image.type, "books", {
-        transformation: { width: 60, height: 60, crop: "thumb" },
-      });
-
-      if (!upload) {
-        return getErrorResponse("Error uploading image", 400);
-      }
-      bookImage = (upload as { secure_url: string })?.secure_url;
-    }
-
-    await prisma.book.create({
-      data: {
-        slug: `${body.name.toLowerCase().replace(/ /g, "-")}-${Date.now()}`,
-        image: bookImage,
-        seller: {
-          connect: {
-            id: sellerId,
-          },
-        },
-        author: {
-          connectOrCreate: {
-            where: { id: author },
-            create: {
-              name: author,
-              slug: `${author.toLowerCase().replace(/ /g, "-")}-${Date.now()}`,
-            },
-          },
-        },
-        genre: {
-          connectOrCreate: {
-            where: { title: genre },
-            create: {
-              title: genre,
-              slug: genre.toLowerCase().replace(/ /g, "-"),
-            },
-          },
-        },
-        ...body,
-      },
+    await createBook({
+      ...body,
+      slug: slugify(body.title),
+      publishedDate: new Date(body.publishedDate),
     });
 
-    return getSuccessResponse("Book added successfully", 201);
+    return createdResponse("Book added successfully", 201);
   } catch (error) {
-    console.log(error, "add book error");
-
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        return getErrorResponse(error.message);
-      }
-    }
-    return getErrorResponse("Server Error");
+    logger.error("Error adding book", error);
+    return serverError();
   }
 };
 
-export const deleteBook = async (id: string) => {
-  try {
-    const book = await prisma.book.delete({
-      where: {
-        id,
-      },
-    });
-
-    if (!book) {
-      return getErrorResponse("Could not remove project.", 400);
-    }
-
-    revalidatePath("/admin/books");
-    revalidatePath("/books");
-
-    return getSuccessResponse("Book removed!", 204);
-  } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        return getErrorResponse(error.message);
-      }
-    }
-
-    return getErrorResponse("Server Error");
-  }
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const updateBook = async (prevState: unknown, formData: FormData) => {
   try {
     const id = formData.get("id") as string;
@@ -147,8 +72,10 @@ export const updateBook = async (prevState: unknown, formData: FormData) => {
     const image = formData.get("image") as unknown as File;
     const author = formData.get("author") as string;
     const genre = formData.get("genre") as string;
-    const price = Number(formData.get("price") as string);
-    const quantity = Number(formData.get("quantity") as string);
+    const price = formData.get("price") as string;
+    const quantity = formData.get("quantity") as string;
+    const isbn13 = formData.get("isbn13") as string;
+    const publisher = formData.get("publisher") as string;
 
     const validateBody = updateBookSchema.safeParse({
       name,
@@ -157,16 +84,11 @@ export const updateBook = async (prevState: unknown, formData: FormData) => {
       author,
       genre,
       image,
+      isbn13,
+      publisher,
     });
     if (!validateBody.success) {
-      return getErrorResponse(
-        "Validation Error",
-        400,
-        undefined,
-        Object.entries(validateBody.error.flatten().fieldErrors).map(
-          ([key, errorValue]) => ({ [key]: errorValue[0] }),
-        )[0],
-      );
+      return validationError(validateBody.error.flatten().fieldErrors);
     }
 
     if (name) {
@@ -188,58 +110,41 @@ export const updateBook = async (prevState: unknown, formData: FormData) => {
       body.publishedDate = publishedDate;
     }
     if (author) {
-      body.author = {
-        connectOrCreate: {
-          where: { name: author },
-          create: { name: author },
-        },
-      } as never;
+      body.author = author;
     }
     if (genre) {
-      body.genre = {
-        connectOrCreate: {
-          where: { title: genre },
-          create: { title: genre },
-        },
-      } as never;
+      body.genre = genre;
     }
 
     if (image?.name !== "undefined") {
-      const bytes = await image.arrayBuffer();
-      const buffer = Buffer.from(bytes);
-
-      if (process.env.NODE_ENV === "development") {
-        const uploadDIR = `${process.cwd()}/public/uploads/books`;
-
-        body.image = await devUpload(uploadDIR, image.name, buffer);
-      } else {
-        const upload = await prodUpload(buffer, image.type, "books", {
-          transformation: { width: 60, height: 60, crop: "thumb" },
-        });
-
-        if (!upload) {
-          return getErrorResponse("Error uploading image", 400);
-        }
-        body.image = (upload as { secure_url: string })?.secure_url;
-      }
+      removeUploadFile(image.name, "books");
+      body.image = await fileUpload(image, "books", {
+        transformation: { width: 60, height: 60, crop: "thumb" },
+      });
     }
 
-    await prisma.book.update({
-      where: { id },
-      data: body,
-    });
+    await patchBookById(id, body);
 
-    revalidatePath("/admin/books");
+    revalidatePath("/dashboard/books");
     revalidatePath("/books");
 
-    return getSuccessResponse("Book updated!", 204);
+    return noContentResponse();
   } catch (error) {
-    console.log(error, "update error");
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        return getErrorResponse(error.message);
-      }
-    }
-    return getErrorResponse("Server Error");
+    logger.error("Failed to update book", error);
+    return serverError();
+  }
+};
+
+export const deleteBook = async (id: string) => {
+  try {
+    await deleteBookById(id);
+
+    revalidatePath("/dashboard/books");
+    revalidatePath("/books");
+
+    return noContentResponse();
+  } catch (error) {
+    logger.error("Failed to delete book", error);
+    return serverError();
   }
 };

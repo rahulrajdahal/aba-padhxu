@@ -1,6 +1,7 @@
 import { v2 as cloudinary, UploadApiOptions } from "cloudinary";
 
-import { mkdir, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
+import { mkdir, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { logger } from "./logger";
 
@@ -68,7 +69,7 @@ export const fileUpload = async (
       `./public/uploads/${uploadDIR}`,
     );
 
-    return devUpload(uploadPath, file.name, buffer);
+    return await devUpload(uploadPath, file.name, buffer);
   }
 
   const uploadedFile = (await prodUpload(
@@ -79,4 +80,25 @@ export const fileUpload = async (
   )) as { secure_url?: string; url?: string };
 
   return uploadedFile?.secure_url || uploadedFile?.url;
+};
+
+export const removeUploadFile = async (fileName: string, uploadDIR: string) => {
+  try {
+    if (process.env.NODE_ENV === "development") {
+      const filePath = path.join(
+        process.cwd(),
+        `./public/uploads/${uploadDIR}/${fileName}`,
+      );
+      if (existsSync(filePath)) await unlink(filePath);
+    } else {
+      await cloudinary.uploader.destroy(
+        `rahulrajdahal/${uploadDIR}/${fileName}`,
+      );
+    }
+
+    return true;
+  } catch (error) {
+    logger.error("Failed to delete image", error);
+    return false;
+  }
 };
