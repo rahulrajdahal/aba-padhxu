@@ -7,6 +7,12 @@ datasource db {
   provider = "postgresql"
 }
 
+enum TokenType {
+  EMAIL_CONFIRMATION @map("email_confirmation")
+  PASSWORD_RESET     @map("password_reset")
+  SESSION            @map("session")
+}
+
 enum BookCondition {
   NEW        @map("New")
   LIKE_NEW   @map("Like New")
@@ -58,8 +64,23 @@ model User {
   chatRoomsAsSeller ChatRoom[]     @relation("SellerRooms")
   sentMessages      ChatMessage[]  @relation("SentMessages")
   notifications     Notification[]
+  tokens            Token[]
 
   @@map("users")
+}
+
+model Token {
+  id    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type  TokenType @map("type")
+  token String    @unique
+
+  userId String @map("user_id") @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@map("tokens")
 }
 
 model UserProfile {

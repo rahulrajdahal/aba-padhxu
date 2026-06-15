@@ -3,6 +3,7 @@
 import EmailTemplate from "@/emails/EmailTemplate";
 import { User, UserRoles } from "@/generated/prisma/client/client";
 import { PrismaClientKnownRequestError } from "@/generated/prisma/client/internal/prismaNamespace";
+import { fileUpload } from "@/lib/fileUpload";
 import { notFoundError, validationError } from "@/lib/responses";
 import { prisma } from "@/prisma/prisma";
 import {
@@ -12,18 +13,14 @@ import {
   encrypt,
   expiresAt,
 } from "@/utils/auth";
-import {
-  devUpload,
-  getErrorResponse,
-  getSuccessResponse,
-  prodUpload,
-} from "@/utils/helpers";
+import { getErrorResponse, getSuccessResponse } from "@/utils/helpers";
 import { transporter } from "@/utils/nodemailer";
 import { routes } from "@/utils/routes";
 import { render } from "@react-email/components";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getUserByEmail } from "../users/users.service";
 import { signupSchema } from "./auth.validation";
 import { verifySession } from "./dal";
 import { getUserId, getUserRole } from "./dto";
@@ -53,29 +50,10 @@ export async function signup(prevState: unknown, formData: FormData) {
     if (!avatar || avatar.name === "undefined") {
       return notFoundError("Avatar not found");
     }
-    const bytes = await avatar.arrayBuffer();
-    const buffer = Buffer.from(bytes);
 
-    let avatarImage: string;
+    const avatarImage = await fileUpload(avatar, "users");
 
-    if (process.env.NODE_ENV === "development") {
-      const uploadDIR = `${process.cwd()}/public/uploads/users`;
-
-      avatarImage = await devUpload(uploadDIR, avatar.name, buffer);
-    } else {
-      const upload = await prodUpload(buffer, avatar.type, "users", {
-        transformation: { width: 60, height: 60, crop: "thumb" },
-      });
-
-      if (!upload) {
-        return getErrorResponse("Error uploading image", 400);
-      }
-      avatarImage = (upload as { secure_url: string })?.secure_url;
-    }
-
-    const existingUser = await prisma.user.findFirst({
-      where: { email: body.email },
-    });
+    const existingUser = await getUserByEmail(body.email);
 
     if (existingUser) {
       if (!existingUser.emailConfirmed) {
