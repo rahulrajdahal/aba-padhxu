@@ -26,39 +26,27 @@ export type AggregateUser = {
 
 export type UserMinAggregateOutputType = {
   id: string | null
-  name: string | null
   email: string | null
-  password: string | null
-  avatar: string | null
-  isSuperAdmin: boolean | null
-  emailConfirmed: boolean | null
-  role: $Enums.UserRoles | null
+  passwordHash: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
   id: string | null
-  name: string | null
   email: string | null
-  password: string | null
-  avatar: string | null
-  isSuperAdmin: boolean | null
-  emailConfirmed: boolean | null
-  role: $Enums.UserRoles | null
+  passwordHash: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type UserCountAggregateOutputType = {
   id: number
-  name: number
   email: number
-  password: number
-  avatar: number
-  isSuperAdmin: number
-  emailConfirmed: number
-  role: number
+  passwordHash: number
+  isActive: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -67,39 +55,27 @@ export type UserCountAggregateOutputType = {
 
 export type UserMinAggregateInputType = {
   id?: true
-  name?: true
   email?: true
-  password?: true
-  avatar?: true
-  isSuperAdmin?: true
-  emailConfirmed?: true
-  role?: true
+  passwordHash?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type UserMaxAggregateInputType = {
   id?: true
-  name?: true
   email?: true
-  password?: true
-  avatar?: true
-  isSuperAdmin?: true
-  emailConfirmed?: true
-  role?: true
+  passwordHash?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type UserCountAggregateInputType = {
   id?: true
-  name?: true
   email?: true
-  password?: true
-  avatar?: true
-  isSuperAdmin?: true
-  emailConfirmed?: true
-  role?: true
+  passwordHash?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -179,13 +155,9 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type UserGroupByOutputType = {
   id: string
-  name: string
   email: string
-  password: string
-  avatar: string
-  isSuperAdmin: boolean
-  emailConfirmed: boolean
-  role: $Enums.UserRoles
+  passwordHash: string
+  isActive: boolean
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -212,35 +184,49 @@ export type UserWhereInput = {
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
-  id?: Prisma.StringFilter<"User"> | string
-  name?: Prisma.StringFilter<"User"> | string
+  id?: Prisma.UuidFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
-  password?: Prisma.StringFilter<"User"> | string
-  avatar?: Prisma.StringFilter<"User"> | string
-  isSuperAdmin?: Prisma.BoolFilter<"User"> | boolean
-  emailConfirmed?: Prisma.BoolFilter<"User"> | boolean
-  role?: Prisma.EnumUserRolesFilter<"User"> | $Enums.UserRoles
+  passwordHash?: Prisma.StringFilter<"User"> | string
+  isActive?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  sell?: Prisma.BookListRelationFilter
+  profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
+  addresses?: Prisma.UserAddressListRelationFilter
+  listings?: Prisma.ListingListRelationFilter
+  cart?: Prisma.XOR<Prisma.CartNullableScalarRelationFilter, Prisma.CartWhereInput> | null
+  wishlistItems?: Prisma.WishlistListRelationFilter
+  buyerOrders?: Prisma.OrderListRelationFilter
+  sellerItems?: Prisma.OrderItemListRelationFilter
+  escrowPayouts?: Prisma.EscrowPayoutListRelationFilter
+  reviewsGiven?: Prisma.ReviewListRelationFilter
+  reviewsRecd?: Prisma.ReviewListRelationFilter
+  chatRoomsAsBuyer?: Prisma.ChatRoomListRelationFilter
+  chatRoomsAsSeller?: Prisma.ChatRoomListRelationFilter
+  sentMessages?: Prisma.ChatMessageListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
-  order?: Prisma.OrderListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  avatar?: Prisma.SortOrder
-  isSuperAdmin?: Prisma.SortOrder
-  emailConfirmed?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  sell?: Prisma.BookOrderByRelationAggregateInput
+  profile?: Prisma.UserProfileOrderByWithRelationInput
+  addresses?: Prisma.UserAddressOrderByRelationAggregateInput
+  listings?: Prisma.ListingOrderByRelationAggregateInput
+  cart?: Prisma.CartOrderByWithRelationInput
+  wishlistItems?: Prisma.WishlistOrderByRelationAggregateInput
+  buyerOrders?: Prisma.OrderOrderByRelationAggregateInput
+  sellerItems?: Prisma.OrderItemOrderByRelationAggregateInput
+  escrowPayouts?: Prisma.EscrowPayoutOrderByRelationAggregateInput
+  reviewsGiven?: Prisma.ReviewOrderByRelationAggregateInput
+  reviewsRecd?: Prisma.ReviewOrderByRelationAggregateInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomOrderByRelationAggregateInput
+  chatRoomsAsSeller?: Prisma.ChatRoomOrderByRelationAggregateInput
+  sentMessages?: Prisma.ChatMessageOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
-  order?: Prisma.OrderOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -249,28 +235,31 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
-  name?: Prisma.StringFilter<"User"> | string
-  password?: Prisma.StringFilter<"User"> | string
-  avatar?: Prisma.StringFilter<"User"> | string
-  isSuperAdmin?: Prisma.BoolFilter<"User"> | boolean
-  emailConfirmed?: Prisma.BoolFilter<"User"> | boolean
-  role?: Prisma.EnumUserRolesFilter<"User"> | $Enums.UserRoles
+  passwordHash?: Prisma.StringFilter<"User"> | string
+  isActive?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  sell?: Prisma.BookListRelationFilter
+  profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
+  addresses?: Prisma.UserAddressListRelationFilter
+  listings?: Prisma.ListingListRelationFilter
+  cart?: Prisma.XOR<Prisma.CartNullableScalarRelationFilter, Prisma.CartWhereInput> | null
+  wishlistItems?: Prisma.WishlistListRelationFilter
+  buyerOrders?: Prisma.OrderListRelationFilter
+  sellerItems?: Prisma.OrderItemListRelationFilter
+  escrowPayouts?: Prisma.EscrowPayoutListRelationFilter
+  reviewsGiven?: Prisma.ReviewListRelationFilter
+  reviewsRecd?: Prisma.ReviewListRelationFilter
+  chatRoomsAsBuyer?: Prisma.ChatRoomListRelationFilter
+  chatRoomsAsSeller?: Prisma.ChatRoomListRelationFilter
+  sentMessages?: Prisma.ChatMessageListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
-  order?: Prisma.OrderListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  avatar?: Prisma.SortOrder
-  isSuperAdmin?: Prisma.SortOrder
-  emailConfirmed?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -282,156 +271,156 @@ export type UserScalarWhereWithAggregatesInput = {
   AND?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
   OR?: Prisma.UserScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"User"> | string
-  name?: Prisma.StringWithAggregatesFilter<"User"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
-  password?: Prisma.StringWithAggregatesFilter<"User"> | string
-  avatar?: Prisma.StringWithAggregatesFilter<"User"> | string
-  isSuperAdmin?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  emailConfirmed?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  role?: Prisma.EnumUserRolesWithAggregatesFilter<"User"> | $Enums.UserRoles
+  passwordHash?: Prisma.StringWithAggregatesFilter<"User"> | string
+  isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
 
 export type UserCreateInput = {
   id?: string
-  name: string
   email: string
-  password: string
-  avatar: string
-  isSuperAdmin?: boolean
-  emailConfirmed?: boolean
-  role?: $Enums.UserRoles
+  passwordHash: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  sell?: Prisma.BookCreateNestedManyWithoutSellerInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  order?: Prisma.OrderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
   id?: string
-  name: string
   email: string
-  password: string
-  avatar: string
-  isSuperAdmin?: boolean
-  emailConfirmed?: boolean
-  role?: $Enums.UserRoles
+  passwordHash: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  sell?: Prisma.BookUncheckedCreateNestedManyWithoutSellerInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  order?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
-  isSuperAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sell?: Prisma.BookUpdateManyWithoutSellerNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  order?: Prisma.OrderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
-  isSuperAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sell?: Prisma.BookUncheckedUpdateManyWithoutSellerNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  order?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
   id?: string
-  name: string
   email: string
-  password: string
-  avatar: string
-  isSuperAdmin?: boolean
-  emailConfirmed?: boolean
-  role?: $Enums.UserRoles
+  passwordHash: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
-  isSuperAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
-  isSuperAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  avatar?: Prisma.SortOrder
-  isSuperAdmin?: Prisma.SortOrder
-  emailConfirmed?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  avatar?: Prisma.SortOrder
-  isSuperAdmin?: Prisma.SortOrder
-  emailConfirmed?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  avatar?: Prisma.SortOrder
-  isSuperAdmin?: Prisma.SortOrder
-  emailConfirmed?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -449,12 +438,190 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type EnumUserRolesFieldUpdateOperationsInput = {
-  set?: $Enums.UserRoles
-}
-
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type UserCreateNestedOneWithoutProfileInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProfileInput, Prisma.UserUncheckedCreateWithoutProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProfileInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProfileInput, Prisma.UserUncheckedCreateWithoutProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProfileInput
+  upsert?: Prisma.UserUpsertWithoutProfileInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProfileInput, Prisma.UserUpdateWithoutProfileInput>, Prisma.UserUncheckedUpdateWithoutProfileInput>
+}
+
+export type UserCreateNestedOneWithoutAddressesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAddressesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAddressesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAddressesInput
+  upsert?: Prisma.UserUpsertWithoutAddressesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAddressesInput, Prisma.UserUpdateWithoutAddressesInput>, Prisma.UserUncheckedUpdateWithoutAddressesInput>
+}
+
+export type UserCreateNestedOneWithoutListingsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutListingsInput, Prisma.UserUncheckedCreateWithoutListingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutListingsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutListingsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutListingsInput, Prisma.UserUncheckedCreateWithoutListingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutListingsInput
+  upsert?: Prisma.UserUpsertWithoutListingsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutListingsInput, Prisma.UserUpdateWithoutListingsInput>, Prisma.UserUncheckedUpdateWithoutListingsInput>
+}
+
+export type UserCreateNestedOneWithoutCartInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCartInput, Prisma.UserUncheckedCreateWithoutCartInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCartInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCartNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCartInput, Prisma.UserUncheckedCreateWithoutCartInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCartInput
+  upsert?: Prisma.UserUpsertWithoutCartInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCartInput, Prisma.UserUpdateWithoutCartInput>, Prisma.UserUncheckedUpdateWithoutCartInput>
+}
+
+export type UserCreateNestedOneWithoutWishlistItemsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWishlistItemsInput, Prisma.UserUncheckedCreateWithoutWishlistItemsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWishlistItemsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutWishlistItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWishlistItemsInput, Prisma.UserUncheckedCreateWithoutWishlistItemsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWishlistItemsInput
+  upsert?: Prisma.UserUpsertWithoutWishlistItemsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWishlistItemsInput, Prisma.UserUpdateWithoutWishlistItemsInput>, Prisma.UserUncheckedUpdateWithoutWishlistItemsInput>
+}
+
+export type UserCreateNestedOneWithoutBuyerOrdersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBuyerOrdersInput, Prisma.UserUncheckedCreateWithoutBuyerOrdersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBuyerOrdersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutBuyerOrdersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBuyerOrdersInput, Prisma.UserUncheckedCreateWithoutBuyerOrdersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBuyerOrdersInput
+  upsert?: Prisma.UserUpsertWithoutBuyerOrdersInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBuyerOrdersInput, Prisma.UserUpdateWithoutBuyerOrdersInput>, Prisma.UserUncheckedUpdateWithoutBuyerOrdersInput>
+}
+
+export type UserCreateNestedOneWithoutSellerItemsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSellerItemsInput, Prisma.UserUncheckedCreateWithoutSellerItemsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSellerItemsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSellerItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSellerItemsInput, Prisma.UserUncheckedCreateWithoutSellerItemsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSellerItemsInput
+  upsert?: Prisma.UserUpsertWithoutSellerItemsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSellerItemsInput, Prisma.UserUpdateWithoutSellerItemsInput>, Prisma.UserUncheckedUpdateWithoutSellerItemsInput>
+}
+
+export type UserCreateNestedOneWithoutEscrowPayoutsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEscrowPayoutsInput, Prisma.UserUncheckedCreateWithoutEscrowPayoutsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEscrowPayoutsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutEscrowPayoutsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEscrowPayoutsInput, Prisma.UserUncheckedCreateWithoutEscrowPayoutsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEscrowPayoutsInput
+  upsert?: Prisma.UserUpsertWithoutEscrowPayoutsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEscrowPayoutsInput, Prisma.UserUpdateWithoutEscrowPayoutsInput>, Prisma.UserUncheckedUpdateWithoutEscrowPayoutsInput>
+}
+
+export type UserCreateNestedOneWithoutReviewsGivenInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsGivenInput, Prisma.UserUncheckedCreateWithoutReviewsGivenInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsGivenInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutReviewsRecdInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecdInput, Prisma.UserUncheckedCreateWithoutReviewsRecdInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsRecdInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutReviewsGivenNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsGivenInput, Prisma.UserUncheckedCreateWithoutReviewsGivenInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsGivenInput
+  upsert?: Prisma.UserUpsertWithoutReviewsGivenInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsGivenInput, Prisma.UserUpdateWithoutReviewsGivenInput>, Prisma.UserUncheckedUpdateWithoutReviewsGivenInput>
+}
+
+export type UserUpdateOneRequiredWithoutReviewsRecdNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecdInput, Prisma.UserUncheckedCreateWithoutReviewsRecdInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsRecdInput
+  upsert?: Prisma.UserUpsertWithoutReviewsRecdInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsRecdInput, Prisma.UserUpdateWithoutReviewsRecdInput>, Prisma.UserUncheckedUpdateWithoutReviewsRecdInput>
+}
+
+export type UserCreateNestedOneWithoutChatRoomsAsBuyerInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsBuyerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsBuyerInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatRoomsAsBuyerInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutChatRoomsAsSellerInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsSellerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsSellerInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatRoomsAsSellerInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutChatRoomsAsBuyerNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsBuyerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsBuyerInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatRoomsAsBuyerInput
+  upsert?: Prisma.UserUpsertWithoutChatRoomsAsBuyerInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChatRoomsAsBuyerInput, Prisma.UserUpdateWithoutChatRoomsAsBuyerInput>, Prisma.UserUncheckedUpdateWithoutChatRoomsAsBuyerInput>
+}
+
+export type UserUpdateOneRequiredWithoutChatRoomsAsSellerNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsSellerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsSellerInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatRoomsAsSellerInput
+  upsert?: Prisma.UserUpsertWithoutChatRoomsAsSellerInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChatRoomsAsSellerInput, Prisma.UserUpdateWithoutChatRoomsAsSellerInput>, Prisma.UserUncheckedUpdateWithoutChatRoomsAsSellerInput>
+}
+
+export type UserCreateNestedOneWithoutSentMessagesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSentMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentMessagesInput
+  upsert?: Prisma.UserUpsertWithoutSentMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSentMessagesInput, Prisma.UserUpdateWithoutSentMessagesInput>, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
 }
 
 export type UserCreateNestedOneWithoutNotificationsInput = {
@@ -471,62 +638,1400 @@ export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
 }
 
-export type UserCreateNestedOneWithoutSellInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSellInput, Prisma.UserUncheckedCreateWithoutSellInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSellInput
-  connect?: Prisma.UserWhereUniqueInput
+export type UserCreateWithoutProfileInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
-export type UserUpdateOneRequiredWithoutSellNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSellInput, Prisma.UserUncheckedCreateWithoutSellInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSellInput
-  upsert?: Prisma.UserUpsertWithoutSellInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSellInput, Prisma.UserUpdateWithoutSellInput>, Prisma.UserUncheckedUpdateWithoutSellInput>
+export type UserUncheckedCreateWithoutProfileInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateNestedOneWithoutOrderInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutOrderInput, Prisma.UserUncheckedCreateWithoutOrderInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrderInput
-  connect?: Prisma.UserWhereUniqueInput
+export type UserCreateOrConnectWithoutProfileInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutProfileInput, Prisma.UserUncheckedCreateWithoutProfileInput>
 }
 
-export type UserUpdateOneRequiredWithoutOrderNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutOrderInput, Prisma.UserUncheckedCreateWithoutOrderInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrderInput
-  upsert?: Prisma.UserUpsertWithoutOrderInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOrderInput, Prisma.UserUpdateWithoutOrderInput>, Prisma.UserUncheckedUpdateWithoutOrderInput>
+export type UserUpsertWithoutProfileInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutProfileInput, Prisma.UserUncheckedUpdateWithoutProfileInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutProfileInput, Prisma.UserUncheckedCreateWithoutProfileInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutProfileInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutProfileInput, Prisma.UserUncheckedUpdateWithoutProfileInput>
+}
+
+export type UserUpdateWithoutProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAddressesInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAddressesInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAddressesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>
+}
+
+export type UserUpsertWithoutAddressesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAddressesInput, Prisma.UserUncheckedUpdateWithoutAddressesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAddressesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAddressesInput, Prisma.UserUncheckedUpdateWithoutAddressesInput>
+}
+
+export type UserUpdateWithoutAddressesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAddressesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutListingsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutListingsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutListingsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutListingsInput, Prisma.UserUncheckedCreateWithoutListingsInput>
+}
+
+export type UserUpsertWithoutListingsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutListingsInput, Prisma.UserUncheckedUpdateWithoutListingsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutListingsInput, Prisma.UserUncheckedCreateWithoutListingsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutListingsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutListingsInput, Prisma.UserUncheckedUpdateWithoutListingsInput>
+}
+
+export type UserUpdateWithoutListingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutListingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCartInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCartInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCartInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCartInput, Prisma.UserUncheckedCreateWithoutCartInput>
+}
+
+export type UserUpsertWithoutCartInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCartInput, Prisma.UserUncheckedUpdateWithoutCartInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCartInput, Prisma.UserUncheckedCreateWithoutCartInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCartInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCartInput, Prisma.UserUncheckedUpdateWithoutCartInput>
+}
+
+export type UserUpdateWithoutCartInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCartInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutWishlistItemsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutWishlistItemsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutWishlistItemsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutWishlistItemsInput, Prisma.UserUncheckedCreateWithoutWishlistItemsInput>
+}
+
+export type UserUpsertWithoutWishlistItemsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWishlistItemsInput, Prisma.UserUncheckedUpdateWithoutWishlistItemsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWishlistItemsInput, Prisma.UserUncheckedCreateWithoutWishlistItemsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWishlistItemsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWishlistItemsInput, Prisma.UserUncheckedUpdateWithoutWishlistItemsInput>
+}
+
+export type UserUpdateWithoutWishlistItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWishlistItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutBuyerOrdersInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutBuyerOrdersInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutBuyerOrdersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutBuyerOrdersInput, Prisma.UserUncheckedCreateWithoutBuyerOrdersInput>
+}
+
+export type UserUpsertWithoutBuyerOrdersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutBuyerOrdersInput, Prisma.UserUncheckedUpdateWithoutBuyerOrdersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutBuyerOrdersInput, Prisma.UserUncheckedCreateWithoutBuyerOrdersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutBuyerOrdersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutBuyerOrdersInput, Prisma.UserUncheckedUpdateWithoutBuyerOrdersInput>
+}
+
+export type UserUpdateWithoutBuyerOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutBuyerOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSellerItemsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSellerItemsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSellerItemsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSellerItemsInput, Prisma.UserUncheckedCreateWithoutSellerItemsInput>
+}
+
+export type UserUpsertWithoutSellerItemsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSellerItemsInput, Prisma.UserUncheckedUpdateWithoutSellerItemsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSellerItemsInput, Prisma.UserUncheckedCreateWithoutSellerItemsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSellerItemsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSellerItemsInput, Prisma.UserUncheckedUpdateWithoutSellerItemsInput>
+}
+
+export type UserUpdateWithoutSellerItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSellerItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutEscrowPayoutsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutEscrowPayoutsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutEscrowPayoutsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutEscrowPayoutsInput, Prisma.UserUncheckedCreateWithoutEscrowPayoutsInput>
+}
+
+export type UserUpsertWithoutEscrowPayoutsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutEscrowPayoutsInput, Prisma.UserUncheckedUpdateWithoutEscrowPayoutsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutEscrowPayoutsInput, Prisma.UserUncheckedCreateWithoutEscrowPayoutsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutEscrowPayoutsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutEscrowPayoutsInput, Prisma.UserUncheckedUpdateWithoutEscrowPayoutsInput>
+}
+
+export type UserUpdateWithoutEscrowPayoutsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutEscrowPayoutsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutReviewsGivenInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutReviewsGivenInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutReviewsGivenInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsGivenInput, Prisma.UserUncheckedCreateWithoutReviewsGivenInput>
+}
+
+export type UserCreateWithoutReviewsRecdInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutReviewsRecdInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutReviewsRecdInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecdInput, Prisma.UserUncheckedCreateWithoutReviewsRecdInput>
+}
+
+export type UserUpsertWithoutReviewsGivenInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewsGivenInput, Prisma.UserUncheckedUpdateWithoutReviewsGivenInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsGivenInput, Prisma.UserUncheckedCreateWithoutReviewsGivenInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewsGivenInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewsGivenInput, Prisma.UserUncheckedUpdateWithoutReviewsGivenInput>
+}
+
+export type UserUpdateWithoutReviewsGivenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewsGivenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutReviewsRecdInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewsRecdInput, Prisma.UserUncheckedUpdateWithoutReviewsRecdInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecdInput, Prisma.UserUncheckedCreateWithoutReviewsRecdInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewsRecdInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewsRecdInput, Prisma.UserUncheckedUpdateWithoutReviewsRecdInput>
+}
+
+export type UserUpdateWithoutReviewsRecdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewsRecdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutChatRoomsAsBuyerInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutChatRoomsAsBuyerInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutChatRoomsAsBuyerInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsBuyerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsBuyerInput>
+}
+
+export type UserCreateWithoutChatRoomsAsSellerInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutChatRoomsAsSellerInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutChatRoomsAsSellerInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsSellerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsSellerInput>
+}
+
+export type UserUpsertWithoutChatRoomsAsBuyerInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChatRoomsAsBuyerInput, Prisma.UserUncheckedUpdateWithoutChatRoomsAsBuyerInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsBuyerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsBuyerInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChatRoomsAsBuyerInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChatRoomsAsBuyerInput, Prisma.UserUncheckedUpdateWithoutChatRoomsAsBuyerInput>
+}
+
+export type UserUpdateWithoutChatRoomsAsBuyerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChatRoomsAsBuyerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutChatRoomsAsSellerInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChatRoomsAsSellerInput, Prisma.UserUncheckedUpdateWithoutChatRoomsAsSellerInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsSellerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsSellerInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChatRoomsAsSellerInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChatRoomsAsSellerInput, Prisma.UserUncheckedUpdateWithoutChatRoomsAsSellerInput>
+}
+
+export type UserUpdateWithoutChatRoomsAsSellerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChatRoomsAsSellerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSentMessagesInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSentMessagesInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSentMessagesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
+}
+
+export type UserUpsertWithoutSentMessagesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSentMessagesInput, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSentMessagesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSentMessagesInput, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
+}
+
+export type UserUpdateWithoutSentMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSentMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
   id?: string
-  name: string
   email: string
-  password: string
-  avatar: string
-  isSuperAdmin?: boolean
-  emailConfirmed?: boolean
-  role?: $Enums.UserRoles
+  passwordHash: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  sell?: Prisma.BookCreateNestedManyWithoutSellerInput
-  order?: Prisma.OrderCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
   id?: string
-  name: string
   email: string
-  password: string
-  avatar: string
-  isSuperAdmin?: boolean
-  emailConfirmed?: boolean
-  role?: $Enums.UserRoles
+  passwordHash: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  sell?: Prisma.BookUncheckedCreateNestedManyWithoutSellerInput
-  order?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
+  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -547,184 +2052,46 @@ export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
 
 export type UserUpdateWithoutNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
-  isSuperAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sell?: Prisma.BookUpdateManyWithoutSellerNestedInput
-  order?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
-  isSuperAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sell?: Prisma.BookUncheckedUpdateManyWithoutSellerNestedInput
-  order?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutSellInput = {
-  id?: string
-  name: string
-  email: string
-  password: string
-  avatar: string
-  isSuperAdmin?: boolean
-  emailConfirmed?: boolean
-  role?: $Enums.UserRoles
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  order?: Prisma.OrderCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutSellInput = {
-  id?: string
-  name: string
-  email: string
-  password: string
-  avatar: string
-  isSuperAdmin?: boolean
-  emailConfirmed?: boolean
-  role?: $Enums.UserRoles
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  order?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutSellInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutSellInput, Prisma.UserUncheckedCreateWithoutSellInput>
-}
-
-export type UserUpsertWithoutSellInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutSellInput, Prisma.UserUncheckedUpdateWithoutSellInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutSellInput, Prisma.UserUncheckedCreateWithoutSellInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutSellInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutSellInput, Prisma.UserUncheckedUpdateWithoutSellInput>
-}
-
-export type UserUpdateWithoutSellInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
-  isSuperAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  order?: Prisma.OrderUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutSellInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
-  isSuperAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  order?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutOrderInput = {
-  id?: string
-  name: string
-  email: string
-  password: string
-  avatar: string
-  isSuperAdmin?: boolean
-  emailConfirmed?: boolean
-  role?: $Enums.UserRoles
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sell?: Prisma.BookCreateNestedManyWithoutSellerInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutOrderInput = {
-  id?: string
-  name: string
-  email: string
-  password: string
-  avatar: string
-  isSuperAdmin?: boolean
-  emailConfirmed?: boolean
-  role?: $Enums.UserRoles
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sell?: Prisma.BookUncheckedCreateNestedManyWithoutSellerInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutOrderInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutOrderInput, Prisma.UserUncheckedCreateWithoutOrderInput>
-}
-
-export type UserUpsertWithoutOrderInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutOrderInput, Prisma.UserUncheckedUpdateWithoutOrderInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutOrderInput, Prisma.UserUncheckedCreateWithoutOrderInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutOrderInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutOrderInput, Prisma.UserUncheckedUpdateWithoutOrderInput>
-}
-
-export type UserUpdateWithoutOrderInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
-  isSuperAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sell?: Prisma.BookUpdateManyWithoutSellerNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutOrderInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.StringFieldUpdateOperationsInput | string
-  isSuperAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  role?: Prisma.EnumUserRolesFieldUpdateOperationsInput | $Enums.UserRoles
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sell?: Prisma.BookUncheckedUpdateManyWithoutSellerNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
+  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 
@@ -733,15 +2100,33 @@ export type UserUncheckedUpdateWithoutOrderInput = {
  */
 
 export type UserCountOutputType = {
-  sell: number
+  addresses: number
+  listings: number
+  wishlistItems: number
+  buyerOrders: number
+  sellerItems: number
+  escrowPayouts: number
+  reviewsGiven: number
+  reviewsRecd: number
+  chatRoomsAsBuyer: number
+  chatRoomsAsSeller: number
+  sentMessages: number
   notifications: number
-  order: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  sell?: boolean | UserCountOutputTypeCountSellArgs
+  addresses?: boolean | UserCountOutputTypeCountAddressesArgs
+  listings?: boolean | UserCountOutputTypeCountListingsArgs
+  wishlistItems?: boolean | UserCountOutputTypeCountWishlistItemsArgs
+  buyerOrders?: boolean | UserCountOutputTypeCountBuyerOrdersArgs
+  sellerItems?: boolean | UserCountOutputTypeCountSellerItemsArgs
+  escrowPayouts?: boolean | UserCountOutputTypeCountEscrowPayoutsArgs
+  reviewsGiven?: boolean | UserCountOutputTypeCountReviewsGivenArgs
+  reviewsRecd?: boolean | UserCountOutputTypeCountReviewsRecdArgs
+  chatRoomsAsBuyer?: boolean | UserCountOutputTypeCountChatRoomsAsBuyerArgs
+  chatRoomsAsSeller?: boolean | UserCountOutputTypeCountChatRoomsAsSellerArgs
+  sentMessages?: boolean | UserCountOutputTypeCountSentMessagesArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
-  order?: boolean | UserCountOutputTypeCountOrderArgs
 }
 
 /**
@@ -757,8 +2142,78 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountSellArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BookWhereInput
+export type UserCountOutputTypeCountAddressesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserAddressWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountListingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountWishlistItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WishlistWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountBuyerOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrderWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSellerItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrderItemWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountEscrowPayoutsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EscrowPayoutWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReviewsGivenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReviewsRecdArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChatRoomsAsBuyerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChatRoomWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChatRoomsAsSellerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChatRoomWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSentMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChatMessageWhereInput
 }
 
 /**
@@ -768,75 +2223,74 @@ export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.NotificationWhereInput
 }
 
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountOrderArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.OrderWhereInput
-}
-
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
   email?: boolean
-  password?: boolean
-  avatar?: boolean
-  isSuperAdmin?: boolean
-  emailConfirmed?: boolean
-  role?: boolean
+  passwordHash?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  sell?: boolean | Prisma.User$sellArgs<ExtArgs>
+  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
+  addresses?: boolean | Prisma.User$addressesArgs<ExtArgs>
+  listings?: boolean | Prisma.User$listingsArgs<ExtArgs>
+  cart?: boolean | Prisma.User$cartArgs<ExtArgs>
+  wishlistItems?: boolean | Prisma.User$wishlistItemsArgs<ExtArgs>
+  buyerOrders?: boolean | Prisma.User$buyerOrdersArgs<ExtArgs>
+  sellerItems?: boolean | Prisma.User$sellerItemsArgs<ExtArgs>
+  escrowPayouts?: boolean | Prisma.User$escrowPayoutsArgs<ExtArgs>
+  reviewsGiven?: boolean | Prisma.User$reviewsGivenArgs<ExtArgs>
+  reviewsRecd?: boolean | Prisma.User$reviewsRecdArgs<ExtArgs>
+  chatRoomsAsBuyer?: boolean | Prisma.User$chatRoomsAsBuyerArgs<ExtArgs>
+  chatRoomsAsSeller?: boolean | Prisma.User$chatRoomsAsSellerArgs<ExtArgs>
+  sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
-  order?: boolean | Prisma.User$orderArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
   email?: boolean
-  password?: boolean
-  avatar?: boolean
-  isSuperAdmin?: boolean
-  emailConfirmed?: boolean
-  role?: boolean
+  passwordHash?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
   email?: boolean
-  password?: boolean
-  avatar?: boolean
-  isSuperAdmin?: boolean
-  emailConfirmed?: boolean
-  role?: boolean
+  passwordHash?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
   id?: boolean
-  name?: boolean
   email?: boolean
-  password?: boolean
-  avatar?: boolean
-  isSuperAdmin?: boolean
-  emailConfirmed?: boolean
-  role?: boolean
+  passwordHash?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "avatar" | "isSuperAdmin" | "emailConfirmed" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "passwordHash" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  sell?: boolean | Prisma.User$sellArgs<ExtArgs>
+  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
+  addresses?: boolean | Prisma.User$addressesArgs<ExtArgs>
+  listings?: boolean | Prisma.User$listingsArgs<ExtArgs>
+  cart?: boolean | Prisma.User$cartArgs<ExtArgs>
+  wishlistItems?: boolean | Prisma.User$wishlistItemsArgs<ExtArgs>
+  buyerOrders?: boolean | Prisma.User$buyerOrdersArgs<ExtArgs>
+  sellerItems?: boolean | Prisma.User$sellerItemsArgs<ExtArgs>
+  escrowPayouts?: boolean | Prisma.User$escrowPayoutsArgs<ExtArgs>
+  reviewsGiven?: boolean | Prisma.User$reviewsGivenArgs<ExtArgs>
+  reviewsRecd?: boolean | Prisma.User$reviewsRecdArgs<ExtArgs>
+  chatRoomsAsBuyer?: boolean | Prisma.User$chatRoomsAsBuyerArgs<ExtArgs>
+  chatRoomsAsSeller?: boolean | Prisma.User$chatRoomsAsSellerArgs<ExtArgs>
+  sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
-  order?: boolean | Prisma.User$orderArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -845,19 +2299,26 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    sell: Prisma.$BookPayload<ExtArgs>[]
+    profile: Prisma.$UserProfilePayload<ExtArgs> | null
+    addresses: Prisma.$UserAddressPayload<ExtArgs>[]
+    listings: Prisma.$ListingPayload<ExtArgs>[]
+    cart: Prisma.$CartPayload<ExtArgs> | null
+    wishlistItems: Prisma.$WishlistPayload<ExtArgs>[]
+    buyerOrders: Prisma.$OrderPayload<ExtArgs>[]
+    sellerItems: Prisma.$OrderItemPayload<ExtArgs>[]
+    escrowPayouts: Prisma.$EscrowPayoutPayload<ExtArgs>[]
+    reviewsGiven: Prisma.$ReviewPayload<ExtArgs>[]
+    reviewsRecd: Prisma.$ReviewPayload<ExtArgs>[]
+    chatRoomsAsBuyer: Prisma.$ChatRoomPayload<ExtArgs>[]
+    chatRoomsAsSeller: Prisma.$ChatRoomPayload<ExtArgs>[]
+    sentMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
-    order: Prisma.$OrderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    name: string
     email: string
-    password: string
-    avatar: string
-    isSuperAdmin: boolean
-    emailConfirmed: boolean
-    role: $Enums.UserRoles
+    passwordHash: string
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -1254,9 +2715,20 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  sell<T extends Prisma.User$sellArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sellArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  profile<T extends Prisma.User$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profileArgs<ExtArgs>>): Prisma.Prisma__UserProfileClient<runtime.Types.Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  addresses<T extends Prisma.User$addressesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$addressesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  listings<T extends Prisma.User$listingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cart<T extends Prisma.User$cartArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cartArgs<ExtArgs>>): Prisma.Prisma__CartClient<runtime.Types.Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  wishlistItems<T extends Prisma.User$wishlistItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$wishlistItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  buyerOrders<T extends Prisma.User$buyerOrdersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$buyerOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sellerItems<T extends Prisma.User$sellerItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sellerItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  escrowPayouts<T extends Prisma.User$escrowPayoutsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$escrowPayoutsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EscrowPayoutPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviewsGiven<T extends Prisma.User$reviewsGivenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviewsRecd<T extends Prisma.User$reviewsRecdArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsRecdArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chatRoomsAsBuyer<T extends Prisma.User$chatRoomsAsBuyerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chatRoomsAsBuyerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chatRoomsAsSeller<T extends Prisma.User$chatRoomsAsSellerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chatRoomsAsSellerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sentMessages<T extends Prisma.User$sentMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  order<T extends Prisma.User$orderArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$orderArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1287,13 +2759,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
-  readonly name: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
-  readonly password: Prisma.FieldRef<"User", 'String'>
-  readonly avatar: Prisma.FieldRef<"User", 'String'>
-  readonly isSuperAdmin: Prisma.FieldRef<"User", 'Boolean'>
-  readonly emailConfirmed: Prisma.FieldRef<"User", 'Boolean'>
-  readonly role: Prisma.FieldRef<"User", 'UserRoles'>
+  readonly passwordHash: Prisma.FieldRef<"User", 'String'>
+  readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -1689,27 +3157,305 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.sell
+ * User.profile
  */
-export type User$sellArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$profileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Book
+   * Select specific fields to fetch from the UserProfile
    */
-  select?: Prisma.BookSelect<ExtArgs> | null
+  select?: Prisma.UserProfileSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Book
+   * Omit specific fields from the UserProfile
    */
-  omit?: Prisma.BookOmit<ExtArgs> | null
+  omit?: Prisma.UserProfileOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.BookInclude<ExtArgs> | null
-  where?: Prisma.BookWhereInput
-  orderBy?: Prisma.BookOrderByWithRelationInput | Prisma.BookOrderByWithRelationInput[]
-  cursor?: Prisma.BookWhereUniqueInput
+  include?: Prisma.UserProfileInclude<ExtArgs> | null
+  where?: Prisma.UserProfileWhereInput
+}
+
+/**
+ * User.addresses
+ */
+export type User$addressesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserAddress
+   */
+  select?: Prisma.UserAddressSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserAddress
+   */
+  omit?: Prisma.UserAddressOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserAddressInclude<ExtArgs> | null
+  where?: Prisma.UserAddressWhereInput
+  orderBy?: Prisma.UserAddressOrderByWithRelationInput | Prisma.UserAddressOrderByWithRelationInput[]
+  cursor?: Prisma.UserAddressWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.BookScalarFieldEnum | Prisma.BookScalarFieldEnum[]
+  distinct?: Prisma.UserAddressScalarFieldEnum | Prisma.UserAddressScalarFieldEnum[]
+}
+
+/**
+ * User.listings
+ */
+export type User$listingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Listing
+   */
+  select?: Prisma.ListingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Listing
+   */
+  omit?: Prisma.ListingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingInclude<ExtArgs> | null
+  where?: Prisma.ListingWhereInput
+  orderBy?: Prisma.ListingOrderByWithRelationInput | Prisma.ListingOrderByWithRelationInput[]
+  cursor?: Prisma.ListingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingScalarFieldEnum | Prisma.ListingScalarFieldEnum[]
+}
+
+/**
+ * User.cart
+ */
+export type User$cartArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Cart
+   */
+  select?: Prisma.CartSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Cart
+   */
+  omit?: Prisma.CartOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CartInclude<ExtArgs> | null
+  where?: Prisma.CartWhereInput
+}
+
+/**
+ * User.wishlistItems
+ */
+export type User$wishlistItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Wishlist
+   */
+  select?: Prisma.WishlistSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Wishlist
+   */
+  omit?: Prisma.WishlistOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WishlistInclude<ExtArgs> | null
+  where?: Prisma.WishlistWhereInput
+  orderBy?: Prisma.WishlistOrderByWithRelationInput | Prisma.WishlistOrderByWithRelationInput[]
+  cursor?: Prisma.WishlistWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WishlistScalarFieldEnum | Prisma.WishlistScalarFieldEnum[]
+}
+
+/**
+ * User.buyerOrders
+ */
+export type User$buyerOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Order
+   */
+  select?: Prisma.OrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Order
+   */
+  omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
+  where?: Prisma.OrderWhereInput
+  orderBy?: Prisma.OrderOrderByWithRelationInput | Prisma.OrderOrderByWithRelationInput[]
+  cursor?: Prisma.OrderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[]
+}
+
+/**
+ * User.sellerItems
+ */
+export type User$sellerItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrderItem
+   */
+  select?: Prisma.OrderItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OrderItem
+   */
+  omit?: Prisma.OrderItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderItemInclude<ExtArgs> | null
+  where?: Prisma.OrderItemWhereInput
+  orderBy?: Prisma.OrderItemOrderByWithRelationInput | Prisma.OrderItemOrderByWithRelationInput[]
+  cursor?: Prisma.OrderItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrderItemScalarFieldEnum | Prisma.OrderItemScalarFieldEnum[]
+}
+
+/**
+ * User.escrowPayouts
+ */
+export type User$escrowPayoutsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EscrowPayout
+   */
+  select?: Prisma.EscrowPayoutSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EscrowPayout
+   */
+  omit?: Prisma.EscrowPayoutOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EscrowPayoutInclude<ExtArgs> | null
+  where?: Prisma.EscrowPayoutWhereInput
+  orderBy?: Prisma.EscrowPayoutOrderByWithRelationInput | Prisma.EscrowPayoutOrderByWithRelationInput[]
+  cursor?: Prisma.EscrowPayoutWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EscrowPayoutScalarFieldEnum | Prisma.EscrowPayoutScalarFieldEnum[]
+}
+
+/**
+ * User.reviewsGiven
+ */
+export type User$reviewsGivenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+}
+
+/**
+ * User.reviewsRecd
+ */
+export type User$reviewsRecdArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+}
+
+/**
+ * User.chatRoomsAsBuyer
+ */
+export type User$chatRoomsAsBuyerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChatRoom
+   */
+  select?: Prisma.ChatRoomSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChatRoom
+   */
+  omit?: Prisma.ChatRoomOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChatRoomInclude<ExtArgs> | null
+  where?: Prisma.ChatRoomWhereInput
+  orderBy?: Prisma.ChatRoomOrderByWithRelationInput | Prisma.ChatRoomOrderByWithRelationInput[]
+  cursor?: Prisma.ChatRoomWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChatRoomScalarFieldEnum | Prisma.ChatRoomScalarFieldEnum[]
+}
+
+/**
+ * User.chatRoomsAsSeller
+ */
+export type User$chatRoomsAsSellerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChatRoom
+   */
+  select?: Prisma.ChatRoomSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChatRoom
+   */
+  omit?: Prisma.ChatRoomOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChatRoomInclude<ExtArgs> | null
+  where?: Prisma.ChatRoomWhereInput
+  orderBy?: Prisma.ChatRoomOrderByWithRelationInput | Prisma.ChatRoomOrderByWithRelationInput[]
+  cursor?: Prisma.ChatRoomWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChatRoomScalarFieldEnum | Prisma.ChatRoomScalarFieldEnum[]
+}
+
+/**
+ * User.sentMessages
+ */
+export type User$sentMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChatMessage
+   */
+  select?: Prisma.ChatMessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChatMessage
+   */
+  omit?: Prisma.ChatMessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChatMessageInclude<ExtArgs> | null
+  where?: Prisma.ChatMessageWhereInput
+  orderBy?: Prisma.ChatMessageOrderByWithRelationInput | Prisma.ChatMessageOrderByWithRelationInput[]
+  cursor?: Prisma.ChatMessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChatMessageScalarFieldEnum | Prisma.ChatMessageScalarFieldEnum[]
 }
 
 /**
@@ -1734,30 +3480,6 @@ export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
-}
-
-/**
- * User.order
- */
-export type User$orderArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Order
-   */
-  select?: Prisma.OrderSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Order
-   */
-  omit?: Prisma.OrderOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.OrderInclude<ExtArgs> | null
-  where?: Prisma.OrderWhereInput
-  orderBy?: Prisma.OrderOrderByWithRelationInput | Prisma.OrderOrderByWithRelationInput[]
-  cursor?: Prisma.OrderWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[]
 }
 
 /**

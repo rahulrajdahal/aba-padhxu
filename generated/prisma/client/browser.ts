@@ -23,37 +23,72 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
- * Model Notification
+ * Model UserProfile
  * 
  */
-export type Notification = Prisma.NotificationModel
+export type UserProfile = Prisma.UserProfileModel
 /**
- * Model Token
+ * Model UserAddress
  * 
  */
-export type Token = Prisma.TokenModel
+export type UserAddress = Prisma.UserAddressModel
 /**
  * Model Book
  * 
  */
 export type Book = Prisma.BookModel
 /**
- * Model Genre
+ * Model Listing
  * 
  */
-export type Genre = Prisma.GenreModel
+export type Listing = Prisma.ListingModel
 /**
- * Model Author
+ * Model Cart
  * 
  */
-export type Author = Prisma.AuthorModel
+export type Cart = Prisma.CartModel
+/**
+ * Model CartItem
+ * 
+ */
+export type CartItem = Prisma.CartItemModel
+/**
+ * Model Wishlist
+ * 
+ */
+export type Wishlist = Prisma.WishlistModel
 /**
  * Model Order
  * 
  */
 export type Order = Prisma.OrderModel
 /**
- * Model BookOnOrder
+ * Model OrderItem
  * 
  */
-export type BookOnOrder = Prisma.BookOnOrderModel
+export type OrderItem = Prisma.OrderItemModel
+/**
+ * Model EscrowPayout
+ * 
+ */
+export type EscrowPayout = Prisma.EscrowPayoutModel
+/**
+ * Model Review
+ * 
+ */
+export type Review = Prisma.ReviewModel
+/**
+ * Model ChatRoom
+ * 
+ */
+export type ChatRoom = Prisma.ChatRoomModel
+/**
+ * Model ChatMessage
+ * 
+ */
+export type ChatMessage = Prisma.ChatMessageModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel

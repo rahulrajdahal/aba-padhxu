@@ -9,27 +9,53 @@
 * 🟢 You can import this file directly.
 */
 
-export const UserRoles = {
-  SELLER: 'SELLER',
-  USER: 'USER'
+export const BookCondition = {
+  NEW: 'NEW',
+  LIKE_NEW: 'LIKE_NEW',
+  GOOD: 'GOOD',
+  ACCEPTABLE: 'ACCEPTABLE'
 } as const
 
-export type UserRoles = (typeof UserRoles)[keyof typeof UserRoles]
+export type BookCondition = (typeof BookCondition)[keyof typeof BookCondition]
+
+
+export const AddressType = {
+  SHIPPING: 'SHIPPING',
+  BILLING: 'BILLING',
+  BOTH: 'BOTH'
+} as const
+
+export type AddressType = (typeof AddressType)[keyof typeof AddressType]
 
 
 export const OrderStatus = {
   PENDING: 'PENDING',
-  DELIVERING: 'DELIVERING',
-  COMPLETED: 'COMPLETED'
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
 } as const
 
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
 
 
-export const PaymentMethod = {
-  CASH: 'CASH',
-  ONLINE: 'ONLINE',
-  BANK: 'BANK'
+export const OrderItemStatus = {
+  PROCESSING: 'PROCESSING',
+  ESCROW_HELD: 'ESCROW_HELD',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED',
+  DISPUTED: 'DISPUTED',
+  RELEASED: 'RELEASED'
 } as const
 
-export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+export type OrderItemStatus = (typeof OrderItemStatus)[keyof typeof OrderItemStatus]
+
+
+export const NotificationType = {
+  NEW_MESSAGE: 'NEW_MESSAGE',
+  ORDER_STATUS: 'ORDER_STATUS',
+  PRICE_DROP: 'PRICE_DROP',
+  ESCROW_UPDATED: 'ESCROW_UPDATED',
+  NEW_REVIEW: 'NEW_REVIEW'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
