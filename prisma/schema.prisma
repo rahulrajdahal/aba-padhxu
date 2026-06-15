@@ -121,11 +121,14 @@ model Book {
   id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   isbn13        String     @unique @db.Char(13)
   title         String
+  slug          String     @unique
+  description   String?
   author        String
   genre         String?
   publisher     String?
   publishedDate DateTime?  @map("published_date") @db.Date
   createdAt     DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime   @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
   listings      Listing[]
   wishlistItems Wishlist[]
   reviews       Review[]
