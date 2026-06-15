@@ -1,6 +1,6 @@
 import { IRootLayout } from "@/app/layout";
 import { Notification, User } from "@prisma/client";
-import AdminNavbar from "./AdminNavbar";
+import AdminNavbar from "../AdminNavbar/AdminNavbar";
 
 interface AdminPageLayoutProps extends IRootLayout {
   user?: Pick<User, "email" | "name" | "avatar">;

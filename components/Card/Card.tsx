@@ -3,7 +3,7 @@
 import { BookWithAuthorAndGenre } from "@/types";
 import Image, { ImageProps } from "next/image";
 import Link, { LinkProps } from "next/link";
-import { AddToCart } from "./Buttons";
+import { AddToCart } from "../Buttons";
 
 interface CardProps extends LinkProps {
   imageProps?: ImageProps;

@@ -5,7 +5,7 @@ import { routes } from "@/utils/routes";
 import { CartB } from "@meistericons/react";
 import { Notification, UserRoles } from "@prisma/client";
 import Link from "next/link";
-import NotificationsDropdown from "../NotificationsDropdown";
+import NotificationsDropdown from "../NotificationsDropdown/NotificationsDropdown";
 import AuthButton from "./AuthButton";
 
 export type NavbarProps = {

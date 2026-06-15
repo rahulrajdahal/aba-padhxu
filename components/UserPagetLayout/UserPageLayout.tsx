@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Navbar, { NavbarProps } from "./Navbar/Navbar";
+import Navbar, { NavbarProps } from "../Navbar/Navbar";
 
 type UserPageLayoutProps = {
   children: React.ReactNode;

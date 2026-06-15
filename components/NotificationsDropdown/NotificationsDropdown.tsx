@@ -7,7 +7,7 @@ import { Notification } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import NotificationCard from "./NotificationCard";
+import NotificationCard from "../NotificationCard/NotificationCard";
 
 interface NotificationsDropdownProps {
   notifications?: Notification[];
@@ -33,7 +33,7 @@ export default function NotificationsDropdown({
   };
 
   const unreadNotifications = notifications?.filter(
-    (notification) => !notification.isRead
+    (notification) => !notification.isRead,
   );
 
   return (
