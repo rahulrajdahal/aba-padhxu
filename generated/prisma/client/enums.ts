@@ -9,6 +9,15 @@
 * 🟢 You can import this file directly.
 */
 
+export const TokenType = {
+  EMAIL_CONFIRMATION: 'EMAIL_CONFIRMATION',
+  PASSWORD_RESET: 'PASSWORD_RESET',
+  SESSION: 'SESSION'
+} as const
+
+export type TokenType = (typeof TokenType)[keyof typeof TokenType]
+
+
 export const BookCondition = {
   NEW: 'NEW',
   LIKE_NEW: 'LIKE_NEW',
