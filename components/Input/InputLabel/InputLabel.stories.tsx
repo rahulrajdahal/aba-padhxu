@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import InputLabel from "./InputLabel";
 
 const meta = {
-  title: "Components/InputLabel",
+  title: "Components/Input/InputLabel",
   component: InputLabel,
   parameters: {
     layout: "centered",

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import TextField from "./TextField";
 
 const meta = {
-  title: "Components/TextField",
+  title: "Components/Input/TextField",
   component: TextField,
   parameters: {
     layout: "centered",

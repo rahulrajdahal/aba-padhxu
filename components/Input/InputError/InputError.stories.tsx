@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import InputError from "./InputError";
 
 const meta = {
-  title: "Components/InputError",
+  title: "Components/Input/InputError",
   component: InputError,
   parameters: {
     layout: "centered",
