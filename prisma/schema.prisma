@@ -7,119 +7,317 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id             String         @id @default(cuid())
-  name           String
-  email          String         @unique
-  password       String
-  avatar         String
-  isSuperAdmin   Boolean        @default(false)
-  emailConfirmed Boolean        @default(false)
-  role           UserRoles      @default(USER)
-  createdAt      DateTime       @default(now()) @map("created_at")
-  updatedAt      DateTime       @updatedAt @map("updated_at")
-  sell           Book[]
-  notifications  Notification[]
-  order          Order[]
+enum BookCondition {
+  NEW        @map("New")
+  LIKE_NEW   @map("Like New")
+  GOOD       @map("Good")
+  ACCEPTABLE @map("Acceptable")
 }
 
-model Notification {
-  id          String   @id @default(cuid())
-  title       String
-  description String
-  isRead      Boolean  @default(false)
-  userId      String
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-  user        User     @relation(fields: [userId], references: [id])
-}
-
-model Token {
-  id        String   @id @default(cuid())
-  email     String
-  token     String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-}
-
-model Book {
-  id            String        @id @default(cuid())
-  name          String        @unique
-  slug          String        @unique
-  image         String
-  description   String
-  publishedDate String
-  price         Decimal       @db.Money
-  quantity      Int
-  sellerId      String
-  authorId      String?
-  genreId       String?
-  createdAt     DateTime      @default(now()) @map("created_at")
-  updatedAt     DateTime      @updatedAt @map("updated_at")
-  author        Author?       @relation(fields: [authorId], references: [id])
-  genre         Genre?        @relation(fields: [genreId], references: [id])
-  seller        User          @relation(fields: [sellerId], references: [id])
-  orders        BookOnOrder[]
-}
-
-model Genre {
-  id        String   @id @default(cuid())
-  title     String   @unique
-  slug      String   @unique
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  book      Book[]
-}
-
-model Author {
-  id        String   @id @default(cuid())
-  name      String
-  slug      String   @unique
-  avatar    String?
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  book      Book[]
-}
-
-model Order {
-  id            String        @id @default(cuid())
-  country       String
-  city          String
-  street        String
-  paymentMethod PaymentMethod @default(CASH)
-  status        OrderStatus   @default(PENDING)
-  amount        Int
-  userId        String
-  createdAt     DateTime      @default(now()) @map("created_at")
-  updatedAt     DateTime      @updatedAt @map("updated_at")
-  items         BookOnOrder[]
-  user          User          @relation(fields: [userId], references: [id])
-}
-
-model BookOnOrder {
-  bookId     String
-  quantity   Int
-  orderId    String
-  assignedAt DateTime @default(now())
-  book       Book     @relation(fields: [bookId], references: [id])
-  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-
-  @@id([bookId, orderId])
-}
-
-enum UserRoles {
-  SELLER
-  USER
+enum AddressType {
+  SHIPPING @map("Shipping")
+  BILLING  @map("Billing")
+  BOTH     @map("Both")
 }
 
 enum OrderStatus {
-  PENDING
-  DELIVERING
-  COMPLETED
+  PENDING   @map("Pending")
+  PAID      @map("Paid")
+  FAILED    @map("Failed")
+  CANCELLED @map("Cancelled")
 }
 
-enum PaymentMethod {
-  CASH
-  ONLINE
-  BANK
+enum OrderItemStatus {
+  PROCESSING  @map("Processing")
+  ESCROW_HELD @map("Escrow_Held")
+  SHIPPED     @map("Shipped")
+  DELIVERED   @map("Delivered")
+  DISPUTED    @map("Disputed")
+  RELEASED    @map("Released")
+}
+
+model User {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  profile           UserProfile?
+  addresses         UserAddress[]
+  listings          Listing[]      @relation("SellerListings")
+  cart              Cart?
+  wishlistItems     Wishlist[]
+  buyerOrders       Order[]        @relation("BuyerOrders")
+  sellerItems       OrderItem[]    @relation("SellerOrderItems")
+  escrowPayouts     EscrowPayout[] @relation("SellerPayouts")
+  reviewsGiven      Review[]       @relation("BuyerReviews")
+  reviewsRecd       Review[]       @relation("SellerReviews")
+  chatRoomsAsBuyer  ChatRoom[]     @relation("BuyerRooms")
+  chatRoomsAsSeller ChatRoom[]     @relation("SellerRooms")
+  sentMessages      ChatMessage[]  @relation("SentMessages")
+  notifications     Notification[]
+
+  @@map("users")
+}
+
+model UserProfile {
+  userId       String   @id @map("user_id") @db.Uuid
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName    String   @map("first_name")
+  lastName     String   @map("last_name")
+  phoneNumber  String?  @map("phone_number")
+  sellerRating Decimal? @default(0.00) @map("seller_rating") @db.Decimal(3, 2)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@map("user_profiles")
+}
+
+model UserAddress {
+  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type          AddressType @default(SHIPPING)
+  recipientName String      @map("recipient_name")
+  addressLine1  String      @map("address_line1")
+  addressLine2  String?     @map("address_line2")
+  city          String
+  stateProvince String      @map("state_province")
+  postalCode    String      @map("postal_code")
+  countryCode   String      @map("country_code") @db.Char(2)
+  isDefault     Boolean     @default(false) @map("is_default")
+  createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamptz
+
+  userId String  @map("user_id") @db.Uuid
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders Order[] @relation("ShippingAddress")
+
+  @@index([userId])
+  @@map("user_addresses")
+}
+
+model Book {
+  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  isbn13        String     @unique @db.Char(13)
+  title         String
+  author        String
+  genre         String?
+  publisher     String?
+  publishedDate DateTime?  @map("published_date") @db.Date
+  createdAt     DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  listings      Listing[]
+  wishlistItems Wishlist[]
+  reviews       Review[]
+
+  @@index([title])
+  @@index([author])
+  @@map("books")
+}
+
+model Listing {
+  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  condition   BookCondition
+  priceCents  Int           @map("price_cents")
+  quantity    Int
+  description String?
+  isActive    Boolean       @default(true) @map("is_active")
+  createdAt   DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime      @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  sellerId String @map("seller_id") @db.Uuid
+  seller   User   @relation("SellerListings", fields: [sellerId], references: [id], onDelete: Cascade)
+  bookId   String @map("book_id") @db.Uuid
+  book     Book   @relation(fields: [bookId], references: [id], onDelete: Restrict)
+
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+  chatRooms  ChatRoom[]
+
+  @@index([sellerId])
+  @@index([bookId])
+  @@map("listings")
+}
+
+model Cart {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  userId String @unique @map("user_id") @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  cartItems CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  quantity  Int
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  cartId    String  @map("cart_id") @db.Uuid
+  cart      Cart    @relation(fields: [cartId], references: [userId], onDelete: Cascade)
+  listingId String  @map("listing_id") @db.Uuid
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, listingId])
+  @@index([listingId])
+  @@map("cart_items")
+}
+
+model Wishlist {
+  userId    String   @map("user_id") @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookId    String   @map("book_id") @db.Uuid
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@unique([userId, bookId])
+  @@index([userId])
+  @@map("wishlist")
+}
+
+model Order {
+  id                String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  totalAmountCents  Int         @map("total_amount_cents")
+  paymentStatus     OrderStatus @default(PENDING) @map("payment_status")
+  paymentGatewayRef String?     @map("payment_gateway_ref")
+  createdAt         DateTime    @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  buyerId           String      @map("buyer_id") @db.Uuid
+  buyer             User        @relation("BuyerOrders", fields: [buyerId], references: [id], onDelete: Restrict)
+  shippingAddressId String      @map("shipping_address_id") @db.Uuid
+  shippingAddress   UserAddress @relation("ShippingAddress", fields: [shippingAddressId], references: [id], onDelete: Restrict)
+  orderItems        OrderItem[]
+
+  @@index([buyerId])
+  @@index([shippingAddressId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id                   String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  historicalTitle      String          @map("historical_title")
+  historicalIsbn13     String          @map("historical_isbn13") @db.Char(13)
+  priceAtPurchaseCents Int             @map("price_at_purchase_cents")
+  quantity             Int
+  fulfillmentStatus    OrderItemStatus @default(PROCESSING) @map("fulfillment_status")
+  trackingNumber       String?         @map("tracking_number")
+  shippingCarrier      String?         @map("shipping_carrier")
+  createdAt            DateTime        @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt            DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  orderId      String        @map("order_id") @db.Uuid
+  order        Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  listingId    String?       @map("listing_id") @db.Uuid
+  listing      Listing?      @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  sellerId     String        @map("seller_id") @db.Uuid
+  seller       User          @relation("SellerOrderItems", fields: [sellerId], references: [id], onDelete: Restrict)
+  escrowPayout EscrowPayout?
+  review       Review?
+
+  @@index([sellerId])
+  @@index([orderId])
+  @@index([listingId])
+  @@map("order_items")
+}
+
+model EscrowPayout {
+  amountCents          Int      @map("amount_cents")
+  payoutTransactionRef String?  @map("payout_transaction_ref")
+  releaseEligibleAt    DateTime @map("release_eligible_at") @db.Timestamptz
+  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt            DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  orderItemId  String          @unique @map("order_item_id") @db.Uuid
+  orderItem    OrderItem       @relation(fields: [orderItemId], references: [id], onDelete: Restrict)
+  sellerId     String          @map("seller_id") @db.Uuid
+  seller       User            @relation("SellerPayouts", fields: [sellerId], references: [id], onDelete: Restrict)
+  escrowStatus OrderItemStatus @default(ESCROW_HELD) @map("escrow_status")
+
+  @@index([sellerId])
+  @@index([releaseEligibleAt])
+  @@map("escrow_payouts")
+}
+
+model Review {
+  bookRating       Int?     @map("book_rating")
+  bookReviewText   String?  @map("book_review_text")
+  sellerRating     Int      @map("seller_rating")
+  sellerReviewText String?  @map("seller_review_text")
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  orderItemId String    @unique @map("order_item_id") @db.Uuid
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Restrict)
+  buyerId     String    @map("buyer_id") @db.Uuid
+  buyer       User      @relation("BuyerReviews", fields: [buyerId], references: [id], onDelete: Restrict)
+  sellerId    String    @map("seller_id") @db.Uuid
+  seller      User      @relation("SellerReviews", fields: [sellerId], references: [id], onDelete: Restrict)
+  bookId      String?   @map("book_id") @db.Uuid
+  book        Book?     @relation(fields: [bookId], references: [id], onDelete: SetNull)
+
+  @@index([buyerId])
+  @@index([sellerId])
+  @@index([bookId])
+  @@map("reviews")
+}
+
+enum NotificationType {
+  NEW_MESSAGE    @map("New_Message")
+  ORDER_STATUS   @map("Order_Status")
+  PRICE_DROP     @map("Price_Drop")
+  ESCROW_UPDATED @map("Escrow_Updated")
+  NEW_REVIEW     @map("New_Review")
+}
+
+model ChatRoom {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  buyerId   String   @map("buyer_id") @db.Uuid
+  buyer     User     @relation("BuyerRooms", fields: [buyerId], references: [id], onDelete: Cascade)
+  sellerId  String   @map("seller_id") @db.Uuid
+  seller    User     @relation("SellerRooms", fields: [sellerId], references: [id], onDelete: Cascade)
+  listingId String?  @map("listing_id") @db.Uuid
+  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: SetNull)
+
+  messages ChatMessage[]
+
+  @@unique([buyerId, sellerId, listingId])
+  @@index([sellerId])
+  @@index([listingId])
+  @@map("chat_rooms")
+}
+
+model ChatMessage {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  chatRoomId  String    @map("chat_room_id") @db.Uuid
+  senderId    String    @map("sender_id") @db.Uuid
+  messageText String    @map("message_text")
+  readAt      DateTime? @map("read_at") @db.Timestamptz
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  chatRoom ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
+  sender   User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([chatRoomId, createdAt(sort: Desc)])
+  @@map("chat_messages")
+}
+
+model Notification {
+  id        String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type      NotificationType
+  title     String
+  body      String
+  isRead    Boolean          @default(false) @map("is_read")
+  targetUrl String?          @map("target_url")
+  createdAt DateTime         @default(now()) @map("created_at") @db.Timestamptz
+
+  userId String @map("user_id") @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead, createdAt(sort: Desc)])
+  @@map("notifications")
 }
