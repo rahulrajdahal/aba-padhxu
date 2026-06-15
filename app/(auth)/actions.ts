@@ -1,31 +1,43 @@
 "use server";
 
 import EmailTemplate from "@/emails/EmailTemplate";
-import { UserRoles } from "@/generated/prisma/client/client";
+import { TokenType } from "@/generated/prisma/client/client";
 import { logger } from "@/lib/logger";
 import {
   errorResponse,
   invalidRequestError,
+  noContentResponse,
   okResponse,
   serverError,
   validationError,
 } from "@/lib/responses";
-import { prisma } from "@/prisma/prisma";
-import { createSession, deleteSession, encrypt, expiresAt } from "@/utils/auth";
-import { getErrorResponse, getSuccessResponse } from "@/utils/helpers";
 import { transporter } from "@/utils/nodemailer";
 import { routes } from "@/utils/routes";
 import { render } from "@react-email/components";
-import bcrypt from "bcryptjs";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { generateToken } from "../tokens/middleware";
+import {
+  createToken,
+  deleteTokenById,
+  getTokenByToken,
+} from "../tokens/tokens.service";
 import { findByEmail } from "../users/users.dal";
-import { createUser, getUserByEmail } from "../users/users.service";
-import { loginSchema, signupSchema } from "./auth.validation";
-import { verifySession } from "./dal";
-import { getUserId, getUserRole } from "./dto";
+import {
+  createUser,
+  getUserByEmail,
+  getUserById,
+  patchUserById,
+} from "../users/users.service";
+import {
+  forgotPasswordSchema,
+  loginSchema,
+  resetPasswordSchema,
+  signupSchema,
+} from "./auth.validation";
 import {
   comparePassword,
+  createSession,
+  deleteSession,
   hashPassword,
   isUserActive,
   sendConfirmationEmail,
@@ -103,6 +115,25 @@ export const login = async (prevState: unknown, formData: FormData) => {
   }
 };
 
+export const confirmEmail = async (emailToken: string) => {
+  try {
+    const token = await getTokenByToken(emailToken);
+
+    if (!token || token.type !== TokenType.EMAIL_CONFIRMATION) {
+      return invalidRequestError();
+    }
+
+    await patchUserById(token.userId, { isActive: true });
+
+    await deleteTokenById(token.id);
+
+    return noContentResponse();
+  } catch (error) {
+    logger.error("Error confirming email", error);
+    return serverError();
+  }
+};
+
 export const forgotPassword = async (
   prevState: unknown,
   formData: FormData,
@@ -114,36 +145,28 @@ export const forgotPassword = async (
 
     const validatedFields = forgotPasswordSchema.safeParse(body);
 
-    // Return early if the form data is invalid
     if (!validatedFields.success) {
-      return getErrorResponse(
-        "Validation Error",
-        undefined,
-        validatedFields.error.flatten().fieldErrors,
-      );
+      return validationError(validatedFields.error.flatten().fieldErrors);
     }
 
-    const user = await prisma.user.findFirst({
-      where: {
-        email: body.email,
-      },
-    });
+    const user = await getUserByEmail(body.email);
 
     if (!user) {
-      return getErrorResponse("Email not registered.", 400);
+      return invalidRequestError("Email not registered.");
     }
 
-    const hashToken = await encrypt({ userId: user.id, expiresAt });
-
-    const tokenBody = { token: hashToken, email: user.email };
-
-    await prisma.token.create({ data: tokenBody });
+    const resetToken = generateToken();
+    await createToken({
+      token: resetToken,
+      type: "PASSWORD_RESET",
+      userId: user.id,
+    });
 
     const emailHtml = await render(
       EmailTemplate({
         title: "Password reset request",
         heading: "Reset Password",
-        body: `Follow the provided link to reset your account password. http://localhost:3000/auth/reset-password/${hashToken}`,
+        body: `Follow the provided link to reset your account password. http://localhost:3000/auth/reset-password/${resetToken}`,
       }),
     );
 
@@ -164,11 +187,10 @@ export const forgotPassword = async (
       }),
     );
 
-    return getSuccessResponse(
-      "A reset password link has been sent to your email.",
-    );
+    return okResponse("A reset password link has been sent to your email.");
   } catch (error) {
-    return getErrorResponse("Server Error", 500, error);
+    logger.error("Error sending reset password email", error);
+    return serverError();
   }
 };
 
@@ -181,87 +203,36 @@ export const resetPassword = async (prevState: unknown, formData: FormData) => {
 
     const validatedFields = resetPasswordSchema.safeParse(body);
 
-    // Return early if the form data is invalid
     if (!validatedFields.success) {
-      return getErrorResponse(
-        "Validation Error",
-        undefined,
-        validatedFields.error.flatten().fieldErrors,
-      );
+      return validationError(validatedFields.error.flatten().fieldErrors);
     }
 
-    const token = await prisma.token.findFirst({
-      where: {
-        token: formData.get("token") as string,
-      },
-    });
+    const token = await getTokenByToken(formData.get("token") as string);
 
-    if (!token) {
-      return getErrorResponse("Invalid request.");
+    if (!token || token.type !== TokenType.PASSWORD_RESET) {
+      return invalidRequestError();
     }
 
-    const user = await prisma.user.findFirst({ where: { email: token.email } });
-
-    await prisma.token.delete({ where: { id: token.id } });
+    const user = await getUserById(token.userId);
 
     if (!user) {
-      return getErrorResponse("Invalid request.");
+      return invalidRequestError();
     }
 
-    const salt = bcrypt.genSaltSync(10);
-    body.password = bcrypt.hashSync(body.password, salt);
+    await deleteTokenById(token.id);
 
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { password: body.password },
-    });
+    const passwordHash = await hashPassword(body.password);
 
-    return getSuccessResponse("Password updated.");
+    await patchUserById(user.id, { passwordHash });
+
+    return noContentResponse();
   } catch (error) {
-    return getErrorResponse("Server Error", 500, error);
+    logger.error("Error resetting password", error);
+    return serverError();
   }
 };
 
 export const logout = async () => {
   await deleteSession();
   redirect(routes.login);
-};
-
-export const getNavbarProps = async () => {
-  const { userId, isAuth } = await verifySession();
-
-  const count = (await cookies())?.get("cartItems")?.value
-    ? JSON.parse((await cookies())?.get("cartItems")?.value as string).length
-    : 0;
-
-  if (!isAuth) {
-    return {
-      role: UserRoles.USER,
-      isLoggedIn: false,
-      count,
-      notifications: [],
-    };
-  }
-
-  const role = await getUserRole();
-
-  const notifications = await prisma.notification.findMany({
-    where: {
-      userId: userId as string,
-    },
-  });
-
-  return { role, isLoggedIn: isAuth, count, notifications };
-};
-
-export const getUserInfo = async () => {
-  const userId = await getUserId();
-
-  const user = await prisma.user.findUnique({ where: { id: userId } });
-
-  if (!user) {
-    return { name: "user", email: "user@email.com", avatar: "default.png" };
-  }
-
-  return { email: user.email, name: user.name, avatar: user.avatar };
 };

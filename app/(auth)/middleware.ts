@@ -1,30 +1,15 @@
 import EmailTemplate from "@/emails/EmailTemplate";
 import { User } from "@/generated/prisma/client/client";
-import { TokenType } from "@/generated/prisma/client/enums";
 import { logger } from "@/lib/logger";
-import {
-  errorResponse,
-  invalidRequestError,
-  noContentResponse,
-  okResponse,
-  serverError,
-} from "@/lib/responses";
+import { errorResponse, okResponse, serverError } from "@/lib/responses";
 import { decryptJWT, encryptJWT, expiresAt } from "@/utils/auth";
 import { transporter } from "@/utils/nodemailer";
 import { render } from "@react-email/components";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { generateToken } from "../tokens/middleware";
-import {
-  createToken,
-  deleteTokenById,
-  getTokenByToken,
-} from "../tokens/tokens.service";
-import {
-  getUserByEmail,
-  getUserById,
-  patchUserById,
-} from "../users/users.service";
+import { createToken } from "../tokens/tokens.service";
+import { getUserByEmail, getUserById } from "../users/users.service";
 
 const cookieStore = await cookies();
 
@@ -152,25 +137,6 @@ export const sendConfirmationEmail = async (
     if (error instanceof Error) {
       return errorResponse(error.message);
     }
-    return serverError();
-  }
-};
-
-export const confirmEmail = async (emailToken: string) => {
-  try {
-    const token = await getTokenByToken(emailToken);
-
-    if (!token || token.type !== TokenType.EMAIL_CONFIRMATION) {
-      return invalidRequestError();
-    }
-
-    await patchUserById(token.userId, { isActive: true });
-
-    await deleteTokenById(token.id);
-
-    return noContentResponse();
-  } catch (error) {
-    logger.error("Error confirming email", error);
     return serverError();
   }
 };
