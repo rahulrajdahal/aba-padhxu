@@ -3,8 +3,8 @@ import { AdminPageLayout, AdminSidebar } from "@/components";
 import { prisma } from "@/prisma/prisma";
 import { routes } from "@/utils/routes";
 import { redirect } from "next/navigation";
-import { getUserInfo } from "../auth/actions";
-import { canUseDashboard, getUserId } from "../auth/dto";
+import { getUserInfo } from "../(auth)/actions";
+import { canUseDashboard, getUserId } from "../(auth)/dto";
 
 interface IAdminLayout extends IRootLayout {}
 

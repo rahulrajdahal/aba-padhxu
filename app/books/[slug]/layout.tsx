@@ -1,4 +1,4 @@
-import { getNavbarProps } from "@/app/auth/actions";
+import { getNavbarProps } from "@/app/(auth)/actions";
 import { PageLayout, UserPageLayout } from "@/components";
 import { ReactNode } from "react";
 

@@ -11,7 +11,7 @@ import { render } from "@react-email/components";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { getUserId } from "../auth/dto";
+import { getUserId } from "../(auth)/dto";
 import { addNotification } from "../dashboard/notifications/actions";
 
 const orderSchema = z.object({

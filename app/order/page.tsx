@@ -1,6 +1,6 @@
 import { UserPageLayout } from "@/components";
 import { cookies } from "next/headers";
-import { getNavbarProps } from "../auth/actions";
+import { getNavbarProps } from "../(auth)/actions";
 import Order from "./Order";
 
 export default async function page() {

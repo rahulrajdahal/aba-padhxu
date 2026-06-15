@@ -1,6 +1,6 @@
 "use client";
 
-import { logout } from "@/app/auth/actions";
+import { logout } from "@/app/(auth)/actions";
 import { routes } from "@/utils/routes";
 import Button from "../Buttons/Button";
 

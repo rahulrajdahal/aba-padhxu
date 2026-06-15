@@ -3,19 +3,19 @@
 import EmailTemplate from "@/emails/EmailTemplate";
 import { User, UserRoles } from "@/generated/prisma/client/client";
 import { PrismaClientKnownRequestError } from "@/generated/prisma/client/internal/prismaNamespace";
+import { notFoundError, validationError } from "@/lib/responses";
 import { prisma } from "@/prisma/prisma";
 import {
   createSession,
   decrypt,
   deleteSession,
   encrypt,
-  expiresAt
+  expiresAt,
 } from "@/utils/auth";
 import {
   devUpload,
   getErrorResponse,
   getSuccessResponse,
-  isValidFileType,
   prodUpload,
 } from "@/utils/helpers";
 import { transporter } from "@/utils/nodemailer";
@@ -24,59 +24,10 @@ import { render } from "@react-email/components";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { z } from "zod";
+import { signupSchema } from "./auth.validation";
 import { verifySession } from "./dal";
 import { getUserId, getUserRole } from "./dto";
-
-const signupSchema = z
-  .object({
-    email: z.string().email("Invalid Email"),
-    password: z
-      .string()
-      .regex(/.*[A-Z].*/, "One uppercase character")
-      .regex(/.*[a-z].*/, "One lowercase character")
-      .regex(/.*\d.*/, "One number")
-      .regex(
-        /.*[`~<>?,./!@#$%^&*()\-_+="'|{}[\];:\\].*/,
-        "One special character"
-      )
-      .min(8, "Must be at least 8 characters in length"),
-    confirmPassword: z.string(),
-    avatar: z
-      .any()
-      .refine((file) => file?.size <= 5000000, `Max image size is 5MB.`)
-      .refine((file) => isValidFileType(file?.name), "Not a valid image."),
-  })
-  .refine(({ confirmPassword, password }) => confirmPassword === password, {
-    message: "Passwords do not match.",
-    path: ["confirmPassword"],
-  });
-
-const loginSchema = z.object({
-  email: z.string().email("Invalid Email"),
-  password: z.string(),
-});
-const forgotPasswordSchema = z.object({
-  email: z.string().email("Invalid Email"),
-});
-const resetPasswordSchema = z
-  .object({
-    password: z
-      .string()
-      .regex(/.*[A-Z].*/, "One uppercase character")
-      .regex(/.*[a-z].*/, "One lowercase character")
-      .regex(/.*\d.*/, "One number")
-      .regex(
-        /.*[`~<>?,./!@#$%^&*()\-_+="'|{}[\];:\\].*/,
-        "One special character"
-      )
-      .min(8, "Must be at least 8 characters in length"),
-    confirmPassword: z.string(),
-  })
-  .refine(({ confirmPassword, password }) => confirmPassword === password, {
-    message: "Passwords do not match.",
-    path: ["confirmPassword"],
-  });
+import { hashPassword } from "./middleware";
 
 export async function signup(prevState: unknown, formData: FormData) {
   try {
@@ -94,21 +45,13 @@ export async function signup(prevState: unknown, formData: FormData) {
       confirmPassword: formData.get("confirmPassword") as string,
     });
     if (!validateBody.success) {
-      return getErrorResponse(
-        "Validation Error",
-        400,
-        "Error",
-        Object.entries(validateBody.error.flatten().fieldErrors).map(
-          ([key, errorValue]) => ({ [key]: errorValue[0] })
-        )[0]
-      );
+      return validationError(validateBody.error.flatten().fieldErrors);
     }
 
-    const salt = bcrypt.genSaltSync(10);
-    body.password = bcrypt.hashSync(body.password, salt);
+    body.password = await hashPassword(body.password);
 
     if (!avatar || avatar.name === "undefined") {
-      return getErrorResponse("Avatar not found", 400);
+      return notFoundError("Avatar not found");
     }
     const bytes = await avatar.arrayBuffer();
     const buffer = Buffer.from(bytes);
@@ -162,7 +105,7 @@ export async function signup(prevState: unknown, formData: FormData) {
 
 const sendConfirmationEmail = async (
   user: Pick<User, "email" | "id" | "role">,
-  message = "An confirmation email was just sent!"
+  message = "An confirmation email was just sent!",
 ) => {
   try {
     const emailToken = await encrypt({ userId: user.id, expiresAt });
@@ -175,7 +118,7 @@ const sendConfirmationEmail = async (
         title: "Sign up with Aba Padhxu",
         heading: "Email Confirmation",
         body: `Follow the provided link to activate your account. http://localhost:3000/auth/confirm-email/${emailToken}`,
-      })
+      }),
     );
 
     const mailOptions = {
@@ -192,7 +135,7 @@ const sendConfirmationEmail = async (
         } else {
           resolve(true);
         }
-      })
+      }),
     );
 
     return getSuccessResponse(message);
@@ -251,8 +194,8 @@ export const login = async (prevState: unknown, formData: FormData) => {
         400,
         "Error",
         Object.entries(validateBody.error.flatten().fieldErrors).map(
-          ([key, errorValue]) => ({ [key]: errorValue[0] })
-        )[0]
+          ([key, errorValue]) => ({ [key]: errorValue[0] }),
+        )[0],
       );
     }
 
@@ -266,7 +209,7 @@ export const login = async (prevState: unknown, formData: FormData) => {
     if (!user.emailConfirmed) {
       return await sendConfirmationEmail(
         user,
-        "User email not confirmed. Please check your email for confirmation link."
+        "User email not confirmed. Please check your email for confirmation link.",
       );
     }
 
@@ -274,7 +217,7 @@ export const login = async (prevState: unknown, formData: FormData) => {
 
     return getSuccessResponse("Login successful.");
   } catch (error) {
-    console.log(error, 'login error')
+    console.log(error, "login error");
     if (error instanceof PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
         throw new Error(error.message);
@@ -286,7 +229,7 @@ export const login = async (prevState: unknown, formData: FormData) => {
 
 export const forgotPassword = async (
   prevState: unknown,
-  formData: FormData
+  formData: FormData,
 ) => {
   try {
     const body = {
@@ -300,7 +243,7 @@ export const forgotPassword = async (
       return getErrorResponse(
         "Validation Error",
         undefined,
-        validatedFields.error.flatten().fieldErrors
+        validatedFields.error.flatten().fieldErrors,
       );
     }
 
@@ -325,7 +268,7 @@ export const forgotPassword = async (
         title: "Password reset request",
         heading: "Reset Password",
         body: `Follow the provided link to reset your account password. http://localhost:3000/auth/reset-password/${hashToken}`,
-      })
+      }),
     );
 
     const mailOptions = {
@@ -342,11 +285,11 @@ export const forgotPassword = async (
         } else {
           resolve(true);
         }
-      })
+      }),
     );
 
     return getSuccessResponse(
-      "A reset password link has been sent to your email."
+      "A reset password link has been sent to your email.",
     );
   } catch (error) {
     return getErrorResponse("Server Error", 500, error);
@@ -367,7 +310,7 @@ export const resetPassword = async (prevState: unknown, formData: FormData) => {
       return getErrorResponse(
         "Validation Error",
         undefined,
-        validatedFields.error.flatten().fieldErrors
+        validatedFields.error.flatten().fieldErrors,
       );
     }
 
@@ -409,27 +352,28 @@ export const logout = async () => {
 };
 
 export const getNavbarProps = async () => {
-  const { userId, isAuth } = await verifySession()
+  const { userId, isAuth } = await verifySession();
 
   const count = (await cookies())?.get("cartItems")?.value
     ? JSON.parse((await cookies())?.get("cartItems")?.value as string).length
     : 0;
 
   if (!isAuth) {
-    return { role: UserRoles.USER, isLoggedIn: false, count, notifications: [] }
+    return {
+      role: UserRoles.USER,
+      isLoggedIn: false,
+      count,
+      notifications: [],
+    };
   }
 
   const role = await getUserRole();
-
-
 
   const notifications = await prisma.notification.findMany({
     where: {
       userId: userId as string,
     },
   });
-
-
 
   return { role, isLoggedIn: isAuth, count, notifications };
 };
@@ -445,5 +389,3 @@ export const getUserInfo = async () => {
 
   return { email: user.email, name: user.name, avatar: user.avatar };
 };
-
-

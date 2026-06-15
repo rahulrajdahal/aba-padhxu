@@ -1,7 +1,7 @@
 import { UserPageLayout } from "@/components";
 import { cookies } from "next/headers";
-import { getNavbarProps } from "../auth/actions";
-import { verifySession } from "../auth/dal";
+import { getNavbarProps } from "../(auth)/actions";
+import { verifySession } from "../(auth)/dal";
 import Cart from "./Cart";
 
 export default async function page() {

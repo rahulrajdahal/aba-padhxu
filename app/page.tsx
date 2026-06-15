@@ -1,8 +1,8 @@
 import { UserPageLayout } from "@/components";
 import { prisma } from "@/prisma/prisma";
 import { BookWithAuthorAndGenre } from "@/types";
+import { getNavbarProps } from "./(auth)/actions";
 import Books from "./Books";
-import { getNavbarProps } from "./auth/actions";
 
 export default async function page() {
   const books = await prisma.book.findMany({

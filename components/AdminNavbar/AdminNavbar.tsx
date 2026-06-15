@@ -1,6 +1,6 @@
 "use client";
 
-import { logout } from "@/app/auth/actions";
+import { logout } from "@/app/(auth)/actions";
 import { Notification, User } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Image from "next/image";
