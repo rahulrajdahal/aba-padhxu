@@ -1692,6 +1692,7 @@ export const UserAddressScalarFieldEnum = {
   countryCode: 'countryCode',
   isDefault: 'isDefault',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   userId: 'userId'
 } as const
 

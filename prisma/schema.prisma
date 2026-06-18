@@ -23,6 +23,7 @@ enum BookCondition {
 enum AddressType {
   SHIPPING @map("Shipping")
   BILLING  @map("Billing")
+  RETURN   @map("Return")
   BOTH     @map("Both")
 }
 
@@ -77,6 +78,7 @@ model Token {
   userId String @map("user_id") @db.Uuid
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  expiresAt DateTime @map("expires_at") @db.Timestamptz
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
@@ -84,13 +86,16 @@ model Token {
 }
 
 model UserProfile {
-  firstName    String   @map("first_name")
-  lastName     String   @map("last_name")
-  avatar       String?
-  phoneNumber  String?  @map("phone_number")
-  sellerRating Decimal? @default(0.00) @map("seller_rating") @db.Decimal(3, 2)
-  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  firstName          String   @map("first_name")
+  lastName           String   @map("last_name")
+  avatar             String?
+  phoneNumber        String?  @map("phone_number")
+  isSeller           Boolean  @default(false) @map("is_seller")
+  sellerRating       Decimal? @default(0.00) @map("seller_rating") @db.Decimal(3, 2)
+  pendingEscrowFunds Int      @default(0) @map("pending_escrow_funds")
+  availableFunds     Int      @default(0) @map("available_funds")
+  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   userId String @id @map("user_id") @db.Uuid
   user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -110,9 +115,10 @@ model UserAddress {
   countryCode   String      @map("country_code") @db.Char(2)
   isDefault     Boolean     @default(false) @map("is_default")
   createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   userId String  @map("user_id") @db.Uuid
-  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   orders Order[] @relation("ShippingAddress")
 
   @@index([userId])
@@ -184,7 +190,7 @@ model CartItem {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
 
   cartId    String  @map("cart_id") @db.Uuid
-  cart      Cart    @relation(fields: [cartId], references: [userId], onDelete: Cascade)
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
   listingId String  @map("listing_id") @db.Uuid
   listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 

@@ -51,6 +51,7 @@ export const addBook = async (prevData: unknown, formData: FormData) => {
       ...body,
       slug: slugify(body.title),
       publishedDate: new Date(body.publishedDate),
+      image: bookImage as string,
     });
 
     return createdResponse("Book added successfully", 201);

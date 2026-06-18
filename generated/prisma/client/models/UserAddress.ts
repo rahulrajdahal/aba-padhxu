@@ -36,6 +36,7 @@ export type UserAddressMinAggregateOutputType = {
   countryCode: string | null
   isDefault: boolean | null
   createdAt: Date | null
+  updatedAt: Date | null
   userId: string | null
 }
 
@@ -51,6 +52,7 @@ export type UserAddressMaxAggregateOutputType = {
   countryCode: string | null
   isDefault: boolean | null
   createdAt: Date | null
+  updatedAt: Date | null
   userId: string | null
 }
 
@@ -66,6 +68,7 @@ export type UserAddressCountAggregateOutputType = {
   countryCode: number
   isDefault: number
   createdAt: number
+  updatedAt: number
   userId: number
   _all: number
 }
@@ -83,6 +86,7 @@ export type UserAddressMinAggregateInputType = {
   countryCode?: true
   isDefault?: true
   createdAt?: true
+  updatedAt?: true
   userId?: true
 }
 
@@ -98,6 +102,7 @@ export type UserAddressMaxAggregateInputType = {
   countryCode?: true
   isDefault?: true
   createdAt?: true
+  updatedAt?: true
   userId?: true
 }
 
@@ -113,6 +118,7 @@ export type UserAddressCountAggregateInputType = {
   countryCode?: true
   isDefault?: true
   createdAt?: true
+  updatedAt?: true
   userId?: true
   _all?: true
 }
@@ -201,6 +207,7 @@ export type UserAddressGroupByOutputType = {
   countryCode: string
   isDefault: boolean
   createdAt: Date
+  updatedAt: Date
   userId: string
   _count: UserAddressCountAggregateOutputType | null
   _min: UserAddressMinAggregateOutputType | null
@@ -237,8 +244,9 @@ export type UserAddressWhereInput = {
   countryCode?: Prisma.StringFilter<"UserAddress"> | string
   isDefault?: Prisma.BoolFilter<"UserAddress"> | boolean
   createdAt?: Prisma.DateTimeFilter<"UserAddress"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"UserAddress"> | Date | string
   userId?: Prisma.UuidFilter<"UserAddress"> | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   orders?: Prisma.OrderListRelationFilter
 }
 
@@ -254,6 +262,7 @@ export type UserAddressOrderByWithRelationInput = {
   countryCode?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   orders?: Prisma.OrderOrderByRelationAggregateInput
@@ -274,8 +283,9 @@ export type UserAddressWhereUniqueInput = Prisma.AtLeast<{
   countryCode?: Prisma.StringFilter<"UserAddress"> | string
   isDefault?: Prisma.BoolFilter<"UserAddress"> | boolean
   createdAt?: Prisma.DateTimeFilter<"UserAddress"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"UserAddress"> | Date | string
   userId?: Prisma.UuidFilter<"UserAddress"> | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   orders?: Prisma.OrderListRelationFilter
 }, "id">
 
@@ -291,6 +301,7 @@ export type UserAddressOrderByWithAggregationInput = {
   countryCode?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   _count?: Prisma.UserAddressCountOrderByAggregateInput
   _max?: Prisma.UserAddressMaxOrderByAggregateInput
@@ -312,6 +323,7 @@ export type UserAddressScalarWhereWithAggregatesInput = {
   countryCode?: Prisma.StringWithAggregatesFilter<"UserAddress"> | string
   isDefault?: Prisma.BoolWithAggregatesFilter<"UserAddress"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserAddress"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserAddress"> | Date | string
   userId?: Prisma.UuidWithAggregatesFilter<"UserAddress"> | string
 }
 
@@ -327,7 +339,8 @@ export type UserAddressCreateInput = {
   countryCode: string
   isDefault?: boolean
   createdAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutAddressesInput
+  updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutAddressesInput
   orders?: Prisma.OrderCreateNestedManyWithoutShippingAddressInput
 }
 
@@ -343,6 +356,7 @@ export type UserAddressUncheckedCreateInput = {
   countryCode: string
   isDefault?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
   userId: string
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutShippingAddressInput
 }
@@ -359,7 +373,8 @@ export type UserAddressUpdateInput = {
   countryCode?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutAddressesNestedInput
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutAddressesNestedInput
   orders?: Prisma.OrderUpdateManyWithoutShippingAddressNestedInput
 }
 
@@ -375,6 +390,7 @@ export type UserAddressUncheckedUpdateInput = {
   countryCode?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   orders?: Prisma.OrderUncheckedUpdateManyWithoutShippingAddressNestedInput
 }
@@ -391,6 +407,7 @@ export type UserAddressCreateManyInput = {
   countryCode: string
   isDefault?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
   userId: string
 }
 
@@ -406,6 +423,7 @@ export type UserAddressUpdateManyMutationInput = {
   countryCode?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserAddressUncheckedUpdateManyInput = {
@@ -420,6 +438,7 @@ export type UserAddressUncheckedUpdateManyInput = {
   countryCode?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -445,6 +464,7 @@ export type UserAddressCountOrderByAggregateInput = {
   countryCode?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
 
@@ -460,6 +480,7 @@ export type UserAddressMaxOrderByAggregateInput = {
   countryCode?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
 
@@ -475,6 +496,7 @@ export type UserAddressMinOrderByAggregateInput = {
   countryCode?: Prisma.SortOrder
   isDefault?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
 
@@ -555,6 +577,7 @@ export type UserAddressCreateWithoutUserInput = {
   countryCode: string
   isDefault?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
   orders?: Prisma.OrderCreateNestedManyWithoutShippingAddressInput
 }
 
@@ -570,6 +593,7 @@ export type UserAddressUncheckedCreateWithoutUserInput = {
   countryCode: string
   isDefault?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutShippingAddressInput
 }
 
@@ -614,6 +638,7 @@ export type UserAddressScalarWhereInput = {
   countryCode?: Prisma.StringFilter<"UserAddress"> | string
   isDefault?: Prisma.BoolFilter<"UserAddress"> | boolean
   createdAt?: Prisma.DateTimeFilter<"UserAddress"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"UserAddress"> | Date | string
   userId?: Prisma.UuidFilter<"UserAddress"> | string
 }
 
@@ -629,7 +654,8 @@ export type UserAddressCreateWithoutOrdersInput = {
   countryCode: string
   isDefault?: boolean
   createdAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutAddressesInput
+  updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutAddressesInput
 }
 
 export type UserAddressUncheckedCreateWithoutOrdersInput = {
@@ -644,6 +670,7 @@ export type UserAddressUncheckedCreateWithoutOrdersInput = {
   countryCode: string
   isDefault?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
   userId: string
 }
 
@@ -675,7 +702,8 @@ export type UserAddressUpdateWithoutOrdersInput = {
   countryCode?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutAddressesNestedInput
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutAddressesNestedInput
 }
 
 export type UserAddressUncheckedUpdateWithoutOrdersInput = {
@@ -690,6 +718,7 @@ export type UserAddressUncheckedUpdateWithoutOrdersInput = {
   countryCode?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -705,6 +734,7 @@ export type UserAddressCreateManyUserInput = {
   countryCode: string
   isDefault?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type UserAddressUpdateWithoutUserInput = {
@@ -719,6 +749,7 @@ export type UserAddressUpdateWithoutUserInput = {
   countryCode?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orders?: Prisma.OrderUpdateManyWithoutShippingAddressNestedInput
 }
 
@@ -734,6 +765,7 @@ export type UserAddressUncheckedUpdateWithoutUserInput = {
   countryCode?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orders?: Prisma.OrderUncheckedUpdateManyWithoutShippingAddressNestedInput
 }
 
@@ -749,6 +781,7 @@ export type UserAddressUncheckedUpdateManyWithoutUserInput = {
   countryCode?: Prisma.StringFieldUpdateOperationsInput | string
   isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -794,8 +827,9 @@ export type UserAddressSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   countryCode?: boolean
   isDefault?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   userId?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserAddress$userArgs<ExtArgs>
   orders?: boolean | Prisma.UserAddress$ordersArgs<ExtArgs>
   _count?: boolean | Prisma.UserAddressCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userAddress"]>
@@ -812,8 +846,9 @@ export type UserAddressSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   countryCode?: boolean
   isDefault?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   userId?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserAddress$userArgs<ExtArgs>
 }, ExtArgs["result"]["userAddress"]>
 
 export type UserAddressSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -828,8 +863,9 @@ export type UserAddressSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   countryCode?: boolean
   isDefault?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   userId?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserAddress$userArgs<ExtArgs>
 }, ExtArgs["result"]["userAddress"]>
 
 export type UserAddressSelectScalar = {
@@ -844,26 +880,27 @@ export type UserAddressSelectScalar = {
   countryCode?: boolean
   isDefault?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   userId?: boolean
 }
 
-export type UserAddressOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "recipientName" | "addressLine1" | "addressLine2" | "city" | "stateProvince" | "postalCode" | "countryCode" | "isDefault" | "createdAt" | "userId", ExtArgs["result"]["userAddress"]>
+export type UserAddressOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "recipientName" | "addressLine1" | "addressLine2" | "city" | "stateProvince" | "postalCode" | "countryCode" | "isDefault" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["userAddress"]>
 export type UserAddressInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserAddress$userArgs<ExtArgs>
   orders?: boolean | Prisma.UserAddress$ordersArgs<ExtArgs>
   _count?: boolean | Prisma.UserAddressCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserAddressIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserAddress$userArgs<ExtArgs>
 }
 export type UserAddressIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserAddress$userArgs<ExtArgs>
 }
 
 export type $UserAddressPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "UserAddress"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs> | null
     orders: Prisma.$OrderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -878,6 +915,7 @@ export type $UserAddressPayload<ExtArgs extends runtime.Types.Extensions.Interna
     countryCode: string
     isDefault: boolean
     createdAt: Date
+    updatedAt: Date
     userId: string
   }, ExtArgs["result"]["userAddress"]>
   composites: {}
@@ -1273,7 +1311,7 @@ readonly fields: UserAddressFieldRefs;
  */
 export interface Prisma__UserAddressClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserAddress$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAddress$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   orders<T extends Prisma.UserAddress$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAddress$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1315,6 +1353,7 @@ export interface UserAddressFieldRefs {
   readonly countryCode: Prisma.FieldRef<"UserAddress", 'String'>
   readonly isDefault: Prisma.FieldRef<"UserAddress", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"UserAddress", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"UserAddress", 'DateTime'>
   readonly userId: Prisma.FieldRef<"UserAddress", 'String'>
 }
     
@@ -1714,6 +1753,25 @@ export type UserAddressDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many UserAddresses to delete.
    */
   limit?: number
+}
+
+/**
+ * UserAddress.user
+ */
+export type UserAddress$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

@@ -1,6 +1,5 @@
 "use server";
 
-import EmailTemplate from "@/emails/EmailTemplate";
 import { TokenType } from "@/generated/prisma/client/client";
 import { logger } from "@/lib/logger";
 import {
@@ -12,7 +11,6 @@ import {
   validationError,
 } from "@/lib/responses";
 import { routes } from "@/utils/routes";
-import { render } from "@react-email/components";
 import { redirect } from "next/navigation";
 import { findByEmail } from "../dashboard/users/users.dal";
 import {
@@ -21,12 +19,11 @@ import {
   getUserById,
   patchUserById,
 } from "../dashboard/users/users.service";
-import { generateToken } from "../tokens/middleware";
+
 import {
-  createToken,
   deleteTokenById,
   getTokenByToken,
-} from "../tokens/tokens.service";
+} from "../dashboard/tokens/tokens.service";
 import {
   forgotPasswordSchema,
   loginSchema,
@@ -40,7 +37,7 @@ import {
   hashPassword,
   isUserActive,
   sendConfirmationEmail,
-  sendEmail,
+  sendResetPasswordEmail,
   userEmailExists,
 } from "./middleware";
 
@@ -155,24 +152,7 @@ export const forgotPassword = async (
       return invalidRequestError("Email not registered.");
     }
 
-    const resetToken = generateToken();
-    await createToken({
-      token: resetToken,
-      type: "PASSWORD_RESET",
-      userId: user.id,
-    });
-
-    const emailHtml = await render(
-      EmailTemplate({
-        title: "Password reset request",
-        heading: "Reset Password",
-        body: `Follow the provided link to reset your account password. http://localhost:3000/auth/reset-password/${resetToken}`,
-      }),
-    );
-
-    await sendEmail("Reset Password in Aba Padhxu", user.email, emailHtml);
-
-    return okResponse("A reset password link has been sent to your email.");
+    return sendResetPasswordEmail(user);
   } catch (error) {
     logger.error("Error sending reset password email", error);
     return serverError();

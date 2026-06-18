@@ -7,9 +7,9 @@ import { transporter } from "@/utils/nodemailer";
 import { render } from "@react-email/components";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
+import { generateToken } from "../dashboard/tokens/middleware";
+import { createToken } from "../dashboard/tokens/tokens.service";
 import { getUserByEmail, getUserById } from "../dashboard/users/users.service";
-import { generateToken } from "../tokens/middleware";
-import { createToken } from "../tokens/tokens.service";
 
 const cookieStore = await cookies();
 
@@ -148,6 +148,37 @@ export const sendConfirmationEmail = async (
     await sendEmail("Confirmation Email", user.email, emailHtml);
 
     return okResponse(message);
+  } catch (error) {
+    logger.error("Error sending mail", error);
+    if (error instanceof Error) {
+      return errorResponse(error.message);
+    }
+    return serverError();
+  }
+};
+
+export const sendResetPasswordEmail = async (
+  user: Pick<User, "email" | "id">,
+) => {
+  try {
+    const resetToken = generateToken();
+    await createToken({
+      token: resetToken,
+      type: "PASSWORD_RESET",
+      userId: user.id,
+    });
+
+    const emailHtml = await render(
+      EmailTemplate({
+        title: "Password reset request",
+        heading: "Reset Password",
+        body: `Follow the provided link to reset your account password. http://localhost:3000/auth/reset-password/${resetToken}`,
+      }),
+    );
+
+    await sendEmail("Reset Password in Aba Padhxu", user.email, emailHtml);
+
+    return okResponse("A reset password link has been sent to your email.");
   } catch (error) {
     logger.error("Error sending mail", error);
     if (error instanceof Error) {
