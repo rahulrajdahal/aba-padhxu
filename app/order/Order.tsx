@@ -1,13 +1,10 @@
 "use client";
 
 import { Button, Form, Input, PaymentMethod } from "@/components";
-import { routes } from "@/utils/routes";
 import { Author, Book, Genre } from "@prisma/client";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Key, useActionState, useMemo, useState } from "react";
-import toast from "react-hot-toast";
-import { placeOrder } from "./actions";
+import { Key, useMemo, useState } from "react";
 
 export default function Order({
   cartItems,
@@ -28,32 +25,32 @@ export default function Order({
     return cartItems
       .map(
         (cartItem) =>
-          parseInt(cartItem.book.price.toString()) * cartItem.quantity
+          parseInt(cartItem.book.price.toString()) * cartItem.quantity,
       )
       .reduce((a: number, b: number) => a + b, 0);
   }, [cartItems]);
 
-  const handlePlaceOrder = async (prevState: unknown, formData: FormData) => {
-    formData.append("amount", String(totalPrice));
-    const state = await placeOrder(prevState, formData);
+  // const handlePlaceOrder = async (prevState: unknown, formData: FormData) => {
+  //   formData.append("amount", String(totalPrice));
+  //   const state = await placeOrder(prevState, formData);
 
-    if (state?.type === "success") {
-      toast.success(state.message);
-      return router.push(routes.home);
-    }
+  //   if (state?.type === "success") {
+  //     toast.success(state.message);
+  //     return router.push(routes.home);
+  //   }
 
-    if (state?.type === "error") {
-      toast.error(state.message);
-    }
+  //   if (state?.type === "error") {
+  //     toast.error(state.message);
+  //   }
 
-    return state;
-  };
+  //   return state;
+  // };
 
-  const [state, formAction, pending] = useActionState(handlePlaceOrder, null);
+  // const [state, formAction, pending] = useActionState(handlePlaceOrder, null);
   const searchParams = useSearchParams();
   const paid = useMemo(
     () => !!searchParams.get("payment_intent"),
-    [searchParams]
+    [searchParams],
   );
 
   const [paymentMethod, setPaymentMethod] = useState("ONLINE");
@@ -80,24 +77,24 @@ export default function Order({
           </div>
         )}
         <Form
-          action={formAction}
+          // action={formAction}
           className="w-full max-w-96"
           title="Confirm Order"
         >
           <Input
             label="Country"
-            error={state?.errors?.coutry}
-            inputProps={{ name: "country" }}
+            // error={state?.errors?.coutry}
+            // inputProps={{ name: "country" }}
           />
           <Input
             label="City"
-            error={state?.errors?.city}
-            inputProps={{ name: "city" }}
+            // error={state?.errors?.city}
+            // inputProps={{ name: "city" }}
           />
           <Input
             label="Street"
-            error={state?.errors?.street}
-            inputProps={{ name: "street" }}
+            // error={state?.errors?.street}
+            // inputProps={{ name: "street" }}
           />
 
           <PaymentMethod
@@ -108,10 +105,11 @@ export default function Order({
           <Button
             type="submit"
             className="mt-4 w-fit !rounded-md"
-            disabled={pending || (paymentMethod === "ONLINE" && !paid)}
-            aria-disabled={pending}
+            // disabled={pending || (paymentMethod === "ONLINE" && !paid)}
+            // aria-disabled={pending}
           >
-            {pending ? "Confirming Order..." : "Confirm Order"}
+            {/* {pending ? "Confirming Order..." : "Confirm Order"} */}
+            Confirm Order
           </Button>
         </Form>
       </div>

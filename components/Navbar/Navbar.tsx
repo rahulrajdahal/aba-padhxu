@@ -1,6 +1,8 @@
 "use client";
 
+import { routes } from "@/utils/routes";
 import Link from "next/link";
+import { Button } from "../Buttons";
 
 export default function Navbar() {
   return (
@@ -9,6 +11,14 @@ export default function Navbar() {
         Logo
       </Link>
 
+      <div className="flex items-center gap-2">
+        <Link href={routes.signup}>
+          <Button variant="outlined">Register</Button>
+        </Link>
+        <Link href={routes.login}>
+          <Button>Log In</Button>
+        </Link>
+      </div>
       {/* <ul className="flex items-center gap-4">
         {role === "SELLER" && (
           <li>

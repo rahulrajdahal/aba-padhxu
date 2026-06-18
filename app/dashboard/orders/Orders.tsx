@@ -2,18 +2,16 @@
 
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
-import { deleteOrder } from "@/app/order/actions";
 import { TableActions, TablePage } from "@/components";
-import { OrderWithUserAndItems } from "@/types";
 import { routes } from "@/utils/routes";
 import { OrderStatus } from "@prisma/client";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { updateOrder } from "./actions";
 
-type OrdersProps = Readonly<{ orders: OrderWithUserAndItems[] }>;
+type OrdersProps = Readonly<{ orders: any[] }>;
 export default function Orders({ orders }: OrdersProps) {
-  const columnHelper = createColumnHelper<Partial<OrderWithUserAndItems>>();
+  const columnHelper = createColumnHelper<any>();
 
   const columns = [
     columnHelper.accessor("user.email", {
@@ -65,7 +63,7 @@ export default function Orders({ orders }: OrdersProps) {
       header: "Status",
       cell: (info) => {
         const updateStatus = async (
-          e: React.ChangeEvent<HTMLSelectElement>
+          e: React.ChangeEvent<HTMLSelectElement>,
         ) => {
           const status = e.target.value as OrderStatus;
 
@@ -74,7 +72,7 @@ export default function Orders({ orders }: OrdersProps) {
           formData.append("userId", info.row.original.userId as string);
           formData.append("id", info.row.original.id as string);
 
-          const state = await updateOrder(null, formData);
+          const state = await updateOrder(info.row.original.id, formData);
 
           if (state.type === "success") {
             toast.success("Order status updated!");
@@ -87,7 +85,7 @@ export default function Orders({ orders }: OrdersProps) {
         return (
           <select
             name="status"
-            defaultValue={info.getValue()}
+            // defaultValue={info.getValue()}
             onChange={updateStatus}
           >
             {Object.entries(OrderStatus).map((orderStatus) => (
@@ -111,7 +109,7 @@ export default function Orders({ orders }: OrdersProps) {
 
         if (id) {
           const handleDelete = async () => {
-            await deleteOrder(id);
+            // await deleteOrder(id);
             toast.success("Order deleted successfully");
           };
 

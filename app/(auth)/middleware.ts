@@ -1,3 +1,5 @@
+import "server-only";
+
 import EmailTemplate from "@/emails/EmailTemplate";
 import { User } from "@/generated/prisma/client/client";
 import { logger } from "@/lib/logger";
@@ -11,9 +13,8 @@ import { generateToken } from "../dashboard/tokens/middleware";
 import { createToken } from "../dashboard/tokens/tokens.service";
 import { getUserByEmail, getUserById } from "../dashboard/users/users.service";
 
-const cookieStore = await cookies();
-
 export const createSession = async (userId: string) => {
+  const cookieStore = await cookies();
   const session = await encryptJWT({ userId });
 
   cookieStore.set("session", session, {
@@ -28,10 +29,13 @@ export const createSession = async (userId: string) => {
   });
 };
 
-export const sessionCookie = () => cookieStore.get("session")?.value;
+export const sessionCookie = async () => {
+  const cookieStore = await cookies();
+  return cookieStore.get("session")?.value;
+};
 
 export const verifySession = async () => {
-  const cookie = sessionCookie();
+  const cookie = await sessionCookie();
   const session = await decryptJWT(cookie);
 
   if (!session) {
@@ -42,7 +46,8 @@ export const verifySession = async () => {
 };
 
 export const updateSession = async () => {
-  const session = sessionCookie();
+  const cookieStore = await cookies();
+  const session = await sessionCookie();
   const payload = await decryptJWT(session);
 
   if (!session || !payload) {
