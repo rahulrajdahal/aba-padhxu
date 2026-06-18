@@ -1,9 +1,10 @@
-import { isValidFileType } from "@/utils/helpers";
 import z from "zod";
 
 export const signupSchema = z
   .object({
-    email: z.string().email("Invalid Email"),
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
+    email: z.email("Invalid Email"),
     password: z
       .string()
       .regex(/.*[A-Z].*/, "One uppercase character")
@@ -15,10 +16,6 @@ export const signupSchema = z
       )
       .min(8, "Must be at least 8 characters in length"),
     confirmPassword: z.string(),
-    avatar: z
-      .any()
-      .refine((file) => file?.size <= 5000000, `Max image size is 5MB.`)
-      .refine((file) => isValidFileType(file?.name), "Not a valid image."),
   })
   .refine(({ confirmPassword, password }) => confirmPassword === password, {
     message: "Passwords do not match.",

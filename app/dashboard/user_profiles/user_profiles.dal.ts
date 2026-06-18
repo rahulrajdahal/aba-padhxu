@@ -2,7 +2,17 @@ import { prisma } from "@/prisma/prisma";
 import { CreateUserProfileDTO, PatchUserProfileDTO } from "./user_profiles.dto";
 
 export const create = async (data: CreateUserProfileDTO) =>
-  await prisma.userProfile.create({ data });
+  await prisma.userProfile.create({
+    data: {
+      ...data,
+      avatar: data?.avatar ?? "default.png",
+      phoneNumber: data?.phoneNumber ?? "",
+      isSeller: data?.isSeller ?? false,
+      sellerRating: data?.sellerRating ?? 0,
+      pendingEscrowFunds: data?.pendingEscrowFunds ?? 0,
+      availableFunds: data?.availableFunds ?? 0,
+    },
+  });
 
 export const findByUserId = async (userId: string) => {
   return await prisma.userProfile.findUnique({

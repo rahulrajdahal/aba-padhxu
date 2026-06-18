@@ -1,9 +1,23 @@
 import { UserProfile } from "@/generated/prisma/client/client";
 
-export type CreateUserProfileDTO = Omit<
+export interface CreateUserProfileDTO extends Omit<
   UserProfile,
-  "id" | "userId" | "createdAt" | "updatedAt" | "sellerRating"
->;
+  | "createdAt"
+  | "updatedAt"
+  | "avatar"
+  | "phoneNumber"
+  | "isSeller"
+  | "sellerRating"
+  | "pendingEscrowFunds"
+  | "availableFunds"
+> {
+  avatar?: string;
+  phoneNumber?: string;
+  isSeller?: boolean;
+  sellerRating?: number;
+  pendingEscrowFunds?: number;
+  availableFunds?: number;
+}
 
 export type PatchUserProfileDTO = Partial<CreateUserProfileDTO>;
 

@@ -3,6 +3,7 @@
 import { TokenType } from "@/generated/prisma/client/client";
 import { logger } from "@/lib/logger";
 import {
+  actionWrapper,
   errorResponse,
   invalidRequestError,
   noContentResponse,
@@ -20,10 +21,12 @@ import {
   patchUserById,
 } from "../dashboard/users/users.service";
 
+import { BadRequestError } from "@/lib/errors";
 import {
   deleteTokenById,
   getTokenByToken,
 } from "../dashboard/tokens/tokens.service";
+import { createUserProfile } from "../dashboard/user_profiles/user_profiles.service";
 import {
   forgotPasswordSchema,
   loginSchema,
@@ -41,46 +44,57 @@ import {
   userEmailExists,
 } from "./middleware";
 
-export async function signup(prevState: unknown, formData: FormData) {
-  try {
-    const body = {
-      email: formData.get("email") as string,
-      password: formData.get("password") as string,
-    };
+export const signup = await actionWrapper(async function (
+  prevState: unknown,
+  formData: FormData,
+) {
+  const body = {
+    firstName: formData.get("firstName") as string,
+    lastName: formData.get("lastName") as string,
+    email: formData.get("email") as string,
+    password: formData.get("password") as string,
+  };
 
-    const validateBody = signupSchema.safeParse({
-      ...body,
-      confirmPassword: formData.get("confirmPassword") as string,
-    });
-    if (!validateBody.success) {
-      return validationError(validateBody.error.flatten().fieldErrors);
-    }
-
-    if (await userEmailExists(body.email)) {
-      if (!(await isUserActive(body.email))) {
-        const existingUser = await getUserByEmail(body.email);
-
-        return await sendConfirmationEmail(existingUser);
-      }
-    }
-
-    const passwordHash = await hashPassword(body.password);
-
-    const userId = await createUser({ ...body, passwordHash });
-
-    if (!userId) {
-      return errorResponse("Error registering user");
-    }
-
-    return await sendConfirmationEmail({ email: body.email, id: userId });
-  } catch (error) {
-    logger.error("Error registering user", error);
-    return serverError();
+  const validatedFields = signupSchema.safeParse({
+    ...body,
+    confirmPassword: formData.get("confirmPassword") as string,
+  });
+  if (!validatedFields.success) {
+    return validationError(validatedFields.error.flatten().fieldErrors);
   }
-}
 
-export const login = async (prevState: unknown, formData: FormData) => {
-  try {
+  if (await userEmailExists(body.email)) {
+    if (!(await isUserActive(body.email))) {
+      const existingUser = await getUserByEmail(body.email);
+
+      return await sendConfirmationEmail(existingUser!);
+    }
+  }
+
+  const passwordHash = await hashPassword(body.password);
+
+  const userId = await createUser({
+    email: body.email,
+    passwordHash,
+  });
+  if (!userId) {
+    return errorResponse("Error registering user");
+  }
+
+  const userProfile = await createUserProfile({
+    firstName: body.firstName,
+    lastName: body.lastName,
+    userId,
+  });
+  if (!userProfile) {
+    return errorResponse("Error registering user profile");
+  }
+
+  return await sendConfirmationEmail({ email: body.email, id: userId });
+});
+
+export const login = await actionWrapper(
+  async (prevState: unknown, formData: FormData) => {
     const body = {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
@@ -93,7 +107,7 @@ export const login = async (prevState: unknown, formData: FormData) => {
 
     const user = await findByEmail(body.email);
     if (!user || !(await comparePassword(body.password, user.passwordHash))) {
-      return invalidRequestError("Invalid Credentials");
+      throw new BadRequestError("Invalid Credentials");
     }
 
     if (!user.isActive) {
@@ -106,30 +120,23 @@ export const login = async (prevState: unknown, formData: FormData) => {
     await createSession(user.id);
 
     return okResponse("Login successful.");
-  } catch (error) {
-    logger.error("Error logging in", error);
-    return serverError();
+  },
+);
+
+export const confirmEmail = await actionWrapper(async (emailToken: string) => {
+  const token = await getTokenByToken(emailToken);
+
+  console.log(token, "otkn", emailToken, "emil");
+  if (!token || token.type !== TokenType.EMAIL_CONFIRMATION) {
+    return invalidRequestError();
   }
-};
 
-export const confirmEmail = async (emailToken: string) => {
-  try {
-    const token = await getTokenByToken(emailToken);
+  await patchUserById(token.userId, { isActive: true });
 
-    if (!token || token.type !== TokenType.EMAIL_CONFIRMATION) {
-      return invalidRequestError();
-    }
+  await deleteTokenById(token.id);
 
-    await patchUserById(token.userId, { isActive: true });
-
-    await deleteTokenById(token.id);
-
-    return noContentResponse();
-  } catch (error) {
-    logger.error("Error confirming email", error);
-    return serverError();
-  }
-};
+  return noContentResponse();
+});
 
 export const forgotPassword = async (
   prevState: unknown,

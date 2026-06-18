@@ -31,14 +31,17 @@ export default function Page() {
     <Form action={formAction} className="gap-6" title="Login">
       <Input
         label="Email"
-        error={state?.errors?.email}
-        inputProps={{ type: "email", name: "email", required: true }}
+        errors={state?.errors?.email}
+        type="email"
+        name="email"
+        required
       />
       <Input
-        forgot
         label="Password"
-        error={state?.errors?.password}
-        inputProps={{ type: "password", name: "password", required: true }}
+        errors={state?.errors?.password}
+        type="password"
+        name="password"
+        required
       />
       <Button type="submit" disabled={pending} aria-disabled={pending}>
         {pending ? "Logging in..." : "Login"}

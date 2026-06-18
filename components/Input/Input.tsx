@@ -73,7 +73,7 @@ export default function Input(props: InputProps) {
   const hasErrors = Boolean(errors && errors.length > 0);
 
   return (
-    <fieldset className="flex flex-col gap-1 group">
+    <fieldset className="flex flex-col gap-1 group w-full">
       <InputLabel className={`${hasErrors ? "text-red-500" : ""}`}>
         {label}
       </InputLabel>

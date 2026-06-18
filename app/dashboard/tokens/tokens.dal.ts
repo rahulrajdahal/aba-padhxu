@@ -2,7 +2,12 @@ import { prisma } from "@/prisma/prisma";
 import { CreateTokenDTO, PatchTokenDTO } from "./tokens.dto";
 
 export const create = async (data: CreateTokenDTO) =>
-  await prisma.token.create({ data });
+  await prisma.token.create({
+    data: {
+      ...data,
+      expiresAt: data?.expiresAt ?? new Date(Date.now() + 1000 * 60 * 60 * 24),
+    },
+  });
 
 export const findById = async (id: string) => {
   return await prisma.token.findUnique({ where: { id } });

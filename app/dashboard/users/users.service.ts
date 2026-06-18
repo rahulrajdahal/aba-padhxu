@@ -13,8 +13,7 @@ export const getUserById = async (id: string) => {
 };
 
 export const getUserByEmail = async (email: string) => {
-  const user = await findByEmail(email);
-  return mapUserDTO(user as User);
+  return await findByEmail(email);
 };
 
 export const patchUserById = async (id: string, data: PatchUserDTO) =>

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAuthenticated } from "./app/(auth)/middleware";
+import { verifySession } from "./app/(auth)/middleware";
 import { routes } from "./utils/routes";
 
 const protectedRoutes = [routes.dashboard];
@@ -18,13 +18,13 @@ export async function proxy(req: NextRequest) {
   // const isPublicRoute = publicRoutes.includes(path)
   const isAuthRoute = authRoutes.includes(path);
 
-  const isAuth = await isAuthenticated();
+  const session = await verifySession();
 
-  if (isProtectedRoute && !isAuth) {
+  if (isProtectedRoute && !session?.isAuth) {
     return NextResponse.redirect(new URL(routes.login, req.nextUrl));
   }
 
-  if (isAuthRoute && isAuth) {
+  if (isAuthRoute && session?.isAuth) {
     return NextResponse.redirect(new URL(routes.home, req.nextUrl));
   }
 

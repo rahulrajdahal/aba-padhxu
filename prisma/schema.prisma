@@ -90,10 +90,10 @@ model UserProfile {
   lastName           String   @map("last_name")
   avatar             String?
   phoneNumber        String?  @map("phone_number")
-  isSeller           Boolean  @default(false) @map("is_seller")
+  isSeller           Boolean? @default(false) @map("is_seller")
   sellerRating       Decimal? @default(0.00) @map("seller_rating") @db.Decimal(3, 2)
-  pendingEscrowFunds Int      @default(0) @map("pending_escrow_funds")
-  availableFunds     Int      @default(0) @map("available_funds")
+  pendingEscrowFunds Int?     @default(0) @map("pending_escrow_funds")
+  availableFunds     Int?     @default(0) @map("available_funds")
   createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt          DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 

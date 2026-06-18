@@ -2,6 +2,11 @@ import "server-only";
 
 import EmailTemplate from "@/emails/EmailTemplate";
 import { User } from "@/generated/prisma/client/client";
+import {
+  BadRequestError,
+  ForbiddenError,
+  UnAuthorizedError,
+} from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import { errorResponse, okResponse, serverError } from "@/lib/responses";
 import { decryptJWT, encryptJWT, expiresAt } from "@/utils/auth";
@@ -75,7 +80,11 @@ export const comparePassword = async (password: string, hash: string) => {
 };
 
 export const userEmailExists = async (email: string) => {
-  return !!(await getUserByEmail(email));
+  const user = await getUserByEmail(email);
+  if (user) {
+    throw new BadRequestError("User with this email already exists");
+  }
+  return !!user;
 };
 
 export const isUserActive = async (email: string) => {
@@ -84,16 +93,25 @@ export const isUserActive = async (email: string) => {
 
 export const isAuthenticated = async () => {
   const { isAuth } = await verifySession();
+  if (!isAuth) {
+    throw new UnAuthorizedError();
+  }
+
   return isAuth;
 };
 export const authUserId = async () => {
   const { userId } = await verifySession();
+  if (!userId) {
+    throw new ForbiddenError();
+  }
   return userId;
 };
 
 export const authUser = async () => {
   const userId = await authUserId();
-  if (!userId) return null;
+  if (!userId) {
+    throw new ForbiddenError();
+  }
 
   return await getUserById(userId as string);
 };
@@ -105,7 +123,7 @@ export const sendEmail = async (
 ) => {
   try {
     const mailOptions = {
-      from: process.env.NODEMAILER_EMAIL,
+      from: process.env.NODEMAILER_USER,
       to,
       subject,
       html: emailHTML,
@@ -123,9 +141,9 @@ export const sendEmail = async (
   } catch (error) {
     logger.error("Error sending mail", error);
     if (error instanceof Error) {
-      throw Error(error.message);
+      throw new Error(error.message);
     }
-    throw Error("Something went wrong.");
+    throw new Error("Something went wrong.");
   }
 };
 
@@ -146,7 +164,7 @@ export const sendConfirmationEmail = async (
       EmailTemplate({
         title: "Sign up with Aba Padhxu",
         heading: "Email Confirmation",
-        body: `Follow the provided link to activate your account. http://localhost:3000/auth/confirm-email/${emailToken}`,
+        body: `Follow the provided link to activate your account. http://localhost:3000/confirm-email/${emailToken}`,
       }),
     );
 

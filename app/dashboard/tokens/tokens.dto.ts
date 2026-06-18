@@ -1,5 +1,10 @@
 import { Token } from "@/generated/prisma/client/client";
 
-export type CreateTokenDTO = Pick<Token, "type" | "token" | "userId">;
+export interface CreateTokenDTO extends Omit<
+  Token,
+  "id" | "createdAt" | "updatedAt" | "expiresAt"
+> {
+  expiresAt?: Date;
+}
 
 export type PatchTokenDTO = Partial<CreateTokenDTO>;

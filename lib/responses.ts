@@ -1,3 +1,13 @@
+import { isAuthenticated } from "@/app/(auth)/middleware";
+import {
+  BadRequestError,
+  ForbiddenError,
+  InternalServerError,
+  NotFoundError,
+  UnAuthorizedError,
+  UnprocessableEntityError,
+} from "./errors";
+
 export type ValidationErrors = { [field: string]: string[] };
 
 type SuccessStatusCode = 200 | 201 | 204;
@@ -48,6 +58,19 @@ export const createdResponse = (
 export const noContentResponse = (message = "No Content") =>
   successResponse(message, 204);
 
+export const validationError = (errors: ValidationErrors): ActionResponse =>
+  errorResponse("Validation Error", 400, undefined, errors);
+
+export const invalidCredentialsError = (error?: unknown): ActionResponse =>
+  errorResponse("Invalid Credentials", 400, error);
+
+export const serverError = (error?: unknown): ActionResponse =>
+  errorResponse(
+    "An unexpected server error occurred. Please try again later.",
+    500,
+    error,
+  );
+
 export const notFoundError = (title?: string): ActionResponse =>
   errorResponse(`${title ?? "Resource"} not found`, 404);
 
@@ -57,21 +80,57 @@ export const unauthorizedError = (): ActionResponse =>
 export const forbiddenError = (): ActionResponse =>
   errorResponse("Forbidden", 403);
 
-export const validationError = (errors: ValidationErrors): ActionResponse =>
-  errorResponse("Validation Error", 400, undefined, errors);
-
-export const invalidCredentialsError = (error?: unknown): ActionResponse =>
-  errorResponse("Invalid Credentials", 401, error);
-
 export const invalidRequestError = (error?: unknown): ActionResponse =>
   errorResponse("Invalid Request", 400, error);
 
-export const serverError = (error?: unknown): ActionResponse =>
-  errorResponse(
-    "An unexpected server error occurred. Please try again later.",
-    500,
-    error,
-  );
-
 export const conflictError = (title?: string): ActionResponse =>
   errorResponse(`${title ?? "Resource"} already exists`, 409);
+
+export const actionWrapper = async (
+  fn: (...args: any[]) => Promise<ActionResponse>,
+) => {
+  return async (...args: any[]): Promise<ActionResponse> => {
+    try {
+      return await fn(...args);
+    } catch (error) {
+      console.error("Error in action wrapper", error);
+
+      if (error instanceof UnAuthorizedError) {
+        return errorResponse(error.message, 401, error);
+      }
+      if (error instanceof ForbiddenError) {
+        return errorResponse(error.message, 403, error);
+      }
+      if (error instanceof BadRequestError) {
+        return errorResponse(error.message, 400, error);
+      }
+      if (error instanceof NotFoundError) {
+        return errorResponse(error.message, 404, error);
+      }
+      if (error instanceof UnprocessableEntityError) {
+        return errorResponse(error.message, 422, error);
+      }
+      if (error instanceof Error) {
+        return errorResponse(error.message, 400, error);
+      }
+      if (error instanceof InternalServerError) {
+        return errorResponse(error.message, 500, error);
+      }
+      return serverError(error);
+    }
+  };
+};
+
+export const authActionWrapper = async (
+  fn: (...args: unknown[]) => ActionResponse,
+) => {
+  return async (...args: unknown[]) => {
+    const isAuth = await isAuthenticated();
+    if (!isAuth) throw new UnAuthorizedError();
+    try {
+      return await fn(...args);
+    } catch (e) {
+      throw new InternalServerError("Error processing auth Action");
+    }
+  };
+};

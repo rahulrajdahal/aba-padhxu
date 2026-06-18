@@ -598,6 +598,14 @@ export type EnumBookConditionFieldUpdateOperationsInput = {
   set?: $Enums.BookCondition
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type ListingCreateNestedOneWithoutCartItemsInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutCartItemsInput, Prisma.ListingUncheckedCreateWithoutCartItemsInput>
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutCartItemsInput
