@@ -14,7 +14,7 @@ import { slugify } from "@/lib/slugify";
 import { Book } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/client";
 import { revalidatePath } from "next/cache";
-import { createBook, deleteBookById, patchBookById } from "./books.service";
+import { BookService } from "./books.service";
 import { bookSchema, updateBookSchema } from "./books.validation";
 
 export const addBook = async (prevData: unknown, formData: FormData) => {
@@ -47,7 +47,7 @@ export const addBook = async (prevData: unknown, formData: FormData) => {
       transformation: { width: 60, height: 60, crop: "thumb" },
     });
 
-    await createBook({
+    await BookService.createBook({
       ...body,
       slug: slugify(body.title),
       publishedDate: new Date(body.publishedDate),
@@ -124,7 +124,7 @@ export const updateBook = async (prevState: unknown, formData: FormData) => {
       });
     }
 
-    await patchBookById(id, body);
+    await BookService.patchBookById(id, body);
 
     revalidatePath("/dashboard/books");
     revalidatePath("/books");
@@ -138,7 +138,7 @@ export const updateBook = async (prevState: unknown, formData: FormData) => {
 
 export const deleteBook = async (id: string) => {
   try {
-    await deleteBookById(id);
+    await BookService.deleteBookById(id);
 
     revalidatePath("/dashboard/books");
     revalidatePath("/books");

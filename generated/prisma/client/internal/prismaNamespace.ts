@@ -1659,6 +1659,7 @@ export const TokenScalarFieldEnum = {
   type: 'type',
   token: 'token',
   userId: 'userId',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1671,7 +1672,10 @@ export const UserProfileScalarFieldEnum = {
   lastName: 'lastName',
   avatar: 'avatar',
   phoneNumber: 'phoneNumber',
+  isSeller: 'isSeller',
   sellerRating: 'sellerRating',
+  pendingEscrowFunds: 'pendingEscrowFunds',
+  availableFunds: 'availableFunds',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId'
@@ -1956,6 +1960,20 @@ export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMo
 
 
 /**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
  * Reference to a field of type 'AddressType'
  */
 export type EnumAddressTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AddressType'>
@@ -1980,20 +1998,6 @@ export type EnumBookConditionFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'BookCondition[]'
  */
 export type ListEnumBookConditionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookCondition[]'>
-    
-
-
-/**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 

@@ -1,149 +1,147 @@
 "use server";
 
-import { sendNotification } from "@/_components/actions";
-import { sendOrderEmail } from "@/app/order/actions";
-import { prisma } from "@/prisma/prisma";
-import { getErrorResponse, getSuccessResponse } from "@/utils/helpers";
+import { authUser, authUserId, isAuthenticated } from "@/app/(auth)/middleware";
+import { OrderStatus } from "@/generated/prisma/client/enums";
+import { logger } from "@/lib/logger";
+import {
+  createdResponse,
+  noContentResponse,
+  okResponse,
+  serverError,
+  unauthorizedError,
+  validationError,
+} from "@/lib/responses";
 import { routes } from "@/utils/routes";
-import { Order, OrderStatus } from "@prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { z } from "zod";
-import { addNotification } from "../notifications/actions";
+import { PatchOrderDTO } from "./orders.dto";
+import { sendOrderEmail } from "./orders.middleware";
+import { OrderService } from "./orders.service";
+import { addOrderSchema, updateOrderSchema } from "./orders.validation";
 
-const genreSchema = z.object({
-  title: z.string().min(3, "Min 3 Characters."),
-});
-
-const updateOrderSchema = z.object({
-  status: z.enum([
-    OrderStatus.PENDING,
-    OrderStatus.DELIVERING,
-    OrderStatus.COMPLETED,
-  ]),
-});
-
-export const addGenre = async (prevData: unknown, formData: FormData) => {
+export const addOrder = async (prevData: unknown, formData: FormData) => {
   try {
+    const isAuth = isAuthenticated();
+    if (!isAuth) {
+      return unauthorizedError();
+    }
+
+    const userId = await authUserId();
+    if (!userId) {
+      return unauthorizedError();
+    }
+
     const body = {
-      title: formData.get("title") as string,
+      totalAmountCents: Number(formData.get("totalAmountCents") as string),
+      paymentStatus: formData.get("paymentStatus") as OrderStatus,
+      shippingAddressId: formData.get("shipppingAddressId") as string,
+      orderItems: formData.getAll("orderItems") as string[],
     };
-    const validateBody = genreSchema.safeParse(body);
+    const validateBody = addOrderSchema.safeParse(body);
     if (!validateBody.success) {
-      return {
-        errors: Object.entries(validateBody.error.flatten().fieldErrors).map(
-          ([key, errorValue]) => ({ [key]: errorValue[0] }),
-        )[0],
-      };
+      return validationError(validateBody.error.flatten().fieldErrors);
     }
-    await prisma.genre.create({
-      data: { ...body, slug: body.title.toLowerCase().replace(/ /g, "-") },
-    });
+
+    await OrderService.createOrder({ ...body, buyerId: userId as string });
+    revalidatePath(`${routes.dashboard}${routes.orders}`);
+    return createdResponse("Order created successfully", 201);
   } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        throw new Error(error.message);
-      }
-    }
-    throw new Error("Server Error");
+    logger.error("error", error);
+    return serverError();
   }
-  redirect(`${routes.dashboard}${routes.genres}`);
 };
 
-export const deleteGenre = async (id: string) => {
+export const fetchAllOrders = async (
+  query: string,
+  limit: number,
+  page: number,
+) => {
   try {
-    const genre = await prisma.genre.delete({
-      where: { id },
-    });
-
-    if (!genre) {
-      throw new Error("Could not remove genre.");
-    }
-
-    revalidatePath("/admin/genres");
-    revalidatePath("/genres");
+    const orders = await OrderService.findAllOrders(query, limit, page);
+    return okResponse("Orders fetched successfully", orders);
   } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        throw new Error(error.message);
-      }
-    }
-
-    throw new Error("Server Error");
+    logger.error("error", error);
+    return serverError();
   }
-  redirect(`${routes.dashboard}${routes.genres}`);
 };
 
-export const updateOrder = async (prevState: unknown, formData: FormData) => {
+export const fetchOrderById = async (id: string) => {
   try {
-    const id = formData.get("id") as string;
+    const order = await OrderService.findOrderById(id);
+    return okResponse("Order fetched successfully", order);
+  } catch (error) {
+    logger.error("error", error);
+    return serverError();
+  }
+};
 
-    const body: Partial<Order> = {};
+export const updateOrder = async (id: string, formData: FormData) => {
+  try {
+    const body: PatchOrderDTO = {};
 
-    const status = formData.get("status") as OrderStatus;
-    const userId = formData.get("userId") as string;
+    const user = await authUser();
+    if (!user) {
+      return unauthorizedError();
+    }
 
-    if (status) {
-      body.status = status;
+    const totalAmountCents = formData.get("totalAmountCents") as string;
+    const paymentStatus = formData.get("paymentStatus") as OrderStatus;
+    const shippingAddressId = formData.get("shipppingAddressId") as string;
+    const orderItems = formData.getAll("orderItems") as string[];
+
+    if (totalAmountCents) {
+      body.totalAmountCents = Number(totalAmountCents);
+    }
+
+    if (paymentStatus) {
+      body.paymentStatus = paymentStatus;
+    }
+
+    if (shippingAddressId) {
+      body.shippingAddressId = shippingAddressId;
     }
 
     const validateBody = updateOrderSchema.safeParse(body);
     if (!validateBody.success) {
-      return getErrorResponse(
-        "Validation Error",
-        400,
-        undefined,
-        Object.entries(validateBody.error.flatten().fieldErrors).map(
-          ([key, errorValue]) => ({ [key]: errorValue[0] }),
-        )[0],
-      );
+      return validationError(validateBody.error.flatten().fieldErrors);
     }
 
-    await prisma.order.update({
-      where: { id },
-      data: body,
-    });
-
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      return getErrorResponse("Error sending user order email");
-    }
+    await OrderService.patchOrderById(id, body);
 
     await sendOrderEmail(user);
 
-    const notificationFormData = new FormData();
-    notificationFormData.append("title", "Order Status Updated");
+    // const notificationFormData = new FormData();
+    // notificationFormData.append("title", "Order Status Updated");
 
-    const getDescription = () => {
-      if (status === OrderStatus.COMPLETED) {
-        return `Your order has been completed`;
-      } else if (status === OrderStatus.DELIVERING) {
-        return `Your order is being delivered`;
-      } else {
-        return `Your order is pending`;
-      }
-    };
-    notificationFormData.append("description", getDescription());
-    notificationFormData.append("userId", userId);
+    // const getDescription = () => {
+    //   if (status === OrderStatus.COMPLETED) {
+    //     return `Your order has been completed`;
+    //   } else if (status === OrderStatus.DELIVERING) {
+    //     return `Your order is being delivered`;
+    //   } else {
+    //     return `Your order is pending`;
+    //   }
+    // };
+    // notificationFormData.append("description", getDescription());
+    // notificationFormData.append("userId", userId);
 
-    await addNotification(null, notificationFormData);
-    await sendNotification("Order Status Updated", getDescription());
+    // await addNotification(null, notificationFormData);
+    // await sendNotification("Order Status Updated", getDescription());
 
-    revalidatePath("/");
-    revalidatePath("/admin/orders");
-
-    return getSuccessResponse("Order Updated Successfully", 204);
+    revalidatePath(`${routes.dashboard}${routes.orders}`);
+    return noContentResponse();
   } catch (error) {
-    console.log(error, "error");
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        return getErrorResponse(error.message);
-      }
-    }
-    return getErrorResponse("Server Error");
+    logger.error("error", error);
+    return serverError();
+  }
+};
+
+export const deleteOrderById = async (id: string) => {
+  try {
+    await OrderService.deleteOrderById(id);
+    revalidatePath(`${routes.dashboard}${routes.orders}`);
+    return noContentResponse("Order deleted successfully");
+  } catch (error) {
+    logger.error("error", error);
+    return serverError();
   }
 };

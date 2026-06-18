@@ -31,6 +31,7 @@ export type BookCondition = (typeof BookCondition)[keyof typeof BookCondition]
 export const AddressType = {
   SHIPPING: 'SHIPPING',
   BILLING: 'BILLING',
+  RETURN: 'RETURN',
   BOTH: 'BOTH'
 } as const
 

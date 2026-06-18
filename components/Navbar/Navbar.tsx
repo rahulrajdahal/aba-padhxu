@@ -1,33 +1,15 @@
 "use client";
 
-import { routes } from "@/utils/routes";
-
-import { CartB } from "@meistericons/react";
-import { Notification, UserRoles } from "@prisma/client";
 import Link from "next/link";
-import NotificationsDropdown from "../NotificationsDropdown/NotificationsDropdown";
-import AuthButton from "./AuthButton";
 
-export type NavbarProps = {
-  role: UserRoles;
-  count: number;
-  isLoggedIn: boolean;
-  notifications?: Notification[];
-};
-
-export default function Navbar({
-  role,
-  count,
-  isLoggedIn = false,
-  notifications,
-}: Readonly<NavbarProps>) {
+export default function Navbar() {
   return (
     <nav className="sticky z-10 top-0 flex w-full shadow-sm items-center justify-between bg-white px-[12.5%] py-4">
       <Link href="/" className="text-gray-70 text-xl font-bold">
         Logo
       </Link>
 
-      <ul className="flex items-center gap-4">
+      {/* <ul className="flex items-center gap-4">
         {role === "SELLER" && (
           <li>
             <a href={routes.dashboard}>Dashboard</a>
@@ -42,10 +24,10 @@ export default function Navbar({
             </span>
             <CartB className="h-10 w-10" />
           </a>
-        </li>
+        </li> */}
 
-        <AuthButton isLoggedIn={isLoggedIn} />
-      </ul>
+      {/* <AuthButton isLoggedIn={isLoggedIn} /> */}
+      {/* </ul> */}
     </nav>
   );
 }

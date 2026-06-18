@@ -1,6 +1,5 @@
 import { InstallPrompt } from "@/_components/InstallPrompt";
 import { WebVitals } from "@/_components/web-vitals";
-import { StyledComponentsRegistry } from "@/components";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
@@ -20,11 +19,9 @@ export default function RootLayout({ children }: IRootLayout) {
     <html lang="en">
       <body className={inter.className}>
         <WebVitals />
-        <StyledComponentsRegistry>
-          {children}
-          <InstallPrompt />
-          <Toaster />
-        </StyledComponentsRegistry>
+        {children}
+        <InstallPrompt />
+        <Toaster />
       </body>
     </html>
   );

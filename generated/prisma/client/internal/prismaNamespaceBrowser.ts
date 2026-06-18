@@ -102,6 +102,7 @@ export const TokenScalarFieldEnum = {
   type: 'type',
   token: 'token',
   userId: 'userId',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -114,7 +115,10 @@ export const UserProfileScalarFieldEnum = {
   lastName: 'lastName',
   avatar: 'avatar',
   phoneNumber: 'phoneNumber',
+  isSeller: 'isSeller',
   sellerRating: 'sellerRating',
+  pendingEscrowFunds: 'pendingEscrowFunds',
+  availableFunds: 'availableFunds',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId'
