@@ -86,7 +86,7 @@ export const invalidRequestError = (error?: unknown): ActionResponse =>
 export const conflictError = (title?: string): ActionResponse =>
   errorResponse(`${title ?? "Resource"} already exists`, 409);
 
-export const actionWrapper = async (
+export const actionWrapper = (
   fn: (...args: any[]) => Promise<ActionResponse>,
 ) => {
   return async (...args: any[]): Promise<ActionResponse> => {

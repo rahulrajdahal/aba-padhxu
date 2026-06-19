@@ -1,9 +1,9 @@
 export const routes = {
   home: "/",
   dashboard: "/dashboard",
-  forgotPassword: "/auth/forgot-password",
-  confirmEmail: "/auth/confirm-email",
-  resetPassword: "/auth/reset-password",
+  forgotPassword: "/forgot-password",
+  confirmEmail: "/confirm-email",
+  resetPassword: "/reset-password",
   login: "/login",
   signup: "/signup",
   books: "/books",

@@ -4,6 +4,7 @@ import { TokenType } from "@/generated/prisma/client/client";
 import { logger } from "@/lib/logger";
 import {
   actionWrapper,
+  conflictError,
   errorResponse,
   invalidRequestError,
   noContentResponse,
@@ -38,13 +39,12 @@ import {
   createSession,
   deleteSession,
   hashPassword,
-  isUserActive,
   sendConfirmationEmail,
   sendResetPasswordEmail,
   userEmailExists,
 } from "./middleware";
 
-export const signup = await actionWrapper(async function (
+export const signup = actionWrapper(async function (
   prevState: unknown,
   formData: FormData,
 ) {
@@ -63,12 +63,9 @@ export const signup = await actionWrapper(async function (
     return validationError(validatedFields.error.flatten().fieldErrors);
   }
 
-  if (await userEmailExists(body.email)) {
-    if (!(await isUserActive(body.email))) {
-      const existingUser = await getUserByEmail(body.email);
-
-      return await sendConfirmationEmail(existingUser!);
-    }
+  const existingUser = await userEmailExists(body.email);
+  if (existingUser) {
+    return conflictError("User with this email already exists");
   }
 
   const passwordHash = await hashPassword(body.password);
@@ -93,7 +90,7 @@ export const signup = await actionWrapper(async function (
   return await sendConfirmationEmail({ email: body.email, id: userId });
 });
 
-export const login = await actionWrapper(
+export const login = actionWrapper(
   async (prevState: unknown, formData: FormData) => {
     const body = {
       email: formData.get("email") as string,
@@ -123,12 +120,16 @@ export const login = await actionWrapper(
   },
 );
 
-export const confirmEmail = await actionWrapper(async (emailToken: string) => {
+export const confirmEmail = actionWrapper(async (emailToken: string) => {
   const token = await getTokenByToken(emailToken);
 
-  console.log(token, "otkn", emailToken, "emil");
   if (!token || token.type !== TokenType.EMAIL_CONFIRMATION) {
     return invalidRequestError();
+  }
+
+  // Verify token expiration
+  if (token.expiresAt < new Date()) {
+    return errorResponse("Token has expired", 400);
   }
 
   await patchUserById(token.userId, { isActive: true });
@@ -156,7 +157,7 @@ export const forgotPassword = async (
     const user = await getUserByEmail(body.email);
 
     if (!user) {
-      return invalidRequestError("Email not registered.");
+      return okResponse("If that email is registered, a reset link has been sent.");
     }
 
     return sendResetPasswordEmail(user);
@@ -183,6 +184,11 @@ export const resetPassword = async (prevState: unknown, formData: FormData) => {
 
     if (!token || token.type !== TokenType.PASSWORD_RESET) {
       return invalidRequestError();
+    }
+
+    // Verify token expiration
+    if (token.expiresAt < new Date()) {
+      return errorResponse("Token has expired", 400);
     }
 
     const user = await getUserById(token.userId);

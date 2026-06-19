@@ -2,15 +2,12 @@ import "server-only";
 
 import EmailTemplate from "@/emails/EmailTemplate";
 import { User } from "@/generated/prisma/client/client";
-import {
-  BadRequestError,
-  ForbiddenError,
-  UnAuthorizedError,
-} from "@/lib/errors";
+import { ForbiddenError, UnAuthorizedError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
-import { errorResponse, okResponse, serverError } from "@/lib/responses";
+import { errorResponse, okResponse } from "@/lib/responses";
 import { decryptJWT, encryptJWT, expiresAt } from "@/utils/auth";
 import { transporter } from "@/utils/nodemailer";
+import { routes } from "@/utils/routes";
 import { render } from "@react-email/components";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
@@ -23,13 +20,10 @@ export const createSession = async (userId: string) => {
   const session = await encryptJWT({ userId });
 
   cookieStore.set("session", session, {
-    name: "session",
-    value: session,
-    maxAge: expiresAt,
     httpOnly: true,
     secure: process.env.NODE_ENV !== "development",
-    expires: expiresAt,
-    sameSite: "lax",
+    maxAge: expiresAt,
+    sameSite: "strict",
     path: "/",
   });
 };
@@ -61,14 +55,17 @@ export const updateSession = async () => {
 
   cookieStore.set("session", session, {
     httpOnly: true,
-    secure: true,
-    expires: expiresAt,
-    sameSite: "lax",
+    secure: process.env.NODE_ENV !== "development",
+    maxAge: expiresAt,
+    sameSite: "strict",
     path: "/",
   });
 };
 
-export const deleteSession = () => cookieStore.delete("session");
+export const deleteSession = async () => {
+  const cookieStore = await cookies();
+  cookieStore.delete("session");
+};
 
 export const hashPassword = async (password: string) => {
   const salt = await bcrypt.genSalt(10);
@@ -81,9 +78,7 @@ export const comparePassword = async (password: string, hash: string) => {
 
 export const userEmailExists = async (email: string) => {
   const user = await getUserByEmail(email);
-  if (user) {
-    throw new BadRequestError("User with this email already exists");
-  }
+
   return !!user;
 };
 
@@ -149,7 +144,7 @@ export const sendEmail = async (
 
 export const sendConfirmationEmail = async (
   user: Pick<User, "email" | "id">,
-  message = "An confirmation email was just sent!",
+  message: string = "An confirmation email was just sent!",
 ) => {
   try {
     const emailToken = generateToken();
@@ -164,7 +159,7 @@ export const sendConfirmationEmail = async (
       EmailTemplate({
         title: "Sign up with Aba Padhxu",
         heading: "Email Confirmation",
-        body: `Follow the provided link to activate your account. http://localhost:3000/confirm-email/${emailToken}`,
+        body: `Follow the provided link to activate your account. ${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}${routes.confirmEmail}/${emailToken}`,
       }),
     );
 
@@ -173,10 +168,9 @@ export const sendConfirmationEmail = async (
     return okResponse(message);
   } catch (error) {
     logger.error("Error sending mail", error);
-    if (error instanceof Error) {
-      return errorResponse(error.message);
-    }
-    return serverError();
+    return errorResponse(
+      "An unexpected error occurred while sending the email. Please try again later.",
+    );
   }
 };
 
@@ -195,7 +189,7 @@ export const sendResetPasswordEmail = async (
       EmailTemplate({
         title: "Password reset request",
         heading: "Reset Password",
-        body: `Follow the provided link to reset your account password. http://localhost:3000/auth/reset-password/${resetToken}`,
+        body: `Follow the provided link to reset your account password. ${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}${routes.resetPassword}/${resetToken}`,
       }),
     );
 
@@ -204,9 +198,8 @@ export const sendResetPasswordEmail = async (
     return okResponse("A reset password link has been sent to your email.");
   } catch (error) {
     logger.error("Error sending mail", error);
-    if (error instanceof Error) {
-      return errorResponse(error.message);
-    }
-    return serverError();
+    return errorResponse(
+      "An unexpected error occurred while sending the email. Please try again later.",
+    );
   }
 };
