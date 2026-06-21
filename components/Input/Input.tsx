@@ -52,6 +52,8 @@ export default function Input(props: InputProps) {
         )}
         <TextField
           error={hasErrors}
+          required={required}
+          aria-required={required}
           className={iconLeft ? "pl-8" : iconRight ? "pr-8" : ""}
           {...rest}
         />

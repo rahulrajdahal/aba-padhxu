@@ -2,7 +2,7 @@
 
 import { Button, Input } from "@/components";
 import { routes } from "@/utils/routes";
-import { Mail } from "@meistericons/react";
+import { ArrowLeft, Mail } from "@meistericons/react";
 import { useRouter } from "next/navigation";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
@@ -53,6 +53,13 @@ export default function Page() {
         />
         <Button type="submit" disabled={pending} aria-disabled={pending}>
           {pending ? "Sending Email..." : "Send Email"}
+        </Button>
+        <Button
+          variant={"text"}
+          onClick={() => router.back()}
+          leftIcon={<ArrowLeft size={20} />}
+        >
+          Go back
         </Button>
       </form>
     </>

@@ -83,6 +83,8 @@ export default function PasswordInput(props: InputPasswordProps) {
           <input
             className="outline-none w-full pr-8"
             type={inputType}
+            required={required}
+            aria-required={required}
             {...rest}
           />
           {inputIcon}

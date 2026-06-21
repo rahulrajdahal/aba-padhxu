@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { randomBytes } from "node:crypto";
 import { verifySession } from "./app/(auth)/middleware";
 import { routes } from "./utils/routes";
 
@@ -36,31 +35,31 @@ export async function proxy(req: NextRequest) {
     return NextResponse.redirect(new URL(routes.home, req.nextUrl));
   }
 
-  const safeMethods = ["GET", "HEAD", "OPTIONS", "TRACE"];
+  // const safeMethods = ["GET", "HEAD", "OPTIONS", "TRACE"];
 
-  if (safeMethods.includes(req.method)) {
-    const existing = req.cookies.get("csrfToken");
-    if (!existing) {
-      const token = randomBytes(32).toString("base64url");
-      const response = NextResponse.next();
-      response.cookies.set("csrfToken", token, {
-        httpOnly: false,
-        secure: process.env.NODE_ENV !== "development",
-        sameSite: "strict",
-        path: "/",
-        maxAge: 60 * 60,
-      });
-      return response;
-    }
-    return NextResponse.next();
-  }
+  // if (safeMethods.includes(req.method)) {
+  //   const existing = req.cookies.get("csrfToken");
+  //   if (!existing) {
+  //     const token = randomBytes(32).toString("base64url");
+  //     const response = NextResponse.next();
+  //     response.cookies.set("csrfToken", token, {
+  //       httpOnly: false,
+  //       secure: process.env.NODE_ENV !== "development",
+  //       sameSite: "strict",
+  //       path: "/",
+  //       maxAge: 60 * 60,
+  //     });
+  //     return response;
+  //   }
+  //   return NextResponse.next();
+  // }
 
-  const csrfCookie = req.cookies.get("csrfToken")?.value;
-  const csrfHeader = req.headers.get("x-csrf-token");
+  // const csrfCookie = req.cookies.get("csrfToken")?.value;
+  // const csrfHeader = req.headers.get("x-csrf-token");
 
-  if (!csrfCookie || !csrfHeader || csrfCookie !== csrfHeader) {
-    return new NextResponse("Invalid CSRF token", { status: 403 });
-  }
+  // if (!csrfCookie || !csrfHeader || csrfCookie !== csrfHeader) {
+  //   return new NextResponse("Invalid CSRF token", { status: 403 });
+  // }
 
   return NextResponse.next();
 }

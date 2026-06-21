@@ -1,3 +1,5 @@
+import "server-only";
+
 import { isAuthenticated } from "@/app/(auth)/middleware";
 import {
   BadRequestError,

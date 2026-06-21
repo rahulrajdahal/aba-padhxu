@@ -70,12 +70,12 @@ export default function Page() {
         />
         <PasswordInput
           label="Confirm Password"
-          errors={state?.errors?.password}
+          errors={state?.errors?.confirmPassword}
           name="confirmPassword"
           required
         />
 
-        <div className="flex items-center gap-2.5 pt-1 text-slate-500 select-none">
+        <div className="flex items-end gap-2.5 pt-1 text-slate-500 select-none">
           <input
             type="checkbox"
             id="terms"
