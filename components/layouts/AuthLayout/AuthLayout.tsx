@@ -1,59 +1,69 @@
 import Logo from "@/components/Logo/Logo";
+import React from "react";
 
-interface LayoutProps {
+interface IAuthLayout {
   children: React.ReactNode;
+  heading: string;
+  body: string;
 }
 
-export default function layout({ children }: LayoutProps) {
+export default function AuthLayout({ heading, body, children }: IAuthLayout) {
   return (
     <main className="h-screen w-full bg-slate-50 flex items-stretch text-slate-900 antialiased selection:bg-indigo-500 selection:text-white">
       <div className="w-full overflow-y-scroll scrollbar-thin scrollbar-thumb-brand-ink lg:w-[45%] xl:w-[40%] bg-white flex flex-col justify-between p-8 sm:p-12 md:p-20 relative z-10 shadow-2xl shadow-slate-200/50">
         <Logo />
 
         <div className="w-full max-w-md mx-auto my-auto py-12">
+          <div className="space-y-2.5 mb-8">
+            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+              {heading}
+            </h1>
+            <p className="text-sm text-slate-500">{body}</p>
+          </div>
+
           {children}
           {/* <div className="flex items-start gap-2.5 pt-1 text-slate-500 select-none">
-                    <input
-                      type="checkbox"
-                      id="terms"
-                      required
-                      className="mt-1 h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-0 transition-colors"
-                    />
-                    <label htmlFor="terms" className="text-xs leading-normal">
-                      I agree to the{" "}
-                      <a
-                        href="#terms"
-                        className="text-indigo-600 font-medium hover:underline"
-                      >
-                        Terms of Service
-                      </a>{" "}
-                      and{" "}
-                      <a
-                        href="#privacy"
-                        className="text-indigo-600 font-medium hover:underline"
-                      >
-                        Privacy Policy
-                      </a>
-                      .
-                    </label>
-                  </div> */}
+            <input
+              type="checkbox"
+              id="terms"
+              required
+              className="mt-1 h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-0 transition-colors"
+            />
+            <label htmlFor="terms" className="text-xs leading-normal">
+              I agree to the{" "}
+              <a
+                href="#terms"
+                className="text-indigo-600 font-medium hover:underline"
+              >
+                Terms of Service
+              </a>{" "}
+              and{" "}
+              <a
+                href="#privacy"
+                className="text-indigo-600 font-medium hover:underline"
+              >
+                Privacy Policy
+              </a>
+              .
+            </label>
+          </div> */}
           {/* <div className="mt-8 pt-6 border-t border-slate-100 text-center text-sm text-slate-500">
-                    Toogle Footer
-                    <>
-                      New to Aura.ai?{" "}
-                      <button className="font-semibold text-indigo-600 hover:text-indigo-500 hover:underline transition-colors">
-                        Create an account
-                      </button>
-                    </>
-                    ) : (
-                          <>
-                            Already have an account?{" "}
-                            <button className="font-semibold text-indigo-600 hover:text-indigo-500 hover:underline transition-colors">
-                              Sign back in
-                            </button>
-                          </>
-                        )} 
-                  </div> */}
+            Toogle Footer
+            <>
+              New to Aura.ai?{" "}
+              <button className="font-semibold text-indigo-600 hover:text-indigo-500 hover:underline transition-colors">
+                Create an account
+              </button>
+            </>
+            ) : (
+                  <>
+                    Already have an account?{" "}
+                    <button className="font-semibold text-indigo-600 hover:text-indigo-500 hover:underline transition-colors">
+                      Sign back in
+                    </button>
+                  </>
+                )} 
+          </div> */}
         </div>
 
         <p className="text-xs text-slate-400 text-center lg:text-left">

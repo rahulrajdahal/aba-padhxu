@@ -36,7 +36,7 @@ const VARIANT_STYLE: Record<ButtonVariant, string> = {
     "bg-brand-ink text-brand-paper-light hover:bg-brand-ink-light",
   [BUTTON_VARIANT.OUTLINE]:
     "border border-neutral-border text-neutral-text hover:bg-brand-paper-dark",
-  [BUTTON_VARIANT.TEXT]: "text-brand-ink hover:underline",
+  [BUTTON_VARIANT.TEXT]: "text-brand-ink hover:underline p-0!",
 };
 
 const SIZE_MAP: Record<ButtonSize, string> = {
