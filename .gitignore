@@ -10,3 +10,5 @@ certificates
 
 *storybook.log
 storybook-static
+# next-agents-md
+.next-docs/

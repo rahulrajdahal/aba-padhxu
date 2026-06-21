@@ -1,82 +1,47 @@
-// "use client";
-
-// import { routes } from "@/utils/routes";
-// import Link from "next/link";
-// import { ComponentPropsWithoutRef } from "react";
-// import styled from "styled-components";
-
-// const Container = styled.fieldset`
-//   display: flex;
-//   flex-direction: column;
-//   gap: 0.5rem;
-// `;
-
-// interface IInput extends ComponentPropsWithoutRef<"fieldset"> {
-//   label?: string;
-//   error?: string;
-//   inputProps?: ComponentPropsWithoutRef<"input">;
-//   forgot?: boolean;
-// }
-// export default function Input({
-//   label,
-//   error,
-//   inputProps,
-//   forgot = false,
-//   ...props
-// }: Readonly<IInput>) {
-//   return (
-//     <Container {...props}>
-//       {label && (
-//         <div className="flex items-center justify-between">
-//           <label htmlFor={inputProps?.name} className="text-base font-semibold">
-//             {label}
-//           </label>
-
-//           {forgot ? (
-//             <Link
-//               href={routes.forgotPassword}
-//               className="text-blue-600 underline text-xs"
-//             >
-//               Forgot Password?
-//             </Link>
-//           ) : null}
-//         </div>
-//       )}
-//       <input
-//         {...inputProps}
-//         className="rounded-lg border border-gray-300 px-2 py-1 outline-none"
-//       />
-//       {error && (
-//         <p className="text-sm font-medium tracking-tight text-red-400">
-//           {error}
-//         </p>
-//       )}
-//     </Container>
-//   );
-// }
+"use client";
 
 import React from "react";
 import InputError from "./InputError/InputError";
+import InputHelperText from "./InputHelperText/InputHelperText";
 import InputLabel from "./InputLabel/InputLabel";
-import TextField, { TextFieldProps } from "./TextField/TextField";
+import TextField from "./TextField/TextField";
 
-type InputProps = TextFieldProps & {
-  label: string;
+type InputProps = React.ComponentProps<"input"> & {
+  label?: string;
+  helperText?: string;
   errors?: string[];
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
 };
 
 export default function Input(props: InputProps) {
-  const { label, errors, iconLeft, iconRight, ...rest } = props;
+  const { label, helperText, errors, iconLeft, required, iconRight, ...rest } =
+    props;
 
   const hasErrors = Boolean(errors && errors.length > 0);
+  const inputId = React.useId();
+
+  const inputLabel = label ? (
+    <InputLabel htmlFor={inputId} required={required}>
+      {label}
+    </InputLabel>
+  ) : null;
+
+  const inputErrors =
+    hasErrors && errors ? (
+      <div className="flex flex-col">
+        {errors.map((error, idx) => (
+          <InputError id={`${inputId}-error-${idx}`} key={idx}>
+            {error}
+          </InputError>
+        ))}
+      </div>
+    ) : null;
 
   return (
     <fieldset className="flex flex-col gap-1 group w-full">
-      <InputLabel className={`${hasErrors ? "text-red-500" : ""}`}>
-        {label}
-      </InputLabel>
+      {inputLabel}
+
       <div className="relative flex items-center">
         {iconLeft && (
           <div
@@ -86,9 +51,9 @@ export default function Input(props: InputProps) {
           </div>
         )}
         <TextField
-          {...rest}
-          aria-invalid={hasErrors}
+          error={hasErrors}
           className={iconLeft ? "pl-8" : iconRight ? "pr-8" : ""}
+          {...rest}
         />
         {iconRight && (
           <div
@@ -98,12 +63,12 @@ export default function Input(props: InputProps) {
           </div>
         )}
       </div>
-      <div className="flex flex-col">
-        {hasErrors &&
-          errors?.map((error, index) => (
-            <InputError key={index}>{error}</InputError>
-          ))}
-      </div>
+      {inputErrors}
+      {helperText && !hasErrors ? (
+        <InputHelperText id={`${inputId}-helper-text`}>
+          {helperText}
+        </InputHelperText>
+      ) : null}
     </fieldset>
   );
 }

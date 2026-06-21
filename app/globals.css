@@ -1,19 +1,83 @@
 @import "tailwindcss";
 
-body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@theme {
+  /* 🎨 COLOR TOKENS (Tailwind v4 OKLCH Syntax) */
+  --color-brand-ink: oklch(22% 0.02 240);
+  --color-brand-ink-light: oklch(35% 0.02 240);
+  --color-brand-accent: oklch(55% 0.16 40);
+  --color-brand-accent-hover: oklch(48% 0.15 40);
+  --color-brand-accent-focus: oklch(60% 0.18 40);
+  --color-brand-paper: oklch(96% 0.01 60);
+  --color-brand-paper-light: oklch(99% 0.005 60);
+  --color-brand-paper-dark: oklch(92% 0.01 60);
+
+  /* Neutral Structural Scales */
+  --color-neutral-text: oklch(18% 0.01 240);
+  --color-neutral-muted: oklch(45% 0.01 240);
+  --color-neutral-border: oklch(85% 0.01 240);
+
+  /* Semantic Feedback (Mapped to intuitive text-* utility handles) */
+  --color-success: oklch(62% 0.17 145);
+  --color-error: oklch(55% 0.22 25);
+  --color-warning: oklch(75% 0.15 75);
+  --color-info: oklch(58% 0.16 245);
+
+  /* Fonts */
+  --font-serif: "Merriweather", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  /* ⏱️ ANIMATION & MOTION TOKENS */
+  --ease-book-open: cubic-bezier(0.25, 1, 0.5, 1);
+  --animate-fade-in-up: fadeInUp 350ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-.h1 {
-  @apply text-4xl font-black;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.h2 {
-  @apply text-3xl font-bold;
+/* ♿ GLOBAL BASE LAYER STYLES */
+@layer base {
+  body {
+    background-color: var(--color-brand-paper);
+    color: var(--color-neutral-text);
+    font-family: var(--font-sans);
+  }
+
+  /* Automatically maps your semantic sizes & font families globally */
+  h1 {
+    @apply text-5xl font-serif text-brand-ink tracking-tight;
+  }
+  h2 {
+    @apply text-3xl font-serif text-brand-ink tracking-tight;
+  }
+  h3 {
+    @apply text-2xl font-serif text-brand-ink;
+  }
+  p {
+    @apply text-base font-sans;
+  }
+
+  /* Keyboard-only accessibility focus rings */
+  *:focus-visible {
+    outline: 3px solid var(--color-brand-accent-focus);
+    outline-offset: 2px;
+  }
 }
 
-.h3 {
-  @apply text-2xl font-semibold;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

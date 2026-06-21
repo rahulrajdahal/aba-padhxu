@@ -3,12 +3,12 @@
 import { mergeClassNames } from "@/lib/mergeClassNames";
 import React from "react";
 
-type InputErrorProps = React.ComponentProps<"p">;
+type InputHelperTextProps = React.ComponentProps<"p">;
 
-export default function InputError(props: InputErrorProps) {
+export default function InputHelperText(props: InputHelperTextProps) {
   const { className = "", children, ...rest } = props;
 
-  const baseClassName = "text-red-500 text-sm leading-tight";
+  const baseClassName = "text-sm font-medium tracking-tight text-gray-400";
 
   return (
     <p className={mergeClassNames(baseClassName, className)} {...rest}>
