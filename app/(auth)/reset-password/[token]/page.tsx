@@ -1,11 +1,13 @@
 "use client";
 
-import { Button, Form, Input } from "@/components";
+import { Button } from "@/components";
+import PasswordInput from "@/components/Input/Password/PasswordInput";
 import { routes } from "@/utils/routes";
 import { useParams, useRouter } from "next/navigation";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
 import { resetPassword } from "../../actions";
+import Headings from "../../components/Headings";
 
 export default function Page() {
   const { token } = useParams();
@@ -14,7 +16,7 @@ export default function Page() {
 
   const handleResetPassword = async (
     prevState: unknown,
-    formData: FormData
+    formData: FormData,
   ) => {
     formData.append("token", token as string);
 
@@ -34,28 +36,32 @@ export default function Page() {
 
   const [state, formAction, pending] = useActionState(
     handleResetPassword,
-    null
+    null,
   );
 
   return (
-    <Form title="Reset Password" action={formAction} className="gap-6">
-      <Input
-        label="Password"
-        error={state?.errors?.password}
-        inputProps={{ type: "password", name: "password", required: true }}
+    <>
+      <Headings
+        heading="Reset Password"
+        body="Enter your new password to reset your password"
       />
-      <Input
-        label="Confirm Password"
-        error={state?.errors?.confirmPassword}
-        inputProps={{
-          type: "password",
-          name: "confirmPassword",
-          required: true,
-        }}
-      />
-      <Button type="submit" disabled={pending} aria-disabled={pending}>
-        {pending ? "Resetting Password..." : "Reset Password"}
-      </Button>
-    </Form>
+      <form action={formAction} className="flex flex-col gap-6">
+        <PasswordInput
+          name="password"
+          label="Password"
+          required
+          errors={state?.errors?.password}
+        />
+        <PasswordInput
+          name="confirmPassword"
+          label="Confirm Password"
+          required
+          errors={state?.errors?.password}
+        />
+        <Button type="submit" disabled={pending} aria-disabled={pending}>
+          {pending ? "Resetting Password..." : "Reset Password"}
+        </Button>
+      </form>
+    </>
   );
 }
