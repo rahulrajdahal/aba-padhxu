@@ -50,10 +50,10 @@ export default function Textarea(props: TextareaProps) {
     <fieldset className="flex flex-col gap-1 group w-full">
       {inputLabel}
 
-      <div className="relative flex items-start">
+      <div className="relative flex items-start border rounded-lg border-neutral-muted overflow-hidden">
         {iconLeft && (
           <div
-            className={`absolute left-2 top-2 ${hasErrors ? "text-red-500" : "group-focus-within:text-primary-500"} transition-colors duration-300 text-gray-400`}
+            className={`absolute left-2 top-2 ${hasErrors ? "text-error" : "group-focus-within:text-primary-500"} transition-colors duration-300 text-gray-400`}
           >
             {iconLeft}
           </div>

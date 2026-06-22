@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import AdminNavbar from "./AdminNavbar";
+import AdminNavbar from "./DashboardNavbar";
 
 const meta = {
   title: "Components/AdminNavbar",

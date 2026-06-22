@@ -13,6 +13,7 @@ import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { generateToken } from "../dashboard/tokens/middleware";
 import { createToken } from "../dashboard/tokens/tokens.service";
+import { findUserProfileByUserId } from "../dashboard/user_profiles/user_profiles.service";
 import { getUserByEmail, getUserById } from "../dashboard/users/users.service";
 
 export const createSession = async (userId: string) => {
@@ -108,7 +109,10 @@ export const authUser = async () => {
     throw new ForbiddenError();
   }
 
-  return await getUserById(userId as string);
+  const user = await getUserById(userId as string);
+  const userProfile = await findUserProfileByUserId(user.id);
+
+  return { ...user, ...userProfile };
 };
 
 export const sendEmail = async (

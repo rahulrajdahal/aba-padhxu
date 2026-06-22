@@ -1,4 +1,3 @@
-import { DashboardCard } from "@/components";
 import {
   Bookmark,
   BoxCheck,
@@ -7,6 +6,7 @@ import {
   Scooter,
   Users,
 } from "@meistericons/react";
+import DashboardCard from "./components/DashboardCard/DashboardCard";
 
 type DashboardProps = Readonly<{
   ordersPendingCount: number;
