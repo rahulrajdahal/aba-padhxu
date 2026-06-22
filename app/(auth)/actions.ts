@@ -157,7 +157,9 @@ export const forgotPassword = async (
     const user = await getUserByEmail(body.email);
 
     if (!user) {
-      return okResponse("If that email is registered, a reset link has been sent.");
+      return okResponse(
+        "If that email is registered, a reset link has been sent.",
+      );
     }
 
     return sendResetPasswordEmail(user);
@@ -211,6 +213,6 @@ export const resetPassword = async (prevState: unknown, formData: FormData) => {
 };
 
 export const logout = async () => {
-  deleteSession();
+  await deleteSession();
   redirect(routes.login);
 };

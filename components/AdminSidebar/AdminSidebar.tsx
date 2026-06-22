@@ -1,8 +1,12 @@
 "use client";
 
+import { logout } from "@/app/(auth)/actions";
 import { routes } from "@/utils/routes";
+import { ArrowBlockLeft } from "@meistericons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import toast from "react-hot-toast";
+import { Button } from "../Buttons";
 const links = [
   { id: 1, label: "Dashboard", href: routes.dashboard },
 
@@ -15,8 +19,13 @@ const links = [
 export default function AdminSidebar() {
   const pathname = usePathname();
 
+  const handleLogout = async () => {
+    await logout();
+    return toast.success("Logged out successfully");
+  };
+
   return (
-    <aside className="flex w-[15rem] border-r-2 border-gray-400 px-2 py-8">
+    <aside className="flex flex-col justify-between w-80 border-r-2 border-gray-400 px-2 py-4">
       <ul className="w-full">
         {links.map(({ id, href, label }) => (
           <Link key={id} href={href}>
@@ -30,6 +39,15 @@ export default function AdminSidebar() {
           </Link>
         ))}
       </ul>
+
+      <Button
+        onClick={handleLogout}
+        size="sm"
+        variant="outline"
+        leftIcon={<ArrowBlockLeft size={18} />}
+      >
+        Sign out
+      </Button>
     </aside>
   );
 }
