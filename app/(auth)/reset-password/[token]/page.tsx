@@ -23,12 +23,13 @@ export default function Page() {
     const state = await resetPassword(prevState, formData);
 
     if (state.type === "success") {
-      toast.success(state.message);
+      toast.success("Password reset successful! Login to continue.");
       return router.push(routes.login);
     }
 
     if (state.type === "error") {
       toast.error(state.message);
+      return router.push(routes.forgotPassword);
     }
 
     return state;

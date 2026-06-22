@@ -17,7 +17,6 @@ export const getTokenById = async (id: string) => {
 };
 
 export const getTokenByToken = async (token: string) => {
-  console.log("otken service", token);
   return await findByToken(token);
 };
 

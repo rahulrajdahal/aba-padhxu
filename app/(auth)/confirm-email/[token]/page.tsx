@@ -8,6 +8,7 @@ import { confirmEmail } from "../../actions";
 
 export default function page() {
   const { token } = useParams();
+
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
