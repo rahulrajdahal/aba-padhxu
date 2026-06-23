@@ -123,11 +123,13 @@ export const actionWrapper = (
   };
 };
 
-export const authActionWrapper = actionWrapper(
-  async (fn: (...args: any[]) => Promise<ActionResponse>, ...args: any[]) => {
+export const authActionWrapper = (
+  fn: (...args: any[]) => Promise<ActionResponse>,
+) => {
+  return actionWrapper(async (...args: any[]) => {
     const isAuth = await isAuthenticated();
     if (!isAuth) throw new UnAuthorizedError();
 
-    return fn(...args);
-  },
-);
+    return await fn(...args);
+  });
+};

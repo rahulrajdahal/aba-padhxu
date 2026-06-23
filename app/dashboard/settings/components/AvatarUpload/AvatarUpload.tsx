@@ -101,6 +101,7 @@ export default function AvatarUpload({
         onChange={handleFileChange}
         accept="image/*"
         className="hidden"
+        name="avatar"
       />
 
       {/* Helper Action Buttons */}
