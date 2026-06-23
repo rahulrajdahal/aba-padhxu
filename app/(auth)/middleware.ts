@@ -178,7 +178,7 @@ export const sendConfirmationEmail = async (
   }
 };
 
-export const sendResetPasswordEmail = async (
+export const sendForgotPasswordEmail = async (
   user: Pick<User, "email" | "id">,
 ) => {
   try {
@@ -200,6 +200,27 @@ export const sendResetPasswordEmail = async (
     await sendEmail("Reset Password in Aba Padhxu", user.email, emailHtml);
 
     return okResponse("A reset password link has been sent to your email.");
+  } catch (error) {
+    logger.error("Error sending mail", error);
+    return errorResponse(
+      "An unexpected error occurred while sending the email. Please try again later.",
+    );
+  }
+};
+
+export const sendResetPasswordEmail = async (to: string) => {
+  try {
+    const emailHtml = await render(
+      EmailTemplate({
+        title: "Password Updated",
+        heading: "Your Password has been updated!",
+        body: "Your Aba Padhxu account's password was recently updated. If you did not make this change, please contact our support team immediately.",
+      }),
+    );
+
+    await sendEmail("Password Updated in Aba Padhxu", to, emailHtml);
+
+    return okResponse("Your password has been updated successfully.");
   } catch (error) {
     logger.error("Error sending mail", error);
     return errorResponse(

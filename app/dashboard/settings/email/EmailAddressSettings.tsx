@@ -1,5 +1,6 @@
 "use client";
 
+import { logout } from "@/app/(auth)/actions";
 import { Button, Input } from "@/components";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
@@ -20,12 +21,12 @@ export default function EmailAddressSettings({
 
     if (state.type === "success") {
       toast.success("User Email Address Updated");
+      await logout();
       return;
     }
 
     if (state.type === "error") {
       toast.error(state.message);
-      return;
     }
 
     return state;

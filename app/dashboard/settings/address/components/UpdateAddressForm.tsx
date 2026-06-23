@@ -39,12 +39,14 @@ export default function UpdateAddressForm({ address }: AddressFormProps) {
         name="type"
         label={AddressType.BILLING}
         type="radio"
+        value={AddressType.BILLING}
         defaultChecked={address?.type === AddressType.BILLING}
         errors={state?.errors?.type}
       />
       <Input
         name="type"
         label={AddressType.SHIPPING}
+        value={AddressType.SHIPPING}
         type="radio"
         defaultChecked={address?.type === AddressType.SHIPPING}
         errors={state?.errors?.type}

@@ -1,18 +1,27 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 
 interface AvatarUploadProps {
   initialAvatarUrl?: string;
   onAvatarChange: (avatar: File | null) => void;
+  name: string;
 }
 
 export default function AvatarUpload({
   initialAvatarUrl,
   onAvatarChange,
+  name,
 }: AvatarUploadProps) {
   const [previewUrl, setPreviewUrl] = useState(initialAvatarUrl || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const initials = name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -57,15 +66,18 @@ export default function AvatarUpload({
         className="group relative h-32 w-32 rounded-full border-4 border-white shadow-md cursor-pointer overflow-hidden bg-gray-100 ring-2 ring-indigo-100 hover:ring-indigo-300 transition-all duration-300"
       >
         {previewUrl ? (
-          <img
+          <Image
             src={previewUrl}
-            alt="Avatar preview"
+            alt={`${name}'s preview`}
+            width={128}
+            height={128}
             className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+            // placeholder="blur"
           />
         ) : (
           // Fallback Initials / Placeholder SVG
           <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 text-white text-3xl font-bold">
-            U
+            {initials}
           </div>
         )}
 

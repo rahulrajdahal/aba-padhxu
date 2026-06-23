@@ -22,7 +22,6 @@ export default function UpdatePasswordSettings() {
 
     if (state.type === "error") {
       toast.error(state.message);
-      return;
     }
 
     return state;

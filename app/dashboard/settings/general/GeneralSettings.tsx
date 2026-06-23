@@ -8,11 +8,11 @@ import { updateUserProfile } from "../../user_profiles/actions";
 import AvatarUpload from "../components/AvatarUpload/AvatarUpload";
 
 type GeneralSettingsProps = {
-  user: Pick<UserProfile, "firstName" | "lastName" | "phoneNumber">;
+  user: Pick<UserProfile, "firstName" | "lastName" | "phoneNumber" | "avatar">;
 };
 
 export default function GeneralSettings({ user }: GeneralSettingsProps) {
-  const { firstName, lastName, phoneNumber } = user;
+  const { firstName, lastName, phoneNumber, avatar } = user;
 
   const handleUpdateInformation = async (
     prevState: unknown,
@@ -38,7 +38,11 @@ export default function GeneralSettings({ user }: GeneralSettingsProps) {
 
   return (
     <form action={formAction} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <AvatarUpload initialAvatarUrl="" onAvatarChange={() => {}} />
+      <AvatarUpload
+        name={`${firstName} ${lastName}`}
+        initialAvatarUrl={`/uploads/users/${avatar}`}
+        onAvatarChange={() => {}}
+      />
       <Input
         type="text"
         label="First Name"

@@ -14,6 +14,7 @@ export default async function page() {
         firstName: user.firstName,
         lastName: user.lastName,
         phoneNumber: user.phoneNumber,
+        avatar: user.avatar,
       }}
     />
   );

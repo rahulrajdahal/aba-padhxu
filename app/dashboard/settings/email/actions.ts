@@ -1,3 +1,5 @@
+"use server";
+
 import { authUserId } from "@/app/(auth)/middleware";
 import {
   authActionWrapper,

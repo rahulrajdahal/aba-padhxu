@@ -5,7 +5,6 @@ import { fileUpload, removeUploadFile } from "@/lib/fileUpload";
 import { logger } from "@/lib/logger";
 import {
   authActionWrapper,
-  createdResponse,
   forbiddenError,
   noContentResponse,
   notFoundError,
@@ -14,38 +13,14 @@ import {
   unauthorizedError,
   validationError,
 } from "@/lib/responses";
+import { routes } from "@/utils/routes";
+import { revalidatePath } from "next/cache";
 import { PatchUserProfileDTO } from "./user_profiles.dto";
 import {
-  createUserProfile,
   findUserProfileByUserId,
   patchUserProfileByUserId,
 } from "./user_profiles.service";
-import { addUserProfileSchema } from "./user_profiles.validation";
-
-export const addUserProfile = async (
-  prevState: unknown,
-  formData: FormData,
-) => {
-  try {
-    const body = {
-      firstName: formData.get("firstName") as string,
-      lastName: formData.get("lastName") as string,
-      phoneNumber: formData.get("mobile") as string,
-      avatar: formData.get("profileImage") as string,
-    };
-
-    const validateBody = addUserProfileSchema.safeParse(body);
-    if (!validateBody.success) {
-      return validationError(validateBody.error.flatten().fieldErrors);
-    }
-
-    const profileId = await createUserProfile(body);
-    return createdResponse("Profile created successfully", profileId);
-  } catch (error) {
-    logger.error("Error adding user profile", error);
-    return serverError();
-  }
-};
+import { updateUserProfileSchema } from "./user_profiles.validation";
 
 export const fetchUserProfile = async () => {
   try {
@@ -91,18 +66,22 @@ export const updateUserProfile = authActionWrapper(
     const phoneNumber = formData.get("mobile") as string;
     if (phoneNumber) body.phoneNumber = phoneNumber;
 
-    const avatar = formData.get("profileImage") as File;
+    const avatar = formData.get("avatar") as File;
     if (avatar) {
-      await removeUploadFile(avatar.name, "users");
+      if (existingUserProfile.avatar !== "default.avif") {
+        await removeUploadFile(existingUserProfile.avatar!, "users");
+      }
       body.avatar = (await fileUpload(avatar, "users", {})) as string;
     }
 
-    const validateBody = addUserProfileSchema.safeParse(body);
+    const validateBody = updateUserProfileSchema.safeParse(body);
     if (!validateBody.success) {
       return validationError(validateBody.error.flatten().fieldErrors);
     }
 
     await patchUserProfileByUserId(userId as string, body);
+    revalidatePath(routes.dashboard);
+    revalidatePath(`${routes.dashboard}${routes.generalSettings}`);
     return noContentResponse();
   },
 );

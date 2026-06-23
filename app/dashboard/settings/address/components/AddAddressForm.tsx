@@ -33,12 +33,14 @@ export default function AddAddressForm() {
       <Input
         name="type"
         label={AddressType.BILLING}
+        value={AddressType.BILLING}
         type="radio"
         errors={state?.errors?.type}
       />
       <Input
         name="type"
         label={AddressType.SHIPPING}
+        value={AddressType.SHIPPING}
         type="radio"
         errors={state?.errors?.type}
       />

@@ -1,16 +1,16 @@
+"use server";
+
 import {
   authUserId,
   comparePassword,
   hashPassword,
+  sendResetPasswordEmail,
 } from "@/app/(auth)/middleware";
 import {
   authActionWrapper,
   invalidRequestError,
-  noContentResponse,
   validationError,
 } from "@/lib/responses";
-import { routes } from "@/utils/routes";
-import { revalidatePath } from "next/cache";
 import {
   getUserByIdWithPassword,
   patchUserById,
@@ -49,7 +49,6 @@ export const updatePassword = authActionWrapper(
     const passwordHash = await hashPassword(body.newPassword);
     await patchUserById(userId as string, { passwordHash });
 
-    revalidatePath(`${routes.dashboard}${routes.emailSettings}`);
-    return noContentResponse();
+    return sendResetPasswordEmail(user.email);
   },
 );

@@ -88,7 +88,7 @@ model Token {
 model UserProfile {
   firstName          String   @map("first_name")
   lastName           String   @map("last_name")
-  avatar             String?  @default("default")
+  avatar             String?  @default("default.avif")
   phoneNumber        String?  @map("phone_number")
   isSeller           Boolean? @default(false) @map("is_seller")
   sellerRating       Decimal? @default(0.00) @map("seller_rating") @db.Decimal(3, 2)

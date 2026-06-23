@@ -11,6 +11,8 @@ import {
   okResponse,
   validationError,
 } from "@/lib/responses";
+import { routes } from "@/utils/routes";
+import { revalidatePath } from "next/cache";
 import { PatchUserAddressDTO } from "./user_addresses.dto";
 import {
   createUserAddress,
@@ -48,6 +50,7 @@ export const addUserAddress = authActionWrapper(
     }
 
     const addressId = await createUserAddress(body);
+    revalidatePath(`${routes.dashboard}${routes.addressSettings}`);
     return createdResponse("Address added successfully", addressId);
   },
 );
@@ -88,7 +91,11 @@ export const updateUserAddress = authActionWrapper(
     if (countryCode) body.countryCode = countryCode;
 
     const isDefault = Boolean(formData.get("isDefault") ?? false);
-    if (isDefault) body.isDefault = isDefault;
+    if (isDefault) {
+      body.isDefault = isDefault;
+    } else {
+      body.isDefault = false;
+    }
 
     const validateBody = updateUserAddressSchema.safeParse(body);
     if (!validateBody.success) {
@@ -96,6 +103,7 @@ export const updateUserAddress = authActionWrapper(
     }
 
     await patchUserAddressById(id, body);
+    revalidatePath(`${routes.dashboard}${routes.addressSettings}`);
     return noContentResponse();
   },
 );
