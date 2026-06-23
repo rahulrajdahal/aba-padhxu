@@ -4,6 +4,7 @@ import { existsSync } from "node:fs";
 import { mkdir, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { logger } from "./logger";
+import { optimizeImage } from "./optimizeImage";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -69,7 +70,7 @@ export const fileUpload = async (
       `./public/uploads/${uploadDIR}`,
     );
 
-    return await devUpload(uploadPath, file.name, buffer);
+    return await devUpload(uploadPath, file.name, await optimizeImage(buffer));
   }
 
   const uploadedFile = (await prodUpload(

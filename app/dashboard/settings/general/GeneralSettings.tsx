@@ -1,5 +1,11 @@
+"use client";
+
 import { Button, Input } from "@/components";
 import { UserProfile } from "@/generated/prisma/client/client";
+import { useActionState } from "react";
+import toast from "react-hot-toast";
+import { updateUserProfile } from "../../user_profiles/actions";
+import AvatarUpload from "../components/AvatarUpload/AvatarUpload";
 
 type GeneralSettingsProps = {
   user: Pick<UserProfile, "firstName" | "lastName" | "phoneNumber">;
@@ -8,14 +14,38 @@ type GeneralSettingsProps = {
 export default function GeneralSettings({ user }: GeneralSettingsProps) {
   const { firstName, lastName, phoneNumber } = user;
 
+  const handleUpdateInformation = async (
+    prevState: unknown,
+    formData: FormData,
+  ) => {
+    const state = await updateUserProfile(prevState, formData);
+
+    if (state.type === "success") {
+      toast.success("Profile updated successfully");
+    }
+
+    if (state.type === "error") {
+      toast.error(state.message);
+    }
+
+    return state;
+  };
+
+  const [state, formAction, isPending] = useActionState(
+    handleUpdateInformation,
+    null,
+  );
+
   return (
-    <form className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <form action={formAction} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <AvatarUpload initialAvatarUrl="" onAvatarChange={() => {}} />
       <Input
         type="text"
         label="First Name"
         name="firstName"
         placeholder="Rajesh"
         defaultValue={firstName}
+        errors={state?.errors?.firstName}
       />
 
       <Input
@@ -24,6 +54,7 @@ export default function GeneralSettings({ user }: GeneralSettingsProps) {
         name="lastName"
         placeholder="Hamal"
         defaultValue={lastName}
+        errors={state?.errors?.lastName}
       />
 
       <Input
@@ -32,10 +63,13 @@ export default function GeneralSettings({ user }: GeneralSettingsProps) {
         name="phoneNumber"
         placeholder="+977 1234-567189"
         defaultValue={phoneNumber || ""}
+        errors={state?.errors?.phoneNumber}
       />
 
       <div className="flex items-center md:col-span-2 pt-8">
-        <Button type="submit">Update Information</Button>
+        <Button type="submit" isLoading={isPending}>
+          {isPending ? "Updating..." : "Update Information"}
+        </Button>
       </div>
     </form>
   );

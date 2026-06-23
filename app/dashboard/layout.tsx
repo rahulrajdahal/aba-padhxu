@@ -22,7 +22,7 @@ export default async function AdminLayout({ children }: IAdminLayout) {
       <main className="flex flex-col w-[calc(100%-15rem)] max-h-screen overflow-y-scroll">
         <DashboardNavbar
           user={{
-            avatar: user.avatar || "/default.avif",
+            avatar: user.avatar || "default.avif",
             email: user.email,
             name: `${user.firstName} ${user.lastName}`,
           }}

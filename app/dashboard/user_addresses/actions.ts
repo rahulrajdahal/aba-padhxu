@@ -1,4 +1,8 @@
+"use server";
+
 import { authUserId, isAuthenticated } from "@/app/(auth)/middleware";
+
+import { AddressType } from "@/generated/prisma/client/enums";
 import { fileUpload, removeUploadFile } from "@/lib/fileUpload";
 import { logger } from "@/lib/logger";
 import {
@@ -16,7 +20,6 @@ import {
   patchUserProfileByUserId,
 } from "./user_addresses.service";
 import { addUserProfileSchema } from "./user_addresses.validation";
-import { AddressType } from "@/generated/prisma/client/enums";
 
 export const addUserAddress = async (
   prevState: unknown,

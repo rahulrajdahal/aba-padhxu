@@ -1,9 +1,14 @@
+"use server";
+
 import { authUserId, isAuthenticated } from "@/app/(auth)/middleware";
 import { fileUpload, removeUploadFile } from "@/lib/fileUpload";
 import { logger } from "@/lib/logger";
 import {
+  authActionWrapper,
   createdResponse,
+  forbiddenError,
   noContentResponse,
+  notFoundError,
   okResponse,
   serverError,
   unauthorizedError,
@@ -61,18 +66,18 @@ export const fetchUserProfile = async () => {
   }
 };
 
-export const updateUserProfile = async (
-  prevState: unknown,
-  formData: FormData,
-) => {
-  try {
-    const isAuth = await isAuthenticated();
-    if (!isAuth) {
-      return unauthorizedError();
-    }
+export const updateUserProfile = authActionWrapper(
+  async (prevState: unknown, formData: FormData) => {
     const userId = await authUserId();
+
     if (!userId) {
-      return unauthorizedError();
+      return forbiddenError();
+    }
+
+    const existingUserProfile = await findUserProfileByUserId(userId as string);
+
+    if (!existingUserProfile) {
+      return notFoundError("User profile");
     }
 
     const body: PatchUserProfileDTO = {};
@@ -89,7 +94,7 @@ export const updateUserProfile = async (
     const avatar = formData.get("profileImage") as File;
     if (avatar) {
       await removeUploadFile(avatar.name, "users");
-      body.avatar = await fileUpload(avatar, "users", {});
+      body.avatar = (await fileUpload(avatar, "users", {})) as string;
     }
 
     const validateBody = addUserProfileSchema.safeParse(body);
@@ -99,8 +104,5 @@ export const updateUserProfile = async (
 
     await patchUserProfileByUserId(userId as string, body);
     return noContentResponse();
-  } catch (error) {
-    logger.error("Error updating user profile", error);
-    return serverError();
-  }
-};
+  },
+);

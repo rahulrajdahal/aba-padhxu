@@ -123,16 +123,11 @@ export const actionWrapper = (
   };
 };
 
-export const authActionWrapper = async (
-  fn: (...args: unknown[]) => ActionResponse,
-) => {
-  return async (...args: unknown[]) => {
+export const authActionWrapper = actionWrapper(
+  async (fn: (...args: any[]) => Promise<ActionResponse>, ...args: any[]) => {
     const isAuth = await isAuthenticated();
     if (!isAuth) throw new UnAuthorizedError();
-    try {
-      return await fn(...args);
-    } catch (e) {
-      throw new InternalServerError("Error processing auth Action");
-    }
-  };
-};
+
+    return fn(...args);
+  },
+);
