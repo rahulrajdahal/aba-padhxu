@@ -1,5 +1,11 @@
 import { UserAddress } from "@/generated/prisma/client/client";
-import { create, findById, removeById, updateById } from "./user_addresses.dal";
+import {
+  create,
+  findAllByUserId,
+  findById,
+  removeById,
+  updateById,
+} from "./user_addresses.dal";
 import {
   CreateUserAddressDTO,
   mapUserAddressDTO,
@@ -14,6 +20,11 @@ export const createUserAddress = async (data: CreateUserAddressDTO) => {
 export const findUserAddressById = async (id: string) => {
   const userAddress = await findById(id);
   return mapUserAddressDTO(userAddress as UserAddress);
+};
+
+export const findUserAddressesByUserId = async (userId: string) => {
+  const userAddresses = await findAllByUserId(userId);
+  return userAddresses.map(mapUserAddressDTO);
 };
 
 export const putUserAddressById = async (

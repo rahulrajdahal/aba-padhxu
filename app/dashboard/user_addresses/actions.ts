@@ -1,38 +1,32 @@
 "use server";
 
-import { authUserId, isAuthenticated } from "@/app/(auth)/middleware";
+import { authUserId } from "@/app/(auth)/middleware";
 
 import { AddressType } from "@/generated/prisma/client/enums";
-import { fileUpload, removeUploadFile } from "@/lib/fileUpload";
-import { logger } from "@/lib/logger";
 import {
+  authActionWrapper,
   createdResponse,
+  forbiddenError,
   noContentResponse,
   okResponse,
-  serverError,
-  unauthorizedError,
   validationError,
 } from "@/lib/responses";
-import { PatchUserProfileDTO } from "./user_addresses.dto";
+import { PatchUserAddressDTO } from "./user_addresses.dto";
 import {
-  createUserProfile,
-  findUserProfileByUserId,
-  patchUserProfileByUserId,
+  createUserAddress,
+  findUserAddressesByUserId,
+  patchUserAddressById,
 } from "./user_addresses.service";
-import { addUserProfileSchema } from "./user_addresses.validation";
+import {
+  addUserAddressSchema,
+  updateUserAddressSchema,
+} from "./user_addresses.validation";
 
-export const addUserAddress = async (
-  prevState: unknown,
-  formData: FormData,
-) => {
-  try {
-    const isAuth = await isAuthenticated();
-    if (!isAuth) {
-      return unauthorizedError();
-    }
+export const addUserAddress = authActionWrapper(
+  async (prevState: unknown, formData: FormData) => {
     const userId = await authUserId();
     if (!userId) {
-      return unauthorizedError();
+      return forbiddenError();
     }
 
     const body = {
@@ -48,78 +42,60 @@ export const addUserAddress = async (
       userId: userId as string,
     };
 
-    const validateBody = addUserProfileSchema.safeParse(body);
+    const validateBody = addUserAddressSchema.safeParse(body);
     if (!validateBody.success) {
       return validationError(validateBody.error.flatten().fieldErrors);
     }
 
-    const profileId = await createUserProfile(body);
-    return createdResponse("Profile created successfully", profileId);
-  } catch (error) {
-    logger.error("Error adding user profile", error);
-    return serverError();
+    const addressId = await createUserAddress(body);
+    return createdResponse("Address added successfully", addressId);
+  },
+);
+
+export const fetchUserAddresses = authActionWrapper(async () => {
+  const userId = await authUserId();
+  if (!userId) {
+    return forbiddenError();
   }
-};
 
-export const fetchUserProfile = async () => {
-  try {
-    const isAuth = await isAuthenticated();
-    if (!isAuth) {
-      return unauthorizedError();
-    }
-    const userId = await authUserId();
-    if (!userId) {
-      return unauthorizedError();
-    }
+  const addresses = await findUserAddressesByUserId(userId as string);
+  return okResponse("Addresses fetched successfully", addresses);
+});
 
-    const profile = await findUserProfileByUserId(userId as string);
-    return okResponse("Profile fetched successfully", profile);
-  } catch (error) {
-    logger.error("Error adding user profile", error);
-    return serverError();
-  }
-};
+export const updateUserAddress = authActionWrapper(
+  async (id: string, formData: FormData) => {
+    const body: PatchUserAddressDTO = {};
 
-export const updateUserProfile = async (
-  prevState: unknown,
-  formData: FormData,
-) => {
-  try {
-    const isAuth = await isAuthenticated();
-    if (!isAuth) {
-      return unauthorizedError();
-    }
-    const userId = await authUserId();
-    if (!userId) {
-      return unauthorizedError();
-    }
+    const recipientName = formData.get("recipientName") as string;
+    if (recipientName) body.recipientName = recipientName;
 
-    const body: PatchUserProfileDTO = {};
+    const addressLine1 = formData.get("addressLine1") as string;
+    if (addressLine1) body.addressLine1 = addressLine1;
 
-    const firstName = formData.get("firstName") as string;
-    if (firstName) body.firstName = firstName;
+    const addressLine2 = formData.get("addressLine2") as string;
+    if (addressLine2) body.addressLine2 = addressLine2;
 
-    const lastName = formData.get("lastName") as string;
-    if (lastName) body.lastName = lastName;
+    const city = formData.get("city") as string;
+    if (city) body.city = city;
 
-    const phoneNumber = formData.get("mobile") as string;
-    if (phoneNumber) body.phoneNumber = phoneNumber;
+    const stateProvince = formData.get("stateProvince") as string;
+    if (stateProvince) body.stateProvince = stateProvince;
 
-    const avatar = formData.get("profileImage") as File;
-    if (avatar) {
-      await removeUploadFile(avatar.name, "users");
-      body.avatar = await fileUpload(avatar, "users", {});
-    }
+    const postalCode = formData.get("postalCode") as string;
+    if (postalCode) body.postalCode = postalCode;
 
-    const validateBody = addUserProfileSchema.safeParse(body);
+    const countryCode = formData.get("countryCode") as string;
+    if (countryCode) body.countryCode = countryCode;
+
+    const isDefault = Boolean(formData.get("isDefault") ?? false);
+    if (isDefault) body.isDefault = isDefault;
+
+    const validateBody = updateUserAddressSchema.safeParse(body);
     if (!validateBody.success) {
       return validationError(validateBody.error.flatten().fieldErrors);
     }
 
-    await patchUserProfileByUserId(userId as string, body);
+    await patchUserAddressById(id, body);
     return noContentResponse();
-  } catch (error) {
-    logger.error("Error updating user profile", error);
-    return serverError();
-  }
-};
+  },
+);
