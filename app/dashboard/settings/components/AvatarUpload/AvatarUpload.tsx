@@ -5,14 +5,16 @@ import { useRef, useState } from "react";
 
 interface AvatarUploadProps {
   initialAvatarUrl?: string;
-  onAvatarChange: (avatar: File | null) => void;
+  onAvatarChange?: (avatar: File | null) => void;
   name: string;
+  errors?: string[];
 }
 
 export default function AvatarUpload({
   initialAvatarUrl,
   onAvatarChange,
   name,
+  errors,
 }: AvatarUploadProps) {
   const [previewUrl, setPreviewUrl] = useState(initialAvatarUrl || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -23,20 +25,14 @@ export default function AvatarUpload({
     .join("")
     .toUpperCase();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Validate file type
-      if (!file.type.startsWith("image/")) {
-        alert("Please select an image file.");
-        return;
-      }
+  const handleFileChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { files } = e.target;
+    if (files) {
+      const file = files[0];
 
-      // Generate local preview URL
       const objectUrl = URL.createObjectURL(file);
       setPreviewUrl(objectUrl);
 
-      // Pass the actual file up to the parent component/API handler
       if (onAvatarChange) {
         onAvatarChange(file);
       }
@@ -106,14 +102,21 @@ export default function AvatarUpload({
         </div>
       </div>
 
+      {errors?.map((error, index) => (
+        <p key={index} className="text-red-500 text-xs">
+          {error}
+        </p>
+      ))}
+
       {/* Hidden Native Input */}
       <input
+        name="avatar"
         type="file"
+        hidden
         ref={fileInputRef}
         onChange={handleFileChange}
         accept="image/*"
-        className="hidden"
-        name="avatar"
+        // className="hidden"
       />
 
       {/* Helper Action Buttons */}

@@ -1,3 +1,5 @@
+import "server-only";
+
 import { v2 as cloudinary, UploadApiOptions } from "cloudinary";
 import { mkdirSync } from "fs";
 import { writeFile } from "fs/promises";
@@ -14,7 +16,7 @@ export const prodUpload = (
   buffer: Buffer,
   type: string,
   folder: string,
-  options: UploadApiOptions | undefined
+  options: UploadApiOptions | undefined,
 ) => {
   const mime = type;
   const encoding = "base64";
@@ -32,7 +34,7 @@ export const prodUpload = (
         if (error) return rej(error);
 
         res(result);
-      }
+      },
     );
   });
 };
@@ -41,12 +43,12 @@ export const devUpload = async (
   uploadDIR: string,
 
   logoName: string,
-  buffer: Buffer
+  buffer: Buffer,
 ) => {
   const filename = `${Date.now()}-${logoName.toLowerCase().replace(/ /g, "-")}`;
 
   await writeFile(`${uploadDIR}/${filename}`, buffer).catch(() =>
-    mkdirSync(path.resolve(__dirname, uploadDIR))
+    mkdirSync(path.resolve(__dirname, uploadDIR)),
   );
 
   return filename;
@@ -70,6 +72,7 @@ const validFileExtensions = ["jpg", "png", "jpeg", "svg", "webp"];
  * @returns - boolean
  */
 export const isValidFileType = (fileName: string) => {
+  console.log("filename", fileName);
   const extension = fileName.split(".").at(-1);
 
   if (extension) {
@@ -89,7 +92,7 @@ const response = (
   message: string,
   data: unknown,
   status: StatusCode,
-  errors?: { [x: string]: string }
+  errors?: { [x: string]: string },
 ) => {
   return { type, message, data, status, errors };
 };
@@ -98,7 +101,7 @@ export const getErrorResponse = (
   message = "Server Error",
   status: StatusCode = 500,
   error?: unknown,
-  errors?: { [x: string]: string }
+  errors?: { [x: string]: string },
 ) => {
   return response("error", message, error, status, errors);
 };
@@ -106,11 +109,10 @@ export const getErrorResponse = (
 export const getSuccessResponse = (
   message: string,
   data?: unknown,
-  status: StatusCode = 200
+  status: StatusCode = 200,
 ) => {
   return response("success", message, data, status);
 };
-
 
 export const generateSlug = (name: string, date = true) => {
   const slug = name.toLowerCase().replace(/ /g, "-");
@@ -119,4 +121,3 @@ export const generateSlug = (name: string, date = true) => {
   }
   return slug;
 };
-

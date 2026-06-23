@@ -67,16 +67,24 @@ export const updateUserProfile = authActionWrapper(
     if (phoneNumber) body.phoneNumber = phoneNumber;
 
     const avatar = formData.get("avatar") as File;
-    if (avatar) {
+
+    if (avatar && avatar.name) {
+      const validateBody = updateUserProfileSchema.safeParse({
+        ...body,
+        avatar,
+      });
+      if (!validateBody.success) {
+        return validationError(validateBody.error.flatten().fieldErrors);
+      }
       if (existingUserProfile.avatar !== "default.avif") {
         await removeUploadFile(existingUserProfile.avatar!, "users");
       }
       body.avatar = (await fileUpload(avatar, "users", {})) as string;
-    }
-
-    const validateBody = updateUserProfileSchema.safeParse(body);
-    if (!validateBody.success) {
-      return validationError(validateBody.error.flatten().fieldErrors);
+    } else {
+      const validateBody = updateUserProfileSchema.safeParse(body);
+      if (!validateBody.success) {
+        return validationError(validateBody.error.flatten().fieldErrors);
+      }
     }
 
     await patchUserProfileByUserId(userId as string, body);

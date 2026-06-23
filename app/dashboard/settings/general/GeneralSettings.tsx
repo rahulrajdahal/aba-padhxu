@@ -41,7 +41,7 @@ export default function GeneralSettings({ user }: GeneralSettingsProps) {
       <AvatarUpload
         name={`${firstName} ${lastName}`}
         initialAvatarUrl={`/uploads/users/${avatar}`}
-        onAvatarChange={() => {}}
+        errors={state?.errors?.avatar}
       />
       <Input
         type="text"
