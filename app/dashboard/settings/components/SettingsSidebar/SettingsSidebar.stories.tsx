@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import AdminSidebar from "./AdminSidebar";
+import SettingsSidebar from "./SettingsSidebar";
 
 const meta = {
-  title: "Components/AdminSidebar",
-  component: AdminSidebar,
+  title: "Dashbaord/SettingsSidebar",
+  component: SettingsSidebar,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof AdminSidebar>;
+} satisfies Meta<typeof SettingsSidebar>;
 export default meta;
 type Story = StoryObj<typeof meta>;
 

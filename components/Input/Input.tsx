@@ -1,5 +1,6 @@
 "use client";
 
+import { mergeClassNames } from "@/lib/mergeClassNames";
 import React from "react";
 import InputError from "./InputError/InputError";
 import InputHelperText from "./InputHelperText/InputHelperText";
@@ -12,11 +13,20 @@ type InputProps = React.ComponentProps<"input"> & {
   errors?: string[];
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
+  wrapperClassName?: string;
 };
 
 export default function Input(props: InputProps) {
-  const { label, helperText, errors, iconLeft, required, iconRight, ...rest } =
-    props;
+  const {
+    label,
+    helperText,
+    errors,
+    iconLeft,
+    required,
+    iconRight,
+    wrapperClassName = "",
+    ...rest
+  } = props;
 
   const hasErrors = Boolean(errors && errors.length > 0);
   const inputId = React.useId();
@@ -39,7 +49,12 @@ export default function Input(props: InputProps) {
     ) : null;
 
   return (
-    <fieldset className="flex flex-col gap-1 group w-full">
+    <fieldset
+      className={mergeClassNames(
+        "flex flex-col gap-1 group w-full",
+        wrapperClassName,
+      )}
+    >
       {inputLabel}
 
       <div className="relative flex items-center">

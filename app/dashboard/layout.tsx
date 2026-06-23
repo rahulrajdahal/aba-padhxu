@@ -1,9 +1,9 @@
 import type { IRootLayout } from "@/app/layout";
-import { AdminSidebar } from "@/components";
 import { routes } from "@/utils/routes";
 import { redirect } from "next/navigation";
 import { authUser, isAuthenticated } from "../(auth)/middleware";
 import DashboardNavbar from "./components/DashboardNavbar/DashboardNavbar";
+import DashboardSidebar from "./components/DashboardSidebar/DashboardSidebar";
 
 interface IAdminLayout extends IRootLayout {}
 
@@ -18,7 +18,7 @@ export default async function AdminLayout({ children }: IAdminLayout) {
 
   return (
     <div className="flex h-screen w-screen">
-      <AdminSidebar />
+      <DashboardSidebar />
       <main className="flex flex-col w-[calc(100%-15rem)] max-h-screen overflow-y-scroll">
         <DashboardNavbar
           user={{
