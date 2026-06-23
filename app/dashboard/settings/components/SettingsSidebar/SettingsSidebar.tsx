@@ -7,28 +7,29 @@ import { usePathname } from "next/navigation";
 
 export default function SettingsSidebar() {
   const pathname = usePathname();
-  const currentPath = pathname.split("/").pop();
+  const currentPath = pathname.split("/dasboard").pop();
+
+  const links = [
+    { label: "General Settings", href: routes.generalSettings },
+    { label: "Address Settings", href: routes.addressSettings },
+    { label: "Email Settings", href: routes.emailSettings },
+    { label: "Password Settings", href: routes.passwordSettings },
+  ];
 
   return (
     <nav className="border border-gray-400 sticky w-fit left-4 top-32 p-4 gap-4 flex flex-col rounded-lg h-fit bg-white">
-      <Link
-        href={`${routes.dashboard}${routes.generalSettings}`}
-        className={mergeClassNames(
-          "font-medium text-sm hover:underline hover:text-blue-500",
-          currentPath === "general" ? "text-blue-600" : "",
-        )}
-      >
-        General Settings
-      </Link>
-      <Link
-        href={`${routes.dashboard}${routes.addressSettings}`}
-        className={mergeClassNames(
-          "font-medium text-sm hover:underline hover:text-blue-500",
-          currentPath === "address" ? "text-blue-600" : "",
-        )}
-      >
-        Address Settings
-      </Link>
+      {links.map((link) => (
+        <Link
+          key={link.label}
+          href={`${routes.dashboard}${link.href}`}
+          className={mergeClassNames(
+            "font-medium text-sm hover:underline hover:text-blue-500",
+            currentPath === link.href ? "text-blue-600" : "",
+          )}
+        >
+          {link.label}
+        </Link>
+      ))}
     </nav>
   );
 }

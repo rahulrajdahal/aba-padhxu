@@ -15,6 +15,9 @@ export const routes = {
   order: "/order",
   orders: "/orders",
   listings: "/listings",
+
   generalSettings: "/settings/general",
   addressSettings: "/settings/address",
+  emailSettings: "/settings/email",
+  passwordSettings: "/settings/password",
 };

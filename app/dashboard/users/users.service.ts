@@ -12,6 +12,11 @@ export const getUserById = async (id: string) => {
   return mapUserDTO(user as User);
 };
 
+export const getUserByIdWithPassword = async (id: string) => {
+  const user = await findById(id);
+  return user;
+};
+
 export const getUserByEmail = async (email: string) => {
   return await findByEmail(email);
 };
