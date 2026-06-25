@@ -24,12 +24,12 @@ export const ListingsDAL = {
     return listing;
   },
 
-  update: async (id: string, data: PatchListingDTO) => {
+  updateById: async (id: string, data: PatchListingDTO) => {
     const listing = await prisma.listing.update({ where: { id }, data });
     return listing;
   },
 
-  delete: async (id: string) => {
+  deleteById: async (id: string) => {
     const listing = await prisma.listing.delete({ where: { id } });
     return listing;
   },

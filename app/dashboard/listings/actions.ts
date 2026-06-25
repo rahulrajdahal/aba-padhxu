@@ -6,10 +6,13 @@ import {
   authActionWrapper,
   createdResponse,
   forbiddenError,
+  noContentResponse,
+  okResponse,
   validationError,
 } from "@/lib/responses";
+import { PatchListingDTO } from "./listings.dto";
 import { ListingsService } from "./listings.service";
-import { addListingSchema } from "./listings.validation";
+import { addListingSchema, updateListingSchema } from "./listings.validation";
 
 export const addListing = authActionWrapper(
   async (prevState: unknown, formData: FormData) => {
@@ -42,3 +45,69 @@ export const addListing = authActionWrapper(
     return createdResponse("Listing added", listingId);
   },
 );
+
+export const fetchListings = authActionWrapper(async () => {
+  const listings = await ListingsService.findAll();
+
+  return okResponse("Listings fetched!", listings);
+});
+
+export const fetchListingById = authActionWrapper(async (id: string) => {
+  const listing = await ListingsService.findById(id);
+
+  return okResponse("Listing fetched!", listing);
+});
+
+export const fetchSellerListings = authActionWrapper(async () => {
+  const sellerId = await authUserId();
+
+  if (!sellerId) {
+    return forbiddenError();
+  }
+
+  const listings = await ListingsService.findBySellerId(sellerId as string);
+
+  return okResponse("Listing fetched!", listings);
+});
+
+export const updateListingById = authActionWrapper(
+  async (id: string, formData: FormData) => {
+    const body: PatchListingDTO = {};
+
+    const bookId = formData.get("bookId") as string;
+    if (bookId) body.bookId = bookId;
+
+    const condition = formData.get("condition") as BookCondition;
+    if (condition) body.condition = condition;
+
+    const priceCents = Number(formData.get("priceCents"));
+
+    const quantity = Number(formData.get("quantity"));
+    if (quantity) body.quantity = quantity;
+
+    const description = formData.get("description") as string;
+    if (description) body.description = description;
+
+    const isActive = Boolean(formData.get("isActive"));
+    if (isActive) body.isActive = isActive;
+
+    if (priceCents) {
+      body.priceCents = priceCents * 100;
+    }
+
+    const validate = updateListingSchema.safeParse(body);
+    if (!validate.success) {
+      return validationError(validate.error.flatten().fieldErrors);
+    }
+
+    await ListingsService.updateById(id, body);
+
+    return noContentResponse();
+  },
+);
+
+export const deleteListingById = authActionWrapper(async (id: string) => {
+  await ListingsService.deleteById(id);
+
+  return noContentResponse();
+});

@@ -8,8 +8,8 @@ export const ListingsService = {
     return await ListingsDAL.create(data);
   },
 
-  update: async (id: string, data: PatchListingDTO) => {
-    return await ListingsDAL.update(id, data);
+  updateById: async (id: string, data: PatchListingDTO) => {
+    return await ListingsDAL.updateById(id, data);
   },
 
   findAll: async () => {
@@ -24,7 +24,7 @@ export const ListingsService = {
     return await ListingsDAL.findBySellerId(sellerId);
   },
 
-  delete: async (id: string) => {
-    return await ListingsDAL.delete(id);
+  deleteById: async (id: string) => {
+    return await ListingsDAL.deleteById(id);
   },
 };

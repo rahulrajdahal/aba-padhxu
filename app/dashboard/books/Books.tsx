@@ -5,15 +5,12 @@ import { Book } from "@/generated/prisma/client/client";
 import { routes } from "@/utils/routes";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import parse from "html-react-parser";
-import { useState } from "react";
 import toast from "react-hot-toast";
 import { deleteBookById } from "./actions";
 
 type BooksProps = Readonly<{ books: Book[] }>;
 export default function Books({ books }: BooksProps) {
   const columnHelper = createColumnHelper<Partial<Book>>();
-
-  const [loading, setLoading] = useState(false);
 
   const columns = [
     columnHelper.accessor("title", {
@@ -61,7 +58,6 @@ export default function Books({ books }: BooksProps) {
 
         if (id) {
           const handleDelete = async () => {
-            setLoading(true);
             const { type, message } = await deleteBookById(id);
 
             if (type === "success") {
@@ -70,7 +66,6 @@ export default function Books({ books }: BooksProps) {
             if (type === "error") {
               toast.error(message);
             }
-            setLoading(false);
           };
 
           return (
