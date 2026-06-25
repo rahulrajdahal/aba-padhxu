@@ -7,7 +7,7 @@ import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import parse from "html-react-parser";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { deleteBook } from "./actions";
+import { deleteBookById } from "./actions";
 
 type BooksProps = Readonly<{ books: Book[] }>;
 export default function Books({ books }: BooksProps) {
@@ -62,10 +62,10 @@ export default function Books({ books }: BooksProps) {
         if (id) {
           const handleDelete = async () => {
             setLoading(true);
-            const { type, message } = await deleteBook(id);
+            const { type, message } = await deleteBookById(id);
 
             if (type === "success") {
-              toast.success(message);
+              toast.success("Book Deleted!");
             }
             if (type === "error") {
               toast.error(message);

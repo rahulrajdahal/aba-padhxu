@@ -1,6 +1,7 @@
+import "server-only";
+
 import { prisma } from "@/prisma/prisma";
 import { CreateBookDTO, PatchBookDTO } from "./books.dto";
-
 export const create = async (data: CreateBookDTO) =>
   await prisma.book.create({ data });
 

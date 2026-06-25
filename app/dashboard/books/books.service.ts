@@ -1,3 +1,5 @@
+import "server-only";
+
 import { Book } from "@/generated/prisma/client/client";
 import {
   create,

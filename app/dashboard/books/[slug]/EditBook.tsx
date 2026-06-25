@@ -1,44 +1,34 @@
 "use client";
 
 import { Button, Form, Input } from "@/components";
-import { BookWithAuthorAndGenre } from "@/types";
+import { Book } from "@/generated/prisma/client/client";
 import { routes } from "@/utils/routes";
-import { Author, Genre } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
-import CreateableSelect from "react-select/creatable";
-import { updateBook } from "../actions";
+import { updateBookById } from "../actions";
 
-export default function Page({
+export default function EditBookPage({
   book,
-  authors,
-  genres,
 }: Readonly<{
-  book: BookWithAuthorAndGenre;
-  authors: Pick<Author, "name" | "id">[];
-  genres: Pick<Genre, "title" | "id">[];
+  book: Book;
 }>) {
   const {
-    name,
+    title,
+    isbn13,
     description,
     author,
     publishedDate,
-    id,
     genre,
-    price,
-    quantity,
+    publisher,
   } = book;
 
   const router = useRouter();
-
   const handleBookUpdate = async (prevState: unknown, formData: FormData) => {
-    formData.append("id", id);
-
-    const state = await updateBook(prevState, formData);
+    const state = await updateBookById(book.id, formData);
 
     if (state?.type === "success") {
-      toast.success(state.message);
+      toast.success("Book updated successfully!");
       return router.push(`${routes.dashboard}${routes.books}`);
     }
 
@@ -49,91 +39,65 @@ export default function Page({
     return state;
   };
 
-  const authorDefault = { label: author?.name, value: author?.name };
-  const authorOptions = authors.map(({ name }) => ({
-    label: name,
-    value: name,
-  }));
-  const genreDefault = { label: genre?.title, value: genre?.title };
-  const genreOptions = genres.map(({ title }) => ({
-    label: title,
-    value: title,
-  }));
-
   const [state, formAction, pending] = useActionState(handleBookUpdate, null);
 
   return (
     <Form action={formAction} title="Edit Book">
       <Input
         label="Book Title"
-        error={state?.errors?.name}
-        inputProps={{ name: "name", defaultValue: name }}
+        errors={state?.errors?.title}
+        name="title"
+        defaultValue={title}
+      />
+      <Input
+        label="Book ISBN13"
+        errors={state?.errors?.isbn13}
+        name="isbn13"
+        defaultValue={isbn13}
       />
       <Input
         label="Book description"
-        error={state?.errors?.description}
-        inputProps={{
-          name: "description",
-          defaultValue: description,
-        }}
-      />
-      <Input
-        label="Book Price"
-        error={state?.errors?.price}
-        inputProps={{
-          name: "price",
-          type: "number",
-          defaultValue: Number(Number(book.price).toFixed(2)),
-        }}
-      />
-      <Input
-        label="Book Quantity"
-        error={state?.errors?.quantity}
-        inputProps={{
-          name: "quantity",
-          type: "number",
-          defaultValue: quantity,
-        }}
+        errors={state?.errors?.description}
+        name="description"
+        defaultValue={description ?? ""}
       />
       <Input
         label="Book Image"
-        error={state?.errors?.image}
-        inputProps={{ type: "file", name: "image" }}
+        errors={state?.errors?.image}
+        name="image"
+        type="file"
+        accept="image/*"
       />
-      <div className="flex flex-col gap-2">
-        <label htmlFor="genre" className="text-base font-semibold">
-          Book Genre
-        </label>
-        <CreateableSelect
-          closeMenuOnSelect={false}
-          name="genre"
-          placeholder="Select Genre"
-          options={genreOptions}
-          defaultValue={genreDefault}
-        />
-      </div>
-      <div className="flex flex-col gap-2">
-        <label htmlFor="author" className="text-base font-semibold">
-          Author
-        </label>
-        <CreateableSelect
-          closeMenuOnSelect={false}
-          name="author"
-          placeholder="Select Author"
-          options={authorOptions}
-          defaultValue={authorDefault}
-        />
-      </div>
+
+      <Input
+        label="Book Genre"
+        errors={state?.errors?.genre}
+        name="genre"
+        defaultValue={genre ?? ""}
+      />
+
+      <Input
+        label="Author"
+        errors={state?.errors?.author}
+        name="author"
+        defaultValue={author}
+      />
+
+      <Input
+        label="Publisher"
+        errors={state?.errors?.publisher}
+        name="publisher"
+        defaultValue={publisher ?? ""}
+      />
 
       <Input
         label="Published Date"
-        error={state?.errors?.publishedDate}
-        inputProps={{
-          name: "publishedDate",
-          defaultValue: publishedDate,
-          type: "date",
-        }}
+        errors={state?.errors?.publishedDate}
+        name="publishedDate"
+        defaultValue={publishedDate?.toISOString().split("T")[0]}
+        type="date"
       />
+
       <Button type="submit" disabled={pending} aria-disabled={pending}>
         {pending ? "Updating..." : "Update Book"}
       </Button>

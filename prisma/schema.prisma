@@ -135,7 +135,7 @@ model Book {
   genre         String?
   publisher     String?
   publishedDate DateTime? @map("published_date") @db.Date
-  image         String?
+  image         String
   createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz
   updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 

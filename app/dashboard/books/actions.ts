@@ -60,18 +60,26 @@ export const fetchAllBooks = authActionWrapper(async () => {
   return okResponse("Books fetched successfully", books);
 });
 
-export const updateBook = async (id: string, formData: FormData) => {
+export const fetchBookBySlug = authActionWrapper(async (slug: string) => {
+  const book = await BookService.findBookBySlug(slug);
+
+  return okResponse("Books fetched successfully", book);
+});
+
+export const updateBookById = async (id: string, formData: FormData) => {
   try {
     const body: Partial<Book> = {};
 
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const publishedDate = formData.get("publishedDate") as string;
-    const image = formData.get("image") as unknown as File;
+    const image = formData.get("image") as File;
     const author = formData.get("author") as string;
     const genre = formData.get("genre") as string;
     const isbn13 = formData.get("isbn13") as string;
     const publisher = formData.get("publisher") as string;
+
+    console.log(image, "image");
 
     const validateBody = updateBookSchema.safeParse({
       title,
@@ -79,7 +87,7 @@ export const updateBook = async (id: string, formData: FormData) => {
       publishedDate,
       author,
       genre,
-      image,
+      image: image?.size > 0 ? image : undefined,
       isbn13,
       publisher,
     });
@@ -108,7 +116,7 @@ export const updateBook = async (id: string, formData: FormData) => {
       body.genre = genre;
     }
 
-    if (image?.name !== "undefined") {
+    if (image?.size > 0) {
       removeUploadFile(image.name, "books");
       body.image = await fileUpload(image, "books", {
         transformation: { width: 60, height: 60, crop: "thumb" },
@@ -127,7 +135,7 @@ export const updateBook = async (id: string, formData: FormData) => {
   }
 };
 
-export const deleteBook = async (id: string) => {
+export const deleteBookById = async (id: string) => {
   try {
     await BookService.deleteBookById(id);
 

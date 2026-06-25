@@ -1,5 +1,5 @@
-import { prisma } from "@/prisma/prisma";
-import { BookWithAuthorAndGenre } from "@/types";
+import { Book } from "@/generated/prisma/client/client";
+import { fetchBookBySlug } from "../actions";
 import EditBook from "./EditBook";
 
 export default async function page({
@@ -9,29 +9,7 @@ export default async function page({
 }) {
   const { slug } = await params;
 
-  const [book, authors, genres] = await Promise.all([
-    prisma.book.findUnique({
-      where: { slug },
-      include: {
-        author: {
-          select: { name: true, id: true },
-        },
-        genre: {
-          select: { title: true, id: true },
-        },
-      },
-    }),
-    prisma.author.findMany({ select: { name: true, id: true } }),
-    prisma.genre.findMany({ select: { title: true, id: true } }),
-  ]);
+  const { data } = await fetchBookBySlug(slug);
 
-  if (book) {
-    return (
-      <EditBook
-        book={book as unknown as BookWithAuthorAndGenre}
-        authors={authors}
-        genres={genres}
-      />
-    );
-  }
+  return <EditBook book={data as Book} />;
 }
