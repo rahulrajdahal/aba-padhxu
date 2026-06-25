@@ -1,7 +1,7 @@
 "use client";
 
 import { AvatarWithName, TableActions, TablePage } from "@/components";
-import { BookWithAuthorAndGenre } from "@/types";
+import { Book } from "@/generated/prisma/client/client";
 import { routes } from "@/utils/routes";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import parse from "html-react-parser";
@@ -9,14 +9,14 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { deleteBook } from "./actions";
 
-type BooksProps = Readonly<{ books: BookWithAuthorAndGenre[] }>;
+type BooksProps = Readonly<{ books: Book[] }>;
 export default function Books({ books }: BooksProps) {
-  const columnHelper = createColumnHelper<Partial<BookWithAuthorAndGenre>>();
+  const columnHelper = createColumnHelper<Partial<Book>>();
 
   const [loading, setLoading] = useState(false);
 
   const columns = [
-    columnHelper.accessor("name", {
+    columnHelper.accessor("title", {
       header: "Title",
       cell: (info) => {
         const name = info.getValue() as string;
@@ -33,11 +33,11 @@ export default function Books({ books }: BooksProps) {
       },
     }),
 
-    columnHelper.accessor("author.name", {
+    columnHelper.accessor("author", {
       header: "Author",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("genre.title", {
+    columnHelper.accessor("genre", {
       header: "Genre",
       cell: (info) => info.getValue(),
     }),
@@ -54,14 +54,6 @@ export default function Books({ books }: BooksProps) {
       },
     }),
 
-    columnHelper.accessor("quantity", {
-      header: "Quantity",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("price", {
-      header: "Price",
-      cell: (info) => info.getValue(),
-    }),
     columnHelper.accessor("id", {
       header: () => "Actions",
       cell: (info) => {

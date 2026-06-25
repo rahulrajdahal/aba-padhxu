@@ -72,11 +72,12 @@ export default function AddBook({}: Readonly<AddBookProps>) {
         type="date"
       />
       <Input
-        label="Image"
-        errors={state?.errors?.image}
-        type="file"
         name="image"
+        type="file"
+        label="Image"
+        accept="image/*"
         required
+        errors={state?.errors?.image}
       />
 
       <Button type="submit" disabled={pending} aria-disabled={pending}>

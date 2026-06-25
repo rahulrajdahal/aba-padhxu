@@ -4,9 +4,10 @@ import { Book } from "@/generated/prisma/client/client";
 import { fileUpload, removeUploadFile } from "@/lib/fileUpload";
 import { logger } from "@/lib/logger";
 import {
+  authActionWrapper,
   createdResponse,
   noContentResponse,
-  notFoundError,
+  okResponse,
   serverError,
   validationError,
 } from "@/lib/responses";
@@ -15,8 +16,8 @@ import { revalidatePath } from "next/cache";
 import { BookService } from "./books.service";
 import { bookSchema, updateBookSchema } from "./books.validation";
 
-export const addBook = async (prevData: unknown, formData: FormData) => {
-  try {
+export const addBook = authActionWrapper(
+  async (prevData: unknown, formData: FormData) => {
     const body = {
       isbn13: formData.get("isbn13") as string,
       title: formData.get("title") as string,
@@ -27,19 +28,20 @@ export const addBook = async (prevData: unknown, formData: FormData) => {
       publishedDate: formData.get("publishedDate") as string,
     };
 
-    const image = formData.get("image") as unknown as File;
+    const image = formData.get("image") as File;
+
+    if (!image || image.name === "undefined") {
+      return validationError({ image: ["Image is required"] });
+    }
 
     const validateBody = bookSchema.safeParse({ ...body, image });
     if (!validateBody.success) {
       return validationError(validateBody.error.flatten().fieldErrors);
     }
 
-    if (!image || image.name === "undefined") {
-      return notFoundError("Image not found");
-    }
-    const bookImage = await fileUpload(image, "books", {
+    const bookImage = (await fileUpload(image, "books", {
       transformation: { width: 60, height: 60, crop: "thumb" },
-    });
+    })) as string;
 
     await BookService.createBook({
       ...body,
@@ -49,11 +51,14 @@ export const addBook = async (prevData: unknown, formData: FormData) => {
     });
 
     return createdResponse("Book added successfully", 201);
-  } catch (error) {
-    logger.error("Error adding book", error);
-    return serverError();
-  }
-};
+  },
+);
+
+export const fetchAllBooks = authActionWrapper(async () => {
+  const books = await BookService.findAllBooks();
+
+  return okResponse("Books fetched successfully", books);
+});
 
 export const updateBook = async (id: string, formData: FormData) => {
   try {

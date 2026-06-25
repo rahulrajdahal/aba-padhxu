@@ -1,6 +1,7 @@
 import { Book } from "@/generated/prisma/client/client";
 import {
   create,
+  findAll,
   findById,
   findBySlug,
   removeById,
@@ -13,6 +14,8 @@ export const BookService = {
     const book = await create(data);
     return book.id;
   },
+
+  findAllBooks: async () => await findAll(),
 
   findBookById: async (id: string) => mapBookDTO((await findById(id)) as Book),
 

@@ -25,12 +25,15 @@ export default function DeleteModal({
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger asChild>
-        <button title="Delete" className="h-8 w-8 ">
-          <Delete className="h-8 w-8 text-[#DB1920]" />
+        <button
+          title="Delete"
+          className="rounded-md p-2 text-red-500 hover:scale-110 hover:bg-red-100 hover:text-red-600 transition-all duration-200"
+        >
+          <Delete size={20} />
         </button>
       </AlertDialog.Trigger>
       <AlertDialog.Portal>
-        <AlertDialog.Overlay className="absolute inset-0 h-full w-full bg-[#03091352]" />
+        <AlertDialog.Overlay className="fixed inset-0 h-full w-full bg-[#03091352]" />
         <AlertDialog.Content className="fixed left-[30%] top-[30%] max-w-[37.5rem] rounded-[2rem] bg-white p-10">
           <AlertDialog.Title className="text-[2rem] font-medium leading-10 text-gray-900">
             Confirm Delete?

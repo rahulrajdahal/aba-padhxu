@@ -4,6 +4,8 @@ import { CreateBookDTO, PatchBookDTO } from "./books.dto";
 export const create = async (data: CreateBookDTO) =>
   await prisma.book.create({ data });
 
+export const findAll = async () => await prisma.book.findMany();
+
 export const findById = async (id: string) =>
   await prisma.book.findUnique({ where: { id } });
 

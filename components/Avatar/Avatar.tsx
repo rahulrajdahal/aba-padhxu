@@ -9,7 +9,7 @@ export default function Avatar(props: Readonly<AvatarProps>) {
       {...rest}
       width={width}
       height={height}
-      className={`rounded-full  object-cover transition-all hover:scale-110 ${className || ""}`}
+      className={`rounded-full w-12 h-12 object-cover transition-all hover:scale-110 ${className || ""}`}
     />
   );
 }
