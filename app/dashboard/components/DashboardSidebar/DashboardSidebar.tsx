@@ -8,37 +8,55 @@ import { ArrowBlockLeft } from "@meistericons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
-const links = [
-  { id: 1, label: "Dashboard", href: routes.dashboard },
 
+const baseLinks = [
+  { id: 1, label: "Dashboard", href: routes.dashboard },
   { id: 2, label: "All Books", href: `${routes.dashboard}${routes.books}` },
+];
+
+const sellerLinks = [
+  ...baseLinks,
   { id: 3, label: "Add Book", href: `${routes.dashboard}${routes.books}/add` },
-  { id: 4, label: "All Authors", href: `${routes.dashboard}${routes.authors}` },
-  { id: 5, label: "All Genres", href: `${routes.dashboard}${routes.genres}` },
-  { id: 6, label: "All Orders", href: `${routes.dashboard}${routes.orders}` },
+  { id: 4, label: "All Orders", href: `${routes.dashboard}${routes.orders}` },
   {
-    id: 7,
+    id: 5,
     label: "All Listings",
     href: `${routes.dashboard}${routes.listings}`,
   },
   {
-    id: 8,
+    id: 6,
     label: "Add Listings",
     href: `${routes.dashboard}${routes.listings}/add`,
   },
   {
-    id: 9,
+    id: 7,
     label: "Settings",
     href: `${routes.dashboard}${routes.generalSettings}`,
   },
 ];
-export default function DashboardSidebar() {
+
+const adminLinks = [
+  ...sellerLinks,
+  { id: 8, label: "All Users", href: `${routes.dashboard}${routes.users}` },
+];
+
+type DashboardSidebarProps = {
+  isSeller?: boolean;
+  isAdmin?: boolean;
+};
+
+export default function DashboardSidebar({
+  isSeller = false,
+  isAdmin = false,
+}: DashboardSidebarProps) {
   const pathname = usePathname();
 
   const handleLogout = async () => {
     await logout();
     return toast.success("Logged out successfully");
   };
+
+  const links = isAdmin ? adminLinks : isSeller ? sellerLinks : baseLinks;
 
   return (
     <aside className="flex flex-col justify-between w-80 border-r-2 border-gray-400 px-2 py-4">

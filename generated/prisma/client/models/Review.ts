@@ -624,6 +624,14 @@ export type ReviewUncheckedUpdateOneWithoutOrderItemNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ReviewUpdateToOneWithWhereWithoutOrderItemInput, Prisma.ReviewUpdateWithoutOrderItemInput>, Prisma.ReviewUncheckedUpdateWithoutOrderItemInput>
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type ReviewCreateWithoutBuyerInput = {
   bookRating?: number | null
   bookReviewText?: string | null

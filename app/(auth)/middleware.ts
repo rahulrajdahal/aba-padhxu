@@ -1,18 +1,9 @@
 import "server-only";
 
-import EmailTemplate from "@/emails/EmailTemplate";
-import { User } from "@/generated/prisma/client/client";
 import { ForbiddenError, UnAuthorizedError } from "@/lib/errors";
-import { logger } from "@/lib/logger";
-import { errorResponse, okResponse } from "@/lib/responses";
 import { decryptJWT, encryptJWT, expiresAt } from "@/utils/auth";
-import { transporter } from "@/utils/nodemailer";
-import { routes } from "@/utils/routes";
-import { render } from "@react-email/components";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
-import { generateToken } from "../dashboard/tokens/middleware";
-import { createToken } from "../dashboard/tokens/tokens.service";
 import { findUserProfileByUserId } from "../dashboard/user_profiles/user_profiles.service";
 import { getUserByEmail, getUserById } from "../dashboard/users/users.service";
 
@@ -113,118 +104,4 @@ export const authUser = async () => {
   const userProfile = await findUserProfileByUserId(user.id);
 
   return { ...user, ...userProfile };
-};
-
-export const sendEmail = async (
-  subject: string,
-  to: string,
-  emailHTML: string,
-) => {
-  try {
-    const mailOptions = {
-      from: process.env.NODEMAILER_USER,
-      to,
-      subject,
-      html: emailHTML,
-    };
-
-    await new Promise((resolve, reject) =>
-      transporter.sendMail(mailOptions, function (error: unknown) {
-        if (error) {
-          reject(new Error("Error sending mail."));
-        } else {
-          resolve(true);
-        }
-      }),
-    );
-  } catch (error) {
-    logger.error("Error sending mail", error);
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    }
-    throw new Error("Something went wrong.");
-  }
-};
-
-export const sendConfirmationEmail = async (
-  user: Pick<User, "email" | "id">,
-  message: string = "An confirmation email was just sent!",
-) => {
-  try {
-    const emailToken = generateToken();
-
-    await createToken({
-      token: emailToken,
-      type: "EMAIL_CONFIRMATION",
-      userId: user.id,
-    });
-
-    const emailHtml = await render(
-      EmailTemplate({
-        title: "Sign up with Aba Padhxu",
-        heading: "Email Confirmation",
-        body: `Follow the provided link to activate your account. ${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}${routes.confirmEmail}/${emailToken}`,
-      }),
-    );
-
-    await sendEmail("Confirmation Email", user.email, emailHtml);
-
-    return okResponse(message);
-  } catch (error) {
-    logger.error("Error sending mail", error);
-    return errorResponse(
-      "An unexpected error occurred while sending the email. Please try again later.",
-    );
-  }
-};
-
-export const sendForgotPasswordEmail = async (
-  user: Pick<User, "email" | "id">,
-) => {
-  try {
-    const resetToken = generateToken();
-    await createToken({
-      token: resetToken,
-      type: "PASSWORD_RESET",
-      userId: user.id,
-    });
-
-    const emailHtml = await render(
-      EmailTemplate({
-        title: "Password reset request",
-        heading: "Reset Password",
-        body: `Follow the provided link to reset your account password. ${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}${routes.resetPassword}/${resetToken}`,
-      }),
-    );
-
-    await sendEmail("Reset Password in Aba Padhxu", user.email, emailHtml);
-
-    return okResponse("A reset password link has been sent to your email.");
-  } catch (error) {
-    logger.error("Error sending mail", error);
-    return errorResponse(
-      "An unexpected error occurred while sending the email. Please try again later.",
-    );
-  }
-};
-
-export const sendResetPasswordEmail = async (to: string) => {
-  try {
-    const emailHtml = await render(
-      EmailTemplate({
-        title: "Password Updated",
-        heading: "Your Password has been updated!",
-        body: "Your Aba Padhxu account's password was recently updated. If you did not make this change, please contact our support team immediately.",
-      }),
-    );
-
-    await sendEmail("Password Updated in Aba Padhxu", to, emailHtml);
-
-    return okResponse("Your password has been updated successfully.");
-  } catch (error) {
-    logger.error("Error sending mail", error);
-    return errorResponse(
-      "An unexpected error occurred while sending the email. Please try again later.",
-    );
-  }
 };

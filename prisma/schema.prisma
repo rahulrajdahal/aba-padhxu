@@ -47,6 +47,7 @@ model User {
   id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email        String   @unique
   passwordHash String   @map("password_hash")
+  isAdmin      Boolean  @default(false) @map("is_admin")
   isActive     Boolean  @default(false) @map("is_active")
   createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
@@ -88,12 +89,12 @@ model Token {
 model UserProfile {
   firstName          String   @map("first_name")
   lastName           String   @map("last_name")
-  avatar             String?  @default("default.avif")
+  avatar             String   @default("default.avif")
   phoneNumber        String?  @map("phone_number")
-  isSeller           Boolean? @default(false) @map("is_seller")
-  sellerRating       Decimal? @default(0.00) @map("seller_rating") @db.Decimal(3, 2)
-  pendingEscrowFunds Int?     @default(0) @map("pending_escrow_funds")
-  availableFunds     Int?     @default(0) @map("available_funds")
+  isSeller           Boolean  @default(false) @map("is_seller")
+  sellerRating       Decimal  @default(0.00) @map("seller_rating") @db.Decimal(3, 2)
+  pendingEscrowFunds Int      @default(0) @map("pending_escrow_funds")
+  availableFunds     Int      @default(0) @map("available_funds")
   createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt          DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 

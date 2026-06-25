@@ -20,4 +20,6 @@ export const routes = {
   addressSettings: "/settings/address",
   emailSettings: "/settings/email",
   passwordSettings: "/settings/password",
+
+  users: "/users",
 };

@@ -22,6 +22,7 @@ import {
   patchUserById,
 } from "../dashboard/users/users.service";
 
+import { sendConfirmationEmail, sendResetPasswordEmail } from "@/lib/email";
 import { BadRequestError } from "@/lib/errors";
 import {
   deleteTokenById,
@@ -39,8 +40,6 @@ import {
   createSession,
   deleteSession,
   hashPassword,
-  sendConfirmationEmail,
-  sendResetPasswordEmail,
   userEmailExists,
 } from "./middleware";
 
@@ -162,7 +161,7 @@ export const forgotPassword = async (
       );
     }
 
-    return sendResetPasswordEmail(user);
+    return sendResetPasswordEmail(user.email);
   } catch (error) {
     logger.error("Error sending reset password email", error);
     return serverError();

@@ -226,12 +226,12 @@ export type UserProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type UserProfileGroupByOutputType = {
   firstName: string
   lastName: string
-  avatar: string | null
+  avatar: string
   phoneNumber: string | null
-  isSeller: boolean | null
-  sellerRating: runtime.Decimal | null
-  pendingEscrowFunds: number | null
-  availableFunds: number | null
+  isSeller: boolean
+  sellerRating: runtime.Decimal
+  pendingEscrowFunds: number
+  availableFunds: number
   createdAt: Date
   updatedAt: Date
   userId: string
@@ -263,12 +263,12 @@ export type UserProfileWhereInput = {
   NOT?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
   firstName?: Prisma.StringFilter<"UserProfile"> | string
   lastName?: Prisma.StringFilter<"UserProfile"> | string
-  avatar?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  avatar?: Prisma.StringFilter<"UserProfile"> | string
   phoneNumber?: Prisma.StringNullableFilter<"UserProfile"> | string | null
-  isSeller?: Prisma.BoolNullableFilter<"UserProfile"> | boolean | null
-  sellerRating?: Prisma.DecimalNullableFilter<"UserProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: Prisma.IntNullableFilter<"UserProfile"> | number | null
-  availableFunds?: Prisma.IntNullableFilter<"UserProfile"> | number | null
+  isSeller?: Prisma.BoolFilter<"UserProfile"> | boolean
+  sellerRating?: Prisma.DecimalFilter<"UserProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: Prisma.IntFilter<"UserProfile"> | number
+  availableFunds?: Prisma.IntFilter<"UserProfile"> | number
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   userId?: Prisma.UuidFilter<"UserProfile"> | string
@@ -278,12 +278,12 @@ export type UserProfileWhereInput = {
 export type UserProfileOrderByWithRelationInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
-  avatar?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatar?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
-  isSeller?: Prisma.SortOrderInput | Prisma.SortOrder
-  sellerRating?: Prisma.SortOrderInput | Prisma.SortOrder
-  pendingEscrowFunds?: Prisma.SortOrderInput | Prisma.SortOrder
-  availableFunds?: Prisma.SortOrderInput | Prisma.SortOrder
+  isSeller?: Prisma.SortOrder
+  sellerRating?: Prisma.SortOrder
+  pendingEscrowFunds?: Prisma.SortOrder
+  availableFunds?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -297,12 +297,12 @@ export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
   firstName?: Prisma.StringFilter<"UserProfile"> | string
   lastName?: Prisma.StringFilter<"UserProfile"> | string
-  avatar?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  avatar?: Prisma.StringFilter<"UserProfile"> | string
   phoneNumber?: Prisma.StringNullableFilter<"UserProfile"> | string | null
-  isSeller?: Prisma.BoolNullableFilter<"UserProfile"> | boolean | null
-  sellerRating?: Prisma.DecimalNullableFilter<"UserProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: Prisma.IntNullableFilter<"UserProfile"> | number | null
-  availableFunds?: Prisma.IntNullableFilter<"UserProfile"> | number | null
+  isSeller?: Prisma.BoolFilter<"UserProfile"> | boolean
+  sellerRating?: Prisma.DecimalFilter<"UserProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: Prisma.IntFilter<"UserProfile"> | number
+  availableFunds?: Prisma.IntFilter<"UserProfile"> | number
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -311,12 +311,12 @@ export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
 export type UserProfileOrderByWithAggregationInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
-  avatar?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatar?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
-  isSeller?: Prisma.SortOrderInput | Prisma.SortOrder
-  sellerRating?: Prisma.SortOrderInput | Prisma.SortOrder
-  pendingEscrowFunds?: Prisma.SortOrderInput | Prisma.SortOrder
-  availableFunds?: Prisma.SortOrderInput | Prisma.SortOrder
+  isSeller?: Prisma.SortOrder
+  sellerRating?: Prisma.SortOrder
+  pendingEscrowFunds?: Prisma.SortOrder
+  availableFunds?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -333,12 +333,12 @@ export type UserProfileScalarWhereWithAggregatesInput = {
   NOT?: Prisma.UserProfileScalarWhereWithAggregatesInput | Prisma.UserProfileScalarWhereWithAggregatesInput[]
   firstName?: Prisma.StringWithAggregatesFilter<"UserProfile"> | string
   lastName?: Prisma.StringWithAggregatesFilter<"UserProfile"> | string
-  avatar?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  avatar?: Prisma.StringWithAggregatesFilter<"UserProfile"> | string
   phoneNumber?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
-  isSeller?: Prisma.BoolNullableWithAggregatesFilter<"UserProfile"> | boolean | null
-  sellerRating?: Prisma.DecimalNullableWithAggregatesFilter<"UserProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: Prisma.IntNullableWithAggregatesFilter<"UserProfile"> | number | null
-  availableFunds?: Prisma.IntNullableWithAggregatesFilter<"UserProfile"> | number | null
+  isSeller?: Prisma.BoolWithAggregatesFilter<"UserProfile"> | boolean
+  sellerRating?: Prisma.DecimalWithAggregatesFilter<"UserProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
+  availableFunds?: Prisma.IntWithAggregatesFilter<"UserProfile"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
   userId?: Prisma.UuidWithAggregatesFilter<"UserProfile"> | string
@@ -347,12 +347,12 @@ export type UserProfileScalarWhereWithAggregatesInput = {
 export type UserProfileCreateInput = {
   firstName: string
   lastName: string
-  avatar?: string | null
+  avatar?: string
   phoneNumber?: string | null
-  isSeller?: boolean | null
-  sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: number | null
-  availableFunds?: number | null
+  isSeller?: boolean
+  sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: number
+  availableFunds?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutProfileInput
@@ -361,12 +361,12 @@ export type UserProfileCreateInput = {
 export type UserProfileUncheckedCreateInput = {
   firstName: string
   lastName: string
-  avatar?: string | null
+  avatar?: string
   phoneNumber?: string | null
-  isSeller?: boolean | null
-  sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: number | null
-  availableFunds?: number | null
+  isSeller?: boolean
+  sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: number
+  availableFunds?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
@@ -375,12 +375,12 @@ export type UserProfileUncheckedCreateInput = {
 export type UserProfileUpdateInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isSeller?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  sellerRating?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  availableFunds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSeller?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sellerRating?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: Prisma.IntFieldUpdateOperationsInput | number
+  availableFunds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutProfileNestedInput
@@ -389,12 +389,12 @@ export type UserProfileUpdateInput = {
 export type UserProfileUncheckedUpdateInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isSeller?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  sellerRating?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  availableFunds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSeller?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sellerRating?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: Prisma.IntFieldUpdateOperationsInput | number
+  availableFunds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -403,12 +403,12 @@ export type UserProfileUncheckedUpdateInput = {
 export type UserProfileCreateManyInput = {
   firstName: string
   lastName: string
-  avatar?: string | null
+  avatar?: string
   phoneNumber?: string | null
-  isSeller?: boolean | null
-  sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: number | null
-  availableFunds?: number | null
+  isSeller?: boolean
+  sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: number
+  availableFunds?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
@@ -417,12 +417,12 @@ export type UserProfileCreateManyInput = {
 export type UserProfileUpdateManyMutationInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isSeller?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  sellerRating?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  availableFunds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSeller?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sellerRating?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: Prisma.IntFieldUpdateOperationsInput | number
+  availableFunds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -430,12 +430,12 @@ export type UserProfileUpdateManyMutationInput = {
 export type UserProfileUncheckedUpdateManyInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isSeller?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  sellerRating?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  availableFunds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSeller?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sellerRating?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: Prisma.IntFieldUpdateOperationsInput | number
+  availableFunds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -536,20 +536,16 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
-export type NullableBoolFieldUpdateOperationsInput = {
-  set?: boolean | null
-}
-
-export type NullableDecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
   increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
   decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
   multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
+export type IntFieldUpdateOperationsInput = {
+  set?: number
   increment?: number
   decrement?: number
   multiply?: number
@@ -559,12 +555,12 @@ export type NullableIntFieldUpdateOperationsInput = {
 export type UserProfileCreateWithoutUserInput = {
   firstName: string
   lastName: string
-  avatar?: string | null
+  avatar?: string
   phoneNumber?: string | null
-  isSeller?: boolean | null
-  sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: number | null
-  availableFunds?: number | null
+  isSeller?: boolean
+  sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: number
+  availableFunds?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -572,12 +568,12 @@ export type UserProfileCreateWithoutUserInput = {
 export type UserProfileUncheckedCreateWithoutUserInput = {
   firstName: string
   lastName: string
-  avatar?: string | null
+  avatar?: string
   phoneNumber?: string | null
-  isSeller?: boolean | null
-  sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: number | null
-  availableFunds?: number | null
+  isSeller?: boolean
+  sellerRating?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: number
+  availableFunds?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -601,12 +597,12 @@ export type UserProfileUpdateToOneWithWhereWithoutUserInput = {
 export type UserProfileUpdateWithoutUserInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isSeller?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  sellerRating?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  availableFunds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSeller?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sellerRating?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: Prisma.IntFieldUpdateOperationsInput | number
+  availableFunds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -614,12 +610,12 @@ export type UserProfileUpdateWithoutUserInput = {
 export type UserProfileUncheckedUpdateWithoutUserInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.StringFieldUpdateOperationsInput | string
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isSeller?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  sellerRating?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  pendingEscrowFunds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  availableFunds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSeller?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sellerRating?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  pendingEscrowFunds?: Prisma.IntFieldUpdateOperationsInput | number
+  availableFunds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -704,12 +700,12 @@ export type $UserProfilePayload<ExtArgs extends runtime.Types.Extensions.Interna
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     firstName: string
     lastName: string
-    avatar: string | null
+    avatar: string
     phoneNumber: string | null
-    isSeller: boolean | null
-    sellerRating: runtime.Decimal | null
-    pendingEscrowFunds: number | null
-    availableFunds: number | null
+    isSeller: boolean
+    sellerRating: runtime.Decimal
+    pendingEscrowFunds: number
+    availableFunds: number
     createdAt: Date
     updatedAt: Date
     userId: string
