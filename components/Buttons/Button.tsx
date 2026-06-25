@@ -32,11 +32,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const VARIANT_STYLE: Record<ButtonVariant, string> = {
-  [BUTTON_VARIANT.FILLED]:
-    "bg-brand-ink text-brand-paper-light hover:bg-brand-ink-light",
+  [BUTTON_VARIANT.FILLED]: "bg-primary-500 text-gray-50 hover:bg-primary-600",
   [BUTTON_VARIANT.OUTLINE]:
-    "border border-neutral-border text-neutral-text hover:bg-brand-paper-dark",
-  [BUTTON_VARIANT.TEXT]: "text-brand-ink hover:underline p-0!",
+    "border border-gray-300 text-gray-600 hover:bg-gray-100",
+  [BUTTON_VARIANT.TEXT]: "text-primary-500 hover:underline p-0!",
 };
 
 const SIZE_MAP: Record<ButtonSize, string> = {
@@ -62,7 +61,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Component = "button";
     const baseClasses =
-      "inline-flex items-center justify-center font-sans font-medium tracking-wide transition-all duration-200 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-brand-accent-focus disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] disabled:cursor-not-allowed";
+      "inline-flex items-center justify-center font-sans font-medium tracking-wide transition-all duration-200 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary-700 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] disabled:cursor-not-allowed";
 
     const combinedClasses = [
       VARIANT_STYLE[variant],

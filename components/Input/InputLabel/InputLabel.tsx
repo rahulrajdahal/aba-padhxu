@@ -17,7 +17,7 @@ export default function InputLabel(props: InputLabelProps) {
     ...rest
   } = props;
 
-  const baseClassName = `block font-semibold text-base transition-colors duration-300 ${error ? "text-red-500" : "text-gray-700"}`;
+  const baseClassName = `block font-medium text-sm transition-colors duration-300 ${error ? "text-red-500" : "text-gray-700"}`;
 
   return (
     <label

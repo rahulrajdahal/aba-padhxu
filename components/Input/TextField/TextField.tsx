@@ -14,11 +14,11 @@ export default function TextField(props: TextFieldProps) {
     <input
       aria-invalid={error}
       className={mergeClassNames(
-        "rounded-lg border w-full text-lg px-2 py-1 outline-none focus-visible:border-2",
+        "rounded-lg border w-full text-lg px-4 py-2 focus-visible:ring-2 outline-none transition-colors",
         className,
         error
-          ? "border-error focus-visible:border-error"
-          : "border-neutral-muted focus-visible:border-brand-ink",
+          ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500 placeholder:text-red-400"
+          : "border-gray-300 focus-visible:border-primary-400 focus-visible:ring-primary-400 placeholder:text-gray-400",
       )}
       {...rest}
     />

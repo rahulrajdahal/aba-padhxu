@@ -3,7 +3,7 @@ import { UserPageLayout } from "@/components";
 export default async function page() {
   return (
     <UserPageLayout>
-      Hye hey hey
+      Hey
       {/* <Books
         books={
           books.map((book) => ({

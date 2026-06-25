@@ -2,6 +2,7 @@
 
 import { logout } from "@/app/(auth)/actions";
 import { Button, Input } from "@/components";
+import PasswordInput from "@/components/Input/Password/PasswordInput";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
 import { updateEmailAddress } from "./actions";
@@ -47,9 +48,8 @@ export default function EmailAddressSettings({
         required
         errors={state?.errors?.email}
       />
-      <Input
-        type="password"
-        label="Password"
+      <PasswordInput
+        placeholder="********"
         name="password"
         required
         errors={state?.errors?.password}
