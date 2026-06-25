@@ -1,15 +1,40 @@
-import { Input, Select, Switch, Textarea } from "@/components";
+"use client";
+
+import { Button, Input, Select, Switch, Textarea } from "@/components";
+import { routes } from "@/utils/routes";
 import { Money } from "@meistericons/react";
+import { redirect } from "next/navigation";
+import { useActionState } from "react";
+import toast from "react-hot-toast";
+import { addListing } from "../actions";
 
 export default function page() {
+  const handleAddList = async (prevState: unknown, formData: FormData) => {
+    const state = await addListing(prevState, formData);
+
+    if (state.type === "success") {
+      toast.success(state.message);
+      return redirect(routes.listings);
+    }
+
+    if (state.type === "error") {
+      toast.error(state.message);
+    }
+
+    return state;
+  };
+
+  const [state, formAction, isPending] = useActionState(handleAddList, null);
+
   return (
-    <form action="#" method="POST" className="p-6 sm:p-10 space-y-6">
+    <form action={formAction} method="POST" className="p-6 sm:p-10 space-y-6">
       <Input
         label="Select Book (ISBN or Title)"
         name="bookId"
         required
         placeholder="Search by Title, Author, or ISBN..."
         helperText="Links your listing to our global book registry database."
+        errors={state?.errors?.bookId}
       />
 
       <div className="flex items-center gap-6">
@@ -22,6 +47,7 @@ export default function page() {
             { value: "ACCEPTABLE", label: "Acceptable" },
           ]}
           label="Condition"
+          errors={state?.errors?.condition}
         />
 
         <Input
@@ -32,6 +58,7 @@ export default function page() {
           min="1"
           defaultValue="1"
           value="1"
+          errors={state?.errors?.quantity}
         />
       </div>
 
@@ -45,45 +72,27 @@ export default function page() {
         type="number"
         iconLeft={<Money />}
         helperText="Enter the regular decimal price. It will be stored safely as cents."
+        errors={state?.errors?.priceCents}
       />
 
       <Textarea
-        label="Listing Description (Optional)"
+        label="Listing Description"
         name="description"
         rows={4}
+        required
         placeholder="Mention any highlighting, notes, cover wear, or specific edition details..."
+        errors={state?.errors?.description}
       />
 
-      <Switch name="isActive" checked={false} label="Make listing active" />
+      <Switch name="isActive" label="Make listing active immediately?" />
 
-      <div className="pt-2">
-        <label className="relative flex items-center cursor-pointer select-none">
-          <input
-            type="checkbox"
-            name="isActive"
-            checked
-            className="peer sr-only"
-          />
-          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
-          <span className="ml-3 text-sm font-medium text-gray-700">
-            Make listing active immediately
-          </span>
-        </label>
-      </div>
-
-      <div className="pt-6 border-t border-gray-100 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4">
-        <button
-          type="button"
-          className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 focus:outline-none transition-colors text-center"
-        >
+      <div className="pt-6 border-t border-gray-200 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4">
+        <Button type="button" variant="outline" disabled={isPending}>
           Cancel
-        </button>
-        <button
-          type="submit"
-          className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors text-center shadow-md shadow-emerald-100"
-        >
-          Post Listing
-        </button>
+        </Button>
+        <Button type="submit" isLoading={isPending}>
+          {isPending ? "Posting..." : "Post Listing"}
+        </Button>
       </div>
     </form>
   );
