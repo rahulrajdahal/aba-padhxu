@@ -3,7 +3,7 @@
 import { addToCart } from "@/app/actions";
 import { Listing } from "@/generated/prisma/client/client";
 import { ArchiveCross, Cart } from "@meistericons/react";
-import { useActionState, useMemo } from "react";
+import { useActionState } from "react";
 import toast from "react-hot-toast";
 import Button from "./Button";
 
@@ -24,31 +24,25 @@ export default function AddToCart({ listing }: Readonly<AddToCartProps>) {
 
   const [_state, formAction, isPending] = useActionState(handleAddToCart, null);
 
-  const isOutOfStock = useMemo(() => {
-    return listing.quantity <= 0;
-  }, [listing.quantity]);
+  const outOfStock = listing.quantity <= 0;
 
   return (
     <form action={formAction}>
       <Button
         type="submit"
-        aria-disabled={isPending || listing.quantity <= 0}
-        disabled={isPending || listing.quantity <= 0}
+        aria-disabled={isPending || outOfStock}
+        disabled={isPending || outOfStock}
         size="sm"
         isLoading={isPending}
         leftIcon={
-          isOutOfStock ? (
+          outOfStock ? (
             <ArchiveCross />
           ) : (
             <Cart className={`${isPending ? "animate-spin" : ""}`} />
           )
         }
       >
-        {isPending
-          ? "Adding..."
-          : isOutOfStock
-            ? "Out of Stock"
-            : "Add to Cart"}
+        {isPending ? "Adding..." : outOfStock ? "Out of Stock" : "Add to Cart"}
       </Button>
     </form>
   );

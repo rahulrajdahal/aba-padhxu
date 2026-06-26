@@ -82,8 +82,13 @@ export const unauthorizedError = (): ActionResponse =>
 export const forbiddenError = (): ActionResponse =>
   errorResponse("Forbidden", 403);
 
+export const badRequestError = (
+  message = "Bad Request",
+  error?: unknown,
+): ActionResponse => errorResponse(message, 400, error);
+
 export const invalidRequestError = (error?: unknown): ActionResponse =>
-  errorResponse("Invalid Request", 400, error);
+  badRequestError("Invalid Request", error);
 
 export const conflictError = (title?: string): ActionResponse =>
   errorResponse(`${title ?? "Resource"} already exists`, 409);
@@ -104,7 +109,7 @@ export const actionWrapper = (
         return errorResponse(error.message, 403, error);
       }
       if (error instanceof BadRequestError) {
-        return errorResponse(error.message, 400, error);
+        return badRequestError(error.message, error);
       }
       if (error instanceof NotFoundError) {
         return errorResponse(error.message, 404, error);

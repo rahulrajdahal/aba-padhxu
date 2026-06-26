@@ -2,10 +2,13 @@
 
 import {
   actionWrapper,
+  badRequestError,
   invalidRequestError,
   noContentResponse,
   okResponse,
 } from "@/lib/responses";
+import { routes } from "@/utils/routes";
+import { revalidatePath } from "next/cache";
 import { authUserId } from "./(auth)/middleware";
 import { cartService } from "./cart/cart.service";
 import { addCartItem } from "./cart/cartItems/actions";
@@ -39,16 +42,23 @@ export const addToCart = actionWrapper(async (listingId: string) => {
     );
 
     if (existingCartItem) {
-      await cartItemsService.incrementQuantityById(existingCartItem.id);
-      await ListingsService.decrementQuantityById(listingId);
+      if (listing.quantity > 0) {
+        await cartItemsService.incrementQuantityById(existingCartItem.id);
+        await ListingsService.decrementQuantityById(listingId);
 
-      return noContentResponse();
+        return noContentResponse();
+      } else {
+        return badRequestError("Book is out of Stock");
+      }
     }
   }
   const formData = new FormData();
   formData.append("listingId", listingId);
 
   await addCartItem(null, formData);
+
+  revalidatePath(routes.home);
+  revalidatePath(routes.cart);
 
   return okResponse("Cart item added successfully", listing);
 });
