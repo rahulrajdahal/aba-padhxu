@@ -1,5 +1,7 @@
 export const routes = {
   home: "/",
+  cart: "/cart",
+  checkout: "/checkout",
 
   forgotPassword: "/forgot-password",
   confirmEmail: "/confirm-email",
@@ -10,7 +12,6 @@ export const routes = {
   dashboard: "/dashboard",
   books: "/books",
   authors: "/authors",
-  cart: "/cart",
   genres: "/genres",
   order: "/order",
   orders: "/orders",
