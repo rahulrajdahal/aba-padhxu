@@ -14,6 +14,14 @@ export const ListingsDAL = {
     return listings;
   },
 
+  findAllWithBooks: async () => {
+    return await prisma.listing.findMany({
+      include: {
+        book: true,
+      },
+    });
+  },
+
   findBySellerId: async (sellerId: string) => {
     const listings = await prisma.listing.findMany({ where: { sellerId } });
     return listings;
@@ -26,6 +34,14 @@ export const ListingsDAL = {
 
   updateById: async (id: string, data: PatchListingDTO) => {
     const listing = await prisma.listing.update({ where: { id }, data });
+    return listing;
+  },
+
+  updateQuantityById: async (id: string, type: "increment" | "decrement") => {
+    const listing = await prisma.listing.update({
+      where: { id },
+      data: { quantity: { [type]: 1 } },
+    });
     return listing;
   },
 

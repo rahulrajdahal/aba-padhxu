@@ -1,62 +1,55 @@
 "use client";
 
-import { addToCart } from "@/app/cart/actions";
+import { addToCart } from "@/app/actions";
+import { Listing } from "@/generated/prisma/client/client";
 import { ArchiveCross, Cart } from "@meistericons/react";
-import { Book } from "@prisma/client";
-import { useMemo, useState } from "react";
+import { useActionState, useMemo } from "react";
 import toast from "react-hot-toast";
-import Button, { ButtonProps } from "./Button";
+import Button from "./Button";
 
 type AddToCartProps = {
-  book: Book;
-  buttonProps?: ButtonProps;
+  listing: Pick<Listing, "id" | "quantity">;
 };
 
-export default function AddToCart({
-  book,
-  buttonProps,
-}: Readonly<AddToCartProps>) {
-  const [loading, setLoading] = useState(false);
-
-  const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    await addToCart(book.id);
-    toast.success(`${book.name} added to cart`);
-    setLoading(false);
+export default function AddToCart({ listing }: Readonly<AddToCartProps>) {
+  const handleAddToCart = async (prevState: unknown, formData: FormData) => {
+    const state = await addToCart(listing.id);
+    if (state.type === "success") {
+      toast.success("Item added to cart");
+    } else {
+      toast.error(state.message);
+    }
+    return state;
   };
 
-  const buttonText = useMemo(() => {
-    if (book.quantity <= 0) {
-      return "Out of Stock";
-    } else if (loading) {
-      return "Adding...";
-    }
-    return "Add to Cart";
-  }, [book.quantity, loading]);
-
-  const isDisabled = useMemo(() => {
-    return loading || book.quantity <= 0;
-  }, [book.quantity, loading]);
+  const [_state, formAction, isPending] = useActionState(handleAddToCart, null);
 
   const isOutOfStock = useMemo(() => {
-    return book.quantity <= 0;
-  }, [book.quantity]);
+    return listing.quantity <= 0;
+  }, [listing.quantity]);
 
   return (
-    <Button
-      {...buttonProps}
-      aria-disabled={isDisabled}
-      disabled={isDisabled}
-      onClick={handleAddToCart}
-      className={`${buttonProps?.className} bg-[#519e8a] flex mt-5 gap-0.5 rounded-xl items-center justify-center w-full !p-3`}
-    >
-      {isOutOfStock ? (
-        <ArchiveCross />
-      ) : (
-        <Cart className={`${loading ? "animate-spin" : ""}`} />
-      )}
-      {buttonText}
-    </Button>
+    <form action={formAction}>
+      <Button
+        type="submit"
+        aria-disabled={isPending || listing.quantity <= 0}
+        disabled={isPending || listing.quantity <= 0}
+        size="sm"
+        isLoading={isPending}
+        leftIcon={
+          isOutOfStock ? (
+            <ArchiveCross />
+          ) : (
+            <Cart className={`${isPending ? "animate-spin" : ""}`} />
+          )
+        }
+      >
+        {isPending
+          ? "Adding..."
+          : isOutOfStock
+            ? "Out of Stock"
+            : "Add to Cart"}
+      </Button>
+    </form>
   );
 }

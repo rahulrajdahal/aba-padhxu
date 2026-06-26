@@ -1,80 +1,34 @@
 "use server";
 
-import { PrismaClientKnownRequestError } from "@/generated/prisma/client/internal/prismaNamespace";
-import { prisma } from "@/prisma/prisma";
-import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
+import {
+  authActionWrapper,
+  createdResponse,
+  forbiddenError,
+  noContentResponse,
+} from "@/lib/responses";
+import { authUserId } from "../(auth)/middleware";
+import { cartService } from "./cart.service";
 
-export const addToCart = async (bookId: string) => {
-  try {
-    const book = await prisma.book.findUnique({
-      where: { id: bookId },
-      include: { author: { select: { name: true } } },
-    });
+export const addCart = authActionWrapper(async () => {
+  const userId = await authUserId();
 
-    const cartItems = (await cookies()).get("cartItems")?.value
-      ? JSON.parse((await cookies()).get("cartItems")?.value as string)
-      : [];
-
-    const updateCartItem = cartItems.find(
-      (cartItem: { book: { id: string } }) => cartItem.book.id === bookId,
-    );
-    if (updateCartItem) {
-      updateCartItem.quantity++;
-    } else {
-      cartItems.push({
-        id: `${bookId}-${Math.floor(Math.random() * 999999)}`,
-        book,
-        quantity: 1,
-      });
-    }
-    (await cookies()).set({
-      name: `cartItems`,
-      value: JSON.stringify(cartItems),
-    });
-    revalidatePath("/");
-    revalidatePath("/cart");
-  } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        throw new Error(error.message);
-      }
-    }
-    throw new Error("Server Error");
+  if (!userId) {
+    return forbiddenError();
   }
-};
-export const updateQty = async (
-  bookId: string,
-  operation: "increment" | "decrement" = "increment",
-) => {
-  try {
-    const cartItems = (await cookies()).get("cartItems")?.value
-      ? JSON.parse((await cookies()).get("cartItems")?.value as string)
-      : [];
 
-    const updateCartItem = cartItems.find(
-      (cartItem: { book: { id: string } }) => cartItem.book.id === bookId,
-    );
-    if (operation === "increment") {
-      updateCartItem.quantity++;
-    } else if (updateCartItem.quantity <= 1) {
-      cartItems.splice(cartItems.indexOf(updateCartItem), 1);
-    } else {
-      updateCartItem.quantity--;
-    }
-    (await cookies()).set({
-      name: `cartItems`,
-      value: JSON.stringify(cartItems),
-      maxAge: 60 * 6,
-    });
-    revalidatePath("/");
-    revalidatePath("/cart");
-  } catch (error) {
-    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        throw new Error(error.message);
-      }
-    }
-    throw new Error("Server Error");
+  const cartId = await cartService.create(userId as string);
+
+  return createdResponse("User cart created!", cartId);
+});
+
+export const deleteCart = authActionWrapper(async () => {
+  const userId = await authUserId();
+
+  if (!userId) {
+    return forbiddenError();
   }
-};
+
+  await cartService.deleteById(userId as string);
+
+  return noContentResponse();
+});

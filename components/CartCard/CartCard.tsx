@@ -1,6 +1,6 @@
 "use client";
 
-import { updateQty } from "@/app/cart/actions";
+// import { updateQty } from "@/app/cart/actions";
 import { Add, Bookmark, MinusBlockB } from "@meistericons/react";
 import { Author, Book, Genre } from "@prisma/client";
 import parse from "html-react-parser";
@@ -24,7 +24,7 @@ export default function CartCard({
   const handleIncrement = async () => {
     if (book.quantity - qty > 0) {
       setLoading((prev) => ({ ...prev, increment: true }));
-      await updateQty(book.id);
+      // await updateQty(book.id);
       setLoading((prev) => ({ ...prev, increment: false }));
     } else {
       toast("Stock is empty!", { icon: "🪹" });
@@ -34,7 +34,7 @@ export default function CartCard({
   const handleDecrement = async () => {
     if (qty > 0) {
       setLoading((prev) => ({ ...prev, decrement: true }));
-      await updateQty(book.id, "decrement");
+      // await updateQty(book.id, "decrement");
       setLoading((prev) => ({ ...prev, decrement: false }));
     } else {
       toast.custom("Stock is empty!", { icon: "🪹" });
