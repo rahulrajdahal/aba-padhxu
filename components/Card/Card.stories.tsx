@@ -15,20 +15,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    book: {
-      id: "1",
-      name: "Book Title",
-      author: {
-        name: "Author Name",
+    listing: {
+      book: {
+        title: "Book Title",
+        author: "Author Name",
+        genre: "Genre",
+        image: "https://placehold.co/300x400/orange/white?text=Book+Cover",
       },
-      genre: {
-        title: "Genre",
-      },
-      year: 2022,
-      price: 10,
-      image:
-        "https://images.unsplash.com/photo-1544947950-fa07a98c2941?w=800&h=600&fit=crop",
-      description: "Description",
+      priceCents: 10,
     },
     href: "#",
   },
