@@ -5,6 +5,7 @@ export { default as Button } from "./Buttons/Button";
 export { default as Card } from "./Card/Card";
 export { default as CartCard } from "./CartCard/CartCard";
 export { default as DeleteModal } from "./DeleteModal/DeleteModal";
+export { default as Footer } from "./Footer/Footer";
 export { default as Form } from "./Form/Form";
 export { default as Input } from "./Input/Input";
 export { default as Navbar } from "./Navbar/Navbar";

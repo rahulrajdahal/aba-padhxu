@@ -1,44 +1,58 @@
 "use client";
 
 import { routes } from "@/utils/routes";
+import { Cart, Search } from "@meistericons/react";
 import Link from "next/link";
-import { Button } from "../Buttons";
+import Input from "../Input/Input";
 import Logo from "../Logo/Logo";
 
-export default function Navbar() {
+interface NavbarProps {
+  cartItemsCount: number;
+}
+
+export default function Navbar({ cartItemsCount }: NavbarProps) {
   return (
-    <nav className="sticky z-10 top-0 flex w-full shadow-sm items-center justify-between bg-gray-50 px-[12.5%] py-4">
-      <Link href="/">
-        <Logo />
-      </Link>
+    <nav className="sticky top-0 z-50 border-b border-gray-200 backdrop-blur-md bg-primary-100/90">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <Link href={routes.home}>
+          <Logo />
+        </Link>
 
-      <div className="flex items-center gap-2">
-        <Link href={routes.signup}>
-          <Button variant="outline">Register</Button>
-        </Link>
-        <Link href={routes.login}>
-          <Button>Log In</Button>
-        </Link>
+        {/* Search Bar */}
+        <Input
+          type="search"
+          placeholder="Search by title, author, or ISBN..."
+          iconLeft={<Search size={24} />}
+          className="rounded-full!"
+          wrapperClassName="max-w-md"
+        />
+
+        <div className="flex items-center gap-6">
+          <Link
+            href="#"
+            className="text-sm font-medium text-gray-600 hover:text-primary-600 transition"
+          >
+            Bestsellers
+          </Link>
+          <Link
+            href="#"
+            className="text-sm font-medium text-gray-600 hover:text-primary-600 transition"
+          >
+            New Releases
+          </Link>
+          <Link
+            href={routes.cart}
+            className="relative p-2 text-gray-600 hover:text-primary-600 transition"
+          >
+            <Cart className="h-6 w-6" />
+            {cartItemsCount > 0 && (
+              <span className="absolute top-0 right-0 bg-primary-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                {cartItemsCount}
+              </span>
+            )}
+          </Link>
+        </div>
       </div>
-      {/* <ul className="flex items-center gap-4">
-        {role === "SELLER" && (
-          <li>
-            <a href={routes.dashboard}>Dashboard</a>
-          </li>
-        )}
-        {isLoggedIn && <NotificationsDropdown notifications={notifications} />}
-
-        <li className="relative">
-          <a href={routes.cart}>
-            <span className="absolute bottom-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-slate-700 p-2.5 text-sm text-slate-50">
-              {count}
-            </span>
-            <CartB className="h-10 w-10" />
-          </a>
-        </li> */}
-
-      {/* <AuthButton isLoggedIn={isLoggedIn} /> */}
-      {/* </ul> */}
     </nav>
   );
 }
