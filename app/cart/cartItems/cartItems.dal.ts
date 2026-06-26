@@ -1,4 +1,7 @@
-import { CartItemFindUniqueArgs } from "@/generated/prisma/client/models";
+import {
+  CartItemFindManyArgs,
+  CartItemFindUniqueArgs,
+} from "@/generated/prisma/client/models";
 import { prisma } from "@/prisma/prisma";
 
 export const CartItemDAL = {
@@ -6,6 +9,10 @@ export const CartItemDAL = {
     return await prisma.cartItem.count({
       where: { cartId },
     });
+  },
+
+  findMany: async (args: CartItemFindManyArgs) => {
+    return await prisma.cartItem.findMany(args);
   },
 
   create: async (cartId: string, listingId: string) => {

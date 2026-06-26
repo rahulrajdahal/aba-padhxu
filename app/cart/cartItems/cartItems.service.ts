@@ -19,6 +19,19 @@ export const cartItemsService = {
     });
   },
 
+  findByCartId: async (cartId: string) => {
+    return await CartItemDAL.findMany({
+      where: { cartId },
+    });
+  },
+
+  findByCartIdWithListings: async (cartId: string) => {
+    return await CartItemDAL.findMany({
+      where: { cartId },
+      include: { listing: { include: { book: true } } },
+    });
+  },
+
   incrementQuantityById: async (id: string) => {
     await CartItemDAL.updateQuantityById(id, "increment");
   },

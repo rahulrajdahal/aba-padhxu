@@ -1,13 +1,15 @@
+"use client";
+
 import { Footer, Navbar } from "@/components";
 
 interface PublicPageLayoutProps {
   children: React.ReactNode;
-  cartItemsCount: number;
+  cartItemsCount?: number;
 }
 
 export default function PublicPageLayout({
   children,
-  cartItemsCount,
+  cartItemsCount = 0,
 }: PublicPageLayoutProps) {
   return (
     <>

@@ -44,6 +44,24 @@ export const addCartItem = authActionWrapper(
   },
 );
 
+export const fetchUserCartItems = authActionWrapper(async () => {
+  const userId = await authUserId();
+
+  if (!userId) {
+    return forbiddenError();
+  }
+
+  const cart = await cartService.findByUserId(userId as string);
+
+  if (!cart) {
+    return invalidRequestError();
+  }
+
+  const cartItems = await cartItemsService.findByCartIdWithListings(cart.id);
+
+  return okResponse("User cart items fetched!", cartItems);
+});
+
 export const updateCartItem = authActionWrapper(
   async (id: string, formData: FormData) => {
     const userId = await authUserId();
@@ -73,6 +91,29 @@ export const updateCartItem = authActionWrapper(
   },
 );
 
+export const updateCartItemQuantity = authActionWrapper(
+  async (id: string, listingId: string, type: "increment" | "decrement") => {
+    const userId = await authUserId();
+
+    if (!userId) {
+      return forbiddenError();
+    }
+
+    if (type === "decrement") {
+      await cartItemsService.decrementQuantityById(id);
+      await ListingsService.incrementQuantityById(listingId);
+    } else {
+      await cartItemsService.incrementQuantityById(id);
+      await ListingsService.decrementQuantityById(listingId);
+    }
+
+    revalidatePath(routes.home);
+    revalidatePath(routes.cart);
+
+    return noContentResponse();
+  },
+);
+
 export const cartItemsCount = authActionWrapper(async () => {
   const userId = await authUserId();
 
@@ -89,4 +130,17 @@ export const cartItemsCount = authActionWrapper(async () => {
   const cartItemsCount = await cartItemsService.count(cart.id);
 
   return okResponse("Cart count fetched successfully", cartItemsCount);
+});
+
+export const deletecartItem = authActionWrapper(async (id: string) => {
+  const userId = await authUserId();
+
+  if (!userId) {
+    return forbiddenError();
+  }
+
+  await cartItemsService.deleteById(id);
+
+  revalidatePath(routes.cart);
+  return noContentResponse();
 });

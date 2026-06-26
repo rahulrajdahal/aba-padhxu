@@ -18,7 +18,7 @@ export default function BookCard({
   // };
 
   return (
-    <Card listing={listing} href={`/listing/${listing.id}`} />
+    <Card listing={listing} />
 
     // <div className="rounded-lg border border-gray-400 p-2 max-w-96">
     //   <Image
