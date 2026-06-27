@@ -20,6 +20,8 @@ export default function Navbar({ cartItemsCount }: NavbarProps) {
   const searchQuery = useSearchParams();
   const router = useRouter();
 
+  const [open, setOpen] = useState(false);
+
   const [query, setQuery] = useState("");
   const lastQuery = useDebounce(query, 500);
 
@@ -44,6 +46,21 @@ export default function Navbar({ cartItemsCount }: NavbarProps) {
     }
   }, [lastQuery, router, searchQuery]);
 
+  const handleQueryOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    if (e.target.value.length > 0) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  };
+
+  const handleOnBlur = () => {
+    setTimeout(() => {
+      setOpen(false);
+    }, 200);
+  };
+
   return (
     <nav className="sticky top-0 z-50 border-b border-gray-200 backdrop-blur-md bg-primary-100/90">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -51,15 +68,56 @@ export default function Navbar({ cartItemsCount }: NavbarProps) {
           <Logo />
         </Link>
 
-        <Input
-          type="search"
-          placeholder="Search by title, author, or ISBN..."
-          iconLeft={<Search size={24} />}
-          className="rounded-full!"
-          wrapperClassName="max-w-md"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
+        <div className="relative max-w-md w-full">
+          <Input
+            type="search"
+            placeholder="Search by title, author, or ISBN..."
+            iconLeft={<Search size={24} />}
+            className="rounded-full!"
+            value={query}
+            onChange={handleQueryOnChange}
+            onBlur={handleOnBlur}
+            onFocus={() => setOpen(true)}
+            onClick={() => setOpen(true)}
+          />
+
+          {open && (
+            <div className="absolute bg-gray-50 inset-x-0 top-full mt-2 w-full z-40 overflow-y-auto max-h-64 border border-gray-200 rounded-lg shadow-lg">
+              {searchResults.length === 0 ? (
+                <div className="p-4 text-gray-500">No results found.</div>
+              ) : (
+                <ul>
+                  {searchResults.map((item) => (
+                    <li
+                      key={item.id}
+                      className="flex justify-between items-center gap-4 p-4 hover:bg-gray-100"
+                    >
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={item.book.image}
+                          alt={item.book.title}
+                          className="h-20 w-20 object-cover rounded-md"
+                        />
+                        <div>
+                          <strong className="text-sm text-gray-700 font-semibold">
+                            {item.book.title}
+                          </strong>
+                          <p className="text-xs text-gray-600">
+                            {item.book.author}
+                          </p>
+                        </div>
+                      </div>
+
+                      <strong className="text-sm text-gray-700 font-semibold">
+                        ${(item.priceCents / 100).toFixed(2)}
+                      </strong>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+        </div>
 
         <div className="flex items-center gap-6">
           <Link
