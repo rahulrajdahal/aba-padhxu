@@ -14,11 +14,22 @@ export const ListingsDAL = {
     return listings;
   },
 
-  findAllWithBooks: async () => {
+  findAllWithBooks: async (query?: string) => {
     return await prisma.listing.findMany({
       include: {
         book: true,
       },
+      ...(query && {
+        where: {
+          book: {
+            OR: [
+              { title: { contains: query, mode: "insensitive" } },
+              { isbn13: { contains: query, mode: "insensitive" } },
+              { author: { contains: query, mode: "insensitive" } },
+            ],
+          },
+        },
+      }),
     });
   },
 

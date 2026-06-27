@@ -16,8 +16,8 @@ import { cartItemsService } from "./cart/cartItems/cartItems.service";
 import { listingExists } from "./dashboard/listings/listings.middleware";
 import { ListingsService } from "./dashboard/listings/listings.service";
 
-export const fetchAllListings = actionWrapper(async () => {
-  const listings = await ListingsService.findAllWithBooks();
+export const fetchAllListings = actionWrapper(async (query?: string) => {
+  const listings = await ListingsService.findAllWithBooks(query);
 
   return okResponse("Listings fetched successfully", listings);
 });

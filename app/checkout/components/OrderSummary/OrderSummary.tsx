@@ -2,13 +2,12 @@ import { ShieldCheck } from "@meistericons/react";
 
 export default function OrderSummary() {
   return (
-    <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-6">
+    <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-20">
       <div className="bg-gray-900 text-gray-100 p-6 rounded-lg shadow-md">
         <h2 className="text-lg font-serif font-bold border-b border-gray-800 pb-4 mb-4 tracking-wide">
           Review Your Order
         </h2>
 
-        {/* Quick Item Previews */}
         {/* <div className="max-h-40 overflow-y-auto space-y-3 mb-6 pr-2 divide-y divide-gray-800">
           <div className="flex justify-between items-center text-sm pt-2">
             <span className="text-gray-300 font-serif">

@@ -4,6 +4,7 @@ import { Input } from "@/components";
 import { PublicPageLayout } from "@/components/layouts";
 import { Card, Lock, ShieldCheck } from "@meistericons/react";
 import StripeElements from "../order/StripeElements";
+import OrderSummary from "./components/OrderSummary/OrderSummary";
 
 export default function CheckoutPage() {
   const orderSummary = {
@@ -180,7 +181,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
-
+            <OrderSummary />
             {/* Right Column: Sticky Order Summary */}
             <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-6">
               <div className="bg-gray-900 text-gray-100 p-6 rounded-lg shadow-md">

@@ -16,8 +16,8 @@ export const ListingsService = {
     return await ListingsDAL.findAll();
   },
 
-  findAllWithBooks: async () => {
-    return await ListingsDAL.findAllWithBooks();
+  findAllWithBooks: async (query?: string) => {
+    return await ListingsDAL.findAllWithBooks(query);
   },
 
   decrementQuantityById: async (id: string) => {
