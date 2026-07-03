@@ -1,15 +1,15 @@
 "use client";
 
 import { Book, Listing } from "@/generated/prisma/client/client";
-import { HeartB } from "@meistericons/react";
 import { ImageProps } from "next/image";
 import Link from "next/link";
 import { AddToCart } from "../Buttons";
 import PriceBadge from "./PriceBadge/PriceBadge";
+import WishlistBadge from "./WishlistBadge/WishlistBadge";
 
 interface CardProps {
   imageProps?: ImageProps;
-  listing: Pick<Listing, "id" | "priceCents" | "quantity"> & {
+  listing: Pick<Listing, "bookId" | "id" | "priceCents" | "quantity"> & {
     book: Pick<Book, "title" | "author" | "image" | "genre">;
   };
 }
@@ -26,9 +26,7 @@ export default function Card({ listing, imageProps }: Readonly<CardProps>) {
         className="w-full h-75 rounded-xl object-cover"
         {...imageProps}
       />
-      <button className="absolute top-3 right-3 p-2 rounded-full bg-primary-50/80 backdrop-blur-sm shadow-sm text-primary-100 hover:text-red-500 transition">
-        <HeartB size={24} />
-      </button>
+      <WishlistBadge bookId={listing.bookId} />
 
       <div className="flex flex-col gap-4">
         <Link href={`/book/${listing.id}`}>

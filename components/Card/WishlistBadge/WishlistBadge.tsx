@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 import { addWishlist } from "@/app/dashboard/wishlists/actions";
 import { mergeClassNames } from "@/lib/mergeClassNames";
@@ -22,7 +22,7 @@ export default function WishlistBadge({ bookId }: { bookId: string }) {
     return state;
   }
 
-  const [state, formAction, isPending] = useActionState(
+  const [_state, formAction, isPending] = useActionState(
     handleAddToWishlist,
     null,
   );

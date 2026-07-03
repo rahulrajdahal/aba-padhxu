@@ -6,7 +6,9 @@ import Card from "../Card/Card";
 export default function BookCard({
   listing,
 }: Readonly<{
-  listing: Pick<Listing, "quantity" | "priceCents" | "id"> & { book: Book };
+  listing: Pick<Listing, "bookId" | "quantity" | "priceCents" | "id"> & {
+    book: Book;
+  };
 }>) {
   // const [loading, setLoading] = useState(false);
 
