@@ -1,23 +1,20 @@
-import { Book, CartItem, Listing } from "@/generated/prisma/client/client";
+import { Book, Wishlist } from "@/generated/prisma/client/client";
+import { cartItemsCount } from "../cart/cartItems/actions";
 import { fetchUserWishlistItemsCount } from "../dashboard/wishlists/actions";
-import Cart from "./Cart";
-import { cartItemsCount, fetchUserCartItems } from "./cartItems/actions";
+import WishlistPage from "./Wishlist";
+import { fetchUserWishlistWithBooks } from "./actions";
 
 export default async function page() {
   const [{ data }, { data: cartCount }, { data: wishlistItemsCount }] =
     await Promise.all([
-      fetchUserCartItems(),
+      fetchUserWishlistWithBooks(),
       cartItemsCount(),
       fetchUserWishlistItemsCount(),
     ]);
 
   return (
-    <Cart
-      cartItems={
-        data as (CartItem & {
-          listing: Listing & { book: Book };
-        })[]
-      }
+    <WishlistPage
+      wishlistItems={data as (Wishlist & { book: Book })[]}
       cartCount={Number(cartCount)}
       wishlistCount={Number(wishlistItemsCount)}
     />

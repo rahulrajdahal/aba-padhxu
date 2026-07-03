@@ -20,6 +20,10 @@ export const wishlistsService = {
     return await WishlistsDAL.findAllByUserId(userId);
   },
 
+  findAllByUserIdWithBooks: async (userId: string) => {
+    return await WishlistsDAL.findAllByUserIdWithBooks(userId);
+  },
+
   countByUserId: async (userId: string) => {
     return await WishlistsDAL.countByUserId(userId);
   },

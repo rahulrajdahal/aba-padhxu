@@ -14,16 +14,24 @@ type CartProps = {
     listing: Listing & { book: Book };
   })[];
   cartCount: number;
+  wishlistCount: number;
 };
 
-export default function Cart({ cartItems, cartCount }: Readonly<CartProps>) {
+export default function Cart({
+  cartItems,
+  cartCount,
+  wishlistCount,
+}: Readonly<CartProps>) {
   const subtotal = cartItems.reduce(
     (sum, item) => sum + (item.listing.priceCents / 100) * item.quantity,
     0,
   );
 
   return (
-    <PublicPageLayout cartItemsCount={Number(cartCount)}>
+    <PublicPageLayout
+      cartItemsCount={Number(cartCount)}
+      wishlistItemsCount={Number(wishlistCount)}
+    >
       <section className="max-w-7xl mx-auto">
         {cartItems?.length > 0 ? (
           <div className="py-12 px-4 sm:px-6 lg:px-8 text-gray-800">
