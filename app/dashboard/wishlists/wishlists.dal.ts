@@ -14,6 +14,10 @@ export const WishlistsDAL = {
     return wishlist.bookId;
   },
 
+  countByUserId: async (userId: string) => {
+    return await prisma.wishlist.count({ where: { userId } });
+  },
+
   findAll: async () => {
     return await prisma.wishlist.findMany();
   },

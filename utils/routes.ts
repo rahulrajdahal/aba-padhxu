@@ -1,6 +1,7 @@
 export const routes = {
   home: "/",
   cart: "/cart",
+  wishlist: "/wishlist",
   checkout: "/checkout",
 
   forgotPassword: "/forgot-password",

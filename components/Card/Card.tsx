@@ -26,7 +26,12 @@ export default function Card({ listing, imageProps }: Readonly<CardProps>) {
         className="w-full h-75 rounded-xl object-cover"
         {...imageProps}
       />
-      <WishlistBadge bookId={listing.bookId} />
+      <WishlistBadge
+        bookId={listing.bookId}
+        inWishlist={listing.book.wishlistItems.some(
+          (item) => item.bookId === listing.bookId,
+        )}
+      />
 
       <div className="flex flex-col gap-4">
         <Link href={`/book/${listing.id}`}>

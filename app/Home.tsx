@@ -67,12 +67,17 @@ const featuredBooks = [
 export default function Home({
   listings,
   cartItemsCount,
+  wishlistItemsCount,
 }: {
   listings: (Listing & { book: Book })[];
   cartItemsCount: number;
+  wishlistItemsCount: number;
 }) {
   return (
-    <PublicPageLayout cartItemsCount={cartItemsCount}>
+    <PublicPageLayout
+      cartItemsCount={cartItemsCount}
+      wishlistItemsCount={wishlistItemsCount}
+    >
       <div className="min-h-screen bg-primary-50 text-gray-900 font-sans">
         {/* 2. HERO SECTION */}
         <header className="relative bg-primary-100 overflow-hidden py-16 lg:py-24 border-b border-gray-100">

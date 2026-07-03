@@ -17,7 +17,7 @@ export const ListingsDAL = {
   findAllWithBooks: async (query?: string) => {
     return await prisma.listing.findMany({
       include: {
-        book: true,
+        book: { include: { wishlistItems: { select: { bookId: true } } } },
       },
       ...(query && {
         where: {
