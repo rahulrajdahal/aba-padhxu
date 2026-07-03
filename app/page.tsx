@@ -1,6 +1,5 @@
 import { PublicPageLayout } from "@/components/layouts";
 import { Book, Listing } from "@/generated/prisma/client/client";
-import { connection } from "next/server";
 import { Suspense } from "react";
 import { fetchAllListings } from "./actions";
 import { cartItemsCount } from "./cart/cartItems/actions";
@@ -8,8 +7,6 @@ import { Categories, FeaturedBooks, Header, Listings } from "./components";
 import { fetchUserWishlistItemsCount } from "./dashboard/wishlists/actions";
 
 export default async function page() {
-  await connection();
-
   const [{ data }, { data: cartCount }, { data: wishlistItemsCount }] =
     await Promise.all([
       fetchAllListings(),
@@ -18,18 +15,20 @@ export default async function page() {
     ]);
 
   return (
-    <PublicPageLayout
-      cartItemsCount={cartCount as number}
-      wishlistItemsCount={wishlistItemsCount as number}
-    >
-      <div className="min-h-screen bg-primary-50 text-gray-900 font-sans">
-        <Header />
-        <Categories />
-        <FeaturedBooks />
-        <Suspense fallback={"Loading..."}>
-          <Listings listings={data as (Listing & { book: Book })[]} />
-        </Suspense>
-      </div>
-    </PublicPageLayout>
+    <Suspense fallback={"Loading page..."}>
+      <PublicPageLayout
+        cartItemsCount={cartCount as number}
+        wishlistItemsCount={wishlistItemsCount as number}
+      >
+        <div className="min-h-screen bg-primary-50 text-gray-900 font-sans">
+          <Header />
+          <Categories />
+          <FeaturedBooks />
+          <Suspense fallback={"Loading..."}>
+            <Listings listings={data as (Listing & { book: Book })[]} />
+          </Suspense>
+        </div>
+      </PublicPageLayout>
+    </Suspense>
   );
 }

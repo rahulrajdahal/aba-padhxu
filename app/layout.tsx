@@ -1,11 +1,6 @@
-import { InstallPrompt } from "@/_components/InstallPrompt";
-import { WebVitals } from "@/_components/web-vitals";
+import RootPageLayout from "@/components/layouts/RootPageLayout/RootPageLayout";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Toaster } from "react-hot-toast";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Aba Padhxu",
@@ -15,14 +10,5 @@ export type IRootLayout = Readonly<{
   children: React.ReactNode;
 }>;
 export default function RootLayout({ children }: IRootLayout) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <WebVitals />
-        {children}
-        <InstallPrompt />
-        <Toaster />
-      </body>
-    </html>
-  );
+  return <RootPageLayout>{children}</RootPageLayout>;
 }
