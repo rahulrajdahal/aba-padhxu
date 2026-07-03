@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { fetchAllListings } from "./actions";
 import { cartItemsCount } from "./cart/cartItems/actions";
 import { Categories, FeaturedBooks, Header, Listings } from "./components";
+import ListingsSkeleton from "./components/ListingsSkeleton";
 import { fetchUserWishlistItemsCount } from "./dashboard/wishlists/actions";
 
 export default async function page() {
@@ -15,20 +16,18 @@ export default async function page() {
     ]);
 
   return (
-    <Suspense fallback={"Loading page..."}>
-      <PublicPageLayout
-        cartItemsCount={cartCount as number}
-        wishlistItemsCount={wishlistItemsCount as number}
-      >
-        <div className="min-h-screen bg-primary-50 text-gray-900 font-sans">
-          <Header />
-          <Categories />
-          <FeaturedBooks />
-          <Suspense fallback={"Loading..."}>
-            <Listings listings={data as (Listing & { book: Book })[]} />
-          </Suspense>
-        </div>
-      </PublicPageLayout>
-    </Suspense>
+    <PublicPageLayout
+      cartItemsCount={cartCount as number}
+      wishlistItemsCount={wishlistItemsCount as number}
+    >
+      <div className="min-h-screen bg-primary-50 text-gray-900 font-sans">
+        <Header />
+        <Categories />
+        <FeaturedBooks />
+        <Suspense fallback={<ListingsSkeleton />}>
+          <Listings listings={data as (Listing & { book: Book })[]} />
+        </Suspense>
+      </div>
+    </PublicPageLayout>
   );
 }
