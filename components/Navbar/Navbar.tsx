@@ -4,6 +4,7 @@ import { routes } from "@/utils/routes";
 import { Cart, HeartB } from "@meistericons/react";
 import Link from "next/link";
 import { Suspense } from "react";
+import CountSkeleton from "../CountSkeleton";
 import Logo from "../Logo/Logo";
 import SearchInput from "./components/SearchInput/SearchInput";
 
@@ -30,7 +31,7 @@ export default function Navbar({
             className="relative p-2 text-gray-600 hover:text-primary-600 transition"
           >
             <HeartB className="h-6 w-6" />
-            <Suspense fallback={"Loading Wishlist Count"}>
+            <Suspense fallback={<CountSkeleton />}>
               {wishlistItemsCount > 0 && (
                 <span className="absolute top-0 right-0 bg-primary-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold">
                   {wishlistItemsCount}
@@ -43,7 +44,7 @@ export default function Navbar({
             className="relative p-2 text-gray-600 hover:text-primary-600 transition"
           >
             <Cart className="h-6 w-6" />
-            <Suspense fallback={"Loading Cart Count"}>
+            <Suspense fallback={<CountSkeleton />}>
               {cartItemsCount > 0 && (
                 <span className="absolute top-0 right-0 bg-primary-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold">
                   {cartItemsCount}
