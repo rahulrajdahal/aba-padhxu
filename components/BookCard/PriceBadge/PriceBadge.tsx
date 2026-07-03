@@ -1,3 +1,5 @@
+"use client";
+
 import { mergeClassNames } from "@/lib/mergeClassNames";
 import React from "react";
 

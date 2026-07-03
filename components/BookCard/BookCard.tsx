@@ -1,67 +1,49 @@
 "use client";
 
-import { Book, Listing } from "@/generated/prisma/client/client";
-import Card from "../Card/Card";
+import { Book, Listing, Wishlist } from "@/generated/prisma/client/client";
+import Link from "next/link";
+import { AddToCart } from "../Buttons";
+import BookCardAuthor from "./BookCardAuthor/BookCardAuthor";
+import BookCardRating from "./BookCardRating/BookCardRating";
+import BookCardTitle from "./BookCardTitle/BookCardTitle";
+import PriceBadge from "./PriceBadge/PriceBadge";
+import WishlistBadge from "./WishlistBadge/WishlistBadge";
 
 export default function BookCard({
   listing,
 }: Readonly<{
   listing: Pick<Listing, "bookId" | "quantity" | "priceCents" | "id"> & {
-    book: Book;
+    book: Book & { wishlistItems: Wishlist[] };
   };
 }>) {
-  // const [loading, setLoading] = useState(false);
-
-  // const handleAddToCart = async () => {
-  //   setLoading(true);
-  //   await addToCart(book.id);
-  //   toast.success(`${book.name} added to cart`);
-  //   setLoading(false);
-  // };
+  const { book, id, priceCents, bookId } = listing;
 
   return (
-    <Card listing={listing} />
+    <div className="px-5 py-7 flex flex-col w-full gap-2 max-w-70 relative">
+      <PriceBadge price={priceCents / 100} />
+      <img
+        src={book.image}
+        alt={book.title}
+        width={150}
+        height={200}
+        className="w-full h-75 rounded-xl object-cover"
+      />
+      <WishlistBadge
+        bookId={bookId}
+        inWishlist={book.wishlistItems.some((item) => item.bookId === bookId)}
+      />
 
-    // <div className="rounded-lg border border-gray-400 p-2 max-w-96">
-    //   <Image
-    //     alt={book.name}
-    //     src={
-    //       process.env.NODE_ENV === "development"
-    //         ? `/uploads/books/${book.image}`
-    //         : book.image
-    //     }
-    //     width={240}
-    //     height={150}
-    //     className="h-56 w-full object-cover transition-all hover:scale-105"
-    //   />
-    //   <a href={`/book/${book.id}`} className="mt-4 flex flex-col gap-2">
-    //     <span className="flex items-center justify-between">
-    //       <strong className="text-2xl font-bold">{book.name}</strong>
-    //       <p>${Number(book.price).toFixed(2)}</p>
-    //     </span>
-    //     {book.genre && (
-    //       <span className="flex items-center gap-0.5">
-    //         <Bookmark /> <strong>{book.genre?.title}</strong>
-    //       </span>
-    //     )}
-    //     <p className="w-full max-w-96 wrap-break-word text-base font-medium">
-    //       {parse(book.description.substring(0, 80))}...
-    //     </p>
-    //     <p className="text-base font-medium">
-    //       Author:&nbsp;{" "}
-    //       <strong className="font-bold text-gray-900">
-    //         {book.author?.name}
-    //       </strong>
-    //     </p>
-    //   </a>
-    //   {/* <Button
-    //     disabled={loading}
-    //     onClick={handleAddToCart}
-    //     className="mt-2 flex gap-2"
-    //   >
-    //     <Cart className={`${loading ? "animate-spin" : ""}`} />
-    //     {loading ? "Adding" : "Add"} to Cart
-    //   </Button> */}
-    // </div>
+      <div className="flex flex-col gap-4">
+        <Link href={`/book/${id}`}>
+          <BookCardTitle title={book.title} />
+          <p className="text-gray-400 text-[0.8125rem] leading-4.5 italic">
+            {book.genre}
+          </p>
+          <BookCardAuthor author={book.author} />
+          <BookCardRating rating={4.5} />
+        </Link>
+        <AddToCart listing={listing} />
+      </div>
+    </div>
   );
 }
