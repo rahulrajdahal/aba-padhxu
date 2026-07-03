@@ -1,6 +1,6 @@
 import { authUserId } from "@/app/(auth)/middleware";
 import { ForbiddenError, NotFoundError } from "@/lib/errors";
-import { WishlistsService } from "./wishlists.service";
+import { wishlistsService } from "./wishlists.service";
 
 export const wishlistExists = async (listingId: string) => {
   try {
@@ -10,7 +10,7 @@ export const wishlistExists = async (listingId: string) => {
       throw new ForbiddenError();
     }
 
-    const wishlist = await WishlistsService.findByUserIdBookId(
+    const wishlist = await wishlistsService.findByUserIdBookId(
       userId as string,
       listingId,
     );
