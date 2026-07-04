@@ -1,6 +1,8 @@
 export { default as AdminPageLayout } from "./AdminPageLayout/AdminPageLayout";
 export { default as AvatarWithName } from "./AvatarWithName/AvatarWithName";
 export { default as BookCard } from "./BookCard/BookCard";
+export { default as BreadcrumbItem } from "./Breadcrumbs/BreadcrumbItem";
+export { default as Breadcrumbs } from "./Breadcrumbs/Breadcrumbs";
 export { default as Button } from "./Buttons/Button";
 export { default as CartCard } from "./CartCard/CartCard";
 export { default as DeleteModal } from "./DeleteModal/DeleteModal";

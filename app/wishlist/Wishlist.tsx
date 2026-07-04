@@ -47,7 +47,9 @@ export default function WishlistPage({
                               className="h-20 w-20 object-cover"
                             />
 
-                            <div>
+                            <Link
+                              href={`${routes.books}/${wishlistItem.book.slug}`}
+                            >
                               <strong className="text-lg">
                                 {wishlistItem.book.title}
                               </strong>
@@ -57,7 +59,7 @@ export default function WishlistPage({
                               <p className="text-sm text-gray-600">
                                 {wishlistItem.book.genre}
                               </p>
-                            </div>
+                            </Link>
                           </div>
                           {/* <AddToCart listing={book}/> */}
                         </div>

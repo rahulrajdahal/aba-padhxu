@@ -28,7 +28,7 @@ export default function CartItemCard({ cartItem }: CartItemCardProps) {
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900 font-serif">
             <h3>
-              <Link href={`${routes.listings}/${cartItem.listing.book.slug}`}>
+              <Link href={`${routes.listings}/${cartItem.listing.id}`}>
                 {cartItem.listing.book.title}
               </Link>
             </h3>

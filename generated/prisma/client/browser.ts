@@ -38,6 +38,11 @@ export type UserProfile = Prisma.UserProfileModel
  */
 export type UserAddress = Prisma.UserAddressModel
 /**
+ * Model Genre
+ * 
+ */
+export type Genre = Prisma.GenreModel
+/**
  * Model Book
  * 
  */

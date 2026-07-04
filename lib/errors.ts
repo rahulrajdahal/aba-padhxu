@@ -46,3 +46,13 @@ export class UnprocessableEntityError extends Error {
     this.name = "UnprocessableEntity Error";
   }
 }
+
+export class ValidationError extends Error {
+  constructor(
+    message = "Validation error",
+    public readonly errors: { [key: string]: string[] } = {},
+  ) {
+    super(message);
+    this.name = "Validation Error";
+  }
+}

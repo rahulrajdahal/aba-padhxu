@@ -55,6 +55,7 @@ export const ModelName = {
   Token: 'Token',
   UserProfile: 'UserProfile',
   UserAddress: 'UserAddress',
+  Genre: 'Genre',
   Book: 'Book',
   Listing: 'Listing',
   Cart: 'Cart',
@@ -147,6 +148,17 @@ export const UserAddressScalarFieldEnum = {
 export type UserAddressScalarFieldEnum = (typeof UserAddressScalarFieldEnum)[keyof typeof UserAddressScalarFieldEnum]
 
 
+export const GenreScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GenreScalarFieldEnum = (typeof GenreScalarFieldEnum)[keyof typeof GenreScalarFieldEnum]
+
+
 export const BookScalarFieldEnum = {
   id: 'id',
   isbn13: 'isbn13',
@@ -154,7 +166,7 @@ export const BookScalarFieldEnum = {
   slug: 'slug',
   description: 'description',
   author: 'author',
-  genre: 'genre',
+  genreId: 'genreId',
   publisher: 'publisher',
   publishedDate: 'publishedDate',
   image: 'image',
