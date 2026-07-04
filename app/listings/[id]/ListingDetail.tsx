@@ -1,4 +1,6 @@
 import { Button, Pill } from "@/components";
+import BreadcrumbItem from "@/components/Breadcrumbs/BreadcrumbItem";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import {
   Book,
   BookCondition,
@@ -30,16 +32,14 @@ export default function ListingDetail({
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-8">
-      {/* Breadcrumb Navigation */}
-      <nav className="text-sm text-gray-500 mb-6">
-        <a href={routes.books} className="hover:underline">
-          Books
-        </a>{" "}
-        &gt; <span>{listing.book.title}</span>
-      </nav>
+      <Breadcrumbs>
+        <BreadcrumbItem href={routes.listings}>Listings</BreadcrumbItem>
+        <BreadcrumbItem href={`${routes.listings}/${listing.id}`}>
+          {listing.book.title}
+        </BreadcrumbItem>
+      </Breadcrumbs>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        {/* Left Column: Image Media (4 cols) */}
         <div className="md:col-span-4 flex flex-col items-center">
           <div className="w-full aspect-3/4 rounded-lg bg-gray-100 shadow-md overflow-hidden border border-gray-200">
             <img
@@ -53,10 +53,8 @@ export default function ListingDetail({
           </p>
         </div>
 
-        {/* Right Column: Listing & Book Info (8 cols) */}
         <div className="md:col-span-8 flex flex-col justify-between">
           <div>
-            {/* Header */}
             <h1 className="text-3xl font-bold text-gray-900 leading-tight">
               {listing.book.title}
             </h1>
@@ -83,7 +81,6 @@ export default function ListingDetail({
               </Pill>
             </div>
 
-            {/* Quantity Status */}
             <p className="text-sm mt-2 font-medium">
               {listing.quantity > 1 ? (
                 <span className="text-gray-600">
@@ -96,7 +93,6 @@ export default function ListingDetail({
               )}
             </p>
 
-            {/* Seller Description */}
             <div className="mt-6 bg-gray-50 p-4 rounded-lg border border-gray-100">
               <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-2">
                 Seller Notes
@@ -108,7 +104,6 @@ export default function ListingDetail({
             </div>
           </div>
 
-          {/* Checkout Action Panel */}
           <div className="mt-8 pt-6 border-t border-gray-200">
             {isOwnListing ? (
               <Link
@@ -121,7 +116,6 @@ export default function ListingDetail({
             ) : (
               <div className="space-y-3">
                 <div className="flex gap-4">
-                  {/* <AddToCart listing={listing} /> */}
                   <Button size="lg" variant="outline" className="w-full">
                     Add to Cart
                   </Button>
