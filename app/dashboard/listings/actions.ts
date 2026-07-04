@@ -58,6 +58,14 @@ export const fetchListingById = authActionWrapper(async (id: string) => {
   return okResponse("Listing fetched!", listing);
 });
 
+export const fetchListingByIdWithBookAndSeller = authActionWrapper(
+  async (id: string) => {
+    const listing = await ListingsService.findByIdWithBookAndSeller(id);
+
+    return okResponse("Listing fetched!", listing);
+  },
+);
+
 export const fetchSellerListings = authActionWrapper(async () => {
   const sellerId = await authUserId();
 

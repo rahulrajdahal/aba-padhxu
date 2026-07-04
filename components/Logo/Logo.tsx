@@ -1,9 +1,15 @@
 "use client";
 
+import { routes } from "@/utils/routes";
 import { Notebook } from "@meistericons/react";
 
 export default function Logo() {
   const handleOnClick = () => {
+    const location = window.location.href;
+
+    if (location !== routes.home) {
+      globalThis.location.href = routes.home;
+    }
     globalThis.scrollTo({
       top: 0,
       behavior: "smooth",

@@ -43,6 +43,19 @@ export const ListingsDAL = {
     return listing;
   },
 
+  findByIdWithBookAndSeller: async (id: string) => {
+    const listing = await prisma.listing.findUnique({
+      where: { id },
+      include: {
+        book: true,
+        seller: {
+          include: { profile: { select: { firstName: true, lastName: true } } },
+        },
+      },
+    });
+    return listing;
+  },
+
   updateById: async (id: string, data: PatchListingDTO) => {
     const listing = await prisma.listing.update({ where: { id }, data });
     return listing;

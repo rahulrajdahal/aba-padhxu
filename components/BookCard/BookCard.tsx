@@ -34,7 +34,7 @@ export default function BookCard({
       />
 
       <div className="flex flex-col gap-4">
-        <Link href={`/book/${id}`}>
+        <Link href={`/listings/${id}`}>
           <BookCardTitle title={book.title} />
           <p className="text-gray-400 text-[0.8125rem] leading-4.5 italic">
             {book.genre}

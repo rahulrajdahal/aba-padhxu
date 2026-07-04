@@ -32,6 +32,10 @@ export const ListingsService = {
     return await ListingsDAL.findById(id);
   },
 
+  findByIdWithBookAndSeller: async (id: string) => {
+    return await ListingsDAL.findByIdWithBookAndSeller(id);
+  },
+
   findBySellerId: async (sellerId: string) => {
     return await ListingsDAL.findBySellerId(sellerId);
   },

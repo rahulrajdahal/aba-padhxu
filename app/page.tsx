@@ -20,20 +20,18 @@ export default async function page() {
       cartItemsCount={cartCount as number}
       wishlistItemsCount={wishlistItemsCount as number}
     >
-      <div className="min-h-screen bg-primary-50 text-gray-900 font-sans">
-        <Header />
-        <Categories />
-        <FeaturedBooks />
-        <Suspense fallback={<ListingsSkeleton />}>
-          <Listings
-            listings={
-              data as (Listing & {
-                book: Book & { wishlistItems: Wishlist[] };
-              })[]
-            }
-          />
-        </Suspense>
-      </div>
+      <Header />
+      <Categories />
+      <FeaturedBooks />
+      <Suspense fallback={<ListingsSkeleton />}>
+        <Listings
+          listings={
+            data as (Listing & {
+              book: Book & { wishlistItems: Wishlist[] };
+            })[]
+          }
+        />
+      </Suspense>
     </PublicPageLayout>
   );
 }
