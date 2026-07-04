@@ -1,5 +1,5 @@
 import { PublicPageLayout } from "@/components/layouts";
-import { Book, Listing } from "@/generated/prisma/client/client";
+import { Book, Listing, Wishlist } from "@/generated/prisma/client/client";
 import { Suspense } from "react";
 import { fetchAllListings } from "./actions";
 import { cartItemsCount } from "./cart/cartItems/actions";
@@ -25,7 +25,13 @@ export default async function page() {
         <Categories />
         <FeaturedBooks />
         <Suspense fallback={<ListingsSkeleton />}>
-          <Listings listings={data as (Listing & { book: Book })[]} />
+          <Listings
+            listings={
+              data as (Listing & {
+                book: Book & { wishlistItems: Wishlist[] };
+              })[]
+            }
+          />
         </Suspense>
       </div>
     </PublicPageLayout>

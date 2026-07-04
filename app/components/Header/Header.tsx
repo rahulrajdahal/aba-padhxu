@@ -1,14 +1,26 @@
+"use client";
+
 import { Button } from "@/components";
+import Pill from "@/components/Pill";
 import { ArrowRight } from "@meistericons/react";
 
 export default function Header() {
+  const handleBrowseBooks = () => {
+    const browseBooks = document.getElementById("listings");
+
+    if (browseBooks) {
+      globalThis.scrollBy({
+        top: browseBooks.getBoundingClientRect().top - 40,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <header className="relative bg-primary-100 overflow-hidden py-16 lg:py-24 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
         <div className="space-y-6 max-w-xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary-50 text-primary-700 rounded-full text-xs font-semibold tracking-wide uppercase">
-            ✨ Mid-Year Book Sale: up to 40% off
-          </div>
+          <Pill>✨ Mid-Year Book Sale: up to 40% off</Pill>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight">
             Discover Your Next{" "}
             <span className="text-primary-600">Great Adventure</span>
@@ -20,10 +32,14 @@ export default function Header() {
           <div className="flex flex-col sm:flex-row gap-4 pt-2">
             <Button
               rightIcon={
-                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight
+                  className="group-hover:translate-x-1 transition-transform"
+                  size={28}
+                />
               }
               size="lg"
               className="shadow-lg shadow-primary-200 transition-all  group"
+              onClick={handleBrowseBooks}
             >
               Browse Books
             </Button>

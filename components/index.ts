@@ -14,6 +14,7 @@ export { default as NotificationCard } from "./NotificationCard/NotificationCard
 export { default as NotificationsDropdown } from "./NotificationsDropdown/NotificationsDropdown";
 export { default as PageLayout } from "./PageLayout/PageLayout";
 export { default as PaymentMethod } from "./PaymentMethod/PaymentMethod";
+export { default as Pill } from "./Pill";
 export { default as Select } from "./Select/Select";
 export { default as StyledComponentsRegistry } from "./StyledComponentsRegistry";
 export { default as Switch } from "./Switch/Switch";
