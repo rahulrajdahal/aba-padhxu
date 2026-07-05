@@ -1,19 +1,29 @@
 import { PublicPageLayout } from "@/components/layouts";
-import { Book, Listing, Wishlist } from "@/generated/prisma/client/client";
+import {
+  Book,
+  Genre,
+  Listing,
+  Wishlist,
+} from "@/generated/prisma/client/client";
 import { Suspense } from "react";
-import { fetchAllListings } from "./actions";
+import { fetchAllGenresWithBookCount, fetchAllListings } from "./actions";
 import { cartItemsCount } from "./cart/cartItems/actions";
 import { Categories, FeaturedBooks, Header, Listings } from "./components";
 import ListingsSkeleton from "./components/ListingsSkeleton";
 import { fetchUserWishlistItemsCount } from "./dashboard/wishlists/actions";
 
 export default async function page() {
-  const [{ data }, { data: cartCount }, { data: wishlistItemsCount }] =
-    await Promise.all([
-      fetchAllListings(),
-      cartItemsCount(),
-      fetchUserWishlistItemsCount(),
-    ]);
+  const [
+    { data },
+    { data: genres },
+    { data: cartCount },
+    { data: wishlistItemsCount },
+  ] = await Promise.all([
+    fetchAllListings(),
+    fetchAllGenresWithBookCount(4),
+    cartItemsCount(),
+    fetchUserWishlistItemsCount(),
+  ]);
 
   return (
     <PublicPageLayout
@@ -21,7 +31,7 @@ export default async function page() {
       wishlistItemsCount={wishlistItemsCount as number}
     >
       <Header />
-      <Categories />
+      <Categories genres={genres as Genre[]} />
       <FeaturedBooks />
       <Suspense fallback={<ListingsSkeleton />}>
         <Listings

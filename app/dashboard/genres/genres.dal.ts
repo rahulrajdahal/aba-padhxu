@@ -9,6 +9,24 @@ export const genresDAL = {
 
   findAll: async () => await prisma.genre.findMany(),
 
+  findAllWithBooksCount: async (limit: number) =>
+    await prisma.genre.findMany({
+      take: limit,
+      where: {
+        books: {
+          some: { genreId: { not: undefined } },
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        _count: {
+          select: { books: true },
+        },
+      },
+    }),
+
   findById: async (id: string) =>
     await prisma.genre.findUnique({ where: { id } }),
 

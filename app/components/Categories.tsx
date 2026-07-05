@@ -1,3 +1,5 @@
+import Empty from "@/components/Empty/Empty";
+import { Genre } from "@/generated/prisma/client/client";
 import { ArrowRight, NotebookOpen } from "@meistericons/react";
 
 // Mock Data for the bookstore
@@ -20,7 +22,11 @@ const categories = [
   },
 ];
 
-export default function Categories() {
+interface CategoriesProps {
+  genres: Genre[];
+}
+
+export default function Categories({ genres }: CategoriesProps) {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="flex items-end justify-between mb-8">
@@ -41,22 +47,30 @@ export default function Categories() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {categories.map((category) => (
-          <div
-            key={category.name}
-            className={`p-6 rounded-2xl cursor-pointer hover:scale-[1.02] transition-all border border-gray-100 shadow-sm bg-white`}
-          >
+        {genres?.length > 0 ? (
+          genres.map((category) => (
             <div
-              className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${category.color.split(" ")[0]}`}
+              key={category.id}
+              className={`p-6 rounded-2xl cursor-pointer hover:scale-[1.02] transition-all border border-gray-100 shadow-sm bg-white`}
             >
-              <NotebookOpen
-                className={`h-5 w-5 ${category.color.split(" ")[1]}`}
-              />
+              <div
+                className={
+                  "w-10 h-10 rounded-xl flex items-center justify-center mb-4"
+                }
+              >
+                <NotebookOpen className="text-primary-500" size={20} />
+              </div>
+              <h3 className="font-bold text-gray-800 text-lg">
+                {category.name}
+              </h3>
+              <p className="text-gray-400 text-xs mt-1">
+                {category._count.books} books
+              </p>
             </div>
-            <h3 className="font-bold text-gray-800 text-lg">{category.name}</h3>
-            <p className="text-gray-400 text-xs mt-1">{category.count}</p>
-          </div>
-        ))}
+          ))
+        ) : (
+          <Empty icon={<NotebookOpen />} message="No categories found" />
+        )}
       </div>
     </section>
   );

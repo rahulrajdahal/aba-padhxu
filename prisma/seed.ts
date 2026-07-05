@@ -1,8 +1,12 @@
 import { prisma } from "./prisma";
 import seedBooks from "./seeds/books.seed";
+import seedGenres from "./seeds/genres.seed";
 import seedListings from "./seeds/listings.seed";
+import seedUsers from "./seeds/users.seed";
 
 async function main() {
+  await seedUsers();
+  await seedGenres();
   await seedBooks();
   await seedListings();
 }

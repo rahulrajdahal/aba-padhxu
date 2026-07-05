@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components";
+import Empty from "@/components/Empty/Empty";
 import { PublicPageLayout } from "@/components/layouts";
 import { Book, CartItem, Listing } from "@/generated/prisma/client/client";
 import { routes } from "@/utils/routes";
@@ -22,7 +23,7 @@ export default function Cart({
   cartCount,
   wishlistCount,
 }: Readonly<CartProps>) {
-  const subtotal = cartItems.reduce(
+  const subtotal = cartItems?.reduce(
     (sum, item) => sum + (item.listing.priceCents / 100) * item.quantity,
     0,
   );
@@ -68,22 +69,16 @@ export default function Cart({
             </div>
           </div>
         ) : (
-          <div className="py-16 px-4 text-center">
-            <div className="max-w-md mx-auto flex flex-col items-center">
-              <Bag className="h-16 w-16 text-gray-300 mb-4" />
-              <h2 className="text-2xl font-serif text-gray-800 font-bold mb-2">
-                Your reading cart is empty
-              </h2>
-              <p className="text-gray-600 mb-8">
-                Time to find your next great adventure!
-              </p>
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 bg-primary-700 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition-colors font-medium"
-              >
-                <ArrowLeft size={16} /> Browse the Shelves
-              </a>
-            </div>
+          <div className="flex flex-col items-center justify-center py-10 gap-8">
+            <Empty
+              icon={<Bag size={128} className="text-gray-400" />}
+              message="Time to find your next great adventure!"
+              title="Your reading cart is empty"
+              className="py-0!"
+            />
+            <Link href={routes.home}>
+              <Button leftIcon={<ArrowLeft size={16} />}>Browse Books</Button>
+            </Link>
           </div>
         )}
       </main>

@@ -132,9 +132,13 @@ export const authActionWrapper = (
   fn: (...args: any[]) => Promise<ActionResponse>,
 ) => {
   return actionWrapper(async (...args: any[]) => {
-    const isAuth = await isAuthenticated();
-    if (!isAuth) throw new UnAuthorizedError();
+    try {
+      const isAuth = await isAuthenticated();
+      if (!isAuth) throw new UnAuthorizedError();
 
-    return await fn(...args);
+      return await fn(...args);
+    } catch (error) {
+      throw error;
+    }
   });
 };

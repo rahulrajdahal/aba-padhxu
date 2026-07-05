@@ -24,7 +24,7 @@ export class ForbiddenError extends Error {
 }
 
 export class UnAuthorizedError extends Error {
-  constructor(message = "You do not have permission to perform this action.") {
+  constructor(message = "You are not logged in. Please login to continue.") {
     super(message);
     this.name = "UnAuthorized Error";
   }

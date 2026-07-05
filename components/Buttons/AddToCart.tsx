@@ -14,6 +14,7 @@ type AddToCartProps = {
 export default function AddToCart({ listing }: Readonly<AddToCartProps>) {
   const handleAddToCart = async (prevState: unknown, formData: FormData) => {
     const state = await addToCart(listing.id);
+    console.log(state, "state");
     if (state.type === "success") {
       toast.success("Item added to cart");
     } else {

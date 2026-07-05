@@ -5,8 +5,17 @@ import { prisma } from "../prisma";
 export default async function seedBooks() {
   console.log("Seeding books...");
   await prisma.book.deleteMany();
+  const genres = await prisma.genre.findMany({ select: { id: true } });
 
-  const booksToCreate = 20;
+  if (genres.length === 0) {
+    console.error(
+      "❌ Error: You must have Genres in the database before seeding books.",
+    );
+    process.exit(1);
+  }
+
+  const genreIds = genres.map((g) => g.id);
+  const booksToCreate = 120;
 
   for (let i = 0; i < booksToCreate; i++) {
     const title = faker.book.title();
@@ -22,9 +31,7 @@ export default async function seedBooks() {
           probability: 0.8,
         }),
         author: faker.book.author(),
-        genre: faker.helpers.maybe(() => faker.book.genre(), {
-          probability: 0.7,
-        }),
+        genreId: faker.helpers.arrayElement(genreIds),
         publisher: faker.helpers.maybe(() => faker.company.name(), {
           probability: 0.6,
         }),

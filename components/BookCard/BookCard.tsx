@@ -1,6 +1,11 @@
 "use client";
 
-import { Book, Listing, Wishlist } from "@/generated/prisma/client/client";
+import {
+  Book,
+  Genre,
+  Listing,
+  Wishlist,
+} from "@/generated/prisma/client/client";
 import Link from "next/link";
 import { AddToCart } from "../Buttons";
 import BookCardAuthor from "./BookCardAuthor/BookCardAuthor";
@@ -13,7 +18,7 @@ export default function BookCard({
   listing,
 }: Readonly<{
   listing: Pick<Listing, "bookId" | "quantity" | "priceCents" | "id"> & {
-    book: Book & { wishlistItems: Wishlist[] };
+    book: Book & { genre: Pick<Genre, "name"> } & { wishlistItems: Wishlist[] };
   };
 }>) {
   const { book, id, priceCents, bookId } = listing;
@@ -37,7 +42,7 @@ export default function BookCard({
         <Link href={`/listings/${id}`}>
           <BookCardTitle title={book.title} />
           <p className="text-gray-400 text-[0.8125rem] leading-4.5 italic">
-            {book.genre}
+            {book.genre.name}
           </p>
           <BookCardAuthor author={book.author} />
           <BookCardRating rating={4.5} />

@@ -2,6 +2,7 @@
 
 import {
   actionWrapper,
+  authActionWrapper,
   badRequestError,
   invalidRequestError,
   noContentResponse,
@@ -13,6 +14,7 @@ import { authUserId } from "./(auth)/middleware";
 import { cartService } from "./cart/cart.service";
 import { addCartItem } from "./cart/cartItems/actions";
 import { cartItemsService } from "./cart/cartItems/cartItems.service";
+import { genresService } from "./dashboard/genres/genres.service";
 import { listingExists } from "./dashboard/listings/listings.middleware";
 import { ListingsService } from "./dashboard/listings/listings.service";
 
@@ -22,7 +24,15 @@ export const fetchAllListings = actionWrapper(async (query?: string) => {
   return okResponse("Listings fetched successfully", listings);
 });
 
-export const addToCart = actionWrapper(async (listingId: string) => {
+export const fetchAllGenresWithBookCount = actionWrapper(
+  async (limit: number) => {
+    const genres = await genresService.findAllWithBooksCount(limit);
+
+    return okResponse("Genres fetched successfully", genres);
+  },
+);
+
+export const addToCart = authActionWrapper(async (listingId: string) => {
   const listing = await listingExists(listingId);
   if (!listing) {
     return invalidRequestError();
@@ -55,10 +65,10 @@ export const addToCart = actionWrapper(async (listingId: string) => {
   const formData = new FormData();
   formData.append("listingId", listingId);
 
-  await addCartItem(null, formData);
+  const cartItemResponse = await addCartItem(null, formData);
 
   revalidatePath(routes.home);
   revalidatePath(routes.cart);
 
-  return okResponse("Cart item added successfully", listing);
+  return cartItemResponse;
 });
