@@ -38,6 +38,13 @@ const sellerLinks = [
 const adminLinks = [
   ...sellerLinks,
   { id: 8, label: "All Users", href: `${routes.dashboard}${routes.users}` },
+  { id: 9, label: "Add User", href: `${routes.dashboard}${routes.users}/add` },
+  { id: 10, label: "All Genres", href: `${routes.dashboard}${routes.genres}` },
+  {
+    id: 11,
+    label: "Add Genre",
+    href: `${routes.dashboard}${routes.genres}/add`,
+  },
 ];
 
 type DashboardSidebarProps = {

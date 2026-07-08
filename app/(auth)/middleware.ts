@@ -1,6 +1,6 @@
 import "server-only";
 
-import { ForbiddenError, UnAuthorizedError } from "@/lib/errors";
+import { ForbiddenError } from "@/lib/errors";
 import { decryptJWT, encryptJWT, expiresAt } from "@/utils/auth";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
@@ -80,17 +80,12 @@ export const isUserActive = async (email: string) => {
 
 export const isAuthenticated = async () => {
   const { isAuth } = await verifySession();
-  if (!isAuth) {
-    throw new UnAuthorizedError();
-  }
 
   return isAuth;
 };
 export const authUserId = async () => {
   const { userId } = await verifySession();
-  if (!userId) {
-    throw new ForbiddenError();
-  }
+
   return userId;
 };
 

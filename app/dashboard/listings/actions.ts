@@ -3,6 +3,7 @@
 import { authUserId } from "@/app/(auth)/middleware";
 import { BookCondition } from "@/generated/prisma/client/enums";
 import {
+  actionWrapper,
   authActionWrapper,
   createdResponse,
   forbiddenError,
@@ -58,7 +59,7 @@ export const fetchListingById = authActionWrapper(async (id: string) => {
   return okResponse("Listing fetched!", listing);
 });
 
-export const fetchListingByIdWithBookAndSeller = authActionWrapper(
+export const fetchListingByIdWithBookAndSeller = actionWrapper(
   async (id: string) => {
     const listing = await ListingsService.findByIdWithBookAndSeller(id);
 

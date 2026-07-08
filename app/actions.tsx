@@ -43,6 +43,8 @@ export const addToCart = authActionWrapper(async (listingId: string) => {
     return invalidRequestError();
   }
 
+  console.log(userId, "userid");
+
   const cart = await cartService.findByUserId(userId as string);
 
   if (cart) {

@@ -16,12 +16,14 @@ interface ListingPageProps {
     book: Book;
     seller: User & { profile: Pick<UserProfile, "firstName" | "lastName"> };
   };
-  currentUserId: string;
+  currentUserId?: string;
+  isAuth?: boolean;
 }
 
 export default function ListingDetail({
   listing,
   currentUserId,
+  isAuth = false,
 }: ListingPageProps) {
   const formattedPrice = (listing.priceCents / 100).toLocaleString("en-US", {
     style: "currency",
@@ -115,33 +117,43 @@ export default function ListingDetail({
               </Link>
             ) : (
               <div className="space-y-3">
-                <div className="flex gap-4">
-                  <Button size="lg" variant="outline" className="w-full">
-                    Add to Cart
-                  </Button>
-                  <Button size="lg" variant="filled" className="w-full">
-                    Buy It Now
-                  </Button>
-                </div>
+                {isAuth ? (
+                  <div className="flex gap-4">
+                    <Button size="lg" variant="outline" className="w-full">
+                      Add to Cart
+                    </Button>
+                    <Button size="lg" variant="filled" className="w-full">
+                      Buy It Now
+                    </Button>
+                  </div>
+                ) : (
+                  <Link href={routes.login}>
+                    <Button size="lg" className="w-full">
+                      Login to Buy
+                    </Button>
+                  </Link>
+                )}
 
                 <div className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-md mt-4">
                   <div className="text-sm">
                     <span className="text-gray-500">Sold by </span>
-                    <a
-                      href={`/user/${listing.seller.id}`}
+                    <Link
+                      href={`/user/${listing.sellerId}`}
                       className="font-semibold text-indigo-600 hover:underline"
                     >
                       {listing.seller.profile.firstName}{" "}
                       {listing.seller.profile.lastName}
-                    </a>
+                    </Link>
                   </div>
-                  <Button
-                    size="sm"
-                    variant="filled"
-                    className="bg-gray-50! text-gray-950!"
-                  >
-                    💬 Chat with Seller
-                  </Button>
+                  {isAuth && (
+                    <Button
+                      size="sm"
+                      variant="filled"
+                      className="bg-gray-50! text-gray-950!"
+                    >
+                      💬 Chat with Seller
+                    </Button>
+                  )}
                 </div>
               </div>
             )}

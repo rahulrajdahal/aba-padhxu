@@ -62,7 +62,7 @@ export default function WishlistBadge({
         disabled={isPending || isPendingRemove}
         aria-disabled={isPending || isPendingRemove}
         className={mergeClassNames(
-          "absolute top-3 right-3 p-2 rounded-full bg-primary-50/80 backdrop-blur-sm shadow-sm text-primary-100 hover:text-red-500 transition disabled:animate-pulse disabled:cursor-not-allowed",
+          "absolute top-3 right-3 p-2 rounded-full bg-primary-100/40 backdrop-blur-sm shadow-sm text-primary-200 hover:text-red-500 transition disabled:animate-pulse disabled:cursor-not-allowed",
           isPending || isPendingRemove
             ? "animate-spin hover:cursor-progress"
             : "",

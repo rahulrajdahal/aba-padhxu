@@ -9,12 +9,28 @@ async function createUsers() {
   const usersToCreate = 10;
   const password = faker.internet.password();
 
+  await prisma.user.create({
+    data: {
+      email: "rehidoc174@besenica.com",
+      passwordHash: bcrypt.hashSync("Pa$$w0rd!", 10),
+      isActive: true,
+      isAdmin: true,
+      profile: {
+        create: {
+          firstName: "New",
+          lastName: "admin",
+          avatar: faker.image.avatar(),
+          isSeller: true,
+        },
+      },
+    },
+  });
+
   for (let i = 0; i < usersToCreate; i++) {
     await prisma.user.create({
       data: {
         email: faker.internet.email(),
-        passwordHash: bcrypt.hashSync(password, 10),
-        isAdmin: faker.datatype.boolean(),
+        passwordHash: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
         isActive: true,
       },
     });
