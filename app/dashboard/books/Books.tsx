@@ -1,16 +1,17 @@
 "use client";
 
 import { AvatarWithName, TableActions, TablePage } from "@/components";
-import { Book } from "@/generated/prisma/client/client";
+import { Book, Genre } from "@/generated/prisma/client/client";
 import { routes } from "@/utils/routes";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import parse from "html-react-parser";
 import toast from "react-hot-toast";
 import { deleteBookById } from "./actions";
 
-type BooksProps = Readonly<{ books: Book[] }>;
+type BooksProps = Readonly<{ books: Book & { genre: Pick<Genre, "name"> }[] }>;
 export default function Books({ books }: BooksProps) {
-  const columnHelper = createColumnHelper<Partial<Book>>();
+  const columnHelper =
+    createColumnHelper<Partial<Book & { genre: Pick<Genre, "name"> }>>();
 
   const columns = [
     columnHelper.accessor("title", {
@@ -34,7 +35,7 @@ export default function Books({ books }: BooksProps) {
       header: "Author",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("genre", {
+    columnHelper.accessor("genre.name", {
       header: "Genre",
       cell: (info) => info.getValue(),
     }),

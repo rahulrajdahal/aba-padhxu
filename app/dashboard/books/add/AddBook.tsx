@@ -1,16 +1,19 @@
 "use client";
 
-import { Button, Input } from "@/components";
+import { Button, Input, Select } from "@/components";
 import Textarea from "@/components/Textarea/Textarea";
+import { Genre } from "@/generated/prisma/client/client";
 import { routes } from "@/utils/routes";
 import { useRouter } from "next/navigation";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
 import { addBook } from "../actions";
 
-interface AddBookProps {}
+interface AddBookProps {
+  genres: Genre[];
+}
 
-export default function AddBook({}: Readonly<AddBookProps>) {
+export default function AddBook({ genres }: Readonly<AddBookProps>) {
   const router = useRouter();
 
   const handleAddBook = async (prevState: unknown, formData: FormData) => {
@@ -59,7 +62,15 @@ export default function AddBook({}: Readonly<AddBookProps>) {
         name="author"
         required
       />
-      <Input label="Genre" errors={state?.errors?.genre} name="genre" />
+      <Select
+        label="Genre"
+        errors={state?.errors?.genre}
+        name="genreId"
+        options={genres.map((genre) => ({
+          value: genre.id,
+          label: genre.name,
+        }))}
+      />
       <Input
         label="Publisher"
         errors={state?.errors?.publisher}

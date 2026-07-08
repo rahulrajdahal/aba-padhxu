@@ -7,6 +7,13 @@ export const create = async (data: CreateBookDTO) =>
 
 export const findAll = async () => await prisma.book.findMany();
 
+export const findAllWithGenre = async () =>
+  await prisma.book.findMany({
+    include: {
+      genre: true,
+    },
+  });
+
 export const findById = async (id: string) =>
   await prisma.book.findUnique({ where: { id } });
 

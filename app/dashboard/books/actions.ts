@@ -23,9 +23,9 @@ export const addBook = authActionWrapper(
       title: formData.get("title") as string,
       description: formData.get("description") as string,
       author: formData.get("author") as string,
-      genre: formData.get("genre") as string,
       publisher: formData.get("publisher") as string,
       publishedDate: formData.get("publishedDate") as string,
+      genreId: formData.get("genreId") as string,
     };
 
     const image = formData.get("image") as File;
@@ -54,8 +54,8 @@ export const addBook = authActionWrapper(
   },
 );
 
-export const fetchAllBooks = authActionWrapper(async () => {
-  const books = await BookService.findAllBooks();
+export const fetchAllBooksWithGenre = authActionWrapper(async () => {
+  const books = await BookService.findAllBooksWithGenre();
 
   return okResponse("Books fetched successfully", books);
 });
@@ -78,8 +78,7 @@ export const updateBookById = async (id: string, formData: FormData) => {
     const genre = formData.get("genre") as string;
     const isbn13 = formData.get("isbn13") as string;
     const publisher = formData.get("publisher") as string;
-
-    console.log(image, "image");
+    const genreId = formData.get("genreId") as string;
 
     const validateBody = updateBookSchema.safeParse({
       title,
@@ -112,15 +111,15 @@ export const updateBookById = async (id: string, formData: FormData) => {
     if (author) {
       body.author = author;
     }
-    if (genre) {
-      body.genre = genre;
+    if (genreId) {
+      body.genreId = genreId;
     }
 
     if (image?.size > 0) {
       removeUploadFile(image.name, "books");
-      body.image = await fileUpload(image, "books", {
+      body.image = (await fileUpload(image, "books", {
         transformation: { width: 60, height: 60, crop: "thumb" },
-      });
+      })) as string;
     }
 
     await BookService.patchBookById(id, body);

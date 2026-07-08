@@ -1,9 +1,9 @@
-import { Book } from "@/generated/prisma/client/client";
+import { Book, Genre } from "@/generated/prisma/client/client";
 import Books from "./Books";
-import { fetchAllBooks } from "./actions";
+import { fetchAllBooksWithGenre } from "./actions";
 
 export default async function page() {
-  const { data } = await fetchAllBooks();
+  const { data } = await fetchAllBooksWithGenre();
 
-  return <Books books={data as Book[]} />;
+  return <Books books={data as (Book & { genre: Genre })[]} />;
 }

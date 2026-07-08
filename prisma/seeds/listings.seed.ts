@@ -17,7 +17,7 @@ export default async function seedListings() {
 
   await prisma.listing.deleteMany();
 
-  const listingsToCreate = 50;
+  const listingsToCreate = 1500;
   const userIds = users.map((u) => u.id);
   const bookIds = books.map((b) => b.id);
 

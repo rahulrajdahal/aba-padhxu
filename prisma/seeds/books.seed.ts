@@ -15,7 +15,7 @@ export default async function seedBooks() {
   }
 
   const genreIds = genres.map((g) => g.id);
-  const booksToCreate = 120;
+  const booksToCreate = 1200;
 
   for (let i = 0; i < booksToCreate; i++) {
     const title = faker.book.title();

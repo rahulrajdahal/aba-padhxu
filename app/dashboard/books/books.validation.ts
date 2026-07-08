@@ -6,7 +6,7 @@ export const bookSchema = z.object({
   isbn13: z.string().max(13, "Max 13 digits.").min(13, "Min 13 digits."),
   description: z.string().min(2, "Min 20 characters.").optional(),
   author: z.string(),
-  genre: z.string(),
+  genreId: z.string(),
   publisher: z.string(),
   publishedDate: z.string(),
   image: z
@@ -23,7 +23,7 @@ export const updateBookSchema = z.object({
     .min(13, "Min 13 digits.")
     .optional(),
   author: z.string().optional(),
-  genre: z.string().optional(),
+  genreId: z.string().optional(),
   publisher: z.string().optional(),
   publishedDate: z.string().optional(),
   description: z.string().min(20, "Min 20 characters.").optional(),
