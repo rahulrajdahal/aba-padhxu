@@ -1,3 +1,5 @@
+import "server-only";
+
 import { Prisma } from "@/generated/prisma/client/client";
 import { NotFoundError, ValidationError } from "@/lib/errors";
 import { genresDAL } from "./genres.dal";

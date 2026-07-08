@@ -1,8 +1,13 @@
+"use server";
+
 import {
   authActionWrapper,
+  createdResponse,
   noContentResponse,
   okResponse,
 } from "@/lib/responses";
+import { routes } from "@/utils/routes";
+import { revalidatePath } from "next/cache";
 import { genresService } from "./genres.service";
 
 export const addGenre = authActionWrapper(
@@ -12,9 +17,9 @@ export const addGenre = authActionWrapper(
       description: (formData.get("description") as string) ?? "",
     };
 
-    const genres = await genresService.create(body);
+    const genreId = await genresService.create(body);
 
-    return okResponse("Genres fetched successfully", genres);
+    return createdResponse("Genre created successfully", genreId);
   },
 );
 
@@ -39,12 +44,13 @@ export const updateGenreById = authActionWrapper(
 
     await genresService.updateById(id, body);
 
-    return noContentResponse("Genre updated successfully");
+    return noContentResponse();
   },
 );
 
 export const deleteGenreById = authActionWrapper(async (id: string) => {
   await genresService.deleteById(id);
 
-  return noContentResponse("Genre deleted successfully");
+  revalidatePath(`${routes.dashboard}${routes.genres}`);
+  return noContentResponse();
 });

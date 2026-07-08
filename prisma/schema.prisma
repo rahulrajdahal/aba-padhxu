@@ -128,7 +128,7 @@ model UserAddress {
 
 model Genre {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String
+  name        String   @unique
   description String?
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz

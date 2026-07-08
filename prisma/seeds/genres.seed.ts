@@ -5,14 +5,17 @@ export default async function seedGenres() {
   console.log("Seeding genres...");
   await prisma.genre.deleteMany();
 
-  const genresToCreate = 80;
+  const genresToCreate = 20;
+
+  const genreTitles = faker.helpers.uniqueArray(
+    faker.book.genre,
+    genresToCreate,
+  );
 
   for (let i = 0; i < genresToCreate; i++) {
-    const title = faker.book.genre();
-
     await prisma.genre.create({
       data: {
-        name: title,
+        name: genreTitles[i],
         description: faker.helpers.maybe(() => faker.lorem.paragraph(), {
           probability: 0.8,
         }),

@@ -196,15 +196,15 @@ export type GenreOrderByWithRelationInput = {
 
 export type GenreWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  name?: string
   AND?: Prisma.GenreWhereInput | Prisma.GenreWhereInput[]
   OR?: Prisma.GenreWhereInput[]
   NOT?: Prisma.GenreWhereInput | Prisma.GenreWhereInput[]
-  name?: Prisma.StringFilter<"Genre"> | string
   description?: Prisma.StringNullableFilter<"Genre"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Genre"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Genre"> | Date | string
   books?: Prisma.BookListRelationFilter
-}, "id">
+}, "id" | "name">
 
 export type GenreOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
