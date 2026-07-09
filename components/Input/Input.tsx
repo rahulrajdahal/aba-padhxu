@@ -16,19 +16,17 @@ type InputProps = React.ComponentProps<"input"> & {
   wrapperClassName?: string;
 };
 
-export default function Input(props: InputProps) {
-  const {
-    label,
-    helperText,
-    errors,
-    iconLeft,
-    required,
-    iconRight,
-    wrapperClassName = "",
-    className = "",
-    ...rest
-  } = props;
-
+export default function Input({
+  label,
+  helperText,
+  errors,
+  iconLeft,
+  required,
+  iconRight,
+  wrapperClassName = "",
+  className = "",
+  ...props
+}: InputProps) {
   const hasErrors = Boolean(errors && errors.length > 0);
   const inputId = React.useId();
 
@@ -74,7 +72,7 @@ export default function Input(props: InputProps) {
             iconLeft ? "pl-8" : iconRight ? "pr-8" : "",
             className,
           )}
-          {...rest}
+          {...props}
         />
         {iconRight && (
           <div

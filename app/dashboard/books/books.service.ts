@@ -2,9 +2,10 @@ import "server-only";
 
 import { Book } from "@/generated/prisma/client/client";
 import {
+  count,
   create,
-  findAll,
   findAllWithGenre,
+  findAllWithGenreName,
   findById,
   findBySlug,
   removeById,
@@ -18,9 +19,16 @@ export const BookService = {
     return book.id;
   },
 
-  findAllBooks: async () => await findAll(),
+  count: async (query?: string) => await count(query),
 
-  findAllBooksWithGenre: async () => await findAllWithGenre(),
+  findAllBooksWithGenre: async (limit: number, offset: number) =>
+    await findAllWithGenre(limit, offset),
+
+  findAllBooksWithGenreName: async (
+    limit: number,
+    offset: number,
+    query?: string,
+  ) => await findAllWithGenreName(limit, offset, query),
 
   findBookById: async (id: string) => mapBookDTO((await findById(id)) as Book),
 

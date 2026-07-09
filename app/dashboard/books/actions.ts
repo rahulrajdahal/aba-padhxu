@@ -54,11 +54,23 @@ export const addBook = authActionWrapper(
   },
 );
 
-export const fetchAllBooksWithGenre = authActionWrapper(async () => {
-  const books = await BookService.findAllBooksWithGenre();
+export const fetchBooksCount = authActionWrapper(async (query?: string) => {
+  const books = await BookService.count(query);
 
-  return okResponse("Books fetched successfully", books);
+  return okResponse("Books count fetched successfully", books);
 });
+
+export const fetchAllBooksWithGenreName = authActionWrapper(
+  async (limit, offset, query?: string) => {
+    const books = await BookService.findAllBooksWithGenreName(
+      limit,
+      offset,
+      query,
+    );
+
+    return okResponse("Books fetched successfully", books);
+  },
+);
 
 export const fetchBookBySlug = authActionWrapper(async (slug: string) => {
   const book = await BookService.findBookBySlug(slug);

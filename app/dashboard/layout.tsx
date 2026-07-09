@@ -19,7 +19,7 @@ export default async function AdminLayout({ children }: IAdminLayout) {
   return (
     <div className="flex h-screen w-screen">
       <DashboardSidebar isSeller={user.isSeller} isAdmin={user.isAdmin} />
-      <main className="flex flex-col w-[calc(100%-15rem)] max-h-screen overflow-y-scroll">
+      <main className="flex flex-col w-[calc(100%-15rem)] max-h-screen overflow-y-scroll scrollbar-none">
         <DashboardNavbar
           user={{
             avatar: user.avatar,

@@ -17,7 +17,7 @@ type ErrorStatusCode = 400 | 401 | 403 | 404 | 409 | 422 | 500;
 type StatusCode = SuccessStatusCode | ErrorStatusCode;
 type ResponseType = "error" | "success";
 
-interface ActionResponse {
+export interface ActionResponse {
   type: ResponseType;
   message: string;
   status: StatusCode;

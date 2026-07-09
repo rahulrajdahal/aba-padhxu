@@ -1,0 +1,41 @@
+"use client";
+
+import { redirect, useSearchParams } from "next/navigation";
+import React from "react";
+import Input from "../Input/Input";
+import Pagination from "./Pagination";
+
+interface TableFooterProps {
+  totalPages: number;
+}
+
+export default function TableFooter({
+  totalPages,
+}: Readonly<TableFooterProps>) {
+  const searchParams = useSearchParams();
+
+  const limit = Number(searchParams.get("limit")) ?? 1;
+
+  const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("limit", String(event.target.value));
+    redirect(`?${params.toString()}`);
+  };
+
+  return (
+    <div className="flex items-center justify-between border-t border-neutral-100 bg-neutral-50/30 px-6 py-4">
+      <Input
+        label="Number of items"
+        type="number"
+        className="py-0! w-fit!"
+        wrapperClassName="w-min!"
+        onChange={handleLimitChange}
+        defaultValue={limit}
+        min={1}
+        max={totalPages * limit}
+      />
+
+      <Pagination totalPages={totalPages} />
+    </div>
+  );
+}
