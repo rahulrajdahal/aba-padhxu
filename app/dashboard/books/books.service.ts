@@ -19,7 +19,7 @@ export const BookService = {
     return book.id;
   },
 
-  count: async (query?: string) => await count(query),
+  count: async (query?: string, genre?: string) => await count(query, genre),
 
   findAllBooksWithGenre: async (limit: number, offset: number) =>
     await findAllWithGenre(limit, offset),
@@ -28,7 +28,8 @@ export const BookService = {
     limit: number,
     offset: number,
     query?: string,
-  ) => await findAllWithGenreName(limit, offset, query),
+    genre?: string,
+  ) => await findAllWithGenreName(limit, offset, query, genre),
 
   findBookById: async (id: string) => mapBookDTO((await findById(id)) as Book),
 

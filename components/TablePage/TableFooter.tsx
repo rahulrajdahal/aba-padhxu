@@ -1,20 +1,30 @@
 "use client";
 
 import { redirect, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useMemo } from "react";
 import Input from "../Input/Input";
 import Pagination from "./Pagination";
 
 interface TableFooterProps {
-  totalPages: number;
+  totalItems: number;
 }
 
 export default function TableFooter({
-  totalPages,
+  totalItems,
 }: Readonly<TableFooterProps>) {
   const searchParams = useSearchParams();
 
-  const limit = Number(searchParams.get("limit")) ?? 1;
+  const limit = Number(searchParams.get("limit") ?? 20);
+
+  const totalPages = useMemo(
+    () => Math.ceil(totalItems / limit),
+    [limit, totalItems],
+  );
+
+  const defaultValue = useMemo(
+    () => (limit > totalItems ? totalItems : limit),
+    [limit, totalItems],
+  );
 
   const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -28,11 +38,11 @@ export default function TableFooter({
         label="Number of items"
         type="number"
         className="py-0! w-fit!"
-        wrapperClassName="w-min!"
+        wrapperClassName="w-fit!"
         onChange={handleLimitChange}
-        defaultValue={limit}
+        defaultValue={defaultValue}
         min={1}
-        max={totalPages * limit}
+        max={totalItems}
       />
 
       <Pagination totalPages={totalPages} />

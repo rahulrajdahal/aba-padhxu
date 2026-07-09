@@ -37,7 +37,7 @@ export default function DashboardNavbar({
       {...props}
       className={`${props.className} flex items-center sticky top-0 z-50 justify-between w-full bg-white shadow-sm px-4 py-4`}
     >
-      <h1 className="text-h1 capitalize font-bold">{title}</h1>
+      <h1 className="text-h2 capitalize font-bold">{title}</h1>
 
       <div className="flex items-center gap-2">
         <div className="flex flex-col -space-y-1">

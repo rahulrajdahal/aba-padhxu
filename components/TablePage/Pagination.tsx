@@ -6,7 +6,7 @@ interface PaginationProps {
 }
 export default function Pagination({ totalPages }: Readonly<PaginationProps>) {
   const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get("page")) ?? 1;
+  const currentPage = Number(searchParams.get("page") || 1);
 
   const handlePageChange = (direction: "next" | "previous") => {
     const params = new URLSearchParams(searchParams.toString());

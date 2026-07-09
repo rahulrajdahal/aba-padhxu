@@ -9,7 +9,6 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import TableFooter from "./TableFooter";
 
@@ -17,21 +16,14 @@ interface ITablePage extends React.ComponentPropsWithoutRef<"div"> {
   data: unknown[];
   columns: ColumnDef<any, any>[];
   loading?: boolean;
-  currentPage?: number;
-  totalPages?: number;
-  onPageChange?: (page: number) => void;
-  onLimitChange?: (limit: number) => void;
+  totalItems?: number;
 }
 
 export default function TablePage({
   data,
   columns,
-
   loading = false,
-  currentPage = 1,
-  totalPages = 1,
-  onPageChange,
-  onLimitChange,
+  totalItems = 20,
 }: Readonly<ITablePage>) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -46,9 +38,6 @@ export default function TablePage({
     getSortedRowModel: getSortedRowModel(),
   });
 
-  const searchParams = useSearchParams();
-
-  const limit = Number(searchParams.get("limit"));
   return (
     <div className="w-full space-y-8">
       <div className="overflow-hidden rounded-2xl">
@@ -57,7 +46,7 @@ export default function TablePage({
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-500 border-t-transparent" />
           </div>
         ) : (
-          <div className="overflow-x-auto h-[calc(100vh-16rem)]">
+          <div className="overflow-x-auto h-[calc(100vh-16.8rem)]">
             <table className="w-full text-left">
               <thead>
                 {table.getHeaderGroups().map((headerGroup, idx) => (
@@ -132,7 +121,7 @@ export default function TablePage({
           </div>
         )}
 
-        <TableFooter totalPages={totalPages} />
+        <TableFooter totalItems={totalItems} />
       </div>
     </div>
   );

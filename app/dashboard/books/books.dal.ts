@@ -5,7 +5,7 @@ import { CreateBookDTO, PatchBookDTO } from "./books.dto";
 export const create = async (data: CreateBookDTO) =>
   await prisma.book.create({ data });
 
-export const count = async (query?: string) =>
+export const count = async (query?: string, genre?: string) =>
   await prisma.book.count({
     ...(query && {
       where: {
@@ -16,6 +16,22 @@ export const count = async (query?: string) =>
         ],
       },
     }),
+    ...(genre && {
+      where: {
+        genre: { name: { contains: genre, mode: "insensitive" } },
+      },
+    }),
+    ...(query &&
+      genre && {
+        where: {
+          OR: [
+            { title: { contains: query, mode: "insensitive" } },
+            { author: { contains: query, mode: "insensitive" } },
+            { isbn13: { contains: query, mode: "insensitive" } },
+          ],
+          genre: { name: { contains: genre, mode: "insensitive" } },
+        },
+      }),
   });
 
 export const findAll = async () => await prisma.book.findMany();
@@ -32,6 +48,7 @@ export const findAllWithGenreName = async (
   limit = 20,
   offset = 0,
   query?: string,
+  genre?: string,
 ) =>
   await prisma.book.findMany({
     take: limit,
@@ -48,6 +65,22 @@ export const findAllWithGenreName = async (
         ],
       },
     }),
+    ...(genre && {
+      where: {
+        genre: { name: { contains: genre, mode: "insensitive" } },
+      },
+    }),
+    ...(query &&
+      genre && {
+        where: {
+          OR: [
+            { title: { contains: query, mode: "insensitive" } },
+            { author: { contains: query, mode: "insensitive" } },
+            { isbn13: { contains: query, mode: "insensitive" } },
+          ],
+          genre: { name: { contains: genre, mode: "insensitive" } },
+        },
+      }),
   });
 
 export const findById = async (id: string) =>

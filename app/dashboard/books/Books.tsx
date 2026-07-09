@@ -1,6 +1,12 @@
 "use client";
 
-import { AvatarWithName, Input, TableActions, TablePage } from "@/components";
+import {
+  AvatarWithName,
+  Input,
+  Select,
+  TableActions,
+  TablePage,
+} from "@/components";
 import { Book, Genre } from "@/generated/prisma/client/client";
 import { useDebounce } from "@/hooks";
 import { routes } from "@/utils/routes";
@@ -8,7 +14,7 @@ import { Search } from "@meistericons/react";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import parse from "html-react-parser";
 import { redirect, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { deleteBookById } from "./actions";
 
@@ -16,13 +22,13 @@ type BooksProps = Readonly<{
   books: (Book & { genre: Pick<Genre, "name"> })[];
   totalBooks: number;
   currentPage: number;
-  limit: number;
+  genres: Genre[];
 }>;
 export default function Books({
-  limit,
   books,
   currentPage,
   totalBooks,
+  genres,
 }: BooksProps) {
   const columnHelper =
     createColumnHelper<Partial<Book & { genre: Pick<Genre, "name"> }>>();
@@ -96,25 +102,18 @@ export default function Books({
     }),
   ] as ColumnDef<unknown, unknown>[];
 
-  const totalPages = useMemo(
-    () => Math.ceil(totalBooks / limit),
-    [limit, totalBooks],
-  );
+  const searchParams = useSearchParams();
 
-  const handlePageChange = useCallback(
-    (page: number) => {
-      const params = new URLSearchParams(searchParams.toString());
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", String(page));
+    redirect(`?${params.toString()}`);
+  };
 
-      params.set("page", String(page));
-      // params.set("limit", String(limit));
+  const defaultQuery = searchParams.get("query") ?? "";
 
-      redirect(`${routes.dashboard}${routes.books}?${params.toString()}`);
-    },
-    [limit],
-  );
-
-  const [query, setQuery] = useState("");
-  const lastQuery = useDebounce(query, 700);
+  const [query, setQuery] = useState<string>();
+  const lastQuery = useDebounce(String(query), 700);
 
   const handleOnChange: React.ChangeEventHandler<
     HTMLInputElement,
@@ -122,13 +121,19 @@ export default function Books({
   > = (e) => setQuery(e.target.value);
 
   useEffect(() => {
-    if (lastQuery) {
-      const newUrl = `${routes.dashboard}${routes.books}?page=${currentPage}&query=${lastQuery}`;
-      redirect(newUrl);
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (lastQuery !== "undefined") {
+      params.set("query", String(lastQuery));
+      params.delete("page");
+
+      if (lastQuery === "") {
+        params.delete("query");
+      }
+      redirect(`?${params.toString()}`);
     }
   }, [lastQuery]);
 
-  const searchParams = useSearchParams();
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -137,19 +142,21 @@ export default function Books({
     }
   }, [searchParams]);
 
-  const handleLimitChange = (limit: number) => {
+  const handleGenreOnChange: React.ChangeEventHandler<
+    HTMLSelectElement,
+    HTMLSelectElement
+  > = (e) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("limit", String(limit));
-    if (currentPage > totalPages) {
-      params.set("page", totalPages.toString());
-    }
-    redirect(`${routes.dashboard}${routes.books}?${params.toString()}`);
+    params.set("genre", e.target.value);
+    if (params.get("genre") === "") params.delete("genre");
+    redirect(`?${params.toString()}`);
   };
+
+  const defaultGenre = searchParams.get("genre") ?? "";
 
   return (
     <div className="flex flex-col gap-4 mt-4 px-4">
-      <div>
-        {/* <SearchInput searchFunction={fetchAllListings} /> */}
+      <div className="flex items-center gap-4">
         <Input
           ref={searchRef}
           type="search"
@@ -157,17 +164,27 @@ export default function Books({
           placeholder="Search by title, author, or ISBN..."
           iconLeft={<Search size={24} />}
           onChange={handleOnChange}
-          defaultValue={searchParams.get("query") ?? ""}
+          defaultValue={defaultQuery}
+        />
+
+        <Select
+          label="Genre"
+          options={[
+            { label: "All Genres", value: "" },
+            ...genres.map((genre) => ({
+              label: genre.name,
+              value: genre.name,
+            })),
+          ]}
+          defaultValue={defaultGenre}
+          onChange={handleGenreOnChange}
         />
       </div>
       <TablePage
         data={books ?? []}
         columns={columns}
         loading={false}
-        onPageChange={handlePageChange}
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onLimitChange={handleLimitChange}
+        totalItems={totalBooks}
       />
     </div>
   );
