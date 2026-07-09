@@ -23,11 +23,19 @@ export const addGenre = authActionWrapper(
   },
 );
 
-export const fetchAllGenres = authActionWrapper(async () => {
-  const genres = await genresService.findAll();
+export const fetchGenresCount = authActionWrapper(async (query?: string) => {
+  const count = await genresService.count(query);
 
-  return okResponse("Genres fetched successfully", genres);
+  return okResponse("Genres count fetched successfully", count);
 });
+
+export const fetchAllGenres = authActionWrapper(
+  async (limit: number, offset: number, query?: string) => {
+    const genres = await genresService.findAll(limit, offset, query);
+
+    return okResponse("Genres fetched successfully", genres);
+  },
+);
 
 export const fetchGenreById = authActionWrapper(async (id: string) => {
   const genre = await genresService.findById(id);

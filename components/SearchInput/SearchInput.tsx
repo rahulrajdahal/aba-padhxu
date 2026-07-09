@@ -1,106 +1,55 @@
 "use client";
 
 import { useDebounce } from "@/hooks";
-import { ActionResponse } from "@/lib/responses";
-import { Notebook, Search } from "@meistericons/react";
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import Empty from "../Empty/Empty";
-import Input from "../Input/Input";
-import BookCard from "../Navbar/components/BookCard/BookCard";
-import BookSkeleton from "../Navbar/components/BookSkeleton/BookSkeleton";
+import { Search } from "@meistericons/react";
+import { redirect, useSearchParams } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
+import Input, { InputProps } from "../Input/Input";
 
-interface SearchInputProps {
-  searchFunction(query: string): Promise<ActionResponse>;
-}
+interface SearchInputProps extends InputProps {}
 
-export default function SearchInput({ searchFunction }: SearchInputProps) {
-  const [open, setOpen] = useState(false);
+export default function SearchInput(props: SearchInputProps) {
+  const searchParams = useSearchParams();
+  const searchRef = useRef<HTMLInputElement>(null);
 
-  const [query, setQuery] = useState("");
-  const lastQuery = useDebounce(query, 500);
+  const defaultQuery = searchParams.get("query") ?? "";
+  const [query, setQuery] = useState<string>();
+  const lastQuery = useDebounce(String(query), 700);
 
-  const [loading, setLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
+  const handleOnChange: React.ChangeEventHandler<
+    HTMLInputElement,
+    HTMLInputElement
+  > = (e) => setQuery(e.target.value);
 
   useEffect(() => {
-    if (lastQuery) {
-      const getSearchResults = async () => {
-        setLoading(true);
-        const state = await searchFunction(lastQuery);
+    if (searchParams.get("query")) {
+      searchRef.current?.focus();
+    }
+  }, [searchParams]);
 
-        if (state.type === "success") {
-          setSearchResults(state.data as []);
-        }
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
 
-        if (state.type === "error") {
-          toast.error(state.message);
-        }
+    if (lastQuery !== "undefined") {
+      params.set("query", String(lastQuery));
+      params.delete("page");
 
-        setLoading(false);
-      };
-      getSearchResults();
+      if (lastQuery === "") {
+        params.delete("query");
+      }
+      redirect(`?${params.toString()}`);
     }
   }, [lastQuery]);
 
-  const handleQueryOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-    if (e.target.value.length > 0) {
-      setOpen(true);
-    } else {
-      setOpen(false);
-    }
-  };
-
-  const handleOnBlur = () => {
-    setTimeout(() => {
-      setOpen(false);
-    }, 200);
-  };
-
   return (
-    <div className="relative max-w-md w-full">
-      <Input
-        type="search"
-        placeholder="Search by title, author, or ISBN..."
-        iconLeft={<Search size={24} />}
-        className="rounded-full!"
-        value={query}
-        onChange={handleQueryOnChange}
-        onBlur={handleOnBlur}
-        onFocus={() => setOpen(true)}
-        onClick={() => setOpen(true)}
-      />
-
-      {open && (
-        <div className="absolute bg-primary-50 inset-x-0 top-full mt-2 w-full z-40 overflow-y-auto max-h-64 border border-gray-200 rounded-lg shadow-lg">
-          {loading &&
-            Array.from({ length: 2 }).map((_, index) => (
-              <BookSkeleton key={index} />
-            ))}
-          {query === "" && (
-            <Empty
-              icon={<Search size={32} />}
-              title="Search for a book"
-              message="Type a keyword to start searching"
-            />
-          )}
-          {query !== "" && searchResults.length === 0 && (
-            <Empty
-              icon={<Notebook size={32} />}
-              title="No books found"
-              message="Search for books by title, author, or ISBN"
-            />
-          )}
-          {query !== "" && searchResults.length > 0 && (
-            <div>
-              {searchResults.map((item) => (
-                <BookCard listing={item} key={item.id} />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+    <Input
+      ref={searchRef}
+      type="search"
+      label="Search"
+      iconLeft={<Search size={24} />}
+      onChange={handleOnChange}
+      defaultValue={defaultQuery}
+      {...props}
+    />
   );
 }

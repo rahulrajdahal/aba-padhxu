@@ -34,8 +34,6 @@ export default async function page({
     <Books
       books={data as (Book & { genre: Pick<Genre, "name"> })[]}
       totalBooks={totalBooksCount as number}
-      currentPage={currentPage}
-      limit={Number(limit || 20)}
       genres={genres as Genre[]}
     />
   );

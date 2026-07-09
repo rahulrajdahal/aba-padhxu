@@ -7,7 +7,7 @@ import { mapGenreDTO } from "./genres.dto";
 import { addGenreSchema, updateGenreSchema } from "./genres.validation";
 
 export const genresService = {
-  count: async () => await genresDAL.count(),
+  count: async (query?: string) => await genresDAL.count(query),
 
   create: async (data: Prisma.GenreCreateInput) => {
     const validateData = addGenreSchema.safeParse(data);
@@ -24,8 +24,8 @@ export const genresService = {
     return genre.id;
   },
 
-  findAll: async () => {
-    const genres = await genresDAL.findAll();
+  findAll: async (limit: number, offset: number, query?: string) => {
+    const genres = await genresDAL.findAll(limit, offset, query);
 
     if (!genres) {
       throw new NotFoundError("Genres");

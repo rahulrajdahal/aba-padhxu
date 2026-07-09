@@ -1,35 +1,21 @@
 "use client";
 
-import {
-  AvatarWithName,
-  Input,
-  Select,
-  TableActions,
-  TablePage,
-} from "@/components";
+import { AvatarWithName, Select, TableActions, TablePage } from "@/components";
+import SearchInput from "@/components/SearchInput/SearchInput";
 import { Book, Genre } from "@/generated/prisma/client/client";
-import { useDebounce } from "@/hooks";
 import { routes } from "@/utils/routes";
-import { Search } from "@meistericons/react";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import parse from "html-react-parser";
 import { redirect, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { deleteBookById } from "./actions";
 
 type BooksProps = Readonly<{
   books: (Book & { genre: Pick<Genre, "name"> })[];
   totalBooks: number;
-  currentPage: number;
   genres: Genre[];
 }>;
-export default function Books({
-  books,
-  currentPage,
-  totalBooks,
-  genres,
-}: BooksProps) {
+export default function Books({ books, totalBooks, genres }: BooksProps) {
   const columnHelper =
     createColumnHelper<Partial<Book & { genre: Pick<Genre, "name"> }>>();
 
@@ -104,44 +90,6 @@ export default function Books({
 
   const searchParams = useSearchParams();
 
-  const handlePageChange = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", String(page));
-    redirect(`?${params.toString()}`);
-  };
-
-  const defaultQuery = searchParams.get("query") ?? "";
-
-  const [query, setQuery] = useState<string>();
-  const lastQuery = useDebounce(String(query), 700);
-
-  const handleOnChange: React.ChangeEventHandler<
-    HTMLInputElement,
-    HTMLInputElement
-  > = (e) => setQuery(e.target.value);
-
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (lastQuery !== "undefined") {
-      params.set("query", String(lastQuery));
-      params.delete("page");
-
-      if (lastQuery === "") {
-        params.delete("query");
-      }
-      redirect(`?${params.toString()}`);
-    }
-  }, [lastQuery]);
-
-  const searchRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (searchParams.get("query")) {
-      searchRef.current?.focus();
-    }
-  }, [searchParams]);
-
   const handleGenreOnChange: React.ChangeEventHandler<
     HTMLSelectElement,
     HTMLSelectElement
@@ -157,15 +105,7 @@ export default function Books({
   return (
     <div className="flex flex-col gap-4 mt-4 px-4">
       <div className="flex items-center gap-4">
-        <Input
-          ref={searchRef}
-          type="search"
-          label="Search"
-          placeholder="Search by title, author, or ISBN..."
-          iconLeft={<Search size={24} />}
-          onChange={handleOnChange}
-          defaultValue={defaultQuery}
-        />
+        <SearchInput placeholder="Search by title, author, or ISBN..." />
 
         <Select
           label="Genre"

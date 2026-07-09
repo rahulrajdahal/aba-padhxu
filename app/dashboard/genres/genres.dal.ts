@@ -4,12 +4,24 @@ import { Prisma } from "@/generated/prisma/client/client";
 import { prisma } from "@/prisma/prisma";
 
 export const genresDAL = {
-  count: async () => await prisma.genre.count(),
+  count: async (query?: string) =>
+    await prisma.genre.count({
+      ...(query && {
+        where: { name: { contains: query, mode: "insensitive" } },
+      }),
+    }),
 
   create: async (data: Prisma.GenreCreateInput) =>
     await prisma.genre.create({ data }),
 
-  findAll: async () => await prisma.genre.findMany(),
+  findAll: async (limit = 20, offset = 0, query?: string) =>
+    await prisma.genre.findMany({
+      take: limit,
+      skip: offset,
+      ...(query && {
+        where: { name: { contains: query, mode: "insensitive" } },
+      }),
+    }),
 
   findAllWithBooksCount: async (limit: number) =>
     await prisma.genre.findMany({

@@ -1,6 +1,7 @@
 "use client";
 
 import { TableActions, TablePage } from "@/components";
+import SearchInput from "@/components/SearchInput/SearchInput";
 import { Genre } from "@/generated/prisma/client/client";
 import { routes } from "@/utils/routes";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
@@ -8,9 +9,12 @@ import parse from "html-react-parser";
 import toast from "react-hot-toast";
 import { deleteGenreById } from "./actions";
 
-type GenresProps = Readonly<{ genres: Genre[] }>;
+type GenresProps = Readonly<{
+  genres: Genre[];
+  totalGenres: number;
+}>;
 
-export default function Genres({ genres }: GenresProps) {
+export default function Genres({ genres, totalGenres }: GenresProps) {
   const columnHelper = createColumnHelper<Partial<Genre>>();
 
   const columns = [
@@ -58,5 +62,16 @@ export default function Genres({ genres }: GenresProps) {
     }),
   ] as ColumnDef<unknown, unknown>[];
 
-  return <TablePage data={genres ?? []} columns={columns} loading={false} />;
+  return (
+    <div className="flex flex-col gap-4 mt-4 px-4">
+      <SearchInput placeholder="Search genre by name..." />
+
+      <TablePage
+        data={genres ?? []}
+        columns={columns}
+        loading={false}
+        totalItems={totalGenres}
+      />
+    </div>
+  );
 }

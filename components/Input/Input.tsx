@@ -7,7 +7,7 @@ import InputHelperText from "./InputHelperText/InputHelperText";
 import InputLabel from "./InputLabel/InputLabel";
 import TextField from "./TextField/TextField";
 
-type InputProps = React.ComponentProps<"input"> & {
+export type InputProps = React.ComponentProps<"input"> & {
   label?: string;
   helperText?: string;
   errors?: string[];
