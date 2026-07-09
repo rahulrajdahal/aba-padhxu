@@ -1,3 +1,5 @@
+import "server-only";
+
 import { BookCondition } from "@/generated/prisma/client/enums";
 import z from "zod";
 

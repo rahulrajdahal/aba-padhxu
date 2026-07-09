@@ -67,17 +67,48 @@ export const fetchListingByIdWithBookAndSeller = actionWrapper(
   },
 );
 
-export const fetchSellerListings = authActionWrapper(async () => {
-  const sellerId = await authUserId();
+export const fetchSellerListings = authActionWrapper(
+  async (
+    limit: number,
+    offset: number,
+    query?: string,
+    condition?: BookCondition,
+  ) => {
+    const sellerId = await authUserId();
 
-  if (!sellerId) {
-    return forbiddenError();
-  }
+    if (!sellerId) {
+      return forbiddenError();
+    }
 
-  const listings = await ListingsService.findBySellerId(sellerId as string);
+    const listings = await ListingsService.findBySellerId(
+      sellerId as string,
+      limit,
+      offset,
+      query,
+      condition,
+    );
 
-  return okResponse("Listing fetched!", listings);
-});
+    return okResponse("Listing fetched!", listings);
+  },
+);
+
+export const fetchSellerListingCount = authActionWrapper(
+  async (query?: string, condition?: BookCondition) => {
+    const sellerId = await authUserId();
+
+    if (!sellerId) {
+      return forbiddenError();
+    }
+
+    const count = await ListingsService.countBySellerId(
+      sellerId as string,
+      query,
+      condition,
+    );
+
+    return okResponse("Listing count fetched!", count);
+  },
+);
 
 export const updateListingById = authActionWrapper(
   async (id: string, formData: FormData) => {

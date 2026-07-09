@@ -1,5 +1,6 @@
 import "server-only";
 
+import { BookCondition } from "@/generated/prisma/client/enums";
 import { prisma } from "@/prisma/prisma";
 import { CreateListingDTO, PatchListingDTO } from "./listings.dto";
 
@@ -38,9 +39,53 @@ export const ListingsDAL = {
     });
   },
 
-  findBySellerId: async (sellerId: string) => {
-    const listings = await prisma.listing.findMany({ where: { sellerId } });
-    return listings;
+  countBySellerId: async (
+    sellerId: string,
+    query?: string,
+    condition?: BookCondition,
+  ) => {
+    return await prisma.listing.count({
+      where: {
+        sellerId,
+        ...(query && {
+          book: {
+            OR: [
+              { title: { contains: query, mode: "insensitive" } },
+              { isbn13: { contains: query, mode: "insensitive" } },
+              { author: { contains: query, mode: "insensitive" } },
+            ],
+          },
+        }),
+        ...(condition && { condition }),
+      },
+    });
+  },
+
+  findBySellerId: async (
+    sellerId: string,
+    limit = 20,
+    offset = 0,
+    query?: string,
+    condition?: BookCondition,
+  ) => {
+    return await prisma.listing.findMany({
+      take: limit,
+      skip: offset,
+      include: { book: { select: { title: true } } },
+      where: {
+        sellerId,
+        ...(query && {
+          book: {
+            OR: [
+              { title: { contains: query, mode: "insensitive" } },
+              { isbn13: { contains: query, mode: "insensitive" } },
+              { author: { contains: query, mode: "insensitive" } },
+            ],
+          },
+        }),
+        ...(condition && { condition }),
+      },
+    });
   },
 
   findById: async (id: string) => {
