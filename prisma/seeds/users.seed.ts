@@ -21,6 +21,7 @@ async function createUsers() {
           lastName: "admin",
           avatar: faker.image.avatar(),
           isSeller: true,
+          phoneNumber: faker.phone.number(),
         },
       },
     },

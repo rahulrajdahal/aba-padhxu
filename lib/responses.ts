@@ -1,6 +1,6 @@
 import "server-only";
 
-import { isAuthenticated } from "@/app/(auth)/middleware";
+import { isAdmin, isAuthenticated } from "@/app/(auth)/middleware";
 import {
   BadRequestError,
   ForbiddenError,
@@ -135,6 +135,21 @@ export const authActionWrapper = (
     try {
       const isAuth = await isAuthenticated();
       if (!isAuth) throw new UnAuthorizedError();
+
+      return await fn(...args);
+    } catch (error) {
+      throw error;
+    }
+  });
+};
+
+export const adminActionWrapper = (
+  fn: (...args: any[]) => Promise<ActionResponse>,
+) => {
+  return authActionWrapper(async (...args: any[]) => {
+    try {
+      const admin = await isAdmin();
+      if (!admin) throw new ForbiddenError();
 
       return await fn(...args);
     } catch (error) {

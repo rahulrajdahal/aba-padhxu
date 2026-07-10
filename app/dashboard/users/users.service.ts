@@ -1,25 +1,34 @@
+import "server-only";
+
 import { User } from "@/generated/prisma/client/client";
-import { create, findByEmail, findById, updateById } from "./users.dal";
+import { usersDal } from "./users.dal";
 import { CreateUserDTO, mapUserDTO, PatchUserDTO } from "./users.dto";
 
-export const createUser = async (data: CreateUserDTO) => {
-  const user = await create({ ...data });
-  return user.id;
-};
+export const usersService = {
+  count: async (query?: string) => await usersDal.count(query),
 
-export const getUserById = async (id: string) => {
-  const user = await findById(id);
-  return mapUserDTO(user as User);
-};
+  findAll: async (limit: number, offset: number, query?: string) =>
+    await usersDal.findAll(limit, offset, query),
 
-export const getUserByIdWithPassword = async (id: string) => {
-  const user = await findById(id);
-  return user;
-};
+  createUser: async (data: CreateUserDTO) => {
+    const user = await usersDal.create({ ...data });
+    return user.id;
+  },
 
-export const getUserByEmail = async (email: string) => {
-  return await findByEmail(email);
-};
+  getUserById: async (id: string) => {
+    const user = await usersDal.findById(id);
+    return mapUserDTO(user as User);
+  },
 
-export const patchUserById = async (id: string, data: PatchUserDTO) =>
-  await updateById(id, data);
+  getUserByIdWithPassword: async (id: string) => {
+    const user = await usersDal.findById(id);
+    return user;
+  },
+
+  getUserByEmail: async (email: string) => {
+    return await usersDal.findByEmail(email);
+  },
+
+  patchUserById: async (id: string, data: PatchUserDTO) =>
+    await usersDal.updateById(id, data),
+};

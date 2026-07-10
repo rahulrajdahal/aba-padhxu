@@ -5,7 +5,7 @@ import { decryptJWT, encryptJWT, expiresAt } from "@/utils/auth";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { findUserProfileByUserId } from "../dashboard/user_profiles/user_profiles.service";
-import { getUserByEmail, getUserById } from "../dashboard/users/users.service";
+import { usersService } from "../dashboard/users/users.service";
 
 export const createSession = async (userId: string) => {
   const cookieStore = await cookies();
@@ -69,13 +69,13 @@ export const comparePassword = async (password: string, hash: string) => {
 };
 
 export const userEmailExists = async (email: string) => {
-  const user = await getUserByEmail(email);
+  const user = await usersService.getUserByEmail(email);
 
   return !!user;
 };
 
 export const isUserActive = async (email: string) => {
-  return (await getUserByEmail(email))?.isActive;
+  return (await usersService.getUserByEmail(email))?.isActive;
 };
 
 export const isAuthenticated = async () => {
@@ -95,8 +95,14 @@ export const authUser = async () => {
     throw new ForbiddenError();
   }
 
-  const user = await getUserById(userId as string);
+  const user = await usersService.getUserById(userId as string);
   const userProfile = await findUserProfileByUserId(user.id);
 
   return { ...user, ...userProfile };
+};
+
+export const isAdmin = async () => {
+  const user = await authUser();
+
+  return user.isAdmin;
 };

@@ -14,13 +14,6 @@ import {
 } from "@/lib/responses";
 import { routes } from "@/utils/routes";
 import { redirect } from "next/navigation";
-import { findByEmail } from "../dashboard/users/users.dal";
-import {
-  createUser,
-  getUserByEmail,
-  getUserById,
-  patchUserById,
-} from "../dashboard/users/users.service";
 
 import { sendConfirmationEmail, sendResetPasswordEmail } from "@/lib/email";
 import { BadRequestError } from "@/lib/errors";
@@ -29,6 +22,7 @@ import {
   getTokenByToken,
 } from "../dashboard/tokens/tokens.service";
 import { createUserProfile } from "../dashboard/user_profiles/user_profiles.service";
+import { usersService } from "../dashboard/users/users.service";
 import {
   forgotPasswordSchema,
   loginSchema,
@@ -69,7 +63,7 @@ export const signup = actionWrapper(async function (
 
   const passwordHash = await hashPassword(body.password);
 
-  const userId = await createUser({
+  const userId = await usersService.createUser({
     email: body.email,
     passwordHash,
   });
@@ -101,7 +95,7 @@ export const login = actionWrapper(
       return validationError(validateBody.error.flatten().fieldErrors);
     }
 
-    const user = await findByEmail(body.email);
+    const user = await usersService.getUserByEmail(body.email);
     if (!user || !(await comparePassword(body.password, user.passwordHash))) {
       throw new BadRequestError("Invalid Credentials");
     }
@@ -131,7 +125,7 @@ export const confirmEmail = actionWrapper(async (emailToken: string) => {
     return errorResponse("Token has expired", 400);
   }
 
-  await patchUserById(token.userId, { isActive: true });
+  await usersService.patchUserById(token.userId, { isActive: true });
 
   await deleteTokenById(token.id);
 
@@ -153,7 +147,7 @@ export const forgotPassword = async (
       return validationError(validatedFields.error.flatten().fieldErrors);
     }
 
-    const user = await getUserByEmail(body.email);
+    const user = await usersService.getUserByEmail(body.email);
 
     if (!user) {
       return okResponse(
@@ -192,7 +186,7 @@ export const resetPassword = async (prevState: unknown, formData: FormData) => {
       return errorResponse("Token has expired", 400);
     }
 
-    const user = await getUserById(token.userId);
+    const user = await usersService.getUserById(token.userId);
 
     if (!user) {
       return invalidRequestError();
@@ -202,7 +196,7 @@ export const resetPassword = async (prevState: unknown, formData: FormData) => {
 
     const passwordHash = await hashPassword(body.password);
 
-    await patchUserById(user.id, { passwordHash });
+    await usersService.patchUserById(user.id, { passwordHash });
 
     return noContentResponse();
   } catch (error) {

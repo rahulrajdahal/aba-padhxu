@@ -21,7 +21,7 @@ export default async function AdminLayout({ children }: IAdminLayout) {
       <DashboardSidebar isSeller={user.isSeller} isAdmin={user.isAdmin} />
       <main className="flex flex-col w-[calc(100%-15rem)] max-h-screen overflow-y-scroll">
         <DashboardNavbar
-          user={{
+            user={{
             avatar: user.avatar,
             email: user.email,
             name: `${user.firstName} ${user.lastName}`,
