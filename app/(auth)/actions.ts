@@ -21,7 +21,7 @@ import {
   deleteTokenById,
   getTokenByToken,
 } from "../dashboard/tokens/tokens.service";
-import { createUserProfile } from "../dashboard/user_profiles/user_profiles.service";
+import { userProfilesService } from "../dashboard/user_profiles/user_profiles.service";
 import { usersService } from "../dashboard/users/users.service";
 import {
   forgotPasswordSchema,
@@ -71,7 +71,7 @@ export const signup = actionWrapper(async function (
     return errorResponse("Error registering user");
   }
 
-  const userProfile = await createUserProfile({
+  const userProfile = await userProfilesService.createUserProfile({
     firstName: body.firstName,
     lastName: body.lastName,
     userId,

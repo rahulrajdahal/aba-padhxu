@@ -1,7 +1,8 @@
-import React from 'react';
-import Avatar from '../Avatar/Avatar';
+import { mergeClassNames } from "@/lib/mergeClassNames";
+import React from "react";
+import Avatar from "../Avatar/Avatar";
 
-interface IAvatarWithName extends React.ComponentPropsWithoutRef<'span'> {
+interface IAvatarWithName extends React.ComponentPropsWithoutRef<"span"> {
   /**
    * Name of the avatar.
    */
@@ -14,12 +15,21 @@ interface IAvatarWithName extends React.ComponentPropsWithoutRef<'span'> {
 export default function AvatarWithName({
   name,
   avatar,
+  className = "",
   ...props
 }: Readonly<IAvatarWithName>) {
   return (
-    <span className='flex items-center gap-4 ' {...props}>
-      <Avatar src={avatar} alt={`Portrait of ${name} doing something`} width={48} height={48} />
-      <p className='text-lg font-medium text-gray-600'>{name}</p>
-    </span>
+    <div
+      className={mergeClassNames("flex items-center gap-4", className)}
+      {...props}
+    >
+      <Avatar
+        src={avatar}
+        alt={`Portrait of ${name} doing something`}
+        width={48}
+        height={48}
+      />
+      <p className="text-lg font-medium text-gray-600">{name}</p>
+    </div>
   );
 }

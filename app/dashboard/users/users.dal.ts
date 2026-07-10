@@ -82,4 +82,6 @@ export const usersDal = {
       },
       data,
     }),
+
+  deleteById: async (id: string) => await prisma.user.delete({ where: { id } }),
 };

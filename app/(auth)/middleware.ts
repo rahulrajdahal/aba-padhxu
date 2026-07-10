@@ -4,7 +4,7 @@ import { ForbiddenError } from "@/lib/errors";
 import { decryptJWT, encryptJWT, expiresAt } from "@/utils/auth";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
-import { findUserProfileByUserId } from "../dashboard/user_profiles/user_profiles.service";
+import { userProfilesService } from "../dashboard/user_profiles/user_profiles.service";
 import { usersService } from "../dashboard/users/users.service";
 
 export const createSession = async (userId: string) => {
@@ -96,7 +96,9 @@ export const authUser = async () => {
   }
 
   const user = await usersService.getUserById(userId as string);
-  const userProfile = await findUserProfileByUserId(user.id);
+  const userProfile = await userProfilesService.findUserProfileByUserId(
+    user.id,
+  );
 
   return { ...user, ...userProfile };
 };

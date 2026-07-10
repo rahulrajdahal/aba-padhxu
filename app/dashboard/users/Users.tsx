@@ -1,10 +1,13 @@
 "use client";
 
-import { Pill, TablePage } from "@/components";
+import { AvatarWithName, Pill, TableActions, TablePage } from "@/components";
 import SearchInput from "@/components/SearchInput/SearchInput";
 import { User, UserProfile } from "@/generated/prisma/client/client";
+import { routes } from "@/utils/routes";
 import { CheckCircleB, Cross } from "@meistericons/react";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import toast from "react-hot-toast";
+import { deleteUserWithProfileById } from "./actions";
 
 interface UsersProps {
   users: User & { profile: UserProfile }[];
@@ -17,12 +20,18 @@ export default function Users({ users, totalUsers }: UsersProps) {
 
   const columns = [
     columnHelper.accessor("profile.firstName", {
-      header: "First Name",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("profile.lastName", {
-      header: "Last Name",
-      cell: (info) => info.getValue(),
+      header: "User",
+
+      cell: (info) => (
+        <AvatarWithName
+          className="w-full inline-flex!"
+          avatar={
+            info.row.original.profile?.avatar ||
+            `${process.cwd()}/public/uploads/users/default.avif`
+          }
+          name={`${info.row.original.profile?.firstName} ${info.row.original.profile?.lastName}`}
+        />
+      ),
     }),
     columnHelper.accessor("profile.phoneNumber", {
       header: "Phone Number",
@@ -35,7 +44,7 @@ export default function Users({ users, totalUsers }: UsersProps) {
     columnHelper.accessor("isActive", {
       header: "Active",
       cell: (info) =>
-        !info.getValue() ? (
+        info.getValue() ? (
           <CheckCircleB className="text-green-500" size={24} />
         ) : (
           <div className="bg-red-500 w-5 h-5 flex items-center justify-center rounded-full">
@@ -60,6 +69,31 @@ export default function Users({ users, totalUsers }: UsersProps) {
         ) : (
           <Pill className="bg-primary-300! text-gray-950!">User</Pill>
         ),
+    }),
+    columnHelper.accessor("id", {
+      header: () => "Actions",
+      cell: (info) => {
+        const id = info.getValue();
+
+        if (id) {
+          const handleDelete = async () => {
+            const { type, message } = await deleteUserWithProfileById(id);
+
+            if (type === "success") toast.success("User data deleted!");
+
+            if (type === "error") toast.error(message);
+          };
+
+          return (
+            <TableActions
+              id={info.row.original.id}
+              handleDelete={handleDelete}
+              href={`${routes.dashboard}${routes.users}`}
+              description="user"
+            />
+          );
+        }
+      },
     }),
   ] as ColumnDef<unknown, unknown>[];
 
