@@ -14,11 +14,8 @@ import {
 import { routes } from "@/utils/routes";
 import { revalidatePath } from "next/cache";
 import { PatchUserAddressDTO } from "./user_addresses.dto";
-import {
-  createUserAddress,
-  findUserAddressesByUserId,
-  patchUserAddressById,
-} from "./user_addresses.service";
+
+import { userAddressServices } from "./user_addresses.service";
 import {
   addUserAddressSchema,
   updateUserAddressSchema,
@@ -49,7 +46,7 @@ export const addUserAddress = authActionWrapper(
       return validationError(validateBody.error.flatten().fieldErrors);
     }
 
-    const addressId = await createUserAddress(body);
+    const addressId = await userAddressServices.createUserAddress(body);
     revalidatePath(`${routes.dashboard}${routes.addressSettings}`);
     return createdResponse("Address added successfully", addressId);
   },
@@ -61,7 +58,9 @@ export const fetchUserAddresses = authActionWrapper(async () => {
     return forbiddenError();
   }
 
-  const addresses = await findUserAddressesByUserId(userId as string);
+  const addresses = await userAddressServices.findUserAddressesByUserId(
+    userId as string,
+  );
   return okResponse("Addresses fetched successfully", addresses);
 });
 
@@ -102,8 +101,15 @@ export const updateUserAddress = authActionWrapper(
       return validationError(validateBody.error.flatten().fieldErrors);
     }
 
-    await patchUserAddressById(id, body);
+    await userAddressServices.patchUserAddressById(id, body);
     revalidatePath(`${routes.dashboard}${routes.addressSettings}`);
     return noContentResponse();
   },
 );
+
+export const deleteUserAddressById = authActionWrapper(async (id: string) => {
+  await userAddressServices.removeUserAddressById(id);
+  revalidatePath(`${routes.dashboard}${routes.addressSettings}`);
+  revalidatePath(routes.checkout);
+  return noContentResponse();
+});

@@ -1,10 +1,18 @@
 "use client";
 
-import { Input } from "@/components";
+import { Button } from "@/components";
 import { PublicPageLayout } from "@/components/layouts";
-import { Book, CartItem, Listing } from "@/generated/prisma/client/client";
-import { Card, Lock, ShieldCheck } from "@meistericons/react";
+import {
+  Book,
+  CartItem,
+  Listing,
+  UserAddress,
+} from "@/generated/prisma/client/client";
+import { Card, Cross, Lock, ShieldCheck } from "@meistericons/react";
+import * as Dialog from "@radix-ui/react-dialog";
 import StripeElements from "../order/StripeElements";
+import ShippingForm from "./components/ShippingForm";
+import ShippingRadioGroup from "./components/ShippingRadioGroup";
 
 type CheckoutPageProps = {
   cartItems: (CartItem & {
@@ -12,12 +20,14 @@ type CheckoutPageProps = {
   })[];
   cartCount: number;
   wishlistCount: number;
+  shippingAddresses: UserAddress[];
 };
 
 export default function CheckoutPage({
   cartItems,
   cartCount,
   wishlistCount,
+  shippingAddresses,
 }: CheckoutPageProps) {
   const orderSummary = {
     itemsCount: cartItems.length,
@@ -73,47 +83,31 @@ export default function CheckoutPage({
                   Shipping Address
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="sm:col-span-2">
-                    <Input
-                      type="email"
-                      name="email"
-                      required
-                      label="EMAIL ADDRESS"
-                      placeholder="reading@lover.com"
-                    />
-                  </div>
+                {shippingAddresses?.length > 0 ? (
+                  <ShippingRadioGroup shippingAddresses={shippingAddresses} />
+                ) : null}
 
-                  <Input
-                    label="FIRST NAME"
-                    type="text"
-                    name="firstName"
-                    required
-                  />
-                  <Input
-                    label="LAST NAME"
-                    type="text"
-                    name="lastName"
-                    required
-                  />
-
-                  <Input
-                    label="STREET ADDRESS"
-                    type="text"
-                    name="address"
-                    required
-                    placeholder="123 Storybook Lane"
-                  />
-
-                  <Input label="CITY" type="text" name="city" required />
-
-                  <Input
-                    label="ZIP / POSTAL CODE"
-                    type="text"
-                    name="zipCode"
-                    required
-                  />
-                </div>
+                <Dialog.Root>
+                  <Dialog.Trigger className="mt-2">
+                    <Button size="sm" type="button">
+                      <Button type="button" size="sm">
+                        Add Address
+                      </Button>
+                    </Button>
+                  </Dialog.Trigger>
+                  <Dialog.Portal>
+                    <Dialog.Overlay className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm data-[state=open]:animate-fade-in-up" />
+                    <Dialog.Content
+                      onInteractOutside={(e) => e.preventDefault()}
+                      className="fixed top-1/2 left-1/2 max-h-[90vh] w-[90vw] max-w-200 -translate-x-1/2 -translate-y-1/2 rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%/35%)_0_10px_30px_-10px,hsl(206_22%_7%/20%)_0_0_0_1px] focus:outline-none data-[state=open]:animate-contentShow"
+                    >
+                      <ShippingForm />
+                      <Dialog.Close className="absolute top-4 right-4">
+                        <Cross size={16} />
+                      </Dialog.Close>
+                    </Dialog.Content>
+                  </Dialog.Portal>
+                </Dialog.Root>
               </div>
               <StripeElements />
               {/* Payment Details */}

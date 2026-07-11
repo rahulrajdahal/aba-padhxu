@@ -18,8 +18,6 @@ export default async function AdminLayout({ children }: IAdminLayout) {
 
   const user = await authUser();
 
-  console.log(user.isSeller, "user");
-
   return (
     <div className="flex h-screen w-screen">
       <DashboardSidebar isSeller={user.isSeller} isAdmin={user.isAdmin} />
