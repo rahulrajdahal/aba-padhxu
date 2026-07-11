@@ -8,7 +8,7 @@ import {
   Listing,
   UserAddress,
 } from "@/generated/prisma/client/client";
-import { Card, Cross, Lock, ShieldCheck } from "@meistericons/react";
+import { Cross, Lock, ShieldCheck } from "@meistericons/react";
 import * as Dialog from "@radix-ui/react-dialog";
 import StripeElements from "../order/StripeElements";
 import ShippingForm from "./components/ShippingForm";
@@ -88,7 +88,7 @@ export default function CheckoutPage({
                 ) : null}
 
                 <Dialog.Root>
-                  <Dialog.Trigger className="mt-2">
+                  <Dialog.Trigger asChild className="mt-2">
                     <Button size="sm" type="button">
                       <Button type="button" size="sm">
                         Add Address
@@ -109,9 +109,9 @@ export default function CheckoutPage({
                   </Dialog.Portal>
                 </Dialog.Root>
               </div>
-              <StripeElements />
+              <StripeElements totalPrice={Number(orderSummary.total)} />
               {/* Payment Details */}
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+              {/* <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                 <h2 className="text-xl font-serif font-bold text-gray-900 mb-6 flex items-center gap-2">
                   <span className="flex items-center justify-center bg-amber-700 text-white text-xs w-5 h-5 rounded-full font-sans">
                     2
@@ -193,7 +193,7 @@ export default function CheckoutPage({
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             {/* <OrderSummary /> */}
             {/* Right Column: Sticky Order Summary */}
