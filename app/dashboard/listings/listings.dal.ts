@@ -5,13 +5,50 @@ import { prisma } from "@/prisma/prisma";
 import { CreateListingDTO, PatchListingDTO } from "./listings.dto";
 
 export const ListingsDAL = {
+  countAll: async (query?: string, condition?: BookCondition) => {
+    return await prisma.listing.count({
+      where: {
+        ...(query && {
+          book: {
+            OR: [
+              { title: { contains: query, mode: "insensitive" } },
+              { isbn13: { contains: query, mode: "insensitive" } },
+              { author: { contains: query, mode: "insensitive" } },
+            ],
+          },
+        }),
+        ...(condition && { condition }),
+      },
+    });
+  },
+
   create: async (data: CreateListingDTO) => {
     const listing = await prisma.listing.create({ data });
     return listing.id;
   },
 
-  findAll: async () => {
-    const listings = await prisma.listing.findMany();
+  findAll: async (
+    limit: number,
+    offset: number,
+    query?: string,
+    condition?: BookCondition,
+  ) => {
+    const listings = await prisma.listing.findMany({
+      take: limit,
+      skip: offset,
+      where: {
+        ...(query && {
+          book: {
+            OR: [
+              { title: { contains: query, mode: "insensitive" } },
+              { isbn13: { contains: query, mode: "insensitive" } },
+              { author: { contains: query, mode: "insensitive" } },
+            ],
+          },
+        }),
+        ...(condition && { condition }),
+      },
+    });
     return listings;
   },
 

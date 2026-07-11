@@ -5,20 +5,29 @@ import { ListingsDAL } from "./listings.dal";
 import { CreateListingDTO, PatchListingDTO } from "./listings.dto";
 
 export const ListingsService = {
+  countAll: async (query?: string, condition?: BookCondition) => {
+    return await ListingsDAL.countAll(query, condition);
+  },
+
   create: async (data: CreateListingDTO) => {
     return await ListingsDAL.create(data);
   },
 
-  updateById: async (id: string, data: PatchListingDTO) => {
-    return await ListingsDAL.updateById(id, data);
-  },
-
-  findAll: async () => {
-    return await ListingsDAL.findAll();
+  findAll: async (
+    limit: number,
+    offset: number,
+    query?: string,
+    condition?: BookCondition,
+  ) => {
+    return await ListingsDAL.findAll(limit, offset, query, condition);
   },
 
   findAllWithBooks: async (query?: string) => {
     return await ListingsDAL.findAllWithBooks(query);
+  },
+
+  updateById: async (id: string, data: PatchListingDTO) => {
+    return await ListingsDAL.updateById(id, data);
   },
 
   decrementQuantityById: async (id: string) => {

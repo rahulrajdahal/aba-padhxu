@@ -4,6 +4,7 @@ import { authUserId } from "@/app/(auth)/middleware";
 import { BookCondition } from "@/generated/prisma/client/enums";
 import {
   actionWrapper,
+  adminActionWrapper,
   authActionWrapper,
   createdResponse,
   forbiddenError,
@@ -47,11 +48,31 @@ export const addListing = authActionWrapper(
   },
 );
 
-export const fetchListings = authActionWrapper(async () => {
-  const listings = await ListingsService.findAll();
+export const fetchAllListings = adminActionWrapper(
+  async (
+    limit: number,
+    offset: number,
+    query?: string,
+    condition?: BookCondition,
+  ) => {
+    const listings = await ListingsService.findAll(
+      limit,
+      offset,
+      query,
+      condition,
+    );
 
-  return okResponse("Listings fetched!", listings);
-});
+    return okResponse("Listings fetched!", listings);
+  },
+);
+
+export const fetchAllListingsCount = adminActionWrapper(
+  async (query?: string, condition?: BookCondition) => {
+    const count = await ListingsService.countAll(query, condition);
+
+    return okResponse("Listings fetched!", count);
+  },
+);
 
 export const fetchListingById = authActionWrapper(async (id: string) => {
   const listing = await ListingsService.findById(id);
