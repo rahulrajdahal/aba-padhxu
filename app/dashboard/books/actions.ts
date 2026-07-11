@@ -62,6 +62,12 @@ export const fetchBooksCount = authActionWrapper(
   },
 );
 
+export const fetchAllBooks = authActionWrapper(async () => {
+  const books = await BookService.findAllBooks();
+
+  return okResponse("Books fetched successfully", books);
+});
+
 export const fetchAllBooksWithGenreName = authActionWrapper(
   async (limit, offset, query?: string, genre?: string) => {
     const books = await BookService.findAllBooksWithGenreName(

@@ -108,3 +108,9 @@ export const isAdmin = async () => {
 
   return user.isAdmin;
 };
+
+export const isSeller = async () => {
+  const user = await authUser();
+
+  return user.isSeller;
+};

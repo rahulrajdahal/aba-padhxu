@@ -2,6 +2,7 @@ import { prisma } from "./prisma";
 import seedBooks from "./seeds/books.seed";
 import seedGenres from "./seeds/genres.seed";
 import seedListings from "./seeds/listings.seed";
+import { seedUserAddresses } from "./seeds/userAddresses.seed";
 import seedUsers from "./seeds/users.seed";
 
 async function main() {
@@ -9,6 +10,8 @@ async function main() {
   await seedGenres();
   await seedBooks();
   await seedListings();
+  await seedUserAddresses();
+  await seedReviews();
 }
 
 main()

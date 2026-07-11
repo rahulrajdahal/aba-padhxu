@@ -4,6 +4,7 @@ import { Book } from "@/generated/prisma/client/client";
 import {
   count,
   create,
+  findAll,
   findAllWithGenre,
   findAllWithGenreName,
   findById,
@@ -18,6 +19,8 @@ export const BookService = {
     const book = await create(data);
     return book.id;
   },
+
+  findAllBooks: async () => await findAll(),
 
   count: async (query?: string, genre?: string) => await count(query, genre),
 

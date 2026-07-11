@@ -4,7 +4,6 @@ import {
   CaretDoubleRight,
   Cart,
   Scooter,
-  Users,
 } from "@meistericons/react";
 import DashboardCard from "./components/DashboardCard/DashboardCard";
 
@@ -13,8 +12,8 @@ type DashboardProps = Readonly<{
   ordersDeliveredCount: number;
   ordersCompletedCount: number;
   booksCount: number;
-  authorsCount: number;
   genresCount: number;
+  listingsCount: number;
 }>;
 
 export default function Dashboard({
@@ -22,13 +21,18 @@ export default function Dashboard({
   ordersCompletedCount,
   ordersPendingCount,
   booksCount,
-  authorsCount,
   genresCount,
+  listingsCount,
 }: DashboardProps) {
   const stats = [
     {
       stat: ordersPendingCount,
       title: `Order${ordersPendingCount > 1 ? "s" : ""} Pending`,
+      icon: <Cart className="h-12 w-12" />,
+    },
+    {
+      stat: listingsCount,
+      title: `Listing${listingsCount > 1 ? "s" : ""}`,
       icon: <Cart className="h-12 w-12" />,
     },
     {
@@ -47,18 +51,13 @@ export default function Dashboard({
       icon: <Bookmark className="h-12 w-12" />,
     },
     {
-      stat: authorsCount,
-      title: `Author${authorsCount > 1 ? "s" : ""}`,
-      icon: <Users className="h-12 w-12" />,
-    },
-    {
       stat: genresCount,
       title: `Genre${genresCount > 1 ? "s" : ""}`,
       icon: <CaretDoubleRight className="h-12 w-12" />,
     },
   ];
   return (
-    <div className="flex gap-4 items-center w-full px-8">
+    <div className="flex gap-4 justify-evenly items-center w-full px-8 mt-12">
       {stats.map((stat) => (
         <DashboardCard
           key={stat.title}

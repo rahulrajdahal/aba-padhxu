@@ -66,6 +66,7 @@ export const signup = actionWrapper(async function (
   const userId = await usersService.createUser({
     email: body.email,
     passwordHash,
+    isAdmin: false,
   });
   if (!userId) {
     return errorResponse("Error registering user");

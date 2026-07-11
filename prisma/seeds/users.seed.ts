@@ -11,16 +11,52 @@ async function createUsers() {
 
   await prisma.user.create({
     data: {
-      email: "rehidoc174@besenica.com",
+      email: "test@admin.com",
       passwordHash: bcrypt.hashSync("Pa$$w0rd!", 10),
       isActive: true,
       isAdmin: true,
       profile: {
         create: {
-          firstName: "New",
-          lastName: "admin",
+          firstName: "Test",
+          lastName: "Admin",
           avatar: faker.image.avatar(),
           isSeller: true,
+          phoneNumber: faker.phone.number(),
+        },
+      },
+    },
+  });
+
+  await prisma.user.create({
+    data: {
+      email: "test@seller.com",
+      passwordHash: bcrypt.hashSync("Pa$$w0rd!", 10),
+      isActive: true,
+      isAdmin: false,
+      profile: {
+        create: {
+          firstName: "Test",
+          lastName: "Seller",
+          avatar: faker.image.avatar(),
+          isSeller: true,
+          phoneNumber: faker.phone.number(),
+        },
+      },
+    },
+  });
+
+  await prisma.user.create({
+    data: {
+      email: "test@user.com",
+      passwordHash: bcrypt.hashSync("Pa$$w0rd!", 10),
+      isActive: true,
+      isAdmin: false,
+      profile: {
+        create: {
+          firstName: "Test",
+          lastName: "User",
+          avatar: faker.image.avatar(),
+          isSeller: false,
           phoneNumber: faker.phone.number(),
         },
       },

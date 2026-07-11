@@ -16,10 +16,8 @@ import {
 import { routes } from "@/utils/routes";
 import { revalidatePath } from "next/cache";
 import { PatchUserProfileDTO } from "./user_profiles.dto";
-import {
-  findUserProfileByUserId,
-  patchUserProfileByUserId,
-} from "./user_profiles.service";
+
+import { userProfilesService } from "./user_profiles.service";
 import { updateUserProfileSchema } from "./user_profiles.validation";
 
 export const fetchUserProfile = async () => {
@@ -33,7 +31,9 @@ export const fetchUserProfile = async () => {
       return unauthorizedError();
     }
 
-    const profile = await findUserProfileByUserId(userId as string);
+    const profile = await userProfilesService.findUserProfileByUserId(
+      userId as string,
+    );
     return okResponse("Profile fetched successfully", profile);
   } catch (error) {
     logger.error("Error adding user profile", error);
@@ -49,7 +49,8 @@ export const updateUserProfile = authActionWrapper(
       return forbiddenError();
     }
 
-    const existingUserProfile = await findUserProfileByUserId(userId as string);
+    const existingUserProfile =
+      await userProfilesService.findUserProfileByUserId(userId as string);
 
     if (!existingUserProfile) {
       return notFoundError("User profile");
@@ -87,7 +88,7 @@ export const updateUserProfile = authActionWrapper(
       }
     }
 
-    await patchUserProfileByUserId(userId as string, body);
+    await userProfilesService.patchUserProfileByUserId(userId as string, body);
     revalidatePath(routes.dashboard);
     revalidatePath(`${routes.dashboard}${routes.generalSettings}`);
     return noContentResponse();

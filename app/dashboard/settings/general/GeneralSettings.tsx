@@ -37,38 +37,44 @@ export default function GeneralSettings({ user }: GeneralSettingsProps) {
   );
 
   return (
-    <form action={formAction} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <AvatarUpload
-        name={`${firstName} ${lastName}`}
-        initialAvatarUrl={`/uploads/users/${avatar}`}
-        errors={state?.errors?.avatar}
-      />
-      <Input
-        type="text"
-        label="First Name"
-        name="firstName"
-        placeholder="Rajesh"
-        defaultValue={firstName}
-        errors={state?.errors?.firstName}
-      />
+    <form action={formAction} className="flex flex-col gap-10">
+      <div className="flex items-center gap-8">
+        <div className="w-full">
+          <AvatarUpload
+            name={`${firstName} ${lastName}`}
+            initialAvatarUrl={`/uploads/users/${avatar}`}
+            errors={state?.errors?.avatar}
+          />
+        </div>
+        <div className="flex flex-col gap-4 w-full">
+          <Input
+            type="text"
+            label="First Name"
+            name="firstName"
+            placeholder="Rajesh"
+            defaultValue={firstName}
+            errors={state?.errors?.firstName}
+          />
 
-      <Input
-        type="text"
-        label="Last Name"
-        name="lastName"
-        placeholder="Hamal"
-        defaultValue={lastName}
-        errors={state?.errors?.lastName}
-      />
+          <Input
+            type="text"
+            label="Last Name"
+            name="lastName"
+            placeholder="Hamal"
+            defaultValue={lastName}
+            errors={state?.errors?.lastName}
+          />
 
-      <Input
-        type="tel"
-        label="Phone Number (Optional)"
-        name="phoneNumber"
-        placeholder="+977 1234-567189"
-        defaultValue={phoneNumber || ""}
-        errors={state?.errors?.phoneNumber}
-      />
+          <Input
+            type="tel"
+            label="Phone Number (Optional)"
+            name="phoneNumber"
+            placeholder="+977 1234-567189"
+            defaultValue={phoneNumber || ""}
+            errors={state?.errors?.phoneNumber}
+          />
+        </div>
+      </div>
 
       <div className="flex items-center md:col-span-2 pt-8">
         <Button type="submit" isLoading={isPending}>
