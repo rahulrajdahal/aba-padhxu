@@ -22,6 +22,5 @@ export interface CreateUserProfileDTO extends Omit<
 export type PatchUserProfileDTO = Partial<CreateUserProfileDTO>;
 
 export const mapUserProfileDTO = (user: UserProfile) => {
-  const { updatedAt, ...rest } = user;
-  return rest;
+  return user;
 };

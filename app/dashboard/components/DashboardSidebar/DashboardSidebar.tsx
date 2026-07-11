@@ -12,26 +12,26 @@ import toast from "react-hot-toast";
 const baseLinks = [
   { id: 1, label: "Dashboard", href: routes.dashboard },
   { id: 2, label: "All Books", href: `${routes.dashboard}${routes.books}` },
+  {
+    id: 3,
+    label: "Settings",
+    href: `${routes.dashboard}${routes.generalSettings}`,
+  },
 ];
 
 const sellerLinks = [
   ...baseLinks,
-  { id: 3, label: "Add Book", href: `${routes.dashboard}${routes.books}/add` },
-  { id: 4, label: "All Orders", href: `${routes.dashboard}${routes.orders}` },
+  { id: 4, label: "Add Book", href: `${routes.dashboard}${routes.books}/add` },
+  { id: 5, label: "All Orders", href: `${routes.dashboard}${routes.orders}` },
   {
-    id: 5,
+    id: 6,
     label: "All Listings",
     href: `${routes.dashboard}${routes.listings}`,
   },
   {
-    id: 6,
+    id: 7,
     label: "Add Listings",
     href: `${routes.dashboard}${routes.listings}/add`,
-  },
-  {
-    id: 7,
-    label: "Settings",
-    href: `${routes.dashboard}${routes.generalSettings}`,
   },
 ];
 

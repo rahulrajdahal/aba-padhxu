@@ -11,7 +11,6 @@ async function main() {
   await seedBooks();
   await seedListings();
   await seedUserAddresses();
-  await seedReviews();
 }
 
 main()
