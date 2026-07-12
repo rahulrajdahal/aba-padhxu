@@ -23,5 +23,7 @@ export const routes = {
   emailSettings: "/settings/email",
   passwordSettings: "/settings/password",
 
+  messages: "/messages",
+
   users: "/users",
 };

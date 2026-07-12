@@ -1,3 +1,4 @@
+import { createListingChatRoom } from "@/app/messages/actions";
 import { Button, Pill } from "@/components";
 import BreadcrumbItem from "@/components/Breadcrumbs/BreadcrumbItem";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
@@ -10,6 +11,8 @@ import {
 } from "@/generated/prisma/client/client";
 import { routes } from "@/utils/routes";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface ListingPageProps {
   listing: Listing & {
@@ -31,6 +34,22 @@ export default function ListingDetail({
   });
 
   const isOwnListing = currentUserId === listing.sellerId;
+
+  const handleChatWithSeller = async () => {
+    const { type, message, data } = await createListingChatRoom(
+      listing.id,
+      listing.sellerId,
+    );
+
+    if (type === "success") {
+      toast.success(message);
+      redirect(`${routes.messages}/${data}`);
+    }
+
+    if (type === "error") {
+      toast.error(message);
+    }
+  };
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-8">
@@ -150,6 +169,7 @@ export default function ListingDetail({
                       size="sm"
                       variant="filled"
                       className="bg-gray-50! text-gray-950!"
+                      onClick={handleChatWithSeller}
                     >
                       💬 Chat with Seller
                     </Button>

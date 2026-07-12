@@ -362,14 +362,14 @@ model ChatRoom {
 
 model ChatMessage {
   id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  chatRoomId  String    @map("chat_room_id") @db.Uuid
-  senderId    String    @map("sender_id") @db.Uuid
   messageText String    @map("message_text")
   readAt      DateTime? @map("read_at") @db.Timestamptz
   createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
 
-  chatRoom ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
-  sender   User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  chatRoomId String   @map("chat_room_id") @db.Uuid
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
+  senderId   String   @map("sender_id") @db.Uuid
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
 
   @@index([chatRoomId, createdAt(sort: Desc)])
   @@map("chat_messages")

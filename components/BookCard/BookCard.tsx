@@ -21,11 +21,11 @@ export default function BookCard({
     book: Book & { genre: Pick<Genre, "name"> } & { wishlistItems: Wishlist[] };
   };
 }>) {
-  const { book, id, priceCents, bookId } = listing;
+  const { book, id, pricePennies, bookId } = listing;
 
   return (
     <div className="px-5 py-7 flex flex-col w-full gap-2 max-w-70 relative">
-      <PriceBadge price={priceCents / 100} />
+      <PriceBadge price={pricePennies / 100} />
       <img
         src={book.image}
         alt={book.title}

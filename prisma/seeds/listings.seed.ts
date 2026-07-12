@@ -25,7 +25,11 @@ export default async function seedListings() {
     await prisma.listing.create({
       data: {
         condition: faker.helpers.arrayElement(Object.values(BookCondition)),
-        pricePennies: faker.number.int({ min: 500, max: 150000 }),
+        pricePennies: faker.number.float({
+          min: 200,
+          max: 150000,
+          fractionDigits: 2,
+        }),
         quantity: faker.number.int({ min: 1, max: 10 }),
         description: faker.helpers.maybe(() => faker.lorem.sentence(), {
           probability: 0.6,
