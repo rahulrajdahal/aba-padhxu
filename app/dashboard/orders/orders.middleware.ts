@@ -1,6 +1,6 @@
-import { sendEmail } from "@/app/(auth)/middleware";
 import EmailTemplate from "@/emails/EmailTemplate";
 import { User } from "@/generated/prisma/client/client";
+import { sendEmail } from "@/lib/email";
 import { logger } from "@/lib/logger";
 import { errorResponse, okResponse, serverError } from "@/lib/responses";
 import { render } from "@react-email/components";

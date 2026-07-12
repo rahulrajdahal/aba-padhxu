@@ -165,14 +165,14 @@ model Book {
 }
 
 model Listing {
-  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  condition   BookCondition
-  priceCents  Int           @map("price_cents")
-  quantity    Int
-  description String?
-  isActive    Boolean       @default(true) @map("is_active")
-  createdAt   DateTime      @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt   DateTime      @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  condition    BookCondition
+  pricePennies Int           @map("price_pennies")
+  quantity     Int
+  description  String?
+  isActive     Boolean       @default(true) @map("is_active")
+  createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime      @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   sellerId String @map("seller_id") @db.Uuid
   seller   User   @relation("SellerListings", fields: [sellerId], references: [id], onDelete: Cascade)
@@ -228,12 +228,12 @@ model Wishlist {
 }
 
 model Order {
-  id                String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  totalAmountCents  Int         @map("total_amount_cents")
-  paymentStatus     OrderStatus @default(PENDING) @map("payment_status")
-  paymentGatewayRef String?     @map("payment_gateway_ref")
-  createdAt         DateTime    @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt         DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  id                 String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  totalAmountPennies Int         @map("total_amount_pennies")
+  paymentStatus      OrderStatus @default(PENDING) @map("payment_status")
+  paymentGatewayRef  String?     @map("payment_gateway_ref")
+  createdAt          DateTime    @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   buyerId           String      @map("buyer_id") @db.Uuid
   buyer             User        @relation("BuyerOrders", fields: [buyerId], references: [id], onDelete: Restrict)
@@ -247,16 +247,16 @@ model Order {
 }
 
 model OrderItem {
-  id                   String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  historicalTitle      String          @map("historical_title")
-  historicalIsbn13     String          @map("historical_isbn13") @db.Char(13)
-  priceAtPurchaseCents Int             @map("price_at_purchase_cents")
-  quantity             Int
-  fulfillmentStatus    OrderItemStatus @default(PROCESSING) @map("fulfillment_status")
-  trackingNumber       String?         @map("tracking_number")
-  shippingCarrier      String?         @map("shipping_carrier")
-  createdAt            DateTime        @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt            DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  id                     String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  historicalTitle        String          @map("historical_title")
+  historicalIsbn13       String          @map("historical_isbn13") @db.Char(13)
+  priceAtPurchasePennies Int             @map("price_at_purchase_pennies")
+  quantity               Int
+  fulfillmentStatus      OrderItemStatus @default(PROCESSING) @map("fulfillment_status")
+  trackingNumber         String?         @map("tracking_number")
+  shippingCarrier        String?         @map("shipping_carrier")
+  createdAt              DateTime        @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt              DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   orderId      String        @map("order_id") @db.Uuid
   order        Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
@@ -273,8 +273,27 @@ model OrderItem {
   @@map("order_items")
 }
 
+enum DiscountType {
+  FIXED
+  PERCENTAGE
+}
+
+model Coupon {
+  id                   String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code                 String       @unique
+  discountType         DiscountType @map("discount_type")
+  discountValuePennies Int          @map("discount_value_pennies")
+  isActive             Boolean      @default(true) @map("is_active")
+  expiresAt            DateTime     @map("expires_at") @db.Timestamptz
+  maxUses              Int
+  usedCount            Int          @default(0) @map("used_count")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+}
+
 model EscrowPayout {
-  amountCents          Int      @map("amount_cents")
+  amountPennies        Int      @map("amount_pennies")
   payoutTransactionRef String?  @map("payout_transaction_ref")
   releaseEligibleAt    DateTime @map("release_eligible_at") @db.Timestamptz
   createdAt            DateTime @default(now()) @map("created_at") @db.Timestamptz

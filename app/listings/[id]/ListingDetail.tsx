@@ -25,7 +25,7 @@ export default function ListingDetail({
   currentUserId,
   isAuth = false,
 }: ListingPageProps) {
-  const formattedPrice = (listing.priceCents / 100).toLocaleString("en-US", {
+  const formattedPrice = (listing.pricePennies / 100).toLocaleString("en-US", {
     style: "currency",
     currency: "USD",
   });

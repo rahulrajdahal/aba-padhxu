@@ -1,9 +1,11 @@
+import { Input } from "@/components";
 import { Book, CartItem, Listing } from "@/generated/prisma/client/client";
 import { routes } from "@/utils/routes";
 import { Add, Delete, MinusBlock } from "@meistericons/react";
 import Link from "next/link";
 import {
   deletecartItem,
+  updateCartItem,
   updateCartItemQuantity,
 } from "../../cartItems/actions";
 
@@ -14,6 +16,18 @@ interface CartItemCardProps {
 }
 
 export default function CartItemCard({ cartItem }: CartItemCardProps) {
+  const handleQuantityOnChange: React.ChangeEventHandler<
+    HTMLInputElement,
+    HTMLInputElement
+  > = async (e) => {
+    const { value } = e.target;
+
+    const formData = new FormData();
+    formData.append("quantity", value);
+
+    await updateCartItem(cartItem.id, formData);
+  };
+
   return (
     <li key={cartItem.id} className="flex py-6">
       <div className="h-24 w-16 shrink-0 overflow-hidden rounded-md border border-gray-200 bg-gray-100">
@@ -33,9 +47,9 @@ export default function CartItemCard({ cartItem }: CartItemCardProps) {
               </Link>
             </h3>
             <p className="ml-4">
-              $
+              £
               {(
-                (cartItem.listing.priceCents / 100) *
+                (cartItem.listing.pricePennies / 100) *
                 cartItem.quantity
               ).toFixed(2)}
             </p>
@@ -60,9 +74,18 @@ export default function CartItemCard({ cartItem }: CartItemCardProps) {
             >
               <MinusBlock size={14} />
             </button>
-            <span className="px-3 text-gray-800 font-medium">
+            <Input
+              defaultValue={cartItem.quantity}
+              name={`quantity-${cartItem.id}`}
+              type="number"
+              min={1}
+              max={cartItem.listing.quantity}
+              className="w-16 text-center"
+              onChange={handleQuantityOnChange}
+            />
+            {/* <span className="px-3 text-gray-800 font-medium">
               {cartItem.quantity}
-            </span>
+            </span> */}
             <button
               onClick={() =>
                 updateCartItemQuantity(

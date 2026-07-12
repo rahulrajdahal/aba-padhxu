@@ -27,19 +27,19 @@ export type AggregateListing = {
 }
 
 export type ListingAvgAggregateOutputType = {
-  priceCents: number | null
+  pricePennies: number | null
   quantity: number | null
 }
 
 export type ListingSumAggregateOutputType = {
-  priceCents: number | null
+  pricePennies: number | null
   quantity: number | null
 }
 
 export type ListingMinAggregateOutputType = {
   id: string | null
   condition: $Enums.BookCondition | null
-  priceCents: number | null
+  pricePennies: number | null
   quantity: number | null
   description: string | null
   isActive: boolean | null
@@ -52,7 +52,7 @@ export type ListingMinAggregateOutputType = {
 export type ListingMaxAggregateOutputType = {
   id: string | null
   condition: $Enums.BookCondition | null
-  priceCents: number | null
+  pricePennies: number | null
   quantity: number | null
   description: string | null
   isActive: boolean | null
@@ -65,7 +65,7 @@ export type ListingMaxAggregateOutputType = {
 export type ListingCountAggregateOutputType = {
   id: number
   condition: number
-  priceCents: number
+  pricePennies: number
   quantity: number
   description: number
   isActive: number
@@ -78,19 +78,19 @@ export type ListingCountAggregateOutputType = {
 
 
 export type ListingAvgAggregateInputType = {
-  priceCents?: true
+  pricePennies?: true
   quantity?: true
 }
 
 export type ListingSumAggregateInputType = {
-  priceCents?: true
+  pricePennies?: true
   quantity?: true
 }
 
 export type ListingMinAggregateInputType = {
   id?: true
   condition?: true
-  priceCents?: true
+  pricePennies?: true
   quantity?: true
   description?: true
   isActive?: true
@@ -103,7 +103,7 @@ export type ListingMinAggregateInputType = {
 export type ListingMaxAggregateInputType = {
   id?: true
   condition?: true
-  priceCents?: true
+  pricePennies?: true
   quantity?: true
   description?: true
   isActive?: true
@@ -116,7 +116,7 @@ export type ListingMaxAggregateInputType = {
 export type ListingCountAggregateInputType = {
   id?: true
   condition?: true
-  priceCents?: true
+  pricePennies?: true
   quantity?: true
   description?: true
   isActive?: true
@@ -216,7 +216,7 @@ export type ListingGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type ListingGroupByOutputType = {
   id: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description: string | null
   isActive: boolean
@@ -252,7 +252,7 @@ export type ListingWhereInput = {
   NOT?: Prisma.ListingWhereInput | Prisma.ListingWhereInput[]
   id?: Prisma.UuidFilter<"Listing"> | string
   condition?: Prisma.EnumBookConditionFilter<"Listing"> | $Enums.BookCondition
-  priceCents?: Prisma.IntFilter<"Listing"> | number
+  pricePennies?: Prisma.IntFilter<"Listing"> | number
   quantity?: Prisma.IntFilter<"Listing"> | number
   description?: Prisma.StringNullableFilter<"Listing"> | string | null
   isActive?: Prisma.BoolFilter<"Listing"> | boolean
@@ -270,7 +270,7 @@ export type ListingWhereInput = {
 export type ListingOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   condition?: Prisma.SortOrder
-  priceCents?: Prisma.SortOrder
+  pricePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -291,7 +291,7 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ListingWhereInput[]
   NOT?: Prisma.ListingWhereInput | Prisma.ListingWhereInput[]
   condition?: Prisma.EnumBookConditionFilter<"Listing"> | $Enums.BookCondition
-  priceCents?: Prisma.IntFilter<"Listing"> | number
+  pricePennies?: Prisma.IntFilter<"Listing"> | number
   quantity?: Prisma.IntFilter<"Listing"> | number
   description?: Prisma.StringNullableFilter<"Listing"> | string | null
   isActive?: Prisma.BoolFilter<"Listing"> | boolean
@@ -309,7 +309,7 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
 export type ListingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   condition?: Prisma.SortOrder
-  priceCents?: Prisma.SortOrder
+  pricePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -330,7 +330,7 @@ export type ListingScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ListingScalarWhereWithAggregatesInput | Prisma.ListingScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Listing"> | string
   condition?: Prisma.EnumBookConditionWithAggregatesFilter<"Listing"> | $Enums.BookCondition
-  priceCents?: Prisma.IntWithAggregatesFilter<"Listing"> | number
+  pricePennies?: Prisma.IntWithAggregatesFilter<"Listing"> | number
   quantity?: Prisma.IntWithAggregatesFilter<"Listing"> | number
   description?: Prisma.StringNullableWithAggregatesFilter<"Listing"> | string | null
   isActive?: Prisma.BoolWithAggregatesFilter<"Listing"> | boolean
@@ -343,7 +343,7 @@ export type ListingScalarWhereWithAggregatesInput = {
 export type ListingCreateInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -359,7 +359,7 @@ export type ListingCreateInput = {
 export type ListingUncheckedCreateInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -375,7 +375,7 @@ export type ListingUncheckedCreateInput = {
 export type ListingUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -391,7 +391,7 @@ export type ListingUpdateInput = {
 export type ListingUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -407,7 +407,7 @@ export type ListingUncheckedUpdateInput = {
 export type ListingCreateManyInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -420,7 +420,7 @@ export type ListingCreateManyInput = {
 export type ListingUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -431,7 +431,7 @@ export type ListingUpdateManyMutationInput = {
 export type ListingUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -454,7 +454,7 @@ export type ListingOrderByRelationAggregateInput = {
 export type ListingCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   condition?: Prisma.SortOrder
-  priceCents?: Prisma.SortOrder
+  pricePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -465,14 +465,14 @@ export type ListingCountOrderByAggregateInput = {
 }
 
 export type ListingAvgOrderByAggregateInput = {
-  priceCents?: Prisma.SortOrder
+  pricePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
 }
 
 export type ListingMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   condition?: Prisma.SortOrder
-  priceCents?: Prisma.SortOrder
+  pricePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -485,7 +485,7 @@ export type ListingMaxOrderByAggregateInput = {
 export type ListingMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   condition?: Prisma.SortOrder
-  priceCents?: Prisma.SortOrder
+  pricePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -496,7 +496,7 @@ export type ListingMinOrderByAggregateInput = {
 }
 
 export type ListingSumOrderByAggregateInput = {
-  priceCents?: Prisma.SortOrder
+  pricePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
 }
 
@@ -647,7 +647,7 @@ export type ListingUpdateOneWithoutChatRoomsNestedInput = {
 export type ListingCreateWithoutSellerInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -662,7 +662,7 @@ export type ListingCreateWithoutSellerInput = {
 export type ListingUncheckedCreateWithoutSellerInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -706,7 +706,7 @@ export type ListingScalarWhereInput = {
   NOT?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
   id?: Prisma.UuidFilter<"Listing"> | string
   condition?: Prisma.EnumBookConditionFilter<"Listing"> | $Enums.BookCondition
-  priceCents?: Prisma.IntFilter<"Listing"> | number
+  pricePennies?: Prisma.IntFilter<"Listing"> | number
   quantity?: Prisma.IntFilter<"Listing"> | number
   description?: Prisma.StringNullableFilter<"Listing"> | string | null
   isActive?: Prisma.BoolFilter<"Listing"> | boolean
@@ -719,7 +719,7 @@ export type ListingScalarWhereInput = {
 export type ListingCreateWithoutBookInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -734,7 +734,7 @@ export type ListingCreateWithoutBookInput = {
 export type ListingUncheckedCreateWithoutBookInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -775,7 +775,7 @@ export type ListingUpdateManyWithWhereWithoutBookInput = {
 export type ListingCreateWithoutCartItemsInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -790,7 +790,7 @@ export type ListingCreateWithoutCartItemsInput = {
 export type ListingUncheckedCreateWithoutCartItemsInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -821,7 +821,7 @@ export type ListingUpdateToOneWithWhereWithoutCartItemsInput = {
 export type ListingUpdateWithoutCartItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -836,7 +836,7 @@ export type ListingUpdateWithoutCartItemsInput = {
 export type ListingUncheckedUpdateWithoutCartItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -851,7 +851,7 @@ export type ListingUncheckedUpdateWithoutCartItemsInput = {
 export type ListingCreateWithoutOrderItemsInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -866,7 +866,7 @@ export type ListingCreateWithoutOrderItemsInput = {
 export type ListingUncheckedCreateWithoutOrderItemsInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -897,7 +897,7 @@ export type ListingUpdateToOneWithWhereWithoutOrderItemsInput = {
 export type ListingUpdateWithoutOrderItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -912,7 +912,7 @@ export type ListingUpdateWithoutOrderItemsInput = {
 export type ListingUncheckedUpdateWithoutOrderItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -927,7 +927,7 @@ export type ListingUncheckedUpdateWithoutOrderItemsInput = {
 export type ListingCreateWithoutChatRoomsInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -942,7 +942,7 @@ export type ListingCreateWithoutChatRoomsInput = {
 export type ListingUncheckedCreateWithoutChatRoomsInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -973,7 +973,7 @@ export type ListingUpdateToOneWithWhereWithoutChatRoomsInput = {
 export type ListingUpdateWithoutChatRoomsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -988,7 +988,7 @@ export type ListingUpdateWithoutChatRoomsInput = {
 export type ListingUncheckedUpdateWithoutChatRoomsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1003,7 +1003,7 @@ export type ListingUncheckedUpdateWithoutChatRoomsInput = {
 export type ListingCreateManySellerInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -1015,7 +1015,7 @@ export type ListingCreateManySellerInput = {
 export type ListingUpdateWithoutSellerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1030,7 +1030,7 @@ export type ListingUpdateWithoutSellerInput = {
 export type ListingUncheckedUpdateWithoutSellerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1045,7 +1045,7 @@ export type ListingUncheckedUpdateWithoutSellerInput = {
 export type ListingUncheckedUpdateManyWithoutSellerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1057,7 +1057,7 @@ export type ListingUncheckedUpdateManyWithoutSellerInput = {
 export type ListingCreateManyBookInput = {
   id?: string
   condition: $Enums.BookCondition
-  priceCents: number
+  pricePennies: number
   quantity: number
   description?: string | null
   isActive?: boolean
@@ -1069,7 +1069,7 @@ export type ListingCreateManyBookInput = {
 export type ListingUpdateWithoutBookInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1084,7 +1084,7 @@ export type ListingUpdateWithoutBookInput = {
 export type ListingUncheckedUpdateWithoutBookInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1099,7 +1099,7 @@ export type ListingUncheckedUpdateWithoutBookInput = {
 export type ListingUncheckedUpdateManyWithoutBookInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  priceCents?: Prisma.IntFieldUpdateOperationsInput | number
+  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1160,7 +1160,7 @@ export type ListingCountOutputTypeCountChatRoomsArgs<ExtArgs extends runtime.Typ
 export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   condition?: boolean
-  priceCents?: boolean
+  pricePennies?: boolean
   quantity?: boolean
   description?: boolean
   isActive?: boolean
@@ -1179,7 +1179,7 @@ export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type ListingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   condition?: boolean
-  priceCents?: boolean
+  pricePennies?: boolean
   quantity?: boolean
   description?: boolean
   isActive?: boolean
@@ -1194,7 +1194,7 @@ export type ListingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ListingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   condition?: boolean
-  priceCents?: boolean
+  pricePennies?: boolean
   quantity?: boolean
   description?: boolean
   isActive?: boolean
@@ -1209,7 +1209,7 @@ export type ListingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ListingSelectScalar = {
   id?: boolean
   condition?: boolean
-  priceCents?: boolean
+  pricePennies?: boolean
   quantity?: boolean
   description?: boolean
   isActive?: boolean
@@ -1219,7 +1219,7 @@ export type ListingSelectScalar = {
   bookId?: boolean
 }
 
-export type ListingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "condition" | "priceCents" | "quantity" | "description" | "isActive" | "createdAt" | "updatedAt" | "sellerId" | "bookId", ExtArgs["result"]["listing"]>
+export type ListingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "condition" | "pricePennies" | "quantity" | "description" | "isActive" | "createdAt" | "updatedAt" | "sellerId" | "bookId", ExtArgs["result"]["listing"]>
 export type ListingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   book?: boolean | Prisma.BookDefaultArgs<ExtArgs>
@@ -1249,7 +1249,7 @@ export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     condition: $Enums.BookCondition
-    priceCents: number
+    pricePennies: number
     quantity: number
     description: string | null
     isActive: boolean
@@ -1687,7 +1687,7 @@ export interface Prisma__ListingClient<T, Null = never, ExtArgs extends runtime.
 export interface ListingFieldRefs {
   readonly id: Prisma.FieldRef<"Listing", 'String'>
   readonly condition: Prisma.FieldRef<"Listing", 'BookCondition'>
-  readonly priceCents: Prisma.FieldRef<"Listing", 'Int'>
+  readonly pricePennies: Prisma.FieldRef<"Listing", 'Int'>
   readonly quantity: Prisma.FieldRef<"Listing", 'Int'>
   readonly description: Prisma.FieldRef<"Listing", 'String'>
   readonly isActive: Prisma.FieldRef<"Listing", 'Boolean'>

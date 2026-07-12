@@ -27,12 +27,12 @@ export type AggregateOrderItem = {
 }
 
 export type OrderItemAvgAggregateOutputType = {
-  priceAtPurchaseCents: number | null
+  priceAtPurchasePennies: number | null
   quantity: number | null
 }
 
 export type OrderItemSumAggregateOutputType = {
-  priceAtPurchaseCents: number | null
+  priceAtPurchasePennies: number | null
   quantity: number | null
 }
 
@@ -40,7 +40,7 @@ export type OrderItemMinAggregateOutputType = {
   id: string | null
   historicalTitle: string | null
   historicalIsbn13: string | null
-  priceAtPurchaseCents: number | null
+  priceAtPurchasePennies: number | null
   quantity: number | null
   fulfillmentStatus: $Enums.OrderItemStatus | null
   trackingNumber: string | null
@@ -56,7 +56,7 @@ export type OrderItemMaxAggregateOutputType = {
   id: string | null
   historicalTitle: string | null
   historicalIsbn13: string | null
-  priceAtPurchaseCents: number | null
+  priceAtPurchasePennies: number | null
   quantity: number | null
   fulfillmentStatus: $Enums.OrderItemStatus | null
   trackingNumber: string | null
@@ -72,7 +72,7 @@ export type OrderItemCountAggregateOutputType = {
   id: number
   historicalTitle: number
   historicalIsbn13: number
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus: number
   trackingNumber: number
@@ -87,12 +87,12 @@ export type OrderItemCountAggregateOutputType = {
 
 
 export type OrderItemAvgAggregateInputType = {
-  priceAtPurchaseCents?: true
+  priceAtPurchasePennies?: true
   quantity?: true
 }
 
 export type OrderItemSumAggregateInputType = {
-  priceAtPurchaseCents?: true
+  priceAtPurchasePennies?: true
   quantity?: true
 }
 
@@ -100,7 +100,7 @@ export type OrderItemMinAggregateInputType = {
   id?: true
   historicalTitle?: true
   historicalIsbn13?: true
-  priceAtPurchaseCents?: true
+  priceAtPurchasePennies?: true
   quantity?: true
   fulfillmentStatus?: true
   trackingNumber?: true
@@ -116,7 +116,7 @@ export type OrderItemMaxAggregateInputType = {
   id?: true
   historicalTitle?: true
   historicalIsbn13?: true
-  priceAtPurchaseCents?: true
+  priceAtPurchasePennies?: true
   quantity?: true
   fulfillmentStatus?: true
   trackingNumber?: true
@@ -132,7 +132,7 @@ export type OrderItemCountAggregateInputType = {
   id?: true
   historicalTitle?: true
   historicalIsbn13?: true
-  priceAtPurchaseCents?: true
+  priceAtPurchasePennies?: true
   quantity?: true
   fulfillmentStatus?: true
   trackingNumber?: true
@@ -235,7 +235,7 @@ export type OrderItemGroupByOutputType = {
   id: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus: $Enums.OrderItemStatus
   trackingNumber: string | null
@@ -274,7 +274,7 @@ export type OrderItemWhereInput = {
   id?: Prisma.UuidFilter<"OrderItem"> | string
   historicalTitle?: Prisma.StringFilter<"OrderItem"> | string
   historicalIsbn13?: Prisma.StringFilter<"OrderItem"> | string
-  priceAtPurchaseCents?: Prisma.IntFilter<"OrderItem"> | number
+  priceAtPurchasePennies?: Prisma.IntFilter<"OrderItem"> | number
   quantity?: Prisma.IntFilter<"OrderItem"> | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFilter<"OrderItem"> | $Enums.OrderItemStatus
   trackingNumber?: Prisma.StringNullableFilter<"OrderItem"> | string | null
@@ -295,7 +295,7 @@ export type OrderItemOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   historicalTitle?: Prisma.SortOrder
   historicalIsbn13?: Prisma.SortOrder
-  priceAtPurchaseCents?: Prisma.SortOrder
+  priceAtPurchasePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   fulfillmentStatus?: Prisma.SortOrder
   trackingNumber?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -319,7 +319,7 @@ export type OrderItemWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.OrderItemWhereInput | Prisma.OrderItemWhereInput[]
   historicalTitle?: Prisma.StringFilter<"OrderItem"> | string
   historicalIsbn13?: Prisma.StringFilter<"OrderItem"> | string
-  priceAtPurchaseCents?: Prisma.IntFilter<"OrderItem"> | number
+  priceAtPurchasePennies?: Prisma.IntFilter<"OrderItem"> | number
   quantity?: Prisma.IntFilter<"OrderItem"> | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFilter<"OrderItem"> | $Enums.OrderItemStatus
   trackingNumber?: Prisma.StringNullableFilter<"OrderItem"> | string | null
@@ -340,7 +340,7 @@ export type OrderItemOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   historicalTitle?: Prisma.SortOrder
   historicalIsbn13?: Prisma.SortOrder
-  priceAtPurchaseCents?: Prisma.SortOrder
+  priceAtPurchasePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   fulfillmentStatus?: Prisma.SortOrder
   trackingNumber?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -364,7 +364,7 @@ export type OrderItemScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"OrderItem"> | string
   historicalTitle?: Prisma.StringWithAggregatesFilter<"OrderItem"> | string
   historicalIsbn13?: Prisma.StringWithAggregatesFilter<"OrderItem"> | string
-  priceAtPurchaseCents?: Prisma.IntWithAggregatesFilter<"OrderItem"> | number
+  priceAtPurchasePennies?: Prisma.IntWithAggregatesFilter<"OrderItem"> | number
   quantity?: Prisma.IntWithAggregatesFilter<"OrderItem"> | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusWithAggregatesFilter<"OrderItem"> | $Enums.OrderItemStatus
   trackingNumber?: Prisma.StringNullableWithAggregatesFilter<"OrderItem"> | string | null
@@ -380,7 +380,7 @@ export type OrderItemCreateInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -398,7 +398,7 @@ export type OrderItemUncheckedCreateInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -416,7 +416,7 @@ export type OrderItemUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -434,7 +434,7 @@ export type OrderItemUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -452,7 +452,7 @@ export type OrderItemCreateManyInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -468,7 +468,7 @@ export type OrderItemUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -481,7 +481,7 @@ export type OrderItemUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -507,7 +507,7 @@ export type OrderItemCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   historicalTitle?: Prisma.SortOrder
   historicalIsbn13?: Prisma.SortOrder
-  priceAtPurchaseCents?: Prisma.SortOrder
+  priceAtPurchasePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   fulfillmentStatus?: Prisma.SortOrder
   trackingNumber?: Prisma.SortOrder
@@ -520,7 +520,7 @@ export type OrderItemCountOrderByAggregateInput = {
 }
 
 export type OrderItemAvgOrderByAggregateInput = {
-  priceAtPurchaseCents?: Prisma.SortOrder
+  priceAtPurchasePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
 }
 
@@ -528,7 +528,7 @@ export type OrderItemMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   historicalTitle?: Prisma.SortOrder
   historicalIsbn13?: Prisma.SortOrder
-  priceAtPurchaseCents?: Prisma.SortOrder
+  priceAtPurchasePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   fulfillmentStatus?: Prisma.SortOrder
   trackingNumber?: Prisma.SortOrder
@@ -544,7 +544,7 @@ export type OrderItemMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   historicalTitle?: Prisma.SortOrder
   historicalIsbn13?: Prisma.SortOrder
-  priceAtPurchaseCents?: Prisma.SortOrder
+  priceAtPurchasePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   fulfillmentStatus?: Prisma.SortOrder
   trackingNumber?: Prisma.SortOrder
@@ -557,7 +557,7 @@ export type OrderItemMinOrderByAggregateInput = {
 }
 
 export type OrderItemSumOrderByAggregateInput = {
-  priceAtPurchaseCents?: Prisma.SortOrder
+  priceAtPurchasePennies?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
 }
 
@@ -728,7 +728,7 @@ export type OrderItemCreateWithoutSellerInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -745,7 +745,7 @@ export type OrderItemUncheckedCreateWithoutSellerInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -791,7 +791,7 @@ export type OrderItemScalarWhereInput = {
   id?: Prisma.UuidFilter<"OrderItem"> | string
   historicalTitle?: Prisma.StringFilter<"OrderItem"> | string
   historicalIsbn13?: Prisma.StringFilter<"OrderItem"> | string
-  priceAtPurchaseCents?: Prisma.IntFilter<"OrderItem"> | number
+  priceAtPurchasePennies?: Prisma.IntFilter<"OrderItem"> | number
   quantity?: Prisma.IntFilter<"OrderItem"> | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFilter<"OrderItem"> | $Enums.OrderItemStatus
   trackingNumber?: Prisma.StringNullableFilter<"OrderItem"> | string | null
@@ -807,7 +807,7 @@ export type OrderItemCreateWithoutListingInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -824,7 +824,7 @@ export type OrderItemUncheckedCreateWithoutListingInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -867,7 +867,7 @@ export type OrderItemCreateWithoutOrderInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -884,7 +884,7 @@ export type OrderItemUncheckedCreateWithoutOrderInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -927,7 +927,7 @@ export type OrderItemCreateWithoutEscrowPayoutInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -944,7 +944,7 @@ export type OrderItemUncheckedCreateWithoutEscrowPayoutInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -977,7 +977,7 @@ export type OrderItemUpdateWithoutEscrowPayoutInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -994,7 +994,7 @@ export type OrderItemUncheckedUpdateWithoutEscrowPayoutInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1011,7 +1011,7 @@ export type OrderItemCreateWithoutReviewInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -1028,7 +1028,7 @@ export type OrderItemUncheckedCreateWithoutReviewInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -1061,7 +1061,7 @@ export type OrderItemUpdateWithoutReviewInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1078,7 +1078,7 @@ export type OrderItemUncheckedUpdateWithoutReviewInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1095,7 +1095,7 @@ export type OrderItemCreateManySellerInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -1110,7 +1110,7 @@ export type OrderItemUpdateWithoutSellerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1127,7 +1127,7 @@ export type OrderItemUncheckedUpdateWithoutSellerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1144,7 +1144,7 @@ export type OrderItemUncheckedUpdateManyWithoutSellerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1159,7 +1159,7 @@ export type OrderItemCreateManyListingInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -1174,7 +1174,7 @@ export type OrderItemUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1191,7 +1191,7 @@ export type OrderItemUncheckedUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1208,7 +1208,7 @@ export type OrderItemUncheckedUpdateManyWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1223,7 +1223,7 @@ export type OrderItemCreateManyOrderInput = {
   id?: string
   historicalTitle: string
   historicalIsbn13: string
-  priceAtPurchaseCents: number
+  priceAtPurchasePennies: number
   quantity: number
   fulfillmentStatus?: $Enums.OrderItemStatus
   trackingNumber?: string | null
@@ -1238,7 +1238,7 @@ export type OrderItemUpdateWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1255,7 +1255,7 @@ export type OrderItemUncheckedUpdateWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1272,7 +1272,7 @@ export type OrderItemUncheckedUpdateManyWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   historicalTitle?: Prisma.StringFieldUpdateOperationsInput | string
   historicalIsbn13?: Prisma.StringFieldUpdateOperationsInput | string
-  priceAtPurchaseCents?: Prisma.IntFieldUpdateOperationsInput | number
+  priceAtPurchasePennies?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   fulfillmentStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   trackingNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1289,7 +1289,7 @@ export type OrderItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   id?: boolean
   historicalTitle?: boolean
   historicalIsbn13?: boolean
-  priceAtPurchaseCents?: boolean
+  priceAtPurchasePennies?: boolean
   quantity?: boolean
   fulfillmentStatus?: boolean
   trackingNumber?: boolean
@@ -1310,7 +1310,7 @@ export type OrderItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   historicalTitle?: boolean
   historicalIsbn13?: boolean
-  priceAtPurchaseCents?: boolean
+  priceAtPurchasePennies?: boolean
   quantity?: boolean
   fulfillmentStatus?: boolean
   trackingNumber?: boolean
@@ -1329,7 +1329,7 @@ export type OrderItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   historicalTitle?: boolean
   historicalIsbn13?: boolean
-  priceAtPurchaseCents?: boolean
+  priceAtPurchasePennies?: boolean
   quantity?: boolean
   fulfillmentStatus?: boolean
   trackingNumber?: boolean
@@ -1348,7 +1348,7 @@ export type OrderItemSelectScalar = {
   id?: boolean
   historicalTitle?: boolean
   historicalIsbn13?: boolean
-  priceAtPurchaseCents?: boolean
+  priceAtPurchasePennies?: boolean
   quantity?: boolean
   fulfillmentStatus?: boolean
   trackingNumber?: boolean
@@ -1360,7 +1360,7 @@ export type OrderItemSelectScalar = {
   sellerId?: boolean
 }
 
-export type OrderItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "historicalTitle" | "historicalIsbn13" | "priceAtPurchaseCents" | "quantity" | "fulfillmentStatus" | "trackingNumber" | "shippingCarrier" | "createdAt" | "updatedAt" | "orderId" | "listingId" | "sellerId", ExtArgs["result"]["orderItem"]>
+export type OrderItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "historicalTitle" | "historicalIsbn13" | "priceAtPurchasePennies" | "quantity" | "fulfillmentStatus" | "trackingNumber" | "shippingCarrier" | "createdAt" | "updatedAt" | "orderId" | "listingId" | "sellerId", ExtArgs["result"]["orderItem"]>
 export type OrderItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   listing?: boolean | Prisma.OrderItem$listingArgs<ExtArgs>
@@ -1392,7 +1392,7 @@ export type $OrderItemPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     id: string
     historicalTitle: string
     historicalIsbn13: string
-    priceAtPurchaseCents: number
+    priceAtPurchasePennies: number
     quantity: number
     fulfillmentStatus: $Enums.OrderItemStatus
     trackingNumber: string | null
@@ -1833,7 +1833,7 @@ export interface OrderItemFieldRefs {
   readonly id: Prisma.FieldRef<"OrderItem", 'String'>
   readonly historicalTitle: Prisma.FieldRef<"OrderItem", 'String'>
   readonly historicalIsbn13: Prisma.FieldRef<"OrderItem", 'String'>
-  readonly priceAtPurchaseCents: Prisma.FieldRef<"OrderItem", 'Int'>
+  readonly priceAtPurchasePennies: Prisma.FieldRef<"OrderItem", 'Int'>
   readonly quantity: Prisma.FieldRef<"OrderItem", 'Int'>
   readonly fulfillmentStatus: Prisma.FieldRef<"OrderItem", 'OrderItemStatus'>
   readonly trackingNumber: Prisma.FieldRef<"OrderItem", 'String'>

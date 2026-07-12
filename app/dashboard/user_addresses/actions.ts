@@ -48,21 +48,25 @@ export const addUserAddress = authActionWrapper(
 
     const addressId = await userAddressServices.createUserAddress(body);
     revalidatePath(`${routes.dashboard}${routes.addressSettings}`);
+    revalidatePath(routes.checkout);
     return createdResponse("Address added successfully", addressId);
   },
 );
 
-export const fetchUserAddresses = authActionWrapper(async () => {
-  const userId = await authUserId();
-  if (!userId) {
-    return forbiddenError();
-  }
+export const fetchUserAddresses = authActionWrapper(
+  async (type?: AddressType) => {
+    const userId = await authUserId();
+    if (!userId) {
+      return forbiddenError();
+    }
 
-  const addresses = await userAddressServices.findUserAddressesByUserId(
-    userId as string,
-  );
-  return okResponse("Addresses fetched successfully", addresses);
-});
+    const addresses = await userAddressServices.findUserAddressesByUserId(
+      userId as string,
+      type,
+    );
+    return okResponse("Addresses fetched successfully", addresses);
+  },
+);
 
 export const updateUserAddress = authActionWrapper(
   async (id: string, formData: FormData) => {
@@ -103,6 +107,7 @@ export const updateUserAddress = authActionWrapper(
 
     await userAddressServices.patchUserAddressById(id, body);
     revalidatePath(`${routes.dashboard}${routes.addressSettings}`);
+    revalidatePath(routes.checkout);
     return noContentResponse();
   },
 );

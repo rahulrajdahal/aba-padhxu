@@ -1,6 +1,7 @@
 import {
   CartItemFindManyArgs,
   CartItemFindUniqueArgs,
+  CartItemUpdateInput,
 } from "@/generated/prisma/client/models";
 import { prisma } from "@/prisma/prisma";
 
@@ -25,10 +26,23 @@ export const CartItemDAL = {
     return await prisma.cartItem.findUnique(args);
   },
 
-  updateQuantityById: async (id: string, type: "increment" | "decrement") => {
-    return await prisma.cartItem.update({
+  findById: async (id: string) => {
+    return await prisma.cartItem.findUnique({
       where: { id },
-      data: { quantity: { [type]: 1 } },
+    });
+  },
+
+  updateById: async (id: string, data: Partial<CartItemUpdateInput>) =>
+    await prisma.cartItem.update({
+      where: { id },
+      data,
+    }),
+
+  updateQuantityById: async (id: string, type: "increment" | "decrement") => {
+    await CartItemDAL.updateById(id, {
+      quantity: {
+        [type]: 1,
+      },
     });
   },
 

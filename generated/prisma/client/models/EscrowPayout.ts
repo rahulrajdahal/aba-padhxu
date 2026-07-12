@@ -27,15 +27,15 @@ export type AggregateEscrowPayout = {
 }
 
 export type EscrowPayoutAvgAggregateOutputType = {
-  amountCents: number | null
+  amountPennies: number | null
 }
 
 export type EscrowPayoutSumAggregateOutputType = {
-  amountCents: number | null
+  amountPennies: number | null
 }
 
 export type EscrowPayoutMinAggregateOutputType = {
-  amountCents: number | null
+  amountPennies: number | null
   payoutTransactionRef: string | null
   releaseEligibleAt: Date | null
   createdAt: Date | null
@@ -46,7 +46,7 @@ export type EscrowPayoutMinAggregateOutputType = {
 }
 
 export type EscrowPayoutMaxAggregateOutputType = {
-  amountCents: number | null
+  amountPennies: number | null
   payoutTransactionRef: string | null
   releaseEligibleAt: Date | null
   createdAt: Date | null
@@ -57,7 +57,7 @@ export type EscrowPayoutMaxAggregateOutputType = {
 }
 
 export type EscrowPayoutCountAggregateOutputType = {
-  amountCents: number
+  amountPennies: number
   payoutTransactionRef: number
   releaseEligibleAt: number
   createdAt: number
@@ -70,15 +70,15 @@ export type EscrowPayoutCountAggregateOutputType = {
 
 
 export type EscrowPayoutAvgAggregateInputType = {
-  amountCents?: true
+  amountPennies?: true
 }
 
 export type EscrowPayoutSumAggregateInputType = {
-  amountCents?: true
+  amountPennies?: true
 }
 
 export type EscrowPayoutMinAggregateInputType = {
-  amountCents?: true
+  amountPennies?: true
   payoutTransactionRef?: true
   releaseEligibleAt?: true
   createdAt?: true
@@ -89,7 +89,7 @@ export type EscrowPayoutMinAggregateInputType = {
 }
 
 export type EscrowPayoutMaxAggregateInputType = {
-  amountCents?: true
+  amountPennies?: true
   payoutTransactionRef?: true
   releaseEligibleAt?: true
   createdAt?: true
@@ -100,7 +100,7 @@ export type EscrowPayoutMaxAggregateInputType = {
 }
 
 export type EscrowPayoutCountAggregateInputType = {
-  amountCents?: true
+  amountPennies?: true
   payoutTransactionRef?: true
   releaseEligibleAt?: true
   createdAt?: true
@@ -198,7 +198,7 @@ export type EscrowPayoutGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 export type EscrowPayoutGroupByOutputType = {
-  amountCents: number
+  amountPennies: number
   payoutTransactionRef: string | null
   releaseEligibleAt: Date
   createdAt: Date
@@ -232,7 +232,7 @@ export type EscrowPayoutWhereInput = {
   AND?: Prisma.EscrowPayoutWhereInput | Prisma.EscrowPayoutWhereInput[]
   OR?: Prisma.EscrowPayoutWhereInput[]
   NOT?: Prisma.EscrowPayoutWhereInput | Prisma.EscrowPayoutWhereInput[]
-  amountCents?: Prisma.IntFilter<"EscrowPayout"> | number
+  amountPennies?: Prisma.IntFilter<"EscrowPayout"> | number
   payoutTransactionRef?: Prisma.StringNullableFilter<"EscrowPayout"> | string | null
   releaseEligibleAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
@@ -245,7 +245,7 @@ export type EscrowPayoutWhereInput = {
 }
 
 export type EscrowPayoutOrderByWithRelationInput = {
-  amountCents?: Prisma.SortOrder
+  amountPennies?: Prisma.SortOrder
   payoutTransactionRef?: Prisma.SortOrderInput | Prisma.SortOrder
   releaseEligibleAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -262,7 +262,7 @@ export type EscrowPayoutWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.EscrowPayoutWhereInput | Prisma.EscrowPayoutWhereInput[]
   OR?: Prisma.EscrowPayoutWhereInput[]
   NOT?: Prisma.EscrowPayoutWhereInput | Prisma.EscrowPayoutWhereInput[]
-  amountCents?: Prisma.IntFilter<"EscrowPayout"> | number
+  amountPennies?: Prisma.IntFilter<"EscrowPayout"> | number
   payoutTransactionRef?: Prisma.StringNullableFilter<"EscrowPayout"> | string | null
   releaseEligibleAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
@@ -274,7 +274,7 @@ export type EscrowPayoutWhereUniqueInput = Prisma.AtLeast<{
 }, "orderItemId">
 
 export type EscrowPayoutOrderByWithAggregationInput = {
-  amountCents?: Prisma.SortOrder
+  amountPennies?: Prisma.SortOrder
   payoutTransactionRef?: Prisma.SortOrderInput | Prisma.SortOrder
   releaseEligibleAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -293,7 +293,7 @@ export type EscrowPayoutScalarWhereWithAggregatesInput = {
   AND?: Prisma.EscrowPayoutScalarWhereWithAggregatesInput | Prisma.EscrowPayoutScalarWhereWithAggregatesInput[]
   OR?: Prisma.EscrowPayoutScalarWhereWithAggregatesInput[]
   NOT?: Prisma.EscrowPayoutScalarWhereWithAggregatesInput | Prisma.EscrowPayoutScalarWhereWithAggregatesInput[]
-  amountCents?: Prisma.IntWithAggregatesFilter<"EscrowPayout"> | number
+  amountPennies?: Prisma.IntWithAggregatesFilter<"EscrowPayout"> | number
   payoutTransactionRef?: Prisma.StringNullableWithAggregatesFilter<"EscrowPayout"> | string | null
   releaseEligibleAt?: Prisma.DateTimeWithAggregatesFilter<"EscrowPayout"> | Date | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"EscrowPayout"> | Date | string
@@ -304,7 +304,7 @@ export type EscrowPayoutScalarWhereWithAggregatesInput = {
 }
 
 export type EscrowPayoutCreateInput = {
-  amountCents: number
+  amountPennies: number
   payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
@@ -315,7 +315,7 @@ export type EscrowPayoutCreateInput = {
 }
 
 export type EscrowPayoutUncheckedCreateInput = {
-  amountCents: number
+  amountPennies: number
   payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
@@ -326,7 +326,7 @@ export type EscrowPayoutUncheckedCreateInput = {
 }
 
 export type EscrowPayoutUpdateInput = {
-  amountCents?: Prisma.IntFieldUpdateOperationsInput | number
+  amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
   payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -337,7 +337,7 @@ export type EscrowPayoutUpdateInput = {
 }
 
 export type EscrowPayoutUncheckedUpdateInput = {
-  amountCents?: Prisma.IntFieldUpdateOperationsInput | number
+  amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
   payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -348,7 +348,7 @@ export type EscrowPayoutUncheckedUpdateInput = {
 }
 
 export type EscrowPayoutCreateManyInput = {
-  amountCents: number
+  amountPennies: number
   payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
@@ -359,7 +359,7 @@ export type EscrowPayoutCreateManyInput = {
 }
 
 export type EscrowPayoutUpdateManyMutationInput = {
-  amountCents?: Prisma.IntFieldUpdateOperationsInput | number
+  amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
   payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -368,7 +368,7 @@ export type EscrowPayoutUpdateManyMutationInput = {
 }
 
 export type EscrowPayoutUncheckedUpdateManyInput = {
-  amountCents?: Prisma.IntFieldUpdateOperationsInput | number
+  amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
   payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -394,7 +394,7 @@ export type EscrowPayoutNullableScalarRelationFilter = {
 }
 
 export type EscrowPayoutCountOrderByAggregateInput = {
-  amountCents?: Prisma.SortOrder
+  amountPennies?: Prisma.SortOrder
   payoutTransactionRef?: Prisma.SortOrder
   releaseEligibleAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -405,11 +405,11 @@ export type EscrowPayoutCountOrderByAggregateInput = {
 }
 
 export type EscrowPayoutAvgOrderByAggregateInput = {
-  amountCents?: Prisma.SortOrder
+  amountPennies?: Prisma.SortOrder
 }
 
 export type EscrowPayoutMaxOrderByAggregateInput = {
-  amountCents?: Prisma.SortOrder
+  amountPennies?: Prisma.SortOrder
   payoutTransactionRef?: Prisma.SortOrder
   releaseEligibleAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -420,7 +420,7 @@ export type EscrowPayoutMaxOrderByAggregateInput = {
 }
 
 export type EscrowPayoutMinOrderByAggregateInput = {
-  amountCents?: Prisma.SortOrder
+  amountPennies?: Prisma.SortOrder
   payoutTransactionRef?: Prisma.SortOrder
   releaseEligibleAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -431,7 +431,7 @@ export type EscrowPayoutMinOrderByAggregateInput = {
 }
 
 export type EscrowPayoutSumOrderByAggregateInput = {
-  amountCents?: Prisma.SortOrder
+  amountPennies?: Prisma.SortOrder
 }
 
 export type EscrowPayoutCreateNestedManyWithoutSellerInput = {
@@ -509,7 +509,7 @@ export type EscrowPayoutUncheckedUpdateOneWithoutOrderItemNestedInput = {
 }
 
 export type EscrowPayoutCreateWithoutSellerInput = {
-  amountCents: number
+  amountPennies: number
   payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
@@ -519,7 +519,7 @@ export type EscrowPayoutCreateWithoutSellerInput = {
 }
 
 export type EscrowPayoutUncheckedCreateWithoutSellerInput = {
-  amountCents: number
+  amountPennies: number
   payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
@@ -558,7 +558,7 @@ export type EscrowPayoutScalarWhereInput = {
   AND?: Prisma.EscrowPayoutScalarWhereInput | Prisma.EscrowPayoutScalarWhereInput[]
   OR?: Prisma.EscrowPayoutScalarWhereInput[]
   NOT?: Prisma.EscrowPayoutScalarWhereInput | Prisma.EscrowPayoutScalarWhereInput[]
-  amountCents?: Prisma.IntFilter<"EscrowPayout"> | number
+  amountPennies?: Prisma.IntFilter<"EscrowPayout"> | number
   payoutTransactionRef?: Prisma.StringNullableFilter<"EscrowPayout"> | string | null
   releaseEligibleAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
@@ -569,7 +569,7 @@ export type EscrowPayoutScalarWhereInput = {
 }
 
 export type EscrowPayoutCreateWithoutOrderItemInput = {
-  amountCents: number
+  amountPennies: number
   payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
@@ -579,7 +579,7 @@ export type EscrowPayoutCreateWithoutOrderItemInput = {
 }
 
 export type EscrowPayoutUncheckedCreateWithoutOrderItemInput = {
-  amountCents: number
+  amountPennies: number
   payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
@@ -605,7 +605,7 @@ export type EscrowPayoutUpdateToOneWithWhereWithoutOrderItemInput = {
 }
 
 export type EscrowPayoutUpdateWithoutOrderItemInput = {
-  amountCents?: Prisma.IntFieldUpdateOperationsInput | number
+  amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
   payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -615,7 +615,7 @@ export type EscrowPayoutUpdateWithoutOrderItemInput = {
 }
 
 export type EscrowPayoutUncheckedUpdateWithoutOrderItemInput = {
-  amountCents?: Prisma.IntFieldUpdateOperationsInput | number
+  amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
   payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -625,7 +625,7 @@ export type EscrowPayoutUncheckedUpdateWithoutOrderItemInput = {
 }
 
 export type EscrowPayoutCreateManySellerInput = {
-  amountCents: number
+  amountPennies: number
   payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
@@ -635,7 +635,7 @@ export type EscrowPayoutCreateManySellerInput = {
 }
 
 export type EscrowPayoutUpdateWithoutSellerInput = {
-  amountCents?: Prisma.IntFieldUpdateOperationsInput | number
+  amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
   payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -645,7 +645,7 @@ export type EscrowPayoutUpdateWithoutSellerInput = {
 }
 
 export type EscrowPayoutUncheckedUpdateWithoutSellerInput = {
-  amountCents?: Prisma.IntFieldUpdateOperationsInput | number
+  amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
   payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -655,7 +655,7 @@ export type EscrowPayoutUncheckedUpdateWithoutSellerInput = {
 }
 
 export type EscrowPayoutUncheckedUpdateManyWithoutSellerInput = {
-  amountCents?: Prisma.IntFieldUpdateOperationsInput | number
+  amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
   payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -667,7 +667,7 @@ export type EscrowPayoutUncheckedUpdateManyWithoutSellerInput = {
 
 
 export type EscrowPayoutSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  amountCents?: boolean
+  amountPennies?: boolean
   payoutTransactionRef?: boolean
   releaseEligibleAt?: boolean
   createdAt?: boolean
@@ -680,7 +680,7 @@ export type EscrowPayoutSelect<ExtArgs extends runtime.Types.Extensions.Internal
 }, ExtArgs["result"]["escrowPayout"]>
 
 export type EscrowPayoutSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  amountCents?: boolean
+  amountPennies?: boolean
   payoutTransactionRef?: boolean
   releaseEligibleAt?: boolean
   createdAt?: boolean
@@ -693,7 +693,7 @@ export type EscrowPayoutSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
 }, ExtArgs["result"]["escrowPayout"]>
 
 export type EscrowPayoutSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  amountCents?: boolean
+  amountPennies?: boolean
   payoutTransactionRef?: boolean
   releaseEligibleAt?: boolean
   createdAt?: boolean
@@ -706,7 +706,7 @@ export type EscrowPayoutSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
 }, ExtArgs["result"]["escrowPayout"]>
 
 export type EscrowPayoutSelectScalar = {
-  amountCents?: boolean
+  amountPennies?: boolean
   payoutTransactionRef?: boolean
   releaseEligibleAt?: boolean
   createdAt?: boolean
@@ -716,7 +716,7 @@ export type EscrowPayoutSelectScalar = {
   escrowStatus?: boolean
 }
 
-export type EscrowPayoutOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"amountCents" | "payoutTransactionRef" | "releaseEligibleAt" | "createdAt" | "updatedAt" | "orderItemId" | "sellerId" | "escrowStatus", ExtArgs["result"]["escrowPayout"]>
+export type EscrowPayoutOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"amountPennies" | "payoutTransactionRef" | "releaseEligibleAt" | "createdAt" | "updatedAt" | "orderItemId" | "sellerId" | "escrowStatus", ExtArgs["result"]["escrowPayout"]>
 export type EscrowPayoutInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   orderItem?: boolean | Prisma.OrderItemDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -737,7 +737,7 @@ export type $EscrowPayoutPayload<ExtArgs extends runtime.Types.Extensions.Intern
     seller: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    amountCents: number
+    amountPennies: number
     payoutTransactionRef: string | null
     releaseEligibleAt: Date
     createdAt: Date
@@ -828,8 +828,8 @@ export interface EscrowPayoutDelegate<ExtArgs extends runtime.Types.Extensions.I
    * // Get first 10 EscrowPayouts
    * const escrowPayouts = await prisma.escrowPayout.findMany({ take: 10 })
    * 
-   * // Only select the `amountCents`
-   * const escrowPayoutWithAmountCentsOnly = await prisma.escrowPayout.findMany({ select: { amountCents: true } })
+   * // Only select the `amountPennies`
+   * const escrowPayoutWithAmountPenniesOnly = await prisma.escrowPayout.findMany({ select: { amountPennies: true } })
    * 
    */
   findMany<T extends EscrowPayoutFindManyArgs>(args?: Prisma.SelectSubset<T, EscrowPayoutFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EscrowPayoutPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -873,9 +873,9 @@ export interface EscrowPayoutDelegate<ExtArgs extends runtime.Types.Extensions.I
    *   ]
    * })
    * 
-   * // Create many EscrowPayouts and only return the `amountCents`
-   * const escrowPayoutWithAmountCentsOnly = await prisma.escrowPayout.createManyAndReturn({
-   *   select: { amountCents: true },
+   * // Create many EscrowPayouts and only return the `amountPennies`
+   * const escrowPayoutWithAmountPenniesOnly = await prisma.escrowPayout.createManyAndReturn({
+   *   select: { amountPennies: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -964,9 +964,9 @@ export interface EscrowPayoutDelegate<ExtArgs extends runtime.Types.Extensions.I
    *   ]
    * })
    * 
-   * // Update zero or more EscrowPayouts and only return the `amountCents`
-   * const escrowPayoutWithAmountCentsOnly = await prisma.escrowPayout.updateManyAndReturn({
-   *   select: { amountCents: true },
+   * // Update zero or more EscrowPayouts and only return the `amountPennies`
+   * const escrowPayoutWithAmountPenniesOnly = await prisma.escrowPayout.updateManyAndReturn({
+   *   select: { amountPennies: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1170,7 +1170,7 @@ export interface Prisma__EscrowPayoutClient<T, Null = never, ExtArgs extends run
  * Fields of the EscrowPayout model
  */
 export interface EscrowPayoutFieldRefs {
-  readonly amountCents: Prisma.FieldRef<"EscrowPayout", 'Int'>
+  readonly amountPennies: Prisma.FieldRef<"EscrowPayout", 'Int'>
   readonly payoutTransactionRef: Prisma.FieldRef<"EscrowPayout", 'String'>
   readonly releaseEligibleAt: Prisma.FieldRef<"EscrowPayout", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"EscrowPayout", 'DateTime'>

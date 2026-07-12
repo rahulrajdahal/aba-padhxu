@@ -63,6 +63,7 @@ export const ModelName = {
   Wishlist: 'Wishlist',
   Order: 'Order',
   OrderItem: 'OrderItem',
+  Coupon: 'Coupon',
   EscrowPayout: 'EscrowPayout',
   Review: 'Review',
   ChatRoom: 'ChatRoom',
@@ -180,7 +181,7 @@ export type BookScalarFieldEnum = (typeof BookScalarFieldEnum)[keyof typeof Book
 export const ListingScalarFieldEnum = {
   id: 'id',
   condition: 'condition',
-  priceCents: 'priceCents',
+  pricePennies: 'pricePennies',
   quantity: 'quantity',
   description: 'description',
   isActive: 'isActive',
@@ -224,7 +225,7 @@ export type WishlistScalarFieldEnum = (typeof WishlistScalarFieldEnum)[keyof typ
 
 export const OrderScalarFieldEnum = {
   id: 'id',
-  totalAmountCents: 'totalAmountCents',
+  totalAmountPennies: 'totalAmountPennies',
   paymentStatus: 'paymentStatus',
   paymentGatewayRef: 'paymentGatewayRef',
   createdAt: 'createdAt',
@@ -240,7 +241,7 @@ export const OrderItemScalarFieldEnum = {
   id: 'id',
   historicalTitle: 'historicalTitle',
   historicalIsbn13: 'historicalIsbn13',
-  priceAtPurchaseCents: 'priceAtPurchaseCents',
+  priceAtPurchasePennies: 'priceAtPurchasePennies',
   quantity: 'quantity',
   fulfillmentStatus: 'fulfillmentStatus',
   trackingNumber: 'trackingNumber',
@@ -255,8 +256,24 @@ export const OrderItemScalarFieldEnum = {
 export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
 
 
+export const CouponScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  discountType: 'discountType',
+  discountValuePennies: 'discountValuePennies',
+  isActive: 'isActive',
+  expiresAt: 'expiresAt',
+  maxUses: 'maxUses',
+  usedCount: 'usedCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
+
+
 export const EscrowPayoutScalarFieldEnum = {
-  amountCents: 'amountCents',
+  amountPennies: 'amountPennies',
   payoutTransactionRef: 'payoutTransactionRef',
   releaseEligibleAt: 'releaseEligibleAt',
   createdAt: 'createdAt',

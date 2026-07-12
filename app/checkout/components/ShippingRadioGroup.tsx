@@ -6,24 +6,23 @@ import ShippingRadio from "./ShippingRadio";
 
 type ShippingRadioGroupProps = {
   shippingAddresses: UserAddress[];
+  selectedAddressId: string;
+  setSelectedAddressId: (id: string) => void;
 };
 
 export default function ShippingRadioGroup({
   shippingAddresses,
+  selectedAddressId,
+  setSelectedAddressId,
 }: ShippingRadioGroupProps) {
-  const [selectedAddress, setSelectedAddress] = useState(
-    shippingAddresses.find((shippingAddress) => shippingAddress.isDefault)
-      ?.id || shippingAddresses[0],
-  );
-
   return (
     <div className="flex flex-col gap-4">
       {shippingAddresses?.map((shippingAddress) => (
         <ShippingRadio
           key={shippingAddress.id}
-          isSelected={selectedAddress === shippingAddress.id}
+          isSelected={selectedAddressId === shippingAddress.id}
           shippingAddress={shippingAddress}
-          setSelectedAddress={setSelectedAddress}
+          setSelectedAddress={setSelectedAddressId}
         />
       ))}
     </div>

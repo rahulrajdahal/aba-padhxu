@@ -396,6 +396,7 @@ export const ModelName = {
   Wishlist: 'Wishlist',
   Order: 'Order',
   OrderItem: 'OrderItem',
+  Coupon: 'Coupon',
   EscrowPayout: 'EscrowPayout',
   Review: 'Review',
   ChatRoom: 'ChatRoom',
@@ -416,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "token" | "userProfile" | "userAddress" | "genre" | "book" | "listing" | "cart" | "cartItem" | "wishlist" | "order" | "orderItem" | "escrowPayout" | "review" | "chatRoom" | "chatMessage" | "notification"
+    modelProps: "user" | "token" | "userProfile" | "userAddress" | "genre" | "book" | "listing" | "cart" | "cartItem" | "wishlist" | "order" | "orderItem" | "coupon" | "escrowPayout" | "review" | "chatRoom" | "chatMessage" | "notification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1308,6 +1309,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Coupon: {
+      payload: Prisma.$CouponPayload<ExtArgs>
+      fields: Prisma.CouponFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CouponFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CouponPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CouponFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CouponPayload>
+        }
+        findFirst: {
+          args: Prisma.CouponFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CouponPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CouponFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CouponPayload>
+        }
+        findMany: {
+          args: Prisma.CouponFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CouponPayload>[]
+        }
+        create: {
+          args: Prisma.CouponCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CouponPayload>
+        }
+        createMany: {
+          args: Prisma.CouponCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CouponCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CouponPayload>[]
+        }
+        delete: {
+          args: Prisma.CouponDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CouponPayload>
+        }
+        update: {
+          args: Prisma.CouponUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CouponPayload>
+        }
+        deleteMany: {
+          args: Prisma.CouponDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CouponUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CouponUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CouponPayload>[]
+        }
+        upsert: {
+          args: Prisma.CouponUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CouponPayload>
+        }
+        aggregate: {
+          args: Prisma.CouponAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCoupon>
+        }
+        groupBy: {
+          args: Prisma.CouponGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CouponGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CouponCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CouponCountAggregateOutputType> | number
+        }
+      }
+    }
     EscrowPayout: {
       payload: Prisma.$EscrowPayoutPayload<ExtArgs>
       fields: Prisma.EscrowPayoutFieldRefs
@@ -1811,7 +1886,7 @@ export type BookScalarFieldEnum = (typeof BookScalarFieldEnum)[keyof typeof Book
 export const ListingScalarFieldEnum = {
   id: 'id',
   condition: 'condition',
-  priceCents: 'priceCents',
+  pricePennies: 'pricePennies',
   quantity: 'quantity',
   description: 'description',
   isActive: 'isActive',
@@ -1855,7 +1930,7 @@ export type WishlistScalarFieldEnum = (typeof WishlistScalarFieldEnum)[keyof typ
 
 export const OrderScalarFieldEnum = {
   id: 'id',
-  totalAmountCents: 'totalAmountCents',
+  totalAmountPennies: 'totalAmountPennies',
   paymentStatus: 'paymentStatus',
   paymentGatewayRef: 'paymentGatewayRef',
   createdAt: 'createdAt',
@@ -1871,7 +1946,7 @@ export const OrderItemScalarFieldEnum = {
   id: 'id',
   historicalTitle: 'historicalTitle',
   historicalIsbn13: 'historicalIsbn13',
-  priceAtPurchaseCents: 'priceAtPurchaseCents',
+  priceAtPurchasePennies: 'priceAtPurchasePennies',
   quantity: 'quantity',
   fulfillmentStatus: 'fulfillmentStatus',
   trackingNumber: 'trackingNumber',
@@ -1886,8 +1961,24 @@ export const OrderItemScalarFieldEnum = {
 export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
 
 
+export const CouponScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  discountType: 'discountType',
+  discountValuePennies: 'discountValuePennies',
+  isActive: 'isActive',
+  expiresAt: 'expiresAt',
+  maxUses: 'maxUses',
+  usedCount: 'usedCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
+
+
 export const EscrowPayoutScalarFieldEnum = {
-  amountCents: 'amountCents',
+  amountPennies: 'amountPennies',
   payoutTransactionRef: 'payoutTransactionRef',
   releaseEligibleAt: 'releaseEligibleAt',
   createdAt: 'createdAt',
@@ -2117,6 +2208,20 @@ export type ListEnumOrderItemStatusFieldRefInput<$PrismaModel> = FieldRefInputTy
 
 
 /**
+ * Reference to a field of type 'DiscountType'
+ */
+export type EnumDiscountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiscountType'>
+    
+
+
+/**
+ * Reference to a field of type 'DiscountType[]'
+ */
+export type ListEnumDiscountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiscountType[]'>
+    
+
+
+/**
  * Reference to a field of type 'NotificationType'
  */
 export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType'>
@@ -2265,6 +2370,7 @@ export type GlobalOmitConfig = {
   wishlist?: Prisma.WishlistOmit
   order?: Prisma.OrderOmit
   orderItem?: Prisma.OrderItemOmit
+  coupon?: Prisma.CouponOmit
   escrowPayout?: Prisma.EscrowPayoutOmit
   review?: Prisma.ReviewOmit
   chatRoom?: Prisma.ChatRoomOmit

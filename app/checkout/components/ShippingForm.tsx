@@ -22,6 +22,10 @@ export default function ShippingForm({
   const isUpdate = "shippingAddress" in props;
 
   const handleShippingForm = async (prevState: unknown, formData: FormData) => {
+    if (!isUpdate) {
+      formData.set("type", AddressType.SHIPPING);
+    }
+
     const state = isUpdate
       ? await updateUserAddress(props.shippingAddress.id, formData)
       : await addUserAddress(prevState, formData);
@@ -46,27 +50,6 @@ export default function ShippingForm({
 
   return (
     <form action={formAction} className="grid grid-cols-1 md:grid-cols-6 gap-6">
-      <Input
-        name="type"
-        label={AddressType.BILLING}
-        value={AddressType.BILLING}
-        type="radio"
-        errors={state?.errors?.type}
-        defaultChecked={
-          isUpdate && props.shippingAddress.type === AddressType.BILLING
-        }
-      />
-      <Input
-        name="type"
-        label={AddressType.SHIPPING}
-        value={AddressType.SHIPPING}
-        type="radio"
-        errors={state?.errors?.type}
-        defaultChecked={
-          isUpdate && props.shippingAddress.type === AddressType.SHIPPING
-        }
-      />
-
       <Input
         label="Recipient Name"
         name="recipientName"

@@ -1,3 +1,4 @@
+import { AddressType } from "@/generated/prisma/client/enums";
 import { prisma } from "@/prisma/prisma";
 import {
   CreateUserAddressDTO,
@@ -8,8 +9,8 @@ export const userAddressDals = {
   create: async (data: CreateUserAddressDTO) =>
     await prisma.userAddress.create({ data }),
 
-  findAllByUserId: async (userId: string) =>
-    await prisma.userAddress.findMany({ where: { userId } }),
+  findAllByUserId: async (userId: string, type?: AddressType) =>
+    await prisma.userAddress.findMany({ where: { userId, type } }),
 
   findById: async (id: string) =>
     await prisma.userAddress.findUnique({ where: { id } }),

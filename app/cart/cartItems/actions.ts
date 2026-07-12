@@ -78,11 +78,9 @@ export const updateCartItem = authActionWrapper(
       return invalidRequestError();
     }
 
-    if (formData.get("type") === "decrement") {
-      await cartItemsService.decrementQuantityById(id);
-    } else {
-      await cartItemsService.incrementQuantityById(id);
-    }
+    await cartItemsService.updateById(id, {
+      quantity: Number(formData.get("quantity")),
+    });
 
     revalidatePath(routes.home);
     revalidatePath(routes.cart);
@@ -138,6 +136,16 @@ export const deletecartItem = authActionWrapper(async (id: string) => {
   if (!userId) {
     return forbiddenError();
   }
+
+  const cartItem = await cartItemsService.findById(id);
+
+  if (!cartItem) {
+    return invalidRequestError();
+  }
+
+  await ListingsService.updateById(cartItem.listingId, {
+    quantity: cartItem.quantity,
+  });
 
   await cartItemsService.deleteById(id);
 

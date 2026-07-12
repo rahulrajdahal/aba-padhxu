@@ -22,7 +22,7 @@ export default function PriceBadge({
       {...props}
     >
       <p className="rotate-[-38deg] text-base font-semibold">
-        <sup className="text-xs">$</sup>
+        <sup className="text-xs">£</sup>
 
         {price}
       </p>

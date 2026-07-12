@@ -60,6 +60,14 @@ export const OrderItemStatus = {
 export type OrderItemStatus = (typeof OrderItemStatus)[keyof typeof OrderItemStatus]
 
 
+export const DiscountType = {
+  FIXED: 'FIXED',
+  PERCENTAGE: 'PERCENTAGE'
+} as const
+
+export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType]
+
+
 export const NotificationType = {
   NEW_MESSAGE: 'NEW_MESSAGE',
   ORDER_STATUS: 'ORDER_STATUS',

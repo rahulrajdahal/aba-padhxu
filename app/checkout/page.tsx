@@ -1,4 +1,5 @@
 import {
+  AddressType,
   Book,
   CartItem,
   Listing,
@@ -19,7 +20,7 @@ export default async function page() {
     fetchUserCartItems(),
     cartItemsCount(),
     fetchUserWishlistItemsCount(),
-    fetchUserAddresses(),
+    fetchUserAddresses(AddressType.SHIPPING),
   ]);
 
   return (

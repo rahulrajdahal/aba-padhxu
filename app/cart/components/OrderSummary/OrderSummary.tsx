@@ -1,3 +1,4 @@
+import { calculateTax } from "@/app/checkout/actions";
 import { Button, Input } from "@/components";
 import { routes } from "@/utils/routes";
 import Link from "next/link";
@@ -7,7 +8,7 @@ interface OrderSummaryProps {
 }
 
 export default function OrderSummary({ subTotal }: OrderSummaryProps) {
-  const estimatedTax = subTotal * 0.08;
+  const estimatedTax = calculateTax(subTotal);
   const total = subTotal + estimatedTax;
 
   return (
@@ -21,7 +22,7 @@ export default function OrderSummary({ subTotal }: OrderSummaryProps) {
           <div className="flex justify-between">
             <span>Subtotal</span>
             <span className="font-medium text-gray-900">
-              ${subTotal.toFixed(2)}
+              £{subTotal.toFixed(2)}
             </span>
           </div>
           {/* {discount > 0 && (
@@ -39,12 +40,12 @@ export default function OrderSummary({ subTotal }: OrderSummaryProps) {
           <div className="flex justify-between pb-4 border-b border-gray-200">
             <span>Estimated Tax</span>
             <span className="font-medium text-gray-900">
-              ${estimatedTax.toFixed(2)}
+              £{estimatedTax.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between text-base font-serif font-bold text-gray-900 pt-2">
             <span>Order Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>£{total.toFixed(2)}</span>
           </div>
         </div>
 

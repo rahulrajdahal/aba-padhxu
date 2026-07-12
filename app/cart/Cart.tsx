@@ -24,7 +24,7 @@ export default function Cart({
   wishlistCount,
 }: Readonly<CartProps>) {
   const subtotal = cartItems?.reduce(
-    (sum, item) => sum + (item.listing.priceCents / 100) * item.quantity,
+    (sum, item) => sum + (item.listing.pricePennies / 100) * item.quantity,
     0,
   );
 
