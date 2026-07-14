@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components";
-import { PublicPageLayout } from "@/components/layouts";
 import {
   Book,
   CartItem,
@@ -20,8 +19,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { calculateTax } from "../cart/components/OrderSummary/OrderSummary";
 import {
-  calculateTax,
   confirmOrderPaymentAction,
   fetchOrderDetailsByPaymentIntent,
   placeOrderAction,
@@ -37,8 +36,6 @@ type CheckoutPageProps = {
   cartItems: (CartItem & {
     listing: Listing & { book: Book };
   })[];
-  cartCount: number;
-  wishlistCount: number;
   shippingAddresses: UserAddress[];
 };
 
@@ -380,12 +377,7 @@ function CheckoutForm({
   );
 }
 
-function CheckoutContent({
-  cartItems,
-  cartCount,
-  wishlistCount,
-  shippingAddresses,
-}: CheckoutPageProps) {
+function CheckoutContent({ cartItems, shippingAddresses }: CheckoutPageProps) {
   const searchParams = useSearchParams();
   const paymentIntentId = searchParams.get("payment_intent");
   const clientSecretParam = searchParams.get("payment_intent_client_secret");
@@ -434,71 +426,60 @@ function CheckoutContent({
 
   if (confirmingPayment) {
     return (
-      <PublicPageLayout cartItemsCount={0} wishlistItemsCount={wishlistCount}>
-        <div className="min-h-[60vh] flex flex-col items-center justify-center">
-          <div className="w-12 h-12 border-4 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-lg font-medium text-gray-700">
-            Confirming your payment and creating your order...
-          </p>
-        </div>
-      </PublicPageLayout>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center">
+        <div className="w-12 h-12 border-4 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
+        <p className="mt-4 text-lg font-medium text-gray-700">
+          Confirming your payment and creating your order...
+        </p>
+      </div>
     );
   }
 
   if (successOrder) {
-    return (
-      <PublicPageLayout cartItemsCount={0} wishlistItemsCount={wishlistCount}>
-        <SuccessScreen order={successOrder} />
-      </PublicPageLayout>
-    );
+    return <SuccessScreen order={successOrder} />;
   }
 
   return (
-    <PublicPageLayout
-      cartItemsCount={Number(cartCount)}
-      wishlistItemsCount={Number(wishlistCount)}
-    >
-      <main className="py-12 px-4 sm:px-6 lg:px-8 text-gray-800">
-        {clientSecret && stripePIId ? (
-          <Elements
-            options={{ clientSecret, appearance: { theme: "stripe" } }}
-            stripe={stripePromise}
-          >
-            <CheckoutForm
-              cartItems={cartItems}
-              shippingAddresses={shippingAddresses}
-              paymentIntentId={stripePIId}
-            />
-          </Elements>
-        ) : (
-          <div className="min-h-[60vh] flex flex-col items-center justify-center">
-            {cartItems.length === 0 ? (
-              <div className="text-center">
-                <h2 className="text-2xl font-serif font-bold text-gray-900 mb-2">
-                  Your Cart is Empty
-                </h2>
-                <p className="text-gray-600 mb-6">
-                  Add some books to your cart before checking out.
-                </p>
-                <a
-                  href="/"
-                  className="inline-block bg-amber-600 text-white font-medium py-2.5 px-6 rounded-md hover:bg-amber-500 transition-colors"
-                >
-                  Browse Books
-                </a>
-              </div>
-            ) : (
-              <>
-                <div className="w-12 h-12 border-4 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
-                <p className="mt-4 text-lg font-medium text-gray-700">
-                  Initializing secure checkout...
-                </p>
-              </>
-            )}
-          </div>
-        )}
-      </main>
-    </PublicPageLayout>
+    <main className="py-12 px-4 sm:px-6 lg:px-8 text-gray-800">
+      {clientSecret && stripePIId ? (
+        <Elements
+          options={{ clientSecret, appearance: { theme: "stripe" } }}
+          stripe={stripePromise}
+        >
+          <CheckoutForm
+            cartItems={cartItems}
+            shippingAddresses={shippingAddresses}
+            paymentIntentId={stripePIId}
+          />
+        </Elements>
+      ) : (
+        <div className="min-h-[60vh] flex flex-col items-center justify-center">
+          {cartItems.length === 0 ? (
+            <div className="text-center">
+              <h2 className="text-2xl font-serif font-bold text-gray-900 mb-2">
+                Your Cart is Empty
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Add some books to your cart before checking out.
+              </p>
+              <a
+                href="/"
+                className="inline-block bg-amber-600 text-white font-medium py-2.5 px-6 rounded-md hover:bg-amber-500 transition-colors"
+              >
+                Browse Books
+              </a>
+            </div>
+          ) : (
+            <>
+              <div className="w-12 h-12 border-4 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
+              <p className="mt-4 text-lg font-medium text-gray-700">
+                Initializing secure checkout...
+              </p>
+            </>
+          )}
+        </div>
+      )}
+    </main>
   );
 }
 

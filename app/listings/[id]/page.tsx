@@ -34,6 +34,7 @@ export default async function page({
     <PublicPageLayout
       cartItemsCount={cartCount as number}
       wishlistItemsCount={wishlistItemsCount as number}
+      isAuth={isAuth as boolean}
     >
       <ListingDetail
         listing={

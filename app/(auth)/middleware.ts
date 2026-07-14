@@ -30,6 +30,9 @@ export const verifySession = async () => {
   const session = await decryptJWT(cookie);
 
   if (!session) {
+    if (cookie) {
+      await deleteSession();
+    }
     return { isAuth: false };
   }
 

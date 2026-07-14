@@ -1,7 +1,8 @@
-import { calculateTax } from "@/app/checkout/actions";
 import { Button, Input } from "@/components";
 import { routes } from "@/utils/routes";
 import Link from "next/link";
+
+export const calculateTax = (total: number) => total * 0.08;
 
 interface OrderSummaryProps {
   subTotal: number;

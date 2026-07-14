@@ -1,8 +1,12 @@
+"use client";
+
 import { Input } from "@/components";
 import { Book, CartItem, Listing } from "@/generated/prisma/client/client";
 import { routes } from "@/utils/routes";
 import { Add, Delete, MinusBlock } from "@meistericons/react";
 import Link from "next/link";
+import { useActionState, useRef } from "react";
+import toast from "react-hot-toast";
 import {
   deletecartItem,
   updateCartItem,
@@ -16,17 +20,24 @@ interface CartItemCardProps {
 }
 
 export default function CartItemCard({ cartItem }: CartItemCardProps) {
-  const handleQuantityOnChange: React.ChangeEventHandler<
-    HTMLInputElement,
-    HTMLInputElement
-  > = async (e) => {
-    const { value } = e.target;
+  const handleQuantityUpdate = async (
+    prevState: unknown,
+    formData: FormData,
+  ) => {
+    formData.append("listingId", cartItem.listingId);
+    const state = await updateCartItem(cartItem.id, formData);
+    if (state.type === "error") {
+      toast.error(state.message);
+    }
 
-    const formData = new FormData();
-    formData.append("quantity", value);
-
-    await updateCartItem(cartItem.id, formData);
+    return state;
   };
+
+  const [state, formAction, isPending] = useActionState(
+    handleQuantityUpdate,
+    null,
+  );
+  const formRef = useRef<HTMLFormElement>(null);
 
   return (
     <li key={cartItem.id} className="flex py-6">
@@ -61,44 +72,51 @@ export default function CartItemCard({ cartItem }: CartItemCardProps) {
 
         <div className="flex flex-1 items-end justify-between text-sm">
           {/* Quantity Controls */}
-          <div className="flex items-center border border-gray-300 rounded-md bg-primary-50">
-            <button
-              onClick={() =>
-                updateCartItemQuantity(
-                  cartItem.id,
-                  cartItem.listingId,
-                  "decrement",
-                )
-              }
-              className="p-1.5 text-gray-600 hover:bg-primary-200 transition-colors"
-            >
-              <MinusBlock size={14} />
-            </button>
-            <Input
-              defaultValue={cartItem.quantity}
-              name={`quantity-${cartItem.id}`}
-              type="number"
-              min={1}
-              max={cartItem.listing.quantity}
-              className="w-16 text-center"
-              onChange={handleQuantityOnChange}
-            />
-            {/* <span className="px-3 text-gray-800 font-medium">
+          {isPending ? (
+            "Updating..."
+          ) : (
+            <div className="flex items-center border border-gray-300 rounded-md bg-primary-50">
+              <button
+                onClick={() =>
+                  updateCartItemQuantity(
+                    cartItem.id,
+                    cartItem.listingId,
+                    "decrement",
+                  )
+                }
+                className="p-1.5 text-gray-600 hover:bg-primary-200 transition-colors"
+              >
+                <MinusBlock size={14} />
+              </button>
+              <form ref={formRef} action={formAction}>
+                <Input
+                  defaultValue={cartItem.quantity}
+                  name={"quantity"}
+                  type="number"
+                  min={1}
+                  max={cartItem.listing.quantity}
+                  className="w-16 text-center p-0! border-none"
+                  errors={state?.errors?.quantity}
+                  onBlur={() => formRef.current?.requestSubmit()}
+                />
+              </form>
+              {/* <span className="px-3 text-gray-800 font-medium">
               {cartItem.quantity}
             </span> */}
-            <button
-              onClick={() =>
-                updateCartItemQuantity(
-                  cartItem.id,
-                  cartItem.listingId,
-                  "increment",
-                )
-              }
-              className="p-1.5 text-gray-600 hover:bg-primary-200 transition-colors"
-            >
-              <Add size={14} />
-            </button>
-          </div>
+              <button
+                onClick={() =>
+                  updateCartItemQuantity(
+                    cartItem.id,
+                    cartItem.listingId,
+                    "increment",
+                  )
+                }
+                className="p-1.5 text-gray-600 hover:bg-primary-200 transition-colors"
+              >
+                <Add size={14} />
+              </button>
+            </div>
+          )}
 
           <div className="flex">
             <button

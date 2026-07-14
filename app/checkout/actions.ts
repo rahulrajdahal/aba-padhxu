@@ -96,5 +96,3 @@ export async function fetchOrderDetailsByPaymentIntent(
 
   return order;
 }
-
-export const calculateTax = async (total: number) => total * 0.08;

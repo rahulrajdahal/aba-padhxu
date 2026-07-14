@@ -5,7 +5,11 @@ import { prisma } from "../prisma";
 export default async function seedListings() {
   console.log("🌱 Start seeding book listings...");
 
-  const users = await prisma.user.findMany({ select: { id: true } });
+  const users = await prisma.user.findMany({
+    where: { profile: { isSeller: true } },
+    select: { id: true },
+  });
+
   const books = await prisma.book.findMany({ select: { id: true } });
 
   if (users.length === 0 || books.length === 0) {
@@ -27,7 +31,7 @@ export default async function seedListings() {
         condition: faker.helpers.arrayElement(Object.values(BookCondition)),
         pricePennies: faker.number.float({
           min: 200,
-          max: 150000,
+          max: 15000,
           fractionDigits: 2,
         }),
         quantity: faker.number.int({ min: 1, max: 10 }),

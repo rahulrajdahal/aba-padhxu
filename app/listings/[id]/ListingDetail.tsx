@@ -10,7 +10,6 @@ import {
 } from "@/generated/prisma/client/client";
 import { routes } from "@/utils/routes";
 import Link from "next/link";
-import ChatWithSeller from "../components/ChatWithSeller";
 
 interface ListingPageProps {
   listing: Listing & {
@@ -18,7 +17,7 @@ interface ListingPageProps {
     seller: User & { profile: Pick<UserProfile, "firstName" | "lastName"> };
   };
   currentUserId?: string;
-  isAuth?: boolean;
+  isAuth: boolean;
 }
 
 export default function ListingDetail({
@@ -146,12 +145,6 @@ export default function ListingDetail({
                       {listing.seller.profile.lastName}
                     </Link>
                   </div>
-                  {isAuth && (
-                    <ChatWithSeller
-                      listingId={listing.id}
-                      sellerId={listing.sellerId}
-                    />
-                  )}
                 </div>
               </div>
             )}

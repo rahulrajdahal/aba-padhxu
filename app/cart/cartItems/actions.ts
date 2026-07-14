@@ -1,10 +1,14 @@
 "use server";
 
 import { authUserId } from "@/app/(auth)/middleware";
-import { listingExists } from "@/app/dashboard/listings/listings.middleware";
+import {
+  isValidQuantity,
+  listingExists,
+} from "@/app/dashboard/listings/listings.middleware";
 import { ListingsService } from "@/app/dashboard/listings/listings.service";
 import {
   authActionWrapper,
+  badRequestError,
   createdResponse,
   forbiddenError,
   invalidRequestError,
@@ -73,13 +77,18 @@ export const updateCartItem = authActionWrapper(
     const listingId = formData.get("listingId") as string;
 
     const listing = await listingExists(listingId);
-
     if (!listing) {
       return invalidRequestError();
     }
 
+    const quantity = Number(formData.get("quantity"));
+
+    if (!isValidQuantity(listingId, quantity)) {
+      return badRequestError("Invalid quantity");
+    }
+
     await cartItemsService.updateById(id, {
-      quantity: Number(formData.get("quantity")),
+      quantity,
     });
 
     revalidatePath(routes.home);

@@ -1,16 +1,21 @@
-import { NotFoundError } from "@/lib/errors";
 import { ListingsService } from "./listings.service";
 
 export const listingExists = async (listingId: string) => {
-  try {
-    const listing = await ListingsService.findById(listingId);
+  const listing = await ListingsService.findById(listingId);
 
-    if (!listing) {
-      throw new NotFoundError("Listing");
-    }
-
-    return listing;
-  } catch (error) {
-    return null;
+  if (!listing) {
+    return false;
   }
+
+  return true;
+};
+
+export const isValidQuantity = async (listingId: string, quantity: number) => {
+  const listing = await ListingsService.findById(listingId);
+
+  if (!listing) {
+    return false;
+  }
+
+  return listing.quantity >= quantity;
 };
