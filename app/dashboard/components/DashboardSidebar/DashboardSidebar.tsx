@@ -45,6 +45,16 @@ const adminLinks = [
     label: "Add Genre",
     href: `${routes.dashboard}${routes.genres}/add`,
   },
+  {
+    id: 12,
+    label: "All Coupons",
+    href: `${routes.dashboard}${routes.coupons}`,
+  },
+  {
+    id: 11,
+    label: "Add Coupon",
+    href: `${routes.dashboard}${routes.coupons}/add`,
+  },
 ];
 
 type DashboardSidebarProps = {

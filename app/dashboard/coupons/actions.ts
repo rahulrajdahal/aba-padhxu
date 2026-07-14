@@ -46,6 +46,20 @@ export const addCoupon = authActionWrapper(
   },
 );
 
+export const fetchAllCoupons = authActionWrapper(
+  async (limit,offset,query) => {
+    const userId = await authUserId();
+
+    if (!userId) {
+      return forbiddenError();
+    }
+
+    const coupons = await couponsService.findAll(limit,offset,query);
+
+    return okResponse("Coupons fetched successfully", coupons);
+  },
+);
+
 export const updateCouponById = authActionWrapper(
   async (id: string, formData: FormData) => {
     const userId = await authUserId();
