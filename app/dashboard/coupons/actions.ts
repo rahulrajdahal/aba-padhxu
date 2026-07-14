@@ -4,18 +4,19 @@ import { authUserId } from "@/app/(auth)/middleware";
 import { Coupon } from "@/generated/prisma/client/client";
 import { DiscountType } from "@/generated/prisma/client/enums";
 import {
-  authActionWrapper,
+  adminActionWrapper,
   conflictError,
   createdResponse,
   forbiddenError,
   noContentResponse,
+  okResponse,
   validationError,
 } from "@/lib/responses";
 import { couponExists } from "./coupons.middleware";
 import { couponsService } from "./coupons.service";
 import { addCouponSchema, updateCouponSchema } from "./coupons.validation";
 
-export const addCoupon = authActionWrapper(
+export const addCoupon = adminActionWrapper(
   async (prevState: unknown, formData: FormData) => {
     const userId = await authUserId();
 
@@ -46,21 +47,27 @@ export const addCoupon = authActionWrapper(
   },
 );
 
-export const fetchAllCoupons = authActionWrapper(
-  async (limit,offset,query) => {
-    const userId = await authUserId();
+export const fetchCouponsCount = adminActionWrapper(async (query?: string) => {
+  const couponCount = await couponsService.count(query);
 
-    if (!userId) {
-      return forbiddenError();
-    }
+  return okResponse("Coupons count fetched successfully", couponCount);
+});
 
-    const coupons = await couponsService.findAll(limit,offset,query);
+export const fetchAllCoupons = adminActionWrapper(
+  async (limit, offset, query) => {
+    const coupons = await couponsService.findAll(limit, offset, query);
 
     return okResponse("Coupons fetched successfully", coupons);
   },
 );
 
-export const updateCouponById = authActionWrapper(
+export const fetchCouponById = adminActionWrapper(async (id: string) => {
+  const coupon = await couponsService.findById(id);
+
+  return okResponse("Coupon fetched successfully", coupon);
+});
+
+export const updateCouponById = adminActionWrapper(
   async (id: string, formData: FormData) => {
     const userId = await authUserId();
 
@@ -108,3 +115,9 @@ export const updateCouponById = authActionWrapper(
     return noContentResponse();
   },
 );
+
+export const deleteCouponById = adminActionWrapper(async (id: string) => {
+  await couponsService.deleteById(id);
+
+  return noContentResponse();
+});

@@ -1,14 +1,17 @@
 "use client";
 
 import { Button, Input, Select, Switch } from "@/components";
+import { Coupon } from "@/generated/prisma/client/client";
 import { DiscountType } from "@/generated/prisma/client/enums";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
-import { addCoupon } from "../actions";
+import { updateCouponById } from "../actions";
 
-export default function AddCouponPage() {
-  const handleAddCoupon = async (prevState: unknown, formData: FormData) => {
-    const state = await addCoupon(prevState, formData);
+type EditCouponPageProps = { coupon: Coupon };
+
+export default function EditCouponPage({ coupon }: EditCouponPageProps) {
+  const handleUpdateCoupon = async (prevState: unknown, formData: FormData) => {
+    const state = await updateCouponById(coupon.id, formData);
     if (state.type === "success") {
       toast.success(state.message);
     }
@@ -19,13 +22,22 @@ export default function AddCouponPage() {
     return state;
   };
 
-  const [state, formAction, isPending] = useActionState(handleAddCoupon, null);
+  const [state, formAction, isPending] = useActionState(
+    handleUpdateCoupon,
+    null,
+  );
 
   return (
     <form action={formAction}>
-      <Input name="code" errors={state?.errors?.code} label="Code" />
+      <Input
+        name="code"
+        label="Code"
+        defaultValue={coupon.code}
+        errors={state?.errors?.code}
+      />
       <Select
         name="discountType"
+        defaultValue={coupon.discountType}
         options={[
           { label: "Select Discount Type", value: "" },
           ...Object.entries(DiscountType).map(([key, value]) => ({
@@ -39,28 +51,32 @@ export default function AddCouponPage() {
       <Input
         type="number"
         name="discountValuePennies"
+        defaultValue={coupon.discountValuePennies}
         errors={state?.errors?.discountValuePennies}
         label="Discount Value"
       />
       <Input
         type="datetime"
         name="expiresAt"
+        defaultValue={coupon.expiresAt?.toISOString()}
         errors={state?.errors?.expiresAt}
       />
       <Switch
         name="isActive"
         label="Is Coupon Active?"
+        defaultChecked={coupon.isActive}
         errors={state?.errors?.isActive}
       />
       <Input
         name="maxUses"
         type="number"
         label="Max Uses"
+        defaultValue={coupon.maxUses}
         errors={state?.errors?.maxUses}
       />
 
       <Button type="submit" isLoading={isPending}>
-        {isPending ? "Adding..." : "Add Coupon"}
+        {isPending ? "Updating..." : "Update Coupon"}
       </Button>
     </form>
   );
