@@ -52,21 +52,19 @@ model User {
   createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
-  profile           UserProfile?
-  addresses         UserAddress[]
-  listings          Listing[]      @relation("SellerListings")
-  cart              Cart?
-  wishlistItems     Wishlist[]
-  buyerOrders       Order[]        @relation("BuyerOrders")
-  sellerItems       OrderItem[]    @relation("SellerOrderItems")
-  escrowPayouts     EscrowPayout[] @relation("SellerPayouts")
-  reviewsGiven      Review[]       @relation("BuyerReviews")
-  reviewsRecd       Review[]       @relation("SellerReviews")
-  chatRoomsAsBuyer  ChatRoom[]     @relation("BuyerRooms")
-  chatRoomsAsSeller ChatRoom[]     @relation("SellerRooms")
-  sentMessages      ChatMessage[]  @relation("SentMessages")
-  notifications     Notification[]
-  tokens            Token[]
+  profile            UserProfile?
+  addresses          UserAddress[]
+  listings           Listing[]           @relation("SellerListings")
+  cart               Cart?
+  wishlistItems      Wishlist[]
+  buyerOrders        Order[]             @relation("BuyerOrders")
+  sellerItems        OrderItem[]         @relation("SellerOrderItems")
+  escrowPayouts      EscrowPayout[]      @relation("SellerPayouts")
+  reviewsGiven       Review[]            @relation("BuyerReviews")
+  reviewsRecived     Review[]            @relation("SellerReviews")
+  notifications      Notification[]
+  tokens             Token[]
+  ledgerTransactions LedgerTransaction[]
 
   @@map("users")
 }
@@ -100,6 +98,8 @@ model UserProfile {
 
   userId String @id @map("user_id") @db.Uuid
   user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  stripeConnectId String? @unique @map("stripe_connect_id")
 
   @@map("user_profiles")
 }
@@ -181,7 +181,6 @@ model Listing {
 
   cartItems  CartItem[]
   orderItems OrderItem[]
-  chatRooms  ChatRoom[]
 
   @@index([sellerId])
   @@index([bookId])
@@ -231,7 +230,6 @@ model Order {
   id                 String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   totalAmountPennies Int         @map("total_amount_pennies")
   paymentStatus      OrderStatus @default(PENDING) @map("payment_status")
-  paymentGatewayRef  String?     @map("payment_gateway_ref")
   createdAt          DateTime    @default(now()) @map("created_at") @db.Timestamptz
   updatedAt          DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
@@ -240,6 +238,13 @@ model Order {
   shippingAddressId String      @map("shipping_address_id") @db.Uuid
   shippingAddress   UserAddress @relation("ShippingAddress", fields: [shippingAddressId], references: [id], onDelete: Restrict)
   orderItems        OrderItem[]
+
+  couponId        String? @map("coupon_id") @db.Uuid
+  coupon          Coupon? @relation(fields: [couponId], references: [id])
+  discountPennies Int     @default(0) @map("discount_pennies")
+
+  stripePaymentIntentId String? @unique @map("stripe_payment_intent_id")
+  stripeChargeId        String? @unique @map("stripe_charge_id")
 
   @@index([buyerId])
   @@index([shippingAddressId])
@@ -287,23 +292,47 @@ model Coupon {
   expiresAt            DateTime     @map("expires_at") @db.Timestamptz
   maxUses              Int
   usedCount            Int          @default(0) @map("used_count")
+  createdAt            DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt            DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  orders Order[]
+}
+
+enum LedgerTransactionType {
+  BOOK_SALE
+  ESCROW_LOCK
+  ESCROW_RELEASE
+  REFUND
+  PLATFORM_FEE
+}
+
+model LedgerTransaction {
+  id            String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId        String                @map("user_id") @db.Uuid
+  user          User                  @relation(fields: [userId], references: [id])
+  amountPennies Int
+  type          LedgerTransactionType
+  description   String
+  referenceId   String?               @map("reference_id") // E.g. Stripe Transfer ID or OrderItem ID
+  createdAt     DateTime              @default(now()) @map("created_at") @db.Timestamptz
+
+  @@map("ledger_transactions")
 }
 
 model EscrowPayout {
-  amountPennies        Int      @map("amount_pennies")
-  payoutTransactionRef String?  @map("payout_transaction_ref")
-  releaseEligibleAt    DateTime @map("release_eligible_at") @db.Timestamptz
-  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt            DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  amountPennies     Int             @map("amount_pennies")
+  releaseEligibleAt DateTime        @map("release_eligible_at") @db.Timestamptz
+  createdAt         DateTime        @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  escrowStatus      OrderItemStatus @default(ESCROW_HELD) @map("escrow_status")
 
-  orderItemId  String          @unique @map("order_item_id") @db.Uuid
-  orderItem    OrderItem       @relation(fields: [orderItemId], references: [id], onDelete: Restrict)
-  sellerId     String          @map("seller_id") @db.Uuid
-  seller       User            @relation("SellerPayouts", fields: [sellerId], references: [id], onDelete: Restrict)
-  escrowStatus OrderItemStatus @default(ESCROW_HELD) @map("escrow_status")
+  orderItemId String    @unique @map("order_item_id") @db.Uuid
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Restrict)
+  sellerId    String    @map("seller_id") @db.Uuid
+  seller      User      @relation("SellerPayouts", fields: [sellerId], references: [id], onDelete: Restrict)
+
+  stripeTransferId     String? @unique @map("stripe_transfer_id")
+  payoutTransactionRef String? @map("payout_transaction_ref") // Stripe Payout ID to bank
 
   @@index([sellerId])
   @@index([releaseEligibleAt])
@@ -338,41 +367,6 @@ enum NotificationType {
   PRICE_DROP     @map("Price_Drop")
   ESCROW_UPDATED @map("Escrow_Updated")
   NEW_REVIEW     @map("New_Review")
-}
-
-model ChatRoom {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
-
-  buyerId   String   @map("buyer_id") @db.Uuid
-  buyer     User     @relation("BuyerRooms", fields: [buyerId], references: [id], onDelete: Cascade)
-  sellerId  String   @map("seller_id") @db.Uuid
-  seller    User     @relation("SellerRooms", fields: [sellerId], references: [id], onDelete: Cascade)
-  listingId String?  @map("listing_id") @db.Uuid
-  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: SetNull)
-
-  messages ChatMessage[]
-
-  @@unique([buyerId, sellerId, listingId])
-  @@index([sellerId])
-  @@index([listingId])
-  @@map("chat_rooms")
-}
-
-model ChatMessage {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  messageText String    @map("message_text")
-  readAt      DateTime? @map("read_at") @db.Timestamptz
-  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
-
-  chatRoomId String   @map("chat_room_id") @db.Uuid
-  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
-  senderId   String   @map("sender_id") @db.Uuid
-  sender     User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
-
-  @@index([chatRoomId, createdAt(sort: Desc)])
-  @@map("chat_messages")
 }
 
 model Notification {
