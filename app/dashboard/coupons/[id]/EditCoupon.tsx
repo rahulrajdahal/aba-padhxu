@@ -3,6 +3,8 @@
 import { Button, Input, Select, Switch } from "@/components";
 import { Coupon } from "@/generated/prisma/client/client";
 import { DiscountType } from "@/generated/prisma/client/enums";
+import { routes } from "@/utils/routes";
+import { redirect } from "next/navigation";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
 import { updateCouponById } from "../actions";
@@ -13,7 +15,8 @@ export default function EditCouponPage({ coupon }: EditCouponPageProps) {
   const handleUpdateCoupon = async (prevState: unknown, formData: FormData) => {
     const state = await updateCouponById(coupon.id, formData);
     if (state.type === "success") {
-      toast.success(state.message);
+      toast.success("Coupon updated!");
+      redirect(`${routes.dashboard}${routes.coupons}`);
     }
     if (state.type === "error") {
       toast.error(state.message);
@@ -28,7 +31,7 @@ export default function EditCouponPage({ coupon }: EditCouponPageProps) {
   );
 
   return (
-    <form action={formAction}>
+    <form action={formAction} className="flex flex-col gap-5">
       <Input
         name="code"
         label="Code"
@@ -37,6 +40,7 @@ export default function EditCouponPage({ coupon }: EditCouponPageProps) {
       />
       <Select
         name="discountType"
+        label="Discount Type"
         defaultValue={coupon.discountType}
         options={[
           { label: "Select Discount Type", value: "" },
@@ -56,9 +60,10 @@ export default function EditCouponPage({ coupon }: EditCouponPageProps) {
         label="Discount Value"
       />
       <Input
-        type="datetime"
+        type="date"
+        label="Expires At"
         name="expiresAt"
-        defaultValue={coupon.expiresAt?.toISOString()}
+        value={coupon.expiresAt.toISOString().split("T")[0]}
         errors={state?.errors?.expiresAt}
       />
       <Switch

@@ -25,11 +25,12 @@ export const addCoupon = adminActionWrapper(
     }
 
     const body = {
-      code: formData.get("code"),
-      discountType: formData.get("discountType"),
-      discountValuePennies: formData.get("discountValuePennies"),
-      expiresAt: formData.get("expiresAt"),
-      maxUses: formData.get("maxUses"),
+      code: formData.get("code") as string,
+      discountType: formData.get("discountType") as DiscountType,
+      discountValuePennies: Number(formData.get("discountValuePennies")),
+      expiresAt: new Date(formData.get("expiresAt") as string),
+      maxUses: Number(formData.get("maxUses")),
+      isActive: Boolean(formData.get("isActive")),
     };
 
     const validateBody = addCouponSchema.safeParse(body);
@@ -47,15 +48,27 @@ export const addCoupon = adminActionWrapper(
   },
 );
 
-export const fetchCouponsCount = adminActionWrapper(async (query?: string) => {
-  const couponCount = await couponsService.count(query);
+export const fetchCouponsCount = adminActionWrapper(
+  async (query?: string, discountType?: DiscountType) => {
+    const couponCount = await couponsService.count(query, discountType);
 
-  return okResponse("Coupons count fetched successfully", couponCount);
-});
+    return okResponse("Coupons count fetched successfully", couponCount);
+  },
+);
 
 export const fetchAllCoupons = adminActionWrapper(
-  async (limit, offset, query) => {
-    const coupons = await couponsService.findAll(limit, offset, query);
+  async (
+    limit: number,
+    offset: number,
+    query?: string,
+    discountType?: DiscountType,
+  ) => {
+    const coupons = await couponsService.findAll(
+      limit,
+      offset,
+      query,
+      discountType,
+    );
 
     return okResponse("Coupons fetched successfully", coupons);
   },
@@ -80,9 +93,6 @@ export const updateCouponById = adminActionWrapper(
     const code = formData.get("code") as string;
     if (code) {
       body.code = code;
-      if (await couponExists(code)) {
-        return conflictError("Coupon code already exists");
-      }
     }
 
     const discountType = formData.get("discountType") as DiscountType;
@@ -104,6 +114,9 @@ export const updateCouponById = adminActionWrapper(
     if (maxUses) {
       body.maxUses = maxUses;
     }
+
+    const isActive = Boolean(formData.get("isActive"));
+    body.isActive = isActive;
 
     const validateBody = updateCouponSchema.safeParse(body);
     if (!validateBody.success) {

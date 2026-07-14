@@ -2,6 +2,8 @@
 
 import { Button, Input, Select, Switch } from "@/components";
 import { DiscountType } from "@/generated/prisma/client/enums";
+import { routes } from "@/utils/routes";
+import { redirect } from "next/navigation";
 import { useActionState } from "react";
 import toast from "react-hot-toast";
 import { addCoupon } from "../actions";
@@ -11,6 +13,7 @@ export default function AddCouponPage() {
     const state = await addCoupon(prevState, formData);
     if (state.type === "success") {
       toast.success(state.message);
+      redirect(`${routes.dashboard}${routes.coupons}`);
     }
     if (state.type === "error") {
       toast.error(state.message);
@@ -22,10 +25,11 @@ export default function AddCouponPage() {
   const [state, formAction, isPending] = useActionState(handleAddCoupon, null);
 
   return (
-    <form action={formAction}>
+    <form action={formAction} className="flex flex-col gap-5">
       <Input name="code" errors={state?.errors?.code} label="Code" />
       <Select
         name="discountType"
+        label="Discount Type"
         options={[
           { label: "Select Discount Type", value: "" },
           ...Object.entries(DiscountType).map(([key, value]) => ({
@@ -43,7 +47,8 @@ export default function AddCouponPage() {
         label="Discount Value"
       />
       <Input
-        type="datetime"
+        type="date"
+        label="Expires At"
         name="expiresAt"
         errors={state?.errors?.expiresAt}
       />

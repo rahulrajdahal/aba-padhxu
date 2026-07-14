@@ -1,3 +1,6 @@
+import "server-only";
+
+import { DiscountType } from "@/generated/prisma/client/enums";
 import {
   CouponCreateInput,
   CouponUpdateInput,
@@ -5,27 +8,34 @@ import {
 import { prisma } from "@/prisma/prisma";
 
 export const couponsDal = {
-  count: async (query?: string) =>
+  count: async (query?: string, discountType?: DiscountType) =>
     await prisma.coupon.count({
-      ...(query && {
-        where: {
+      where: {
+        ...(query && {
           code: { contains: query, mode: "insensitive" },
-        },
-      }),
+        }),
+        ...(discountType && { discountType }),
+      },
     }),
 
   create: async (data: CouponCreateInput) =>
     await prisma.coupon.create({ data }),
 
-  findAll: async (limit = 20, offset = 0, query?: string) =>
+  findAll: async (
+    limit = 20,
+    offset = 0,
+    query?: string,
+    discountType?: DiscountType,
+  ) =>
     await prisma.coupon.findMany({
       take: limit,
       skip: offset,
-      ...(query && {
-        where: {
+      where: {
+        ...(query && {
           code: { contains: query, mode: "insensitive" },
-        },
-      }),
+        }),
+        ...(discountType && { discountType }),
+      },
     }),
 
   findById: async (id: string) =>

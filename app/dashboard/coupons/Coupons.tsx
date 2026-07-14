@@ -2,7 +2,8 @@
 
 import { Pill, Select, TableActions, TablePage } from "@/components";
 import SearchInput from "@/components/SearchInput/SearchInput";
-import { Coupon, DiscountType } from "@/generated/prisma/client/client";
+import { Coupon } from "@/generated/prisma/client/client";
+import { DiscountType } from "@/generated/prisma/client/enums";
 import { routes } from "@/utils/routes";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { redirect, useSearchParams } from "next/navigation";
@@ -34,14 +35,16 @@ export default function Coupons({ coupons, totalCoupons }: CouponsProps) {
 
     columnHelper.accessor("expiresAt", {
       header: "Expires On",
-      cell: (info) => info.getValue(),
+      cell: (info) => info.getValue()?.toDateString(),
     }),
 
     columnHelper.accessor("isActive", {
       header: "Status",
       cell: (info) => (
-        <Pill className={` ${info.getValue() ? "bg-green-50" : "bg-red-50"} `}>
-          {info.getValue() ? "Active" : "Inactive"}
+        <Pill
+          className={` ${(info.getValue() as boolean) ? "bg-green-500" : "bg-red-500"} `}
+        >
+          {(info.getValue() as boolean) ? "Active" : "Inactive"}
         </Pill>
       ),
     }),
