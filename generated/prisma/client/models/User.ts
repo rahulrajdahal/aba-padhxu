@@ -207,12 +207,10 @@ export type UserWhereInput = {
   sellerItems?: Prisma.OrderItemListRelationFilter
   escrowPayouts?: Prisma.EscrowPayoutListRelationFilter
   reviewsGiven?: Prisma.ReviewListRelationFilter
-  reviewsRecd?: Prisma.ReviewListRelationFilter
-  chatRoomsAsBuyer?: Prisma.ChatRoomListRelationFilter
-  chatRoomsAsSeller?: Prisma.ChatRoomListRelationFilter
-  sentMessages?: Prisma.ChatMessageListRelationFilter
+  reviewsRecived?: Prisma.ReviewListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   tokens?: Prisma.TokenListRelationFilter
+  ledgerTransactions?: Prisma.LedgerTransactionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -232,12 +230,10 @@ export type UserOrderByWithRelationInput = {
   sellerItems?: Prisma.OrderItemOrderByRelationAggregateInput
   escrowPayouts?: Prisma.EscrowPayoutOrderByRelationAggregateInput
   reviewsGiven?: Prisma.ReviewOrderByRelationAggregateInput
-  reviewsRecd?: Prisma.ReviewOrderByRelationAggregateInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomOrderByRelationAggregateInput
-  chatRoomsAsSeller?: Prisma.ChatRoomOrderByRelationAggregateInput
-  sentMessages?: Prisma.ChatMessageOrderByRelationAggregateInput
+  reviewsRecived?: Prisma.ReviewOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   tokens?: Prisma.TokenOrderByRelationAggregateInput
+  ledgerTransactions?: Prisma.LedgerTransactionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -260,12 +256,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   sellerItems?: Prisma.OrderItemListRelationFilter
   escrowPayouts?: Prisma.EscrowPayoutListRelationFilter
   reviewsGiven?: Prisma.ReviewListRelationFilter
-  reviewsRecd?: Prisma.ReviewListRelationFilter
-  chatRoomsAsBuyer?: Prisma.ChatRoomListRelationFilter
-  chatRoomsAsSeller?: Prisma.ChatRoomListRelationFilter
-  sentMessages?: Prisma.ChatMessageListRelationFilter
+  reviewsRecived?: Prisma.ReviewListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   tokens?: Prisma.TokenListRelationFilter
+  ledgerTransactions?: Prisma.LedgerTransactionListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -311,12 +305,10 @@ export type UserCreateInput = {
   sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -336,12 +328,10 @@ export type UserUncheckedCreateInput = {
   sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -361,12 +351,10 @@ export type UserUpdateInput = {
   sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -386,12 +374,10 @@ export type UserUncheckedUpdateInput = {
   sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -592,6 +578,20 @@ export type UserUpdateOneRequiredWithoutSellerItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSellerItemsInput, Prisma.UserUpdateWithoutSellerItemsInput>, Prisma.UserUncheckedUpdateWithoutSellerItemsInput>
 }
 
+export type UserCreateNestedOneWithoutLedgerTransactionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLedgerTransactionsInput, Prisma.UserUncheckedCreateWithoutLedgerTransactionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLedgerTransactionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutLedgerTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLedgerTransactionsInput, Prisma.UserUncheckedCreateWithoutLedgerTransactionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLedgerTransactionsInput
+  upsert?: Prisma.UserUpsertWithoutLedgerTransactionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLedgerTransactionsInput, Prisma.UserUpdateWithoutLedgerTransactionsInput>, Prisma.UserUncheckedUpdateWithoutLedgerTransactionsInput>
+}
+
 export type UserCreateNestedOneWithoutEscrowPayoutsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutEscrowPayoutsInput, Prisma.UserUncheckedCreateWithoutEscrowPayoutsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutEscrowPayoutsInput
@@ -612,9 +612,9 @@ export type UserCreateNestedOneWithoutReviewsGivenInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserCreateNestedOneWithoutReviewsRecdInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecdInput, Prisma.UserUncheckedCreateWithoutReviewsRecdInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsRecdInput
+export type UserCreateNestedOneWithoutReviewsRecivedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecivedInput, Prisma.UserUncheckedCreateWithoutReviewsRecivedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsRecivedInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
@@ -626,54 +626,12 @@ export type UserUpdateOneRequiredWithoutReviewsGivenNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsGivenInput, Prisma.UserUpdateWithoutReviewsGivenInput>, Prisma.UserUncheckedUpdateWithoutReviewsGivenInput>
 }
 
-export type UserUpdateOneRequiredWithoutReviewsRecdNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecdInput, Prisma.UserUncheckedCreateWithoutReviewsRecdInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsRecdInput
-  upsert?: Prisma.UserUpsertWithoutReviewsRecdInput
+export type UserUpdateOneRequiredWithoutReviewsRecivedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecivedInput, Prisma.UserUncheckedCreateWithoutReviewsRecivedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsRecivedInput
+  upsert?: Prisma.UserUpsertWithoutReviewsRecivedInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsRecdInput, Prisma.UserUpdateWithoutReviewsRecdInput>, Prisma.UserUncheckedUpdateWithoutReviewsRecdInput>
-}
-
-export type UserCreateNestedOneWithoutChatRoomsAsBuyerInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsBuyerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsBuyerInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatRoomsAsBuyerInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserCreateNestedOneWithoutChatRoomsAsSellerInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsSellerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsSellerInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatRoomsAsSellerInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutChatRoomsAsBuyerNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsBuyerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsBuyerInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatRoomsAsBuyerInput
-  upsert?: Prisma.UserUpsertWithoutChatRoomsAsBuyerInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChatRoomsAsBuyerInput, Prisma.UserUpdateWithoutChatRoomsAsBuyerInput>, Prisma.UserUncheckedUpdateWithoutChatRoomsAsBuyerInput>
-}
-
-export type UserUpdateOneRequiredWithoutChatRoomsAsSellerNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsSellerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsSellerInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatRoomsAsSellerInput
-  upsert?: Prisma.UserUpsertWithoutChatRoomsAsSellerInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChatRoomsAsSellerInput, Prisma.UserUpdateWithoutChatRoomsAsSellerInput>, Prisma.UserUncheckedUpdateWithoutChatRoomsAsSellerInput>
-}
-
-export type UserCreateNestedOneWithoutSentMessagesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentMessagesInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutSentMessagesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentMessagesInput
-  upsert?: Prisma.UserUpsertWithoutSentMessagesInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSentMessagesInput, Prisma.UserUpdateWithoutSentMessagesInput>, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsRecivedInput, Prisma.UserUpdateWithoutReviewsRecivedInput>, Prisma.UserUncheckedUpdateWithoutReviewsRecivedInput>
 }
 
 export type UserCreateNestedOneWithoutNotificationsInput = {
@@ -707,11 +665,9 @@ export type UserCreateWithoutTokensInput = {
   sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTokensInput = {
@@ -731,11 +687,9 @@ export type UserUncheckedCreateWithoutTokensInput = {
   sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTokensInput = {
@@ -771,11 +725,9 @@ export type UserUpdateWithoutTokensInput = {
   sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTokensInput = {
@@ -795,11 +747,9 @@ export type UserUncheckedUpdateWithoutTokensInput = {
   sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProfileInput = {
@@ -818,12 +768,10 @@ export type UserCreateWithoutProfileInput = {
   sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfileInput = {
@@ -842,12 +790,10 @@ export type UserUncheckedCreateWithoutProfileInput = {
   sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfileInput = {
@@ -882,12 +828,10 @@ export type UserUpdateWithoutProfileInput = {
   sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfileInput = {
@@ -906,12 +850,10 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAddressesInput = {
@@ -930,12 +872,10 @@ export type UserCreateWithoutAddressesInput = {
   sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAddressesInput = {
@@ -954,12 +894,10 @@ export type UserUncheckedCreateWithoutAddressesInput = {
   sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAddressesInput = {
@@ -994,12 +932,10 @@ export type UserUpdateWithoutAddressesInput = {
   sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAddressesInput = {
@@ -1018,12 +954,10 @@ export type UserUncheckedUpdateWithoutAddressesInput = {
   sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutListingsInput = {
@@ -1042,12 +976,10 @@ export type UserCreateWithoutListingsInput = {
   sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutListingsInput = {
@@ -1066,12 +998,10 @@ export type UserUncheckedCreateWithoutListingsInput = {
   sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutListingsInput = {
@@ -1106,12 +1036,10 @@ export type UserUpdateWithoutListingsInput = {
   sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutListingsInput = {
@@ -1130,12 +1058,10 @@ export type UserUncheckedUpdateWithoutListingsInput = {
   sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCartInput = {
@@ -1154,12 +1080,10 @@ export type UserCreateWithoutCartInput = {
   sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCartInput = {
@@ -1178,12 +1102,10 @@ export type UserUncheckedCreateWithoutCartInput = {
   sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCartInput = {
@@ -1218,12 +1140,10 @@ export type UserUpdateWithoutCartInput = {
   sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCartInput = {
@@ -1242,12 +1162,10 @@ export type UserUncheckedUpdateWithoutCartInput = {
   sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWishlistItemsInput = {
@@ -1266,12 +1184,10 @@ export type UserCreateWithoutWishlistItemsInput = {
   sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWishlistItemsInput = {
@@ -1290,12 +1206,10 @@ export type UserUncheckedCreateWithoutWishlistItemsInput = {
   sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWishlistItemsInput = {
@@ -1330,12 +1244,10 @@ export type UserUpdateWithoutWishlistItemsInput = {
   sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWishlistItemsInput = {
@@ -1354,12 +1266,10 @@ export type UserUncheckedUpdateWithoutWishlistItemsInput = {
   sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBuyerOrdersInput = {
@@ -1378,12 +1288,10 @@ export type UserCreateWithoutBuyerOrdersInput = {
   sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBuyerOrdersInput = {
@@ -1402,12 +1310,10 @@ export type UserUncheckedCreateWithoutBuyerOrdersInput = {
   sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBuyerOrdersInput = {
@@ -1442,12 +1348,10 @@ export type UserUpdateWithoutBuyerOrdersInput = {
   sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBuyerOrdersInput = {
@@ -1466,12 +1370,10 @@ export type UserUncheckedUpdateWithoutBuyerOrdersInput = {
   sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSellerItemsInput = {
@@ -1490,12 +1392,10 @@ export type UserCreateWithoutSellerItemsInput = {
   buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
   escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSellerItemsInput = {
@@ -1514,12 +1414,10 @@ export type UserUncheckedCreateWithoutSellerItemsInput = {
   buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSellerItemsInput = {
@@ -1554,12 +1452,10 @@ export type UserUpdateWithoutSellerItemsInput = {
   buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSellerItemsInput = {
@@ -1578,10 +1474,112 @@ export type UserUncheckedUpdateWithoutSellerItemsInput = {
   buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutLedgerTransactionsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isAdmin?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
+  reviewsRecived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutLedgerTransactionsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  isAdmin?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
+  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
+  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
+  reviewsRecived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutLedgerTransactionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLedgerTransactionsInput, Prisma.UserUncheckedCreateWithoutLedgerTransactionsInput>
+}
+
+export type UserUpsertWithoutLedgerTransactionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLedgerTransactionsInput, Prisma.UserUncheckedUpdateWithoutLedgerTransactionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLedgerTransactionsInput, Prisma.UserUncheckedCreateWithoutLedgerTransactionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutLedgerTransactionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLedgerTransactionsInput, Prisma.UserUncheckedUpdateWithoutLedgerTransactionsInput>
+}
+
+export type UserUpdateWithoutLedgerTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
+  reviewsRecived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLedgerTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
+  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
+  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
+  reviewsRecived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -1602,12 +1600,10 @@ export type UserCreateWithoutEscrowPayoutsInput = {
   buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
   sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEscrowPayoutsInput = {
@@ -1626,12 +1622,10 @@ export type UserUncheckedCreateWithoutEscrowPayoutsInput = {
   buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
   sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEscrowPayoutsInput = {
@@ -1666,12 +1660,10 @@ export type UserUpdateWithoutEscrowPayoutsInput = {
   buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
   sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEscrowPayoutsInput = {
@@ -1690,12 +1682,10 @@ export type UserUncheckedUpdateWithoutEscrowPayoutsInput = {
   buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
   sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewsGivenInput = {
@@ -1714,12 +1704,10 @@ export type UserCreateWithoutReviewsGivenInput = {
   buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
   sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewsGivenInput = {
@@ -1738,12 +1726,10 @@ export type UserUncheckedCreateWithoutReviewsGivenInput = {
   buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
   sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewsGivenInput = {
@@ -1751,7 +1737,7 @@ export type UserCreateOrConnectWithoutReviewsGivenInput = {
   create: Prisma.XOR<Prisma.UserCreateWithoutReviewsGivenInput, Prisma.UserUncheckedCreateWithoutReviewsGivenInput>
 }
 
-export type UserCreateWithoutReviewsRecdInput = {
+export type UserCreateWithoutReviewsRecivedInput = {
   id?: string
   email: string
   passwordHash: string
@@ -1768,14 +1754,12 @@ export type UserCreateWithoutReviewsRecdInput = {
   sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutReviewsRecdInput = {
+export type UserUncheckedCreateWithoutReviewsRecivedInput = {
   id?: string
   email: string
   passwordHash: string
@@ -1792,16 +1776,14 @@ export type UserUncheckedCreateWithoutReviewsRecdInput = {
   sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutReviewsRecdInput = {
+export type UserCreateOrConnectWithoutReviewsRecivedInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecdInput, Prisma.UserUncheckedCreateWithoutReviewsRecdInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecivedInput, Prisma.UserUncheckedCreateWithoutReviewsRecivedInput>
 }
 
 export type UserUpsertWithoutReviewsGivenInput = {
@@ -1831,12 +1813,10 @@ export type UserUpdateWithoutReviewsGivenInput = {
   buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
   sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsGivenInput = {
@@ -1855,26 +1835,24 @@ export type UserUncheckedUpdateWithoutReviewsGivenInput = {
   buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
   sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserUpsertWithoutReviewsRecdInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewsRecdInput, Prisma.UserUncheckedUpdateWithoutReviewsRecdInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecdInput, Prisma.UserUncheckedCreateWithoutReviewsRecdInput>
+export type UserUpsertWithoutReviewsRecivedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewsRecivedInput, Prisma.UserUncheckedUpdateWithoutReviewsRecivedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecivedInput, Prisma.UserUncheckedCreateWithoutReviewsRecivedInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutReviewsRecdInput = {
+export type UserUpdateToOneWithWhereWithoutReviewsRecivedInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewsRecdInput, Prisma.UserUncheckedUpdateWithoutReviewsRecdInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewsRecivedInput, Prisma.UserUncheckedUpdateWithoutReviewsRecivedInput>
 }
 
-export type UserUpdateWithoutReviewsRecdInput = {
+export type UserUpdateWithoutReviewsRecivedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1891,14 +1869,12 @@ export type UserUpdateWithoutReviewsRecdInput = {
   sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutReviewsRecdInput = {
+export type UserUncheckedUpdateWithoutReviewsRecivedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1915,347 +1891,9 @@ export type UserUncheckedUpdateWithoutReviewsRecdInput = {
   sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutChatRoomsAsBuyerInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  isAdmin?: boolean
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
-  cart?: Prisma.CartCreateNestedOneWithoutUserInput
-  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
-  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
-  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
-  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
-  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutChatRoomsAsBuyerInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  isAdmin?: boolean
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
-  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
-  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
-  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
-  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
-  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
-  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutChatRoomsAsBuyerInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsBuyerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsBuyerInput>
-}
-
-export type UserCreateWithoutChatRoomsAsSellerInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  isAdmin?: boolean
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
-  cart?: Prisma.CartCreateNestedOneWithoutUserInput
-  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
-  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
-  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
-  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
-  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutChatRoomsAsSellerInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  isAdmin?: boolean
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
-  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
-  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
-  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
-  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
-  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
-  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutChatRoomsAsSellerInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsSellerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsSellerInput>
-}
-
-export type UserUpsertWithoutChatRoomsAsBuyerInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutChatRoomsAsBuyerInput, Prisma.UserUncheckedUpdateWithoutChatRoomsAsBuyerInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsBuyerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsBuyerInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutChatRoomsAsBuyerInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutChatRoomsAsBuyerInput, Prisma.UserUncheckedUpdateWithoutChatRoomsAsBuyerInput>
-}
-
-export type UserUpdateWithoutChatRoomsAsBuyerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
-  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
-  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
-  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
-  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
-  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
-  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutChatRoomsAsBuyerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
-  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
-  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
-  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
-  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
-  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
-  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserUpsertWithoutChatRoomsAsSellerInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutChatRoomsAsSellerInput, Prisma.UserUncheckedUpdateWithoutChatRoomsAsSellerInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutChatRoomsAsSellerInput, Prisma.UserUncheckedCreateWithoutChatRoomsAsSellerInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutChatRoomsAsSellerInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutChatRoomsAsSellerInput, Prisma.UserUncheckedUpdateWithoutChatRoomsAsSellerInput>
-}
-
-export type UserUpdateWithoutChatRoomsAsSellerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
-  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
-  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
-  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
-  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
-  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
-  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutChatRoomsAsSellerInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
-  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
-  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
-  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
-  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
-  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
-  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutSentMessagesInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  isAdmin?: boolean
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutSellerInput
-  cart?: Prisma.CartCreateNestedOneWithoutUserInput
-  wishlistItems?: Prisma.WishlistCreateNestedManyWithoutUserInput
-  buyerOrders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
-  sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
-  escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
-  reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutSentMessagesInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  isAdmin?: boolean
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutSellerInput
-  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput
-  wishlistItems?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
-  buyerOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
-  sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
-  escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
-  reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutSentMessagesInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
-}
-
-export type UserUpsertWithoutSentMessagesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutSentMessagesInput, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutSentMessagesInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutSentMessagesInput, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
-}
-
-export type UserUpdateWithoutSentMessagesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutSellerNestedInput
-  cart?: Prisma.CartUpdateOneWithoutUserNestedInput
-  wishlistItems?: Prisma.WishlistUpdateManyWithoutUserNestedInput
-  buyerOrders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
-  sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
-  escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
-  reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutSentMessagesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutSellerNestedInput
-  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput
-  wishlistItems?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
-  buyerOrders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
-  sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
-  escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
-  reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -2275,11 +1913,9 @@ export type UserCreateWithoutNotificationsInput = {
   sellerItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewCreateNestedManyWithoutSellerInput
   tokens?: Prisma.TokenCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -2299,11 +1935,9 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   sellerItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedCreateNestedManyWithoutSellerInput
   reviewsGiven?: Prisma.ReviewUncheckedCreateNestedManyWithoutBuyerInput
-  reviewsRecd?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutBuyerInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  reviewsRecived?: Prisma.ReviewUncheckedCreateNestedManyWithoutSellerInput
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUserInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -2339,11 +1973,9 @@ export type UserUpdateWithoutNotificationsInput = {
   sellerItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUpdateManyWithoutSellerNestedInput
   tokens?: Prisma.TokenUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -2363,11 +1995,9 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   sellerItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
   escrowPayouts?: Prisma.EscrowPayoutUncheckedUpdateManyWithoutSellerNestedInput
   reviewsGiven?: Prisma.ReviewUncheckedUpdateManyWithoutBuyerNestedInput
-  reviewsRecd?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
-  chatRoomsAsBuyer?: Prisma.ChatRoomUncheckedUpdateManyWithoutBuyerNestedInput
-  chatRoomsAsSeller?: Prisma.ChatRoomUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  reviewsRecived?: Prisma.ReviewUncheckedUpdateManyWithoutSellerNestedInput
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUserNestedInput
+  ledgerTransactions?: Prisma.LedgerTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -2383,12 +2013,10 @@ export type UserCountOutputType = {
   sellerItems: number
   escrowPayouts: number
   reviewsGiven: number
-  reviewsRecd: number
-  chatRoomsAsBuyer: number
-  chatRoomsAsSeller: number
-  sentMessages: number
+  reviewsRecived: number
   notifications: number
   tokens: number
+  ledgerTransactions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2399,12 +2027,10 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   sellerItems?: boolean | UserCountOutputTypeCountSellerItemsArgs
   escrowPayouts?: boolean | UserCountOutputTypeCountEscrowPayoutsArgs
   reviewsGiven?: boolean | UserCountOutputTypeCountReviewsGivenArgs
-  reviewsRecd?: boolean | UserCountOutputTypeCountReviewsRecdArgs
-  chatRoomsAsBuyer?: boolean | UserCountOutputTypeCountChatRoomsAsBuyerArgs
-  chatRoomsAsSeller?: boolean | UserCountOutputTypeCountChatRoomsAsSellerArgs
-  sentMessages?: boolean | UserCountOutputTypeCountSentMessagesArgs
+  reviewsRecived?: boolean | UserCountOutputTypeCountReviewsRecivedArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
   tokens?: boolean | UserCountOutputTypeCountTokensArgs
+  ledgerTransactions?: boolean | UserCountOutputTypeCountLedgerTransactionsArgs
 }
 
 /**
@@ -2469,29 +2095,8 @@ export type UserCountOutputTypeCountReviewsGivenArgs<ExtArgs extends runtime.Typ
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountReviewsRecdArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserCountOutputTypeCountReviewsRecivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ReviewWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountChatRoomsAsBuyerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ChatRoomWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountChatRoomsAsSellerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ChatRoomWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountSentMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ChatMessageWhereInput
 }
 
 /**
@@ -2506,6 +2111,13 @@ export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Ty
  */
 export type UserCountOutputTypeCountTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TokenWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountLedgerTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LedgerTransactionWhereInput
 }
 
 
@@ -2526,12 +2138,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   sellerItems?: boolean | Prisma.User$sellerItemsArgs<ExtArgs>
   escrowPayouts?: boolean | Prisma.User$escrowPayoutsArgs<ExtArgs>
   reviewsGiven?: boolean | Prisma.User$reviewsGivenArgs<ExtArgs>
-  reviewsRecd?: boolean | Prisma.User$reviewsRecdArgs<ExtArgs>
-  chatRoomsAsBuyer?: boolean | Prisma.User$chatRoomsAsBuyerArgs<ExtArgs>
-  chatRoomsAsSeller?: boolean | Prisma.User$chatRoomsAsSellerArgs<ExtArgs>
-  sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
+  reviewsRecived?: boolean | Prisma.User$reviewsRecivedArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   tokens?: boolean | Prisma.User$tokensArgs<ExtArgs>
+  ledgerTransactions?: boolean | Prisma.User$ledgerTransactionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2576,12 +2186,10 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   sellerItems?: boolean | Prisma.User$sellerItemsArgs<ExtArgs>
   escrowPayouts?: boolean | Prisma.User$escrowPayoutsArgs<ExtArgs>
   reviewsGiven?: boolean | Prisma.User$reviewsGivenArgs<ExtArgs>
-  reviewsRecd?: boolean | Prisma.User$reviewsRecdArgs<ExtArgs>
-  chatRoomsAsBuyer?: boolean | Prisma.User$chatRoomsAsBuyerArgs<ExtArgs>
-  chatRoomsAsSeller?: boolean | Prisma.User$chatRoomsAsSellerArgs<ExtArgs>
-  sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
+  reviewsRecived?: boolean | Prisma.User$reviewsRecivedArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   tokens?: boolean | Prisma.User$tokensArgs<ExtArgs>
+  ledgerTransactions?: boolean | Prisma.User$ledgerTransactionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2599,12 +2207,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     sellerItems: Prisma.$OrderItemPayload<ExtArgs>[]
     escrowPayouts: Prisma.$EscrowPayoutPayload<ExtArgs>[]
     reviewsGiven: Prisma.$ReviewPayload<ExtArgs>[]
-    reviewsRecd: Prisma.$ReviewPayload<ExtArgs>[]
-    chatRoomsAsBuyer: Prisma.$ChatRoomPayload<ExtArgs>[]
-    chatRoomsAsSeller: Prisma.$ChatRoomPayload<ExtArgs>[]
-    sentMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
+    reviewsRecived: Prisma.$ReviewPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     tokens: Prisma.$TokenPayload<ExtArgs>[]
+    ledgerTransactions: Prisma.$LedgerTransactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3017,12 +2623,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   sellerItems<T extends Prisma.User$sellerItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sellerItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   escrowPayouts<T extends Prisma.User$escrowPayoutsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$escrowPayoutsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EscrowPayoutPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviewsGiven<T extends Prisma.User$reviewsGivenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  reviewsRecd<T extends Prisma.User$reviewsRecdArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsRecdArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  chatRoomsAsBuyer<T extends Prisma.User$chatRoomsAsBuyerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chatRoomsAsBuyerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  chatRoomsAsSeller<T extends Prisma.User$chatRoomsAsSellerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chatRoomsAsSellerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  sentMessages<T extends Prisma.User$sentMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviewsRecived<T extends Prisma.User$reviewsRecivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsRecivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tokens<T extends Prisma.User$tokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ledgerTransactions<T extends Prisma.User$ledgerTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ledgerTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LedgerTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3658,9 +3262,9 @@ export type User$reviewsGivenArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * User.reviewsRecd
+ * User.reviewsRecived
  */
-export type User$reviewsRecdArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$reviewsRecivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Review
    */
@@ -3679,78 +3283,6 @@ export type User$reviewsRecdArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
-}
-
-/**
- * User.chatRoomsAsBuyer
- */
-export type User$chatRoomsAsBuyerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ChatRoom
-   */
-  select?: Prisma.ChatRoomSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ChatRoom
-   */
-  omit?: Prisma.ChatRoomOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ChatRoomInclude<ExtArgs> | null
-  where?: Prisma.ChatRoomWhereInput
-  orderBy?: Prisma.ChatRoomOrderByWithRelationInput | Prisma.ChatRoomOrderByWithRelationInput[]
-  cursor?: Prisma.ChatRoomWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ChatRoomScalarFieldEnum | Prisma.ChatRoomScalarFieldEnum[]
-}
-
-/**
- * User.chatRoomsAsSeller
- */
-export type User$chatRoomsAsSellerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ChatRoom
-   */
-  select?: Prisma.ChatRoomSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ChatRoom
-   */
-  omit?: Prisma.ChatRoomOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ChatRoomInclude<ExtArgs> | null
-  where?: Prisma.ChatRoomWhereInput
-  orderBy?: Prisma.ChatRoomOrderByWithRelationInput | Prisma.ChatRoomOrderByWithRelationInput[]
-  cursor?: Prisma.ChatRoomWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ChatRoomScalarFieldEnum | Prisma.ChatRoomScalarFieldEnum[]
-}
-
-/**
- * User.sentMessages
- */
-export type User$sentMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ChatMessage
-   */
-  select?: Prisma.ChatMessageSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ChatMessage
-   */
-  omit?: Prisma.ChatMessageOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ChatMessageInclude<ExtArgs> | null
-  where?: Prisma.ChatMessageWhereInput
-  orderBy?: Prisma.ChatMessageOrderByWithRelationInput | Prisma.ChatMessageOrderByWithRelationInput[]
-  cursor?: Prisma.ChatMessageWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ChatMessageScalarFieldEnum | Prisma.ChatMessageScalarFieldEnum[]
 }
 
 /**
@@ -3799,6 +3331,30 @@ export type User$tokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.TokenScalarFieldEnum | Prisma.TokenScalarFieldEnum[]
+}
+
+/**
+ * User.ledgerTransactions
+ */
+export type User$ledgerTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LedgerTransaction
+   */
+  select?: Prisma.LedgerTransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LedgerTransaction
+   */
+  omit?: Prisma.LedgerTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LedgerTransactionInclude<ExtArgs> | null
+  where?: Prisma.LedgerTransactionWhereInput
+  orderBy?: Prisma.LedgerTransactionOrderByWithRelationInput | Prisma.LedgerTransactionOrderByWithRelationInput[]
+  cursor?: Prisma.LedgerTransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LedgerTransactionScalarFieldEnum | Prisma.LedgerTransactionScalarFieldEnum[]
 }
 
 /**

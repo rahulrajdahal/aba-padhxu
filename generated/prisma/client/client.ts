@@ -107,6 +107,11 @@ export type OrderItem = Prisma.OrderItemModel
  */
 export type Coupon = Prisma.CouponModel
 /**
+ * Model LedgerTransaction
+ * 
+ */
+export type LedgerTransaction = Prisma.LedgerTransactionModel
+/**
  * Model EscrowPayout
  * 
  */
@@ -116,16 +121,6 @@ export type EscrowPayout = Prisma.EscrowPayoutModel
  * 
  */
 export type Review = Prisma.ReviewModel
-/**
- * Model ChatRoom
- * 
- */
-export type ChatRoom = Prisma.ChatRoomModel
-/**
- * Model ChatMessage
- * 
- */
-export type ChatMessage = Prisma.ChatMessageModel
 /**
  * Model Notification
  * 

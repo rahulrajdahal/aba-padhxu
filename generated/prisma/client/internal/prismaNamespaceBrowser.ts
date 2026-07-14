@@ -64,10 +64,9 @@ export const ModelName = {
   Order: 'Order',
   OrderItem: 'OrderItem',
   Coupon: 'Coupon',
+  LedgerTransaction: 'LedgerTransaction',
   EscrowPayout: 'EscrowPayout',
   Review: 'Review',
-  ChatRoom: 'ChatRoom',
-  ChatMessage: 'ChatMessage',
   Notification: 'Notification'
 } as const
 
@@ -124,7 +123,8 @@ export const UserProfileScalarFieldEnum = {
   availableFunds: 'availableFunds',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId'
+  userId: 'userId',
+  stripeConnectId: 'stripeConnectId'
 } as const
 
 export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
@@ -227,11 +227,14 @@ export const OrderScalarFieldEnum = {
   id: 'id',
   totalAmountPennies: 'totalAmountPennies',
   paymentStatus: 'paymentStatus',
-  paymentGatewayRef: 'paymentGatewayRef',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   buyerId: 'buyerId',
-  shippingAddressId: 'shippingAddressId'
+  shippingAddressId: 'shippingAddressId',
+  couponId: 'couponId',
+  discountPennies: 'discountPennies',
+  stripePaymentIntentId: 'stripePaymentIntentId',
+  stripeChargeId: 'stripeChargeId'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -272,15 +275,29 @@ export const CouponScalarFieldEnum = {
 export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
 
 
+export const LedgerTransactionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amountPennies: 'amountPennies',
+  type: 'type',
+  description: 'description',
+  referenceId: 'referenceId',
+  createdAt: 'createdAt'
+} as const
+
+export type LedgerTransactionScalarFieldEnum = (typeof LedgerTransactionScalarFieldEnum)[keyof typeof LedgerTransactionScalarFieldEnum]
+
+
 export const EscrowPayoutScalarFieldEnum = {
   amountPennies: 'amountPennies',
-  payoutTransactionRef: 'payoutTransactionRef',
   releaseEligibleAt: 'releaseEligibleAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  escrowStatus: 'escrowStatus',
   orderItemId: 'orderItemId',
   sellerId: 'sellerId',
-  escrowStatus: 'escrowStatus'
+  stripeTransferId: 'stripeTransferId',
+  payoutTransactionRef: 'payoutTransactionRef'
 } as const
 
 export type EscrowPayoutScalarFieldEnum = (typeof EscrowPayoutScalarFieldEnum)[keyof typeof EscrowPayoutScalarFieldEnum]
@@ -299,30 +316,6 @@ export const ReviewScalarFieldEnum = {
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
-
-
-export const ChatRoomScalarFieldEnum = {
-  id: 'id',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  buyerId: 'buyerId',
-  sellerId: 'sellerId',
-  listingId: 'listingId'
-} as const
-
-export type ChatRoomScalarFieldEnum = (typeof ChatRoomScalarFieldEnum)[keyof typeof ChatRoomScalarFieldEnum]
-
-
-export const ChatMessageScalarFieldEnum = {
-  id: 'id',
-  chatRoomId: 'chatRoomId',
-  senderId: 'senderId',
-  messageText: 'messageText',
-  readAt: 'readAt',
-  createdAt: 'createdAt'
-} as const
-
-export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[keyof typeof ChatMessageScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {

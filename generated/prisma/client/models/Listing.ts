@@ -264,7 +264,6 @@ export type ListingWhereInput = {
   book?: Prisma.XOR<Prisma.BookScalarRelationFilter, Prisma.BookWhereInput>
   cartItems?: Prisma.CartItemListRelationFilter
   orderItems?: Prisma.OrderItemListRelationFilter
-  chatRooms?: Prisma.ChatRoomListRelationFilter
 }
 
 export type ListingOrderByWithRelationInput = {
@@ -282,7 +281,6 @@ export type ListingOrderByWithRelationInput = {
   book?: Prisma.BookOrderByWithRelationInput
   cartItems?: Prisma.CartItemOrderByRelationAggregateInput
   orderItems?: Prisma.OrderItemOrderByRelationAggregateInput
-  chatRooms?: Prisma.ChatRoomOrderByRelationAggregateInput
 }
 
 export type ListingWhereUniqueInput = Prisma.AtLeast<{
@@ -303,7 +301,6 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   book?: Prisma.XOR<Prisma.BookScalarRelationFilter, Prisma.BookWhereInput>
   cartItems?: Prisma.CartItemListRelationFilter
   orderItems?: Prisma.OrderItemListRelationFilter
-  chatRooms?: Prisma.ChatRoomListRelationFilter
 }, "id">
 
 export type ListingOrderByWithAggregationInput = {
@@ -353,7 +350,6 @@ export type ListingCreateInput = {
   book: Prisma.BookCreateNestedOneWithoutListingsInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutListingInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutListingInput
-  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateInput = {
@@ -369,7 +365,6 @@ export type ListingUncheckedCreateInput = {
   bookId: string
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutListingInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutListingInput
-  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingUpdateInput = {
@@ -385,7 +380,6 @@ export type ListingUpdateInput = {
   book?: Prisma.BookUpdateOneRequiredWithoutListingsNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutListingNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutListingNestedInput
-  chatRooms?: Prisma.ChatRoomUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateInput = {
@@ -401,7 +395,6 @@ export type ListingUncheckedUpdateInput = {
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutListingNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutListingNestedInput
-  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateManyInput = {
@@ -628,22 +621,6 @@ export type ListingUpdateOneWithoutOrderItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutOrderItemsInput, Prisma.ListingUpdateWithoutOrderItemsInput>, Prisma.ListingUncheckedUpdateWithoutOrderItemsInput>
 }
 
-export type ListingCreateNestedOneWithoutChatRoomsInput = {
-  create?: Prisma.XOR<Prisma.ListingCreateWithoutChatRoomsInput, Prisma.ListingUncheckedCreateWithoutChatRoomsInput>
-  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutChatRoomsInput
-  connect?: Prisma.ListingWhereUniqueInput
-}
-
-export type ListingUpdateOneWithoutChatRoomsNestedInput = {
-  create?: Prisma.XOR<Prisma.ListingCreateWithoutChatRoomsInput, Prisma.ListingUncheckedCreateWithoutChatRoomsInput>
-  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutChatRoomsInput
-  upsert?: Prisma.ListingUpsertWithoutChatRoomsInput
-  disconnect?: Prisma.ListingWhereInput | boolean
-  delete?: Prisma.ListingWhereInput | boolean
-  connect?: Prisma.ListingWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutChatRoomsInput, Prisma.ListingUpdateWithoutChatRoomsInput>, Prisma.ListingUncheckedUpdateWithoutChatRoomsInput>
-}
-
 export type ListingCreateWithoutSellerInput = {
   id?: string
   condition: $Enums.BookCondition
@@ -656,7 +633,6 @@ export type ListingCreateWithoutSellerInput = {
   book: Prisma.BookCreateNestedOneWithoutListingsInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutListingInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutListingInput
-  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutSellerInput = {
@@ -671,7 +647,6 @@ export type ListingUncheckedCreateWithoutSellerInput = {
   bookId: string
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutListingInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutListingInput
-  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutSellerInput = {
@@ -728,7 +703,6 @@ export type ListingCreateWithoutBookInput = {
   seller: Prisma.UserCreateNestedOneWithoutListingsInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutListingInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutListingInput
-  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutBookInput = {
@@ -743,7 +717,6 @@ export type ListingUncheckedCreateWithoutBookInput = {
   sellerId: string
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutListingInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutListingInput
-  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutBookInput = {
@@ -784,7 +757,6 @@ export type ListingCreateWithoutCartItemsInput = {
   seller: Prisma.UserCreateNestedOneWithoutListingsInput
   book: Prisma.BookCreateNestedOneWithoutListingsInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutListingInput
-  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutCartItemsInput = {
@@ -799,7 +771,6 @@ export type ListingUncheckedCreateWithoutCartItemsInput = {
   sellerId: string
   bookId: string
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutListingInput
-  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutCartItemsInput = {
@@ -830,7 +801,6 @@ export type ListingUpdateWithoutCartItemsInput = {
   seller?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   book?: Prisma.BookUpdateOneRequiredWithoutListingsNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutListingNestedInput
-  chatRooms?: Prisma.ChatRoomUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutCartItemsInput = {
@@ -845,7 +815,6 @@ export type ListingUncheckedUpdateWithoutCartItemsInput = {
   sellerId?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutListingNestedInput
-  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutOrderItemsInput = {
@@ -860,7 +829,6 @@ export type ListingCreateWithoutOrderItemsInput = {
   seller: Prisma.UserCreateNestedOneWithoutListingsInput
   book: Prisma.BookCreateNestedOneWithoutListingsInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutListingInput
-  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutOrderItemsInput = {
@@ -875,7 +843,6 @@ export type ListingUncheckedCreateWithoutOrderItemsInput = {
   sellerId: string
   bookId: string
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutListingInput
-  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutOrderItemsInput = {
@@ -906,7 +873,6 @@ export type ListingUpdateWithoutOrderItemsInput = {
   seller?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   book?: Prisma.BookUpdateOneRequiredWithoutListingsNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutListingNestedInput
-  chatRooms?: Prisma.ChatRoomUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutOrderItemsInput = {
@@ -921,83 +887,6 @@ export type ListingUncheckedUpdateWithoutOrderItemsInput = {
   sellerId?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutListingNestedInput
-  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutListingNestedInput
-}
-
-export type ListingCreateWithoutChatRoomsInput = {
-  id?: string
-  condition: $Enums.BookCondition
-  pricePennies: number
-  quantity: number
-  description?: string | null
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  seller: Prisma.UserCreateNestedOneWithoutListingsInput
-  book: Prisma.BookCreateNestedOneWithoutListingsInput
-  cartItems?: Prisma.CartItemCreateNestedManyWithoutListingInput
-  orderItems?: Prisma.OrderItemCreateNestedManyWithoutListingInput
-}
-
-export type ListingUncheckedCreateWithoutChatRoomsInput = {
-  id?: string
-  condition: $Enums.BookCondition
-  pricePennies: number
-  quantity: number
-  description?: string | null
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  sellerId: string
-  bookId: string
-  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutListingInput
-  orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutListingInput
-}
-
-export type ListingCreateOrConnectWithoutChatRoomsInput = {
-  where: Prisma.ListingWhereUniqueInput
-  create: Prisma.XOR<Prisma.ListingCreateWithoutChatRoomsInput, Prisma.ListingUncheckedCreateWithoutChatRoomsInput>
-}
-
-export type ListingUpsertWithoutChatRoomsInput = {
-  update: Prisma.XOR<Prisma.ListingUpdateWithoutChatRoomsInput, Prisma.ListingUncheckedUpdateWithoutChatRoomsInput>
-  create: Prisma.XOR<Prisma.ListingCreateWithoutChatRoomsInput, Prisma.ListingUncheckedCreateWithoutChatRoomsInput>
-  where?: Prisma.ListingWhereInput
-}
-
-export type ListingUpdateToOneWithWhereWithoutChatRoomsInput = {
-  where?: Prisma.ListingWhereInput
-  data: Prisma.XOR<Prisma.ListingUpdateWithoutChatRoomsInput, Prisma.ListingUncheckedUpdateWithoutChatRoomsInput>
-}
-
-export type ListingUpdateWithoutChatRoomsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  seller?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  book?: Prisma.BookUpdateOneRequiredWithoutListingsNestedInput
-  cartItems?: Prisma.CartItemUpdateManyWithoutListingNestedInput
-  orderItems?: Prisma.OrderItemUpdateManyWithoutListingNestedInput
-}
-
-export type ListingUncheckedUpdateWithoutChatRoomsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
-  pricePennies?: Prisma.IntFieldUpdateOperationsInput | number
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sellerId?: Prisma.StringFieldUpdateOperationsInput | string
-  bookId?: Prisma.StringFieldUpdateOperationsInput | string
-  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutListingNestedInput
-  orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateManySellerInput = {
@@ -1024,7 +913,6 @@ export type ListingUpdateWithoutSellerInput = {
   book?: Prisma.BookUpdateOneRequiredWithoutListingsNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutListingNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutListingNestedInput
-  chatRooms?: Prisma.ChatRoomUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutSellerInput = {
@@ -1039,7 +927,6 @@ export type ListingUncheckedUpdateWithoutSellerInput = {
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutListingNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutListingNestedInput
-  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateManyWithoutSellerInput = {
@@ -1078,7 +965,6 @@ export type ListingUpdateWithoutBookInput = {
   seller?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutListingNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutListingNestedInput
-  chatRooms?: Prisma.ChatRoomUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutBookInput = {
@@ -1093,7 +979,6 @@ export type ListingUncheckedUpdateWithoutBookInput = {
   sellerId?: Prisma.StringFieldUpdateOperationsInput | string
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutListingNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutListingNestedInput
-  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateManyWithoutBookInput = {
@@ -1116,13 +1001,11 @@ export type ListingUncheckedUpdateManyWithoutBookInput = {
 export type ListingCountOutputType = {
   cartItems: number
   orderItems: number
-  chatRooms: number
 }
 
 export type ListingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cartItems?: boolean | ListingCountOutputTypeCountCartItemsArgs
   orderItems?: boolean | ListingCountOutputTypeCountOrderItemsArgs
-  chatRooms?: boolean | ListingCountOutputTypeCountChatRoomsArgs
 }
 
 /**
@@ -1149,13 +1032,6 @@ export type ListingCountOutputTypeCountOrderItemsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.OrderItemWhereInput
 }
 
-/**
- * ListingCountOutputType without action
- */
-export type ListingCountOutputTypeCountChatRoomsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ChatRoomWhereInput
-}
-
 
 export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1172,7 +1048,6 @@ export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   book?: boolean | Prisma.BookDefaultArgs<ExtArgs>
   cartItems?: boolean | Prisma.Listing$cartItemsArgs<ExtArgs>
   orderItems?: boolean | Prisma.Listing$orderItemsArgs<ExtArgs>
-  chatRooms?: boolean | Prisma.Listing$chatRoomsArgs<ExtArgs>
   _count?: boolean | Prisma.ListingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["listing"]>
 
@@ -1225,7 +1100,6 @@ export type ListingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   book?: boolean | Prisma.BookDefaultArgs<ExtArgs>
   cartItems?: boolean | Prisma.Listing$cartItemsArgs<ExtArgs>
   orderItems?: boolean | Prisma.Listing$orderItemsArgs<ExtArgs>
-  chatRooms?: boolean | Prisma.Listing$chatRoomsArgs<ExtArgs>
   _count?: boolean | Prisma.ListingCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ListingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1244,7 +1118,6 @@ export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     book: Prisma.$BookPayload<ExtArgs>
     cartItems: Prisma.$CartItemPayload<ExtArgs>[]
     orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
-    chatRooms: Prisma.$ChatRoomPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1655,7 +1528,6 @@ export interface Prisma__ListingClient<T, Null = never, ExtArgs extends runtime.
   book<T extends Prisma.BookDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BookDefaultArgs<ExtArgs>>): Prisma.Prisma__BookClient<runtime.Types.Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   cartItems<T extends Prisma.Listing$cartItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$cartItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orderItems<T extends Prisma.Listing$orderItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  chatRooms<T extends Prisma.Listing$chatRoomsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$chatRoomsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2141,30 +2013,6 @@ export type Listing$orderItemsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.OrderItemScalarFieldEnum | Prisma.OrderItemScalarFieldEnum[]
-}
-
-/**
- * Listing.chatRooms
- */
-export type Listing$chatRoomsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ChatRoom
-   */
-  select?: Prisma.ChatRoomSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ChatRoom
-   */
-  omit?: Prisma.ChatRoomOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ChatRoomInclude<ExtArgs> | null
-  where?: Prisma.ChatRoomWhereInput
-  orderBy?: Prisma.ChatRoomOrderByWithRelationInput | Prisma.ChatRoomOrderByWithRelationInput[]
-  cursor?: Prisma.ChatRoomWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ChatRoomScalarFieldEnum | Prisma.ChatRoomScalarFieldEnum[]
 }
 
 /**

@@ -68,6 +68,17 @@ export const DiscountType = {
 export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType]
 
 
+export const LedgerTransactionType = {
+  BOOK_SALE: 'BOOK_SALE',
+  ESCROW_LOCK: 'ESCROW_LOCK',
+  ESCROW_RELEASE: 'ESCROW_RELEASE',
+  REFUND: 'REFUND',
+  PLATFORM_FEE: 'PLATFORM_FEE'
+} as const
+
+export type LedgerTransactionType = (typeof LedgerTransactionType)[keyof typeof LedgerTransactionType]
+
+
 export const NotificationType = {
   NEW_MESSAGE: 'NEW_MESSAGE',
   ORDER_STATUS: 'ORDER_STATUS',

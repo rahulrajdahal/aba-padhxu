@@ -50,6 +50,7 @@ export type UserProfileMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   userId: string | null
+  stripeConnectId: string | null
 }
 
 export type UserProfileMaxAggregateOutputType = {
@@ -64,6 +65,7 @@ export type UserProfileMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   userId: string | null
+  stripeConnectId: string | null
 }
 
 export type UserProfileCountAggregateOutputType = {
@@ -78,6 +80,7 @@ export type UserProfileCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   userId: number
+  stripeConnectId: number
   _all: number
 }
 
@@ -106,6 +109,7 @@ export type UserProfileMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   userId?: true
+  stripeConnectId?: true
 }
 
 export type UserProfileMaxAggregateInputType = {
@@ -120,6 +124,7 @@ export type UserProfileMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   userId?: true
+  stripeConnectId?: true
 }
 
 export type UserProfileCountAggregateInputType = {
@@ -134,6 +139,7 @@ export type UserProfileCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   userId?: true
+  stripeConnectId?: true
   _all?: true
 }
 
@@ -235,6 +241,7 @@ export type UserProfileGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   userId: string
+  stripeConnectId: string | null
   _count: UserProfileCountAggregateOutputType | null
   _avg: UserProfileAvgAggregateOutputType | null
   _sum: UserProfileSumAggregateOutputType | null
@@ -272,6 +279,7 @@ export type UserProfileWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   userId?: Prisma.UuidFilter<"UserProfile"> | string
+  stripeConnectId?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
@@ -287,11 +295,13 @@ export type UserProfileOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  stripeConnectId?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
   userId?: string
+  stripeConnectId?: string
   AND?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
   OR?: Prisma.UserProfileWhereInput[]
   NOT?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
@@ -306,7 +316,7 @@ export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-}, "userId">
+}, "userId" | "stripeConnectId">
 
 export type UserProfileOrderByWithAggregationInput = {
   firstName?: Prisma.SortOrder
@@ -320,6 +330,7 @@ export type UserProfileOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  stripeConnectId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserProfileCountOrderByAggregateInput
   _avg?: Prisma.UserProfileAvgOrderByAggregateInput
   _max?: Prisma.UserProfileMaxOrderByAggregateInput
@@ -342,6 +353,7 @@ export type UserProfileScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
   userId?: Prisma.UuidWithAggregatesFilter<"UserProfile"> | string
+  stripeConnectId?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
 }
 
 export type UserProfileCreateInput = {
@@ -355,6 +367,7 @@ export type UserProfileCreateInput = {
   availableFunds?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  stripeConnectId?: string | null
   user?: Prisma.UserCreateNestedOneWithoutProfileInput
 }
 
@@ -370,6 +383,7 @@ export type UserProfileUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
+  stripeConnectId?: string | null
 }
 
 export type UserProfileUpdateInput = {
@@ -383,6 +397,7 @@ export type UserProfileUpdateInput = {
   availableFunds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stripeConnectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneWithoutProfileNestedInput
 }
 
@@ -398,6 +413,7 @@ export type UserProfileUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  stripeConnectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserProfileCreateManyInput = {
@@ -412,6 +428,7 @@ export type UserProfileCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
+  stripeConnectId?: string | null
 }
 
 export type UserProfileUpdateManyMutationInput = {
@@ -425,6 +442,7 @@ export type UserProfileUpdateManyMutationInput = {
   availableFunds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stripeConnectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserProfileUncheckedUpdateManyInput = {
@@ -439,6 +457,7 @@ export type UserProfileUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  stripeConnectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserProfileNullableScalarRelationFilter = {
@@ -458,6 +477,7 @@ export type UserProfileCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  stripeConnectId?: Prisma.SortOrder
 }
 
 export type UserProfileAvgOrderByAggregateInput = {
@@ -478,6 +498,7 @@ export type UserProfileMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  stripeConnectId?: Prisma.SortOrder
 }
 
 export type UserProfileMinOrderByAggregateInput = {
@@ -492,6 +513,7 @@ export type UserProfileMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  stripeConnectId?: Prisma.SortOrder
 }
 
 export type UserProfileSumOrderByAggregateInput = {
@@ -563,6 +585,7 @@ export type UserProfileCreateWithoutUserInput = {
   availableFunds?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  stripeConnectId?: string | null
 }
 
 export type UserProfileUncheckedCreateWithoutUserInput = {
@@ -576,6 +599,7 @@ export type UserProfileUncheckedCreateWithoutUserInput = {
   availableFunds?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  stripeConnectId?: string | null
 }
 
 export type UserProfileCreateOrConnectWithoutUserInput = {
@@ -605,6 +629,7 @@ export type UserProfileUpdateWithoutUserInput = {
   availableFunds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stripeConnectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserProfileUncheckedUpdateWithoutUserInput = {
@@ -618,6 +643,7 @@ export type UserProfileUncheckedUpdateWithoutUserInput = {
   availableFunds?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stripeConnectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -634,6 +660,7 @@ export type UserProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  stripeConnectId?: boolean
   user?: boolean | Prisma.UserProfile$userArgs<ExtArgs>
 }, ExtArgs["result"]["userProfile"]>
 
@@ -649,6 +676,7 @@ export type UserProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  stripeConnectId?: boolean
   user?: boolean | Prisma.UserProfile$userArgs<ExtArgs>
 }, ExtArgs["result"]["userProfile"]>
 
@@ -664,6 +692,7 @@ export type UserProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  stripeConnectId?: boolean
   user?: boolean | Prisma.UserProfile$userArgs<ExtArgs>
 }, ExtArgs["result"]["userProfile"]>
 
@@ -679,9 +708,10 @@ export type UserProfileSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  stripeConnectId?: boolean
 }
 
-export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"firstName" | "lastName" | "avatar" | "phoneNumber" | "isSeller" | "sellerRating" | "pendingEscrowFunds" | "availableFunds" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["userProfile"]>
+export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"firstName" | "lastName" | "avatar" | "phoneNumber" | "isSeller" | "sellerRating" | "pendingEscrowFunds" | "availableFunds" | "createdAt" | "updatedAt" | "userId" | "stripeConnectId", ExtArgs["result"]["userProfile"]>
 export type UserProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserProfile$userArgs<ExtArgs>
 }
@@ -709,6 +739,7 @@ export type $UserProfilePayload<ExtArgs extends runtime.Types.Extensions.Interna
     createdAt: Date
     updatedAt: Date
     userId: string
+    stripeConnectId: string | null
   }, ExtArgs["result"]["userProfile"]>
   composites: {}
 }
@@ -1144,6 +1175,7 @@ export interface UserProfileFieldRefs {
   readonly createdAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
   readonly userId: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly stripeConnectId: Prisma.FieldRef<"UserProfile", 'String'>
 }
     
 

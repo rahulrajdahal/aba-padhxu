@@ -397,10 +397,9 @@ export const ModelName = {
   Order: 'Order',
   OrderItem: 'OrderItem',
   Coupon: 'Coupon',
+  LedgerTransaction: 'LedgerTransaction',
   EscrowPayout: 'EscrowPayout',
   Review: 'Review',
-  ChatRoom: 'ChatRoom',
-  ChatMessage: 'ChatMessage',
   Notification: 'Notification'
 } as const
 
@@ -417,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "token" | "userProfile" | "userAddress" | "genre" | "book" | "listing" | "cart" | "cartItem" | "wishlist" | "order" | "orderItem" | "coupon" | "escrowPayout" | "review" | "chatRoom" | "chatMessage" | "notification"
+    modelProps: "user" | "token" | "userProfile" | "userAddress" | "genre" | "book" | "listing" | "cart" | "cartItem" | "wishlist" | "order" | "orderItem" | "coupon" | "ledgerTransaction" | "escrowPayout" | "review" | "notification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1383,6 +1382,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    LedgerTransaction: {
+      payload: Prisma.$LedgerTransactionPayload<ExtArgs>
+      fields: Prisma.LedgerTransactionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LedgerTransactionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LedgerTransactionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LedgerTransactionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LedgerTransactionPayload>
+        }
+        findFirst: {
+          args: Prisma.LedgerTransactionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LedgerTransactionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LedgerTransactionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LedgerTransactionPayload>
+        }
+        findMany: {
+          args: Prisma.LedgerTransactionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LedgerTransactionPayload>[]
+        }
+        create: {
+          args: Prisma.LedgerTransactionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LedgerTransactionPayload>
+        }
+        createMany: {
+          args: Prisma.LedgerTransactionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LedgerTransactionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LedgerTransactionPayload>[]
+        }
+        delete: {
+          args: Prisma.LedgerTransactionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LedgerTransactionPayload>
+        }
+        update: {
+          args: Prisma.LedgerTransactionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LedgerTransactionPayload>
+        }
+        deleteMany: {
+          args: Prisma.LedgerTransactionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LedgerTransactionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LedgerTransactionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LedgerTransactionPayload>[]
+        }
+        upsert: {
+          args: Prisma.LedgerTransactionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LedgerTransactionPayload>
+        }
+        aggregate: {
+          args: Prisma.LedgerTransactionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLedgerTransaction>
+        }
+        groupBy: {
+          args: Prisma.LedgerTransactionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LedgerTransactionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LedgerTransactionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LedgerTransactionCountAggregateOutputType> | number
+        }
+      }
+    }
     EscrowPayout: {
       payload: Prisma.$EscrowPayoutPayload<ExtArgs>
       fields: Prisma.EscrowPayoutFieldRefs
@@ -1528,154 +1601,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ReviewCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ReviewCountAggregateOutputType> | number
-        }
-      }
-    }
-    ChatRoom: {
-      payload: Prisma.$ChatRoomPayload<ExtArgs>
-      fields: Prisma.ChatRoomFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ChatRoomFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatRoomPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ChatRoomFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatRoomPayload>
-        }
-        findFirst: {
-          args: Prisma.ChatRoomFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatRoomPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ChatRoomFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatRoomPayload>
-        }
-        findMany: {
-          args: Prisma.ChatRoomFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatRoomPayload>[]
-        }
-        create: {
-          args: Prisma.ChatRoomCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatRoomPayload>
-        }
-        createMany: {
-          args: Prisma.ChatRoomCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ChatRoomCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatRoomPayload>[]
-        }
-        delete: {
-          args: Prisma.ChatRoomDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatRoomPayload>
-        }
-        update: {
-          args: Prisma.ChatRoomUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatRoomPayload>
-        }
-        deleteMany: {
-          args: Prisma.ChatRoomDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ChatRoomUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ChatRoomUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatRoomPayload>[]
-        }
-        upsert: {
-          args: Prisma.ChatRoomUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatRoomPayload>
-        }
-        aggregate: {
-          args: Prisma.ChatRoomAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateChatRoom>
-        }
-        groupBy: {
-          args: Prisma.ChatRoomGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ChatRoomGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ChatRoomCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ChatRoomCountAggregateOutputType> | number
-        }
-      }
-    }
-    ChatMessage: {
-      payload: Prisma.$ChatMessagePayload<ExtArgs>
-      fields: Prisma.ChatMessageFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ChatMessageFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatMessagePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ChatMessageFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatMessagePayload>
-        }
-        findFirst: {
-          args: Prisma.ChatMessageFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatMessagePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ChatMessageFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatMessagePayload>
-        }
-        findMany: {
-          args: Prisma.ChatMessageFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatMessagePayload>[]
-        }
-        create: {
-          args: Prisma.ChatMessageCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatMessagePayload>
-        }
-        createMany: {
-          args: Prisma.ChatMessageCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ChatMessageCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatMessagePayload>[]
-        }
-        delete: {
-          args: Prisma.ChatMessageDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatMessagePayload>
-        }
-        update: {
-          args: Prisma.ChatMessageUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatMessagePayload>
-        }
-        deleteMany: {
-          args: Prisma.ChatMessageDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ChatMessageUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ChatMessageUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatMessagePayload>[]
-        }
-        upsert: {
-          args: Prisma.ChatMessageUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChatMessagePayload>
-        }
-        aggregate: {
-          args: Prisma.ChatMessageAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateChatMessage>
-        }
-        groupBy: {
-          args: Prisma.ChatMessageGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ChatMessageGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ChatMessageCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ChatMessageCountAggregateOutputType> | number
         }
       }
     }
@@ -1829,7 +1754,8 @@ export const UserProfileScalarFieldEnum = {
   availableFunds: 'availableFunds',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId'
+  userId: 'userId',
+  stripeConnectId: 'stripeConnectId'
 } as const
 
 export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
@@ -1932,11 +1858,14 @@ export const OrderScalarFieldEnum = {
   id: 'id',
   totalAmountPennies: 'totalAmountPennies',
   paymentStatus: 'paymentStatus',
-  paymentGatewayRef: 'paymentGatewayRef',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   buyerId: 'buyerId',
-  shippingAddressId: 'shippingAddressId'
+  shippingAddressId: 'shippingAddressId',
+  couponId: 'couponId',
+  discountPennies: 'discountPennies',
+  stripePaymentIntentId: 'stripePaymentIntentId',
+  stripeChargeId: 'stripeChargeId'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -1977,15 +1906,29 @@ export const CouponScalarFieldEnum = {
 export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
 
 
+export const LedgerTransactionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amountPennies: 'amountPennies',
+  type: 'type',
+  description: 'description',
+  referenceId: 'referenceId',
+  createdAt: 'createdAt'
+} as const
+
+export type LedgerTransactionScalarFieldEnum = (typeof LedgerTransactionScalarFieldEnum)[keyof typeof LedgerTransactionScalarFieldEnum]
+
+
 export const EscrowPayoutScalarFieldEnum = {
   amountPennies: 'amountPennies',
-  payoutTransactionRef: 'payoutTransactionRef',
   releaseEligibleAt: 'releaseEligibleAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  escrowStatus: 'escrowStatus',
   orderItemId: 'orderItemId',
   sellerId: 'sellerId',
-  escrowStatus: 'escrowStatus'
+  stripeTransferId: 'stripeTransferId',
+  payoutTransactionRef: 'payoutTransactionRef'
 } as const
 
 export type EscrowPayoutScalarFieldEnum = (typeof EscrowPayoutScalarFieldEnum)[keyof typeof EscrowPayoutScalarFieldEnum]
@@ -2004,30 +1947,6 @@ export const ReviewScalarFieldEnum = {
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
-
-
-export const ChatRoomScalarFieldEnum = {
-  id: 'id',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  buyerId: 'buyerId',
-  sellerId: 'sellerId',
-  listingId: 'listingId'
-} as const
-
-export type ChatRoomScalarFieldEnum = (typeof ChatRoomScalarFieldEnum)[keyof typeof ChatRoomScalarFieldEnum]
-
-
-export const ChatMessageScalarFieldEnum = {
-  id: 'id',
-  chatRoomId: 'chatRoomId',
-  senderId: 'senderId',
-  messageText: 'messageText',
-  readAt: 'readAt',
-  createdAt: 'createdAt'
-} as const
-
-export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[keyof typeof ChatMessageScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {
@@ -2222,6 +2141,20 @@ export type ListEnumDiscountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
 
 
 /**
+ * Reference to a field of type 'LedgerTransactionType'
+ */
+export type EnumLedgerTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LedgerTransactionType'>
+    
+
+
+/**
+ * Reference to a field of type 'LedgerTransactionType[]'
+ */
+export type ListEnumLedgerTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LedgerTransactionType[]'>
+    
+
+
+/**
  * Reference to a field of type 'NotificationType'
  */
 export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType'>
@@ -2371,10 +2304,9 @@ export type GlobalOmitConfig = {
   order?: Prisma.OrderOmit
   orderItem?: Prisma.OrderItemOmit
   coupon?: Prisma.CouponOmit
+  ledgerTransaction?: Prisma.LedgerTransactionOmit
   escrowPayout?: Prisma.EscrowPayoutOmit
   review?: Prisma.ReviewOmit
-  chatRoom?: Prisma.ChatRoomOmit
-  chatMessage?: Prisma.ChatMessageOmit
   notification?: Prisma.NotificationOmit
 }
 

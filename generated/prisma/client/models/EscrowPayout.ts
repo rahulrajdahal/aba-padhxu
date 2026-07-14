@@ -36,35 +36,38 @@ export type EscrowPayoutSumAggregateOutputType = {
 
 export type EscrowPayoutMinAggregateOutputType = {
   amountPennies: number | null
-  payoutTransactionRef: string | null
   releaseEligibleAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  escrowStatus: $Enums.OrderItemStatus | null
   orderItemId: string | null
   sellerId: string | null
-  escrowStatus: $Enums.OrderItemStatus | null
+  stripeTransferId: string | null
+  payoutTransactionRef: string | null
 }
 
 export type EscrowPayoutMaxAggregateOutputType = {
   amountPennies: number | null
-  payoutTransactionRef: string | null
   releaseEligibleAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  escrowStatus: $Enums.OrderItemStatus | null
   orderItemId: string | null
   sellerId: string | null
-  escrowStatus: $Enums.OrderItemStatus | null
+  stripeTransferId: string | null
+  payoutTransactionRef: string | null
 }
 
 export type EscrowPayoutCountAggregateOutputType = {
   amountPennies: number
-  payoutTransactionRef: number
   releaseEligibleAt: number
   createdAt: number
   updatedAt: number
+  escrowStatus: number
   orderItemId: number
   sellerId: number
-  escrowStatus: number
+  stripeTransferId: number
+  payoutTransactionRef: number
   _all: number
 }
 
@@ -79,35 +82,38 @@ export type EscrowPayoutSumAggregateInputType = {
 
 export type EscrowPayoutMinAggregateInputType = {
   amountPennies?: true
-  payoutTransactionRef?: true
   releaseEligibleAt?: true
   createdAt?: true
   updatedAt?: true
+  escrowStatus?: true
   orderItemId?: true
   sellerId?: true
-  escrowStatus?: true
+  stripeTransferId?: true
+  payoutTransactionRef?: true
 }
 
 export type EscrowPayoutMaxAggregateInputType = {
   amountPennies?: true
-  payoutTransactionRef?: true
   releaseEligibleAt?: true
   createdAt?: true
   updatedAt?: true
+  escrowStatus?: true
   orderItemId?: true
   sellerId?: true
-  escrowStatus?: true
+  stripeTransferId?: true
+  payoutTransactionRef?: true
 }
 
 export type EscrowPayoutCountAggregateInputType = {
   amountPennies?: true
-  payoutTransactionRef?: true
   releaseEligibleAt?: true
   createdAt?: true
   updatedAt?: true
+  escrowStatus?: true
   orderItemId?: true
   sellerId?: true
-  escrowStatus?: true
+  stripeTransferId?: true
+  payoutTransactionRef?: true
   _all?: true
 }
 
@@ -199,13 +205,14 @@ export type EscrowPayoutGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 
 export type EscrowPayoutGroupByOutputType = {
   amountPennies: number
-  payoutTransactionRef: string | null
   releaseEligibleAt: Date
   createdAt: Date
   updatedAt: Date
+  escrowStatus: $Enums.OrderItemStatus
   orderItemId: string
   sellerId: string
-  escrowStatus: $Enums.OrderItemStatus
+  stripeTransferId: string | null
+  payoutTransactionRef: string | null
   _count: EscrowPayoutCountAggregateOutputType | null
   _avg: EscrowPayoutAvgAggregateOutputType | null
   _sum: EscrowPayoutSumAggregateOutputType | null
@@ -233,55 +240,59 @@ export type EscrowPayoutWhereInput = {
   OR?: Prisma.EscrowPayoutWhereInput[]
   NOT?: Prisma.EscrowPayoutWhereInput | Prisma.EscrowPayoutWhereInput[]
   amountPennies?: Prisma.IntFilter<"EscrowPayout"> | number
-  payoutTransactionRef?: Prisma.StringNullableFilter<"EscrowPayout"> | string | null
   releaseEligibleAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
+  escrowStatus?: Prisma.EnumOrderItemStatusFilter<"EscrowPayout"> | $Enums.OrderItemStatus
   orderItemId?: Prisma.UuidFilter<"EscrowPayout"> | string
   sellerId?: Prisma.UuidFilter<"EscrowPayout"> | string
-  escrowStatus?: Prisma.EnumOrderItemStatusFilter<"EscrowPayout"> | $Enums.OrderItemStatus
+  stripeTransferId?: Prisma.StringNullableFilter<"EscrowPayout"> | string | null
+  payoutTransactionRef?: Prisma.StringNullableFilter<"EscrowPayout"> | string | null
   orderItem?: Prisma.XOR<Prisma.OrderItemScalarRelationFilter, Prisma.OrderItemWhereInput>
   seller?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type EscrowPayoutOrderByWithRelationInput = {
   amountPennies?: Prisma.SortOrder
-  payoutTransactionRef?: Prisma.SortOrderInput | Prisma.SortOrder
   releaseEligibleAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  escrowStatus?: Prisma.SortOrder
   orderItemId?: Prisma.SortOrder
   sellerId?: Prisma.SortOrder
-  escrowStatus?: Prisma.SortOrder
+  stripeTransferId?: Prisma.SortOrderInput | Prisma.SortOrder
+  payoutTransactionRef?: Prisma.SortOrderInput | Prisma.SortOrder
   orderItem?: Prisma.OrderItemOrderByWithRelationInput
   seller?: Prisma.UserOrderByWithRelationInput
 }
 
 export type EscrowPayoutWhereUniqueInput = Prisma.AtLeast<{
   orderItemId?: string
+  stripeTransferId?: string
   AND?: Prisma.EscrowPayoutWhereInput | Prisma.EscrowPayoutWhereInput[]
   OR?: Prisma.EscrowPayoutWhereInput[]
   NOT?: Prisma.EscrowPayoutWhereInput | Prisma.EscrowPayoutWhereInput[]
   amountPennies?: Prisma.IntFilter<"EscrowPayout"> | number
-  payoutTransactionRef?: Prisma.StringNullableFilter<"EscrowPayout"> | string | null
   releaseEligibleAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
-  sellerId?: Prisma.UuidFilter<"EscrowPayout"> | string
   escrowStatus?: Prisma.EnumOrderItemStatusFilter<"EscrowPayout"> | $Enums.OrderItemStatus
+  sellerId?: Prisma.UuidFilter<"EscrowPayout"> | string
+  payoutTransactionRef?: Prisma.StringNullableFilter<"EscrowPayout"> | string | null
   orderItem?: Prisma.XOR<Prisma.OrderItemScalarRelationFilter, Prisma.OrderItemWhereInput>
   seller?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "orderItemId">
+}, "orderItemId" | "stripeTransferId">
 
 export type EscrowPayoutOrderByWithAggregationInput = {
   amountPennies?: Prisma.SortOrder
-  payoutTransactionRef?: Prisma.SortOrderInput | Prisma.SortOrder
   releaseEligibleAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  escrowStatus?: Prisma.SortOrder
   orderItemId?: Prisma.SortOrder
   sellerId?: Prisma.SortOrder
-  escrowStatus?: Prisma.SortOrder
+  stripeTransferId?: Prisma.SortOrderInput | Prisma.SortOrder
+  payoutTransactionRef?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.EscrowPayoutCountOrderByAggregateInput
   _avg?: Prisma.EscrowPayoutAvgOrderByAggregateInput
   _max?: Prisma.EscrowPayoutMaxOrderByAggregateInput
@@ -294,88 +305,96 @@ export type EscrowPayoutScalarWhereWithAggregatesInput = {
   OR?: Prisma.EscrowPayoutScalarWhereWithAggregatesInput[]
   NOT?: Prisma.EscrowPayoutScalarWhereWithAggregatesInput | Prisma.EscrowPayoutScalarWhereWithAggregatesInput[]
   amountPennies?: Prisma.IntWithAggregatesFilter<"EscrowPayout"> | number
-  payoutTransactionRef?: Prisma.StringNullableWithAggregatesFilter<"EscrowPayout"> | string | null
   releaseEligibleAt?: Prisma.DateTimeWithAggregatesFilter<"EscrowPayout"> | Date | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"EscrowPayout"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"EscrowPayout"> | Date | string
+  escrowStatus?: Prisma.EnumOrderItemStatusWithAggregatesFilter<"EscrowPayout"> | $Enums.OrderItemStatus
   orderItemId?: Prisma.UuidWithAggregatesFilter<"EscrowPayout"> | string
   sellerId?: Prisma.UuidWithAggregatesFilter<"EscrowPayout"> | string
-  escrowStatus?: Prisma.EnumOrderItemStatusWithAggregatesFilter<"EscrowPayout"> | $Enums.OrderItemStatus
+  stripeTransferId?: Prisma.StringNullableWithAggregatesFilter<"EscrowPayout"> | string | null
+  payoutTransactionRef?: Prisma.StringNullableWithAggregatesFilter<"EscrowPayout"> | string | null
 }
 
 export type EscrowPayoutCreateInput = {
   amountPennies: number
-  payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
   escrowStatus?: $Enums.OrderItemStatus
+  stripeTransferId?: string | null
+  payoutTransactionRef?: string | null
   orderItem: Prisma.OrderItemCreateNestedOneWithoutEscrowPayoutInput
   seller: Prisma.UserCreateNestedOneWithoutEscrowPayoutsInput
 }
 
 export type EscrowPayoutUncheckedCreateInput = {
   amountPennies: number
-  payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  escrowStatus?: $Enums.OrderItemStatus
   orderItemId: string
   sellerId: string
-  escrowStatus?: $Enums.OrderItemStatus
+  stripeTransferId?: string | null
+  payoutTransactionRef?: string | null
 }
 
 export type EscrowPayoutUpdateInput = {
   amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
-  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   escrowStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
+  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderItem?: Prisma.OrderItemUpdateOneRequiredWithoutEscrowPayoutNestedInput
   seller?: Prisma.UserUpdateOneRequiredWithoutEscrowPayoutsNestedInput
 }
 
 export type EscrowPayoutUncheckedUpdateInput = {
   amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
-  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  escrowStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   orderItemId?: Prisma.StringFieldUpdateOperationsInput | string
   sellerId?: Prisma.StringFieldUpdateOperationsInput | string
-  escrowStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
+  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type EscrowPayoutCreateManyInput = {
   amountPennies: number
-  payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  escrowStatus?: $Enums.OrderItemStatus
   orderItemId: string
   sellerId: string
-  escrowStatus?: $Enums.OrderItemStatus
+  stripeTransferId?: string | null
+  payoutTransactionRef?: string | null
 }
 
 export type EscrowPayoutUpdateManyMutationInput = {
   amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
-  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   escrowStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
+  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type EscrowPayoutUncheckedUpdateManyInput = {
   amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
-  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  escrowStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
   orderItemId?: Prisma.StringFieldUpdateOperationsInput | string
   sellerId?: Prisma.StringFieldUpdateOperationsInput | string
-  escrowStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
+  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type EscrowPayoutListRelationFilter = {
@@ -395,13 +414,14 @@ export type EscrowPayoutNullableScalarRelationFilter = {
 
 export type EscrowPayoutCountOrderByAggregateInput = {
   amountPennies?: Prisma.SortOrder
-  payoutTransactionRef?: Prisma.SortOrder
   releaseEligibleAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  escrowStatus?: Prisma.SortOrder
   orderItemId?: Prisma.SortOrder
   sellerId?: Prisma.SortOrder
-  escrowStatus?: Prisma.SortOrder
+  stripeTransferId?: Prisma.SortOrder
+  payoutTransactionRef?: Prisma.SortOrder
 }
 
 export type EscrowPayoutAvgOrderByAggregateInput = {
@@ -410,24 +430,26 @@ export type EscrowPayoutAvgOrderByAggregateInput = {
 
 export type EscrowPayoutMaxOrderByAggregateInput = {
   amountPennies?: Prisma.SortOrder
-  payoutTransactionRef?: Prisma.SortOrder
   releaseEligibleAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  escrowStatus?: Prisma.SortOrder
   orderItemId?: Prisma.SortOrder
   sellerId?: Prisma.SortOrder
-  escrowStatus?: Prisma.SortOrder
+  stripeTransferId?: Prisma.SortOrder
+  payoutTransactionRef?: Prisma.SortOrder
 }
 
 export type EscrowPayoutMinOrderByAggregateInput = {
   amountPennies?: Prisma.SortOrder
-  payoutTransactionRef?: Prisma.SortOrder
   releaseEligibleAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  escrowStatus?: Prisma.SortOrder
   orderItemId?: Prisma.SortOrder
   sellerId?: Prisma.SortOrder
-  escrowStatus?: Prisma.SortOrder
+  stripeTransferId?: Prisma.SortOrder
+  payoutTransactionRef?: Prisma.SortOrder
 }
 
 export type EscrowPayoutSumOrderByAggregateInput = {
@@ -510,22 +532,24 @@ export type EscrowPayoutUncheckedUpdateOneWithoutOrderItemNestedInput = {
 
 export type EscrowPayoutCreateWithoutSellerInput = {
   amountPennies: number
-  payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
   escrowStatus?: $Enums.OrderItemStatus
+  stripeTransferId?: string | null
+  payoutTransactionRef?: string | null
   orderItem: Prisma.OrderItemCreateNestedOneWithoutEscrowPayoutInput
 }
 
 export type EscrowPayoutUncheckedCreateWithoutSellerInput = {
   amountPennies: number
-  payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  orderItemId: string
   escrowStatus?: $Enums.OrderItemStatus
+  orderItemId: string
+  stripeTransferId?: string | null
+  payoutTransactionRef?: string | null
 }
 
 export type EscrowPayoutCreateOrConnectWithoutSellerInput = {
@@ -559,33 +583,36 @@ export type EscrowPayoutScalarWhereInput = {
   OR?: Prisma.EscrowPayoutScalarWhereInput[]
   NOT?: Prisma.EscrowPayoutScalarWhereInput | Prisma.EscrowPayoutScalarWhereInput[]
   amountPennies?: Prisma.IntFilter<"EscrowPayout"> | number
-  payoutTransactionRef?: Prisma.StringNullableFilter<"EscrowPayout"> | string | null
   releaseEligibleAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EscrowPayout"> | Date | string
+  escrowStatus?: Prisma.EnumOrderItemStatusFilter<"EscrowPayout"> | $Enums.OrderItemStatus
   orderItemId?: Prisma.UuidFilter<"EscrowPayout"> | string
   sellerId?: Prisma.UuidFilter<"EscrowPayout"> | string
-  escrowStatus?: Prisma.EnumOrderItemStatusFilter<"EscrowPayout"> | $Enums.OrderItemStatus
+  stripeTransferId?: Prisma.StringNullableFilter<"EscrowPayout"> | string | null
+  payoutTransactionRef?: Prisma.StringNullableFilter<"EscrowPayout"> | string | null
 }
 
 export type EscrowPayoutCreateWithoutOrderItemInput = {
   amountPennies: number
-  payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
   escrowStatus?: $Enums.OrderItemStatus
+  stripeTransferId?: string | null
+  payoutTransactionRef?: string | null
   seller: Prisma.UserCreateNestedOneWithoutEscrowPayoutsInput
 }
 
 export type EscrowPayoutUncheckedCreateWithoutOrderItemInput = {
   amountPennies: number
-  payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  sellerId: string
   escrowStatus?: $Enums.OrderItemStatus
+  sellerId: string
+  stripeTransferId?: string | null
+  payoutTransactionRef?: string | null
 }
 
 export type EscrowPayoutCreateOrConnectWithoutOrderItemInput = {
@@ -606,117 +633,127 @@ export type EscrowPayoutUpdateToOneWithWhereWithoutOrderItemInput = {
 
 export type EscrowPayoutUpdateWithoutOrderItemInput = {
   amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
-  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   escrowStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
+  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seller?: Prisma.UserUpdateOneRequiredWithoutEscrowPayoutsNestedInput
 }
 
 export type EscrowPayoutUncheckedUpdateWithoutOrderItemInput = {
   amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
-  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sellerId?: Prisma.StringFieldUpdateOperationsInput | string
   escrowStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
+  sellerId?: Prisma.StringFieldUpdateOperationsInput | string
+  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type EscrowPayoutCreateManySellerInput = {
   amountPennies: number
-  payoutTransactionRef?: string | null
   releaseEligibleAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  orderItemId: string
   escrowStatus?: $Enums.OrderItemStatus
+  orderItemId: string
+  stripeTransferId?: string | null
+  payoutTransactionRef?: string | null
 }
 
 export type EscrowPayoutUpdateWithoutSellerInput = {
   amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
-  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   escrowStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
+  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderItem?: Prisma.OrderItemUpdateOneRequiredWithoutEscrowPayoutNestedInput
 }
 
 export type EscrowPayoutUncheckedUpdateWithoutSellerInput = {
   amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
-  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  orderItemId?: Prisma.StringFieldUpdateOperationsInput | string
   escrowStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
+  orderItemId?: Prisma.StringFieldUpdateOperationsInput | string
+  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type EscrowPayoutUncheckedUpdateManyWithoutSellerInput = {
   amountPennies?: Prisma.IntFieldUpdateOperationsInput | number
-  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseEligibleAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  orderItemId?: Prisma.StringFieldUpdateOperationsInput | string
   escrowStatus?: Prisma.EnumOrderItemStatusFieldUpdateOperationsInput | $Enums.OrderItemStatus
+  orderItemId?: Prisma.StringFieldUpdateOperationsInput | string
+  stripeTransferId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoutTransactionRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
 
 export type EscrowPayoutSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   amountPennies?: boolean
-  payoutTransactionRef?: boolean
   releaseEligibleAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  escrowStatus?: boolean
   orderItemId?: boolean
   sellerId?: boolean
-  escrowStatus?: boolean
+  stripeTransferId?: boolean
+  payoutTransactionRef?: boolean
   orderItem?: boolean | Prisma.OrderItemDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["escrowPayout"]>
 
 export type EscrowPayoutSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   amountPennies?: boolean
-  payoutTransactionRef?: boolean
   releaseEligibleAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  escrowStatus?: boolean
   orderItemId?: boolean
   sellerId?: boolean
-  escrowStatus?: boolean
+  stripeTransferId?: boolean
+  payoutTransactionRef?: boolean
   orderItem?: boolean | Prisma.OrderItemDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["escrowPayout"]>
 
 export type EscrowPayoutSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   amountPennies?: boolean
-  payoutTransactionRef?: boolean
   releaseEligibleAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  escrowStatus?: boolean
   orderItemId?: boolean
   sellerId?: boolean
-  escrowStatus?: boolean
+  stripeTransferId?: boolean
+  payoutTransactionRef?: boolean
   orderItem?: boolean | Prisma.OrderItemDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["escrowPayout"]>
 
 export type EscrowPayoutSelectScalar = {
   amountPennies?: boolean
-  payoutTransactionRef?: boolean
   releaseEligibleAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  escrowStatus?: boolean
   orderItemId?: boolean
   sellerId?: boolean
-  escrowStatus?: boolean
+  stripeTransferId?: boolean
+  payoutTransactionRef?: boolean
 }
 
-export type EscrowPayoutOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"amountPennies" | "payoutTransactionRef" | "releaseEligibleAt" | "createdAt" | "updatedAt" | "orderItemId" | "sellerId" | "escrowStatus", ExtArgs["result"]["escrowPayout"]>
+export type EscrowPayoutOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"amountPennies" | "releaseEligibleAt" | "createdAt" | "updatedAt" | "escrowStatus" | "orderItemId" | "sellerId" | "stripeTransferId" | "payoutTransactionRef", ExtArgs["result"]["escrowPayout"]>
 export type EscrowPayoutInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   orderItem?: boolean | Prisma.OrderItemDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -738,13 +775,14 @@ export type $EscrowPayoutPayload<ExtArgs extends runtime.Types.Extensions.Intern
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     amountPennies: number
-    payoutTransactionRef: string | null
     releaseEligibleAt: Date
     createdAt: Date
     updatedAt: Date
+    escrowStatus: $Enums.OrderItemStatus
     orderItemId: string
     sellerId: string
-    escrowStatus: $Enums.OrderItemStatus
+    stripeTransferId: string | null
+    payoutTransactionRef: string | null
   }, ExtArgs["result"]["escrowPayout"]>
   composites: {}
 }
@@ -1171,13 +1209,14 @@ export interface Prisma__EscrowPayoutClient<T, Null = never, ExtArgs extends run
  */
 export interface EscrowPayoutFieldRefs {
   readonly amountPennies: Prisma.FieldRef<"EscrowPayout", 'Int'>
-  readonly payoutTransactionRef: Prisma.FieldRef<"EscrowPayout", 'String'>
   readonly releaseEligibleAt: Prisma.FieldRef<"EscrowPayout", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"EscrowPayout", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"EscrowPayout", 'DateTime'>
+  readonly escrowStatus: Prisma.FieldRef<"EscrowPayout", 'OrderItemStatus'>
   readonly orderItemId: Prisma.FieldRef<"EscrowPayout", 'String'>
   readonly sellerId: Prisma.FieldRef<"EscrowPayout", 'String'>
-  readonly escrowStatus: Prisma.FieldRef<"EscrowPayout", 'OrderItemStatus'>
+  readonly stripeTransferId: Prisma.FieldRef<"EscrowPayout", 'String'>
+  readonly payoutTransactionRef: Prisma.FieldRef<"EscrowPayout", 'String'>
 }
     
 

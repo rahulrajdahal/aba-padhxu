@@ -333,7 +333,7 @@ export type ReviewCreateInput = {
   createdAt?: Date | string
   orderItem: Prisma.OrderItemCreateNestedOneWithoutReviewInput
   buyer: Prisma.UserCreateNestedOneWithoutReviewsGivenInput
-  seller: Prisma.UserCreateNestedOneWithoutReviewsRecdInput
+  seller: Prisma.UserCreateNestedOneWithoutReviewsRecivedInput
   book?: Prisma.BookCreateNestedOneWithoutReviewsInput
 }
 
@@ -357,7 +357,7 @@ export type ReviewUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderItem?: Prisma.OrderItemUpdateOneRequiredWithoutReviewNestedInput
   buyer?: Prisma.UserUpdateOneRequiredWithoutReviewsGivenNestedInput
-  seller?: Prisma.UserUpdateOneRequiredWithoutReviewsRecdNestedInput
+  seller?: Prisma.UserUpdateOneRequiredWithoutReviewsRecivedNestedInput
   book?: Prisma.BookUpdateOneWithoutReviewsNestedInput
 }
 
@@ -639,7 +639,7 @@ export type ReviewCreateWithoutBuyerInput = {
   sellerReviewText?: string | null
   createdAt?: Date | string
   orderItem: Prisma.OrderItemCreateNestedOneWithoutReviewInput
-  seller: Prisma.UserCreateNestedOneWithoutReviewsRecdInput
+  seller: Prisma.UserCreateNestedOneWithoutReviewsRecivedInput
   book?: Prisma.BookCreateNestedOneWithoutReviewsInput
 }
 
@@ -751,7 +751,7 @@ export type ReviewCreateWithoutBookInput = {
   createdAt?: Date | string
   orderItem: Prisma.OrderItemCreateNestedOneWithoutReviewInput
   buyer: Prisma.UserCreateNestedOneWithoutReviewsGivenInput
-  seller: Prisma.UserCreateNestedOneWithoutReviewsRecdInput
+  seller: Prisma.UserCreateNestedOneWithoutReviewsRecivedInput
 }
 
 export type ReviewUncheckedCreateWithoutBookInput = {
@@ -798,7 +798,7 @@ export type ReviewCreateWithoutOrderItemInput = {
   sellerReviewText?: string | null
   createdAt?: Date | string
   buyer: Prisma.UserCreateNestedOneWithoutReviewsGivenInput
-  seller: Prisma.UserCreateNestedOneWithoutReviewsRecdInput
+  seller: Prisma.UserCreateNestedOneWithoutReviewsRecivedInput
   book?: Prisma.BookCreateNestedOneWithoutReviewsInput
 }
 
@@ -836,7 +836,7 @@ export type ReviewUpdateWithoutOrderItemInput = {
   sellerReviewText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buyer?: Prisma.UserUpdateOneRequiredWithoutReviewsGivenNestedInput
-  seller?: Prisma.UserUpdateOneRequiredWithoutReviewsRecdNestedInput
+  seller?: Prisma.UserUpdateOneRequiredWithoutReviewsRecivedNestedInput
   book?: Prisma.BookUpdateOneWithoutReviewsNestedInput
 }
 
@@ -880,7 +880,7 @@ export type ReviewUpdateWithoutBuyerInput = {
   sellerReviewText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderItem?: Prisma.OrderItemUpdateOneRequiredWithoutReviewNestedInput
-  seller?: Prisma.UserUpdateOneRequiredWithoutReviewsRecdNestedInput
+  seller?: Prisma.UserUpdateOneRequiredWithoutReviewsRecivedNestedInput
   book?: Prisma.BookUpdateOneWithoutReviewsNestedInput
 }
 
@@ -958,7 +958,7 @@ export type ReviewUpdateWithoutBookInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderItem?: Prisma.OrderItemUpdateOneRequiredWithoutReviewNestedInput
   buyer?: Prisma.UserUpdateOneRequiredWithoutReviewsGivenNestedInput
-  seller?: Prisma.UserUpdateOneRequiredWithoutReviewsRecdNestedInput
+  seller?: Prisma.UserUpdateOneRequiredWithoutReviewsRecivedNestedInput
 }
 
 export type ReviewUncheckedUpdateWithoutBookInput = {
