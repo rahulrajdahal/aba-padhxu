@@ -23,9 +23,10 @@ export const genresDAL = {
       }),
     }),
 
-  findAllWithBooksCount: async (limit: number) =>
+  findAllWithBooksCount: async (limit = 20, offset = 0) =>
     await prisma.genre.findMany({
       take: limit,
+      skip: offset,
       where: {
         books: {
           some: { genreId: { not: undefined } },

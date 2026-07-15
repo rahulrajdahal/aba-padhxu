@@ -34,8 +34,8 @@ export const genresService = {
     return genres.map(mapGenreDTO);
   },
 
-  findAllWithBooksCount: async (limit = 10) => {
-    const genres = await genresDAL.findAllWithBooksCount(limit);
+  findAllWithBooksCount: async (limit: number, offset: number) => {
+    const genres = await genresDAL.findAllWithBooksCount(limit, offset);
 
     if (!genres) {
       throw new NotFoundError("Genres");
