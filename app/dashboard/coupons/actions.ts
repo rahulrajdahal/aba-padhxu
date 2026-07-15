@@ -12,6 +12,8 @@ import {
   okResponse,
   validationError,
 } from "@/lib/responses";
+import { routes } from "@/utils/routes";
+import { revalidatePath } from "next/cache";
 import { couponExists } from "./coupons.middleware";
 import { couponsService } from "./coupons.service";
 import { addCouponSchema, updateCouponSchema } from "./coupons.validation";
@@ -44,6 +46,7 @@ export const addCoupon = adminActionWrapper(
 
     const coupon = await couponsService.create(validateBody.data);
 
+    revalidatePath(`${routes.dashboard}${routes.coupons}`);
     return createdResponse("Coupon added successfully", coupon);
   },
 );
@@ -125,6 +128,7 @@ export const updateCouponById = adminActionWrapper(
 
     await couponsService.updateById(id, validateBody.data);
 
+    revalidatePath(`${routes.dashboard}${routes.coupons}`);
     return noContentResponse();
   },
 );
@@ -132,5 +136,6 @@ export const updateCouponById = adminActionWrapper(
 export const deleteCouponById = adminActionWrapper(async (id: string) => {
   await couponsService.deleteById(id);
 
+  revalidatePath(`${routes.dashboard}${routes.coupons}`);
   return noContentResponse();
 });
