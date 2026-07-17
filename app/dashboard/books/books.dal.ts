@@ -89,6 +89,12 @@ export const findById = async (id: string) =>
 export const findBySlug = async (slug: string) =>
   await prisma.book.findUnique({ where: { slug } });
 
+export const findWithGenreNameBySlug = async (slug: string) =>
+  await prisma.book.findUnique({
+    where: { slug },
+    include: { genre: { select: { name: true } } },
+  });
+
 export const updateById = async (id: string, data: PatchBookDTO) =>
   await prisma.book.update({ where: { id }, data });
 

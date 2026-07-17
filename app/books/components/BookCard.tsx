@@ -1,4 +1,6 @@
 import { BookWithGenreName } from "@/app/dashboard/books/books.dto";
+import { routes } from "@/utils/routes";
+import Link from "next/link";
 
 interface BookCardProps {
   book: BookWithGenreName;
@@ -6,7 +8,10 @@ interface BookCardProps {
 
 export default function BookCard({ book }: BookCardProps) {
   return (
-    <div className="bg-primary-50 border border-primary-100 rounded-lg p-2">
+    <Link
+      href={`${routes.books}/${book.slug}`}
+      className="bg-primary-50 border border-primary-100 rounded-lg p-2"
+    >
       <div className="overflow-hidden">
         <img
           src={book.image}
@@ -26,6 +31,6 @@ export default function BookCard({ book }: BookCardProps) {
           <p className="text-sm text-gray-600">by {book.author}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

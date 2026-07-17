@@ -9,10 +9,16 @@ import {
   findAllWithGenreName,
   findById,
   findBySlug,
+  findWithGenreNameBySlug,
   removeById,
   updateById,
 } from "./books.dal";
-import { CreateBookDTO, mapBookDTO, PatchBookDTO } from "./books.dto";
+import {
+  CreateBookDTO,
+  mapBookDTO,
+  mapBookWithGenreNameDTO,
+  PatchBookDTO,
+} from "./books.dto";
 
 export const BookService = {
   createBook: async (data: CreateBookDTO) => {
@@ -38,6 +44,9 @@ export const BookService = {
 
   findBookBySlug: async (slug: string) =>
     mapBookDTO((await findBySlug(slug)) as Book),
+
+  findBookWithGenreNameBySlug: async (slug: string) =>
+    mapBookWithGenreNameDTO((await findWithGenreNameBySlug(slug))!),
 
   patchBookById: async (id: string, data: PatchBookDTO) =>
     await updateById(id, data),

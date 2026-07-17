@@ -88,6 +88,14 @@ export const fetchBookBySlug = authActionWrapper(async (slug: string) => {
   return okResponse("Books fetched successfully", book);
 });
 
+export const fetchBookWithGenreNameBySlug = authActionWrapper(
+  async (slug: string) => {
+    const book = await BookService.findBookWithGenreNameBySlug(slug);
+
+    return okResponse("Book fetched successfully", book);
+  },
+);
+
 export const updateBookById = async (id: string, formData: FormData) => {
   try {
     const body: Partial<Book> = {};
