@@ -32,7 +32,7 @@ export default function Categories({ genres }: CategoriesProps) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {genres?.length > 0 ? (
           genres.map((genre) => (
-            <Link key={genre.id} href={`${routes.books}?genre=${genre.id}`}>
+            <Link key={genre.id} href={`${routes.books}?genre=${genre.name}`}>
               <GenreCard
                 genre={{ name: genre.name, bookCount: genre._count.books }}
               />

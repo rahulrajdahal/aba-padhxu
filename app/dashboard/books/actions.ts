@@ -4,6 +4,7 @@ import { Book } from "@/generated/prisma/client/client";
 import { fileUpload, removeUploadFile } from "@/lib/fileUpload";
 import { logger } from "@/lib/logger";
 import {
+  actionWrapper,
   authActionWrapper,
   createdResponse,
   noContentResponse,
@@ -54,7 +55,7 @@ export const addBook = authActionWrapper(
   },
 );
 
-export const fetchBooksCount = authActionWrapper(
+export const fetchBooksCount = actionWrapper(
   async (query?: string, genre?: string) => {
     const books = await BookService.count(query, genre);
 

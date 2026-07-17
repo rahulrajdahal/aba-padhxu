@@ -9,6 +9,7 @@ export { default as DeleteModal } from "./DeleteModal/DeleteModal";
 export { default as Footer } from "./Footer/Footer";
 export { default as FooterSkeleton } from "./FooterSkeleton";
 export { default as Form } from "./Form/Form";
+export { default as GenreSelect } from "./GenreSelect";
 export { default as Input } from "./Input/Input";
 export { default as Navbar } from "./Navbar/Navbar";
 export { default as NavbarSkeleton } from "./NavbarSkeleton";

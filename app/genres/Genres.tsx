@@ -18,7 +18,7 @@ export default function Genres({ genres, totalGenres }: GenresProps) {
   const loadMoreRef = useRef(null);
   const loadMoreInView = useInView(loadMoreRef);
 
-  const [pageParams, setPageParams] = useState({ limit: 2, offset: 2 });
+  const [pageParams, setPageParams] = useState({ limit: 20, offset: 0 });
   const [allGenres, setAllGenres] =
     useState<(Genre & { _count: { books: number } })[]>(genres);
 
@@ -35,7 +35,7 @@ export default function Genres({ genres, totalGenres }: GenresProps) {
         ]);
         setPageParams((prev) => ({
           limit: prev.limit,
-          offset: prev.offset + 2,
+          offset: prev.offset + 20,
         }));
       };
       fetchGenres();

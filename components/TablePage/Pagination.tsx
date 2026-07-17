@@ -1,3 +1,5 @@
+"use client";
+
 import { ChevronLeft, ChevronRight } from "@meistericons/react";
 import { redirect, useSearchParams } from "next/navigation";
 

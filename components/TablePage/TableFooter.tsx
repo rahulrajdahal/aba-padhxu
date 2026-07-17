@@ -29,6 +29,7 @@ export default function TableFooter({
   const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("limit", String(event.target.value));
+    if (params.get("page")) params.delete("page");
     redirect(`?${params.toString()}`);
   };
 
