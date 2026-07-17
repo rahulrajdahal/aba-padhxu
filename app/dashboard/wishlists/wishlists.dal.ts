@@ -43,6 +43,19 @@ export const WishlistsDAL = {
     });
   },
 
+  findAllByUserIdWithBooksAndGenreName: async (userId: string) => {
+    return await prisma.wishlist.findMany({
+      where: { userId },
+      include: {
+        book: {
+          include: {
+            genre: { select: { name: true } },
+          },
+        },
+      },
+    });
+  },
+
   findByUserIdBookId: async (userId: string, bookId: string) => {
     return await prisma.wishlist.findUnique({
       where: { userId_bookId: { userId, bookId } },

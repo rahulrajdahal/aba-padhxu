@@ -1,7 +1,10 @@
 import "server-only";
 
 import { WishlistsDAL } from "./wishlists.dal";
-import { CreateWishlistDTO } from "./wishlists.dto";
+import {
+  CreateWishlistDTO,
+  mapWishlistWithBookAndGenreName,
+} from "./wishlists.dto";
 
 export const wishlistsService = {
   create: async (data: CreateWishlistDTO) => {
@@ -22,6 +25,13 @@ export const wishlistsService = {
 
   findAllByUserIdWithBooks: async (userId: string) => {
     return await WishlistsDAL.findAllByUserIdWithBooks(userId);
+  },
+
+  findAllByUserIdWithBooksAndGenreName: async (userId: string) => {
+    const wishlists =
+      await WishlistsDAL.findAllByUserIdWithBooksAndGenreName(userId);
+
+    return wishlists.map(mapWishlistWithBookAndGenreName);
   },
 
   countByUserId: async (userId: string) => {

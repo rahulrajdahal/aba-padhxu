@@ -4,16 +4,19 @@ import { authActionWrapper, forbiddenError, okResponse } from "@/lib/responses";
 import { authUserId } from "../(auth)/middleware";
 import { wishlistsService } from "../dashboard/wishlists/wishlists.service";
 
-export const fetchUserWishlistWithBooks = authActionWrapper(async () => {
-  const userId = await authUserId();
+export const fetchUserWishlistWithBooksAndGenreName = authActionWrapper(
+  async () => {
+    const userId = await authUserId();
 
-  if (!userId) {
-    return forbiddenError();
-  }
+    if (!userId) {
+      return forbiddenError();
+    }
 
-  const wishlists = await wishlistsService.findAllByUserIdWithBooks(
-    userId as string,
-  );
+    const wishlists =
+      await wishlistsService.findAllByUserIdWithBooksAndGenreName(
+        userId as string,
+      );
 
-  return okResponse("Wishlists fetched!", wishlists);
-});
+    return okResponse("Wishlists fetched!", wishlists);
+  },
+);

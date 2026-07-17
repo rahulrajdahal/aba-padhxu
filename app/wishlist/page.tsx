@@ -1,22 +1,27 @@
-import { Book, Wishlist } from "@/generated/prisma/client/client";
+import { PublicPageLayout } from "@/components/layouts";
+import { isAuthenticated } from "../(auth)/middleware";
 import { cartItemsCount } from "../cart/cartItems/actions";
 import { fetchUserWishlistItemsCount } from "../dashboard/wishlists/actions";
+import { WishlistWithBookAndGenreName } from "../dashboard/wishlists/wishlists.dto";
 import WishlistPage from "./Wishlist";
-import { fetchUserWishlistWithBooks } from "./actions";
+import { fetchUserWishlistWithBooksAndGenreName } from "./actions";
 
 export default async function page() {
-  const [{ data }, { data: cartCount }, { data: wishlistItemsCount }] =
+  const [{ data }, { data: cartCount }, { data: wishlistItemsCount }, isAuth] =
     await Promise.all([
-      fetchUserWishlistWithBooks(),
+      fetchUserWishlistWithBooksAndGenreName(),
       cartItemsCount(),
       fetchUserWishlistItemsCount(),
+      isAuthenticated(),
     ]);
 
   return (
-    <WishlistPage
-      wishlistItems={data as (Wishlist & { book: Book })[]}
-      cartCount={Number(cartCount)}
-      wishlistCount={Number(wishlistItemsCount)}
-    />
+    <PublicPageLayout
+      cartItemsCount={Number(cartCount)}
+      wishlistItemsCount={Number(wishlistItemsCount)}
+      isAuth={isAuth}
+    >
+      <WishlistPage wishlistItems={data as WishlistWithBookAndGenreName[]} />
+    </PublicPageLayout>
   );
 }
