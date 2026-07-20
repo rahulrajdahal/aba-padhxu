@@ -1,6 +1,12 @@
 "use server";
 
 import { OrderItemStatus, OrderStatus } from "@/generated/prisma/client/client";
+import {
+  badRequestError,
+  createdResponse,
+  okResponse,
+  unauthorizedError,
+} from "@/lib/responses";
 import { prisma } from "@/prisma/prisma";
 import { authUserId } from "../(auth)/middleware";
 import { completeOrder } from "./order-completion";
@@ -9,9 +15,9 @@ export async function placeOrderAction(
   shippingAddressId: string,
   paymentIntentId: string,
 ) {
-  const userId = await authUserId();
+  const userId = (await authUserId()) as string;
   if (!userId) {
-    throw new Error("Unauthorized");
+    return unauthorizedError();
   }
 
   // 1. Get buyer's cart items
@@ -31,34 +37,36 @@ export async function placeOrderAction(
   });
 
   if (!cart || cart.cartItems.length === 0) {
-    throw new Error("Cart is empty.");
+    return badRequestError("Cart is empty.");
   }
 
   // 2. Validate stock and calculate total amount
-  let subtotalCents = 0;
+  let subtotalPennies = 0;
   for (const item of cart.cartItems) {
     if (item.listing.quantity < item.quantity) {
-      throw new Error(`Insufficient stock for "${item.listing.book.title}".`);
+      return badRequestError(
+        `Insufficient stock for "${item.listing.book.title}".`,
+      );
     }
-    subtotalCents += item.listing.priceCents * item.quantity;
+    subtotalPennies += item.listing.pricePennies * item.quantity;
   }
 
   const taxCents = 336; // $3.36 fixed sales tax
-  const totalAmountCents = subtotalCents + taxCents;
+  const totalAmountPennies = subtotalPennies + taxCents;
 
   // 3. Create the pending order and order items in a transaction
   const order = await prisma.order.create({
     data: {
-      totalAmountCents,
+      totalAmountPennies,
       paymentStatus: OrderStatus.PENDING,
-      paymentGatewayRef: paymentIntentId,
       buyerId: userId,
       shippingAddressId,
+      stripePaymentIntentId: paymentIntentId,
       orderItems: {
         create: cart.cartItems.map((item) => ({
           historicalTitle: item.listing.book.title,
           historicalIsbn13: item.listing.book.isbn13,
-          priceAtPurchaseCents: item.listing.priceCents,
+          priceAtPurchasePennies: item.listing.pricePennies,
           quantity: item.quantity,
           fulfillmentStatus: OrderItemStatus.PROCESSING,
           listingId: item.listingId,
@@ -68,7 +76,7 @@ export async function placeOrderAction(
     },
   });
 
-  return { success: true, orderId: order.id };
+  return createdResponse("Order placed successfully", order.id);
 }
 
 export async function confirmOrderPaymentAction(paymentIntentId: string) {
@@ -80,12 +88,12 @@ export async function fetchOrderDetailsByPaymentIntent(
 ) {
   const userId = await authUserId();
   if (!userId) {
-    throw new Error("Unauthorized");
+    return unauthorizedError();
   }
 
   const order = await prisma.order.findFirst({
     where: {
-      paymentGatewayRef: paymentIntentId,
+      stripePaymentIntentId: paymentIntentId,
       buyerId: userId,
     },
     include: {
@@ -94,5 +102,5 @@ export async function fetchOrderDetailsByPaymentIntent(
     },
   });
 
-  return order;
+  return okResponse("Order fetched successfully", order);
 }

@@ -2,7 +2,7 @@ import { Order } from "@/generated/prisma/client/client";
 
 export interface CreateOrderDTO extends Omit<
   Order,
-  "id" | "createdAt" | "updatedAt" | "paymentGatewayRef"
+  "id" | "createdAt" | "updatedAt" | "stripePaymentIntentId" | "stripeChargeId"
 > {}
 
 export interface PutOrderDTO extends CreateOrderDTO {}

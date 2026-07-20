@@ -1,5 +1,6 @@
 "use server";
 
+import { BookCondition } from "@/generated/prisma/client/enums";
 import {
   actionWrapper,
   authActionWrapper,
@@ -24,9 +25,29 @@ export const fetchAllListings = actionWrapper(async (query?: string) => {
   return okResponse("Listings fetched successfully", listings);
 });
 
+export const fetchAllListingsWithBookAndGenreName = actionWrapper(
+  async (
+    limit: number,
+    offset: number,
+    query?: string,
+    genre?: string,
+    condition?: BookCondition,
+  ) => {
+    const listings = await ListingsService.findAllWithBooksAndGenreName(
+      limit,
+      offset,
+      query,
+      genre,
+      condition,
+    );
+
+    return okResponse("Listings fetched successfully", listings);
+  },
+);
+
 export const fetchAllGenresWithBookCount = actionWrapper(
-  async (limit: number) => {
-    const genres = await genresService.findAllWithBooksCount(limit);
+  async (limit: number, offset: number) => {
+    const genres = await genresService.findAllWithBooksCount(limit, offset);
 
     return okResponse("Genres fetched successfully", genres);
   },

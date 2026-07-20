@@ -2,11 +2,19 @@ import "server-only";
 
 import { BookCondition } from "@/generated/prisma/client/enums";
 import { ListingsDAL } from "./listings.dal";
-import { CreateListingDTO, PatchListingDTO } from "./listings.dto";
+import {
+  CreateListingDTO,
+  mapListingWithBookAndGenreName,
+  PatchListingDTO,
+} from "./listings.dto";
 
 export const ListingsService = {
-  countAll: async (query?: string, condition?: BookCondition) => {
-    return await ListingsDAL.countAll(query, condition);
+  countAll: async (
+    query?: string,
+    genre?: string,
+    condition?: BookCondition,
+  ) => {
+    return await ListingsDAL.countAll(query, genre, condition);
   },
 
   create: async (data: CreateListingDTO) => {
@@ -24,6 +32,24 @@ export const ListingsService = {
 
   findAllWithBooks: async (query?: string) => {
     return await ListingsDAL.findAllWithBooks(query);
+  },
+
+  findAllWithBooksAndGenreName: async (
+    limit: number,
+    offset: number,
+    query?: string,
+    genre?: string,
+    condition?: BookCondition,
+  ) => {
+    return (
+      await ListingsDAL.findAllWithBooksAndGenreName(
+        limit,
+        offset,
+        query,
+        genre,
+        condition,
+      )
+    ).map(mapListingWithBookAndGenreName);
   },
 
   updateById: async (id: string, data: PatchListingDTO) => {

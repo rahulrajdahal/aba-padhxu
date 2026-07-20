@@ -4,7 +4,7 @@ import z from "zod";
 export const addOrderItemSchema = z.object({
   historicalTitle: z.string(),
   historicalIsbn13: z.string(),
-  priceAtPurchaseCents: z.number().positive("Minimum 0"),
+  priceAtPurchasePennies: z.number().positive("Minimum 0"),
   quantity: z.number().positive("Minimum 0"),
   fulfillmentStatus: z
     .enum(Object.values(OrderItemStatus))
@@ -14,7 +14,7 @@ export const addOrderItemSchema = z.object({
 export const updateOrderItemSchema = z.object({
   historicalTitle: z.string().optional(),
   historicalIsbn13: z.string().optional(),
-  priceAtPurchaseCents: z.number().positive("Minimum 0").optional(),
+  priceAtPurchasePennies: z.number().positive("Minimum 0").optional(),
   quantity: z.number().positive("Minimum 0").optional(),
   fulfillmentStatus: z
     .enum(Object.values(OrderItemStatus))

@@ -8,7 +8,7 @@ export default function BookCardTitle({
   maxLength = 50,
 }: BookCardTitleProps) {
   return (
-    <strong className="font-semibold text-lg leading-6 text-gray-900">
+    <strong className="line-clamp-2 font-semibold text-lg leading-6 text-gray-900">
       {title.substring(0, maxLength)}
     </strong>
   );

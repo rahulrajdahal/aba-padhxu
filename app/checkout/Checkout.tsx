@@ -57,7 +57,7 @@ function calculateOrderSummary(cartItems: CheckoutPageProps["cartItems"]) {
 }
 
 function SuccessScreen({ order }: { order: any }) {
-  const formattedTotal = (order.totalAmountCents / 100).toFixed(2);
+  const formattedTotal = (order.totalAmountPennies / 100).toFixed(2);
   return (
     <main className="py-16 px-4 sm:px-6 lg:px-8 text-gray-800 animate-fadeIn">
       <div className="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-xl border border-gray-100 text-center">
@@ -206,8 +206,9 @@ function CheckoutForm({
         selectedAddressId,
         paymentIntentId,
       );
-      if (!orderRes.success) {
-        throw new Error("Failed to place order.");
+      if (orderRes.type === "error") {
+        toast.error(orderRes.message);
+        return;
       }
 
       // 2. Confirm payment with Stripe
@@ -393,8 +394,12 @@ function CheckoutContent({ cartItems, shippingAddresses }: CheckoutPageProps) {
       setConfirmingPayment(true);
       confirmOrderPaymentAction(paymentIntentId)
         .then(() => fetchOrderDetailsByPaymentIntent(paymentIntentId))
-        .then((order) => {
-          setSuccessOrder(order);
+        .then((orderRes) => {
+          if (orderRes.type === "error") {
+            toast.error(orderRes.message);
+            return;
+          }
+          setSuccessOrder(orderRes.data);
           setConfirmingPayment(false);
         })
         .catch((err) => {

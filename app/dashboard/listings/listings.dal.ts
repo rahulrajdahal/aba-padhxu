@@ -5,18 +5,23 @@ import { prisma } from "@/prisma/prisma";
 import { CreateListingDTO, PatchListingDTO } from "./listings.dto";
 
 export const ListingsDAL = {
-  countAll: async (query?: string, condition?: BookCondition) => {
+  countAll: async (
+    query?: string,
+    genre?: string,
+    condition?: BookCondition,
+  ) => {
     return await prisma.listing.count({
       where: {
-        ...(query && {
-          book: {
+        book: {
+          ...(query && {
             OR: [
               { title: { contains: query, mode: "insensitive" } },
               { isbn13: { contains: query, mode: "insensitive" } },
               { author: { contains: query, mode: "insensitive" } },
             ],
-          },
-        }),
+          }),
+          ...(genre && { genre: { name: { equals: genre } } }),
+        },
         ...(condition && { condition }),
       },
     });
@@ -73,6 +78,39 @@ export const ListingsDAL = {
           },
         },
       }),
+    });
+  },
+
+  findAllWithBooksAndGenreName: async (
+    limit = 20,
+    offset = 0,
+    query?: string,
+    genre?: string,
+    condition?: BookCondition,
+  ) => {
+    return await prisma.listing.findMany({
+      take: limit,
+      skip: offset,
+      include: {
+        book: {
+          include: {
+            genre: { select: { name: true } },
+          },
+        },
+      },
+      where: {
+        book: {
+          ...(query && {
+            OR: [
+              { title: { contains: query, mode: "insensitive" } },
+              { isbn13: { contains: query, mode: "insensitive" } },
+              { author: { contains: query, mode: "insensitive" } },
+            ],
+          }),
+          ...(genre && { genre: { name: { equals: genre } } }),
+        },
+        ...(condition && { condition }),
+      },
     });
   },
 

@@ -1,12 +1,18 @@
-import { prisma } from "@/prisma/prisma";
 import { sendOrderEmail } from "@/app/dashboard/orders/orders.middleware";
-import { OrderStatus, OrderItemStatus, NotificationType } from "@/generated/prisma/client/client";
+import {
+  LedgerTransactionType,
+  NotificationType,
+  OrderItemStatus,
+  OrderStatus,
+} from "@/generated/prisma/client/client";
+import { badRequestError, createdResponse } from "@/lib/responses";
+import { prisma } from "@/prisma/prisma";
 
 export async function completeOrder(paymentIntentId: string) {
   // Find the pending order in the database
   const order = await prisma.order.findFirst({
     where: {
-      paymentGatewayRef: paymentIntentId,
+      stripePaymentIntentId: paymentIntentId,
       paymentStatus: OrderStatus.PENDING,
     },
     include: {
@@ -16,7 +22,7 @@ export async function completeOrder(paymentIntentId: string) {
   });
 
   if (!order) {
-    return { success: false, message: "Order not found or already processed." };
+    return badRequestError("Order not found or already processed.");
   }
 
   await prisma.$transaction(async (tx) => {
@@ -48,11 +54,32 @@ export async function completeOrder(paymentIntentId: string) {
       // Create EscrowPayout for the seller
       await tx.escrowPayout.create({
         data: {
-          amountCents: item.priceAtPurchaseCents * item.quantity,
+          amountPennies: item.priceAtPurchasePennies * item.quantity,
           releaseEligibleAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days escrow hold
           orderItemId: item.id,
           sellerId: item.sellerId,
           escrowStatus: OrderItemStatus.ESCROW_HELD,
+        },
+      });
+
+      // Update seller's pending escrow funds balance
+      await tx.userProfile.update({
+        where: { userId: item.sellerId },
+        data: {
+          pendingEscrowFunds: {
+            increment: item.priceAtPurchasePennies * item.quantity,
+          },
+        },
+      });
+
+      // Record escrow lock ledger transaction
+      await tx.ledgerTransaction.create({
+        data: {
+          userId: item.sellerId,
+          amountPennies: item.priceAtPurchasePennies * item.quantity,
+          type: LedgerTransactionType.ESCROW_LOCK,
+          description: `Funds locked in escrow for sale of "${item.historicalTitle}" (Order Item ID: ${item.id})`,
+          referenceId: item.id,
         },
       });
 
@@ -94,7 +121,7 @@ export async function completeOrder(paymentIntentId: string) {
       try {
         await sendOrderEmail(
           { id: order.buyerId, email: order.buyer.email },
-          `Order confirmation email sent for order ${order.id}`
+          `Order confirmation email sent for order ${order.id}`,
         );
       } catch (emailError) {
         console.error("Error sending order email:", emailError);
@@ -102,5 +129,5 @@ export async function completeOrder(paymentIntentId: string) {
     }
   });
 
-  return { success: true };
+  return createdResponse("Order completed successfully");
 }

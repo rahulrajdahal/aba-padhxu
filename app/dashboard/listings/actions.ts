@@ -66,9 +66,9 @@ export const fetchAllListings = adminActionWrapper(
   },
 );
 
-export const fetchAllListingsCount = adminActionWrapper(
-  async (query?: string, condition?: BookCondition) => {
-    const count = await ListingsService.countAll(query, condition);
+export const fetchAllListingsCount = actionWrapper(
+  async (query?: string, genre?: string, condition?: BookCondition) => {
+    const count = await ListingsService.countAll(query, genre, condition);
 
     return okResponse("Listings fetched!", count);
   },
